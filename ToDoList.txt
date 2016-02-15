@@ -1,46 +1,69 @@
 2) Prevent Agents from getting a boolean array from each tick() command in SteMachineEnvironment (see move() method below it)
 
+
 3) re-write agents after 2 so they now work. remove encodeSensors()
+
 
 4) TestNewAgent should be rewritten as a JUnit test, not a class
 
+
 5) Rename StateMachineAgent to Kirk/Chandler agent name
+
 
 6) Find what is necessary and write a general constructor in Agent abstract class (instantiate env and alphabet and memory are a few good ones)
 
+
 7) take the momory needing to be "primed" out. I see why they did it so they can "look back" even on the first tunthrough but it seems inefficent and easilt worked around(see nsm).
+
 
 8) remove the path class and fix agents that use it
 
+
 9) Consolidate the recording methods into the abstract recordData() perhaps that gets called after each goal(the only one that is different is NewAgent and that data can still be recorded in a helper method only in NewAgent that calls the general record data from the abstract though see below why it would be nice to have all of them "start" on the same column)
 
+
 14) after consolidation to a single record method (so all excells look the same) the undefined variable informationColumns in Agent can be made static and final amongst all agents (look at our new recordAverage() method for its use. right now we define its value in each agent's constructor)
+
 
 10) tryOneCombo takes a csv but never uses it? none off the try combos(one, random, all) call recordlearningcurve and seem to not record any data. Appear to be unused. (this was my issue when i said earlier to "consolidate the try methods")
 
 this for loop:
 
-	    FileWriter csv = new FileWriter(OUTPUT_FILE);
-            for(int i = 0; i < NUM_MACHINES; ++i) {
-                StateMachineAgent gilligan = new StateMachineAgent();
-                gilligan.exploreEnvironment();
-                gilligan.recordLearningCurve(csv);
-            }
-            csv.close();
+	
+    
+FileWriter csv = new FileWriter(OUTPUT_FILE);
+            
+for(int i = 0; i < NUM_MACHINES; ++i) {
+                
+StateMachineAgent gilligan = new StateMachineAgent();
+                
+gilligan.exploreEnvironment();
+                
+gilligan.recordLearningCurve(csv);
+            
+}
+            
+csv.close();
+
+
 
 should probably be in main considering tryonecombo and trygenlearningcurves do it. I get making the main look clean but coppying the code just makes the other methods look messy.
 
+
 11) change name of NewAgent to ChenMeise(sp)
+
 
 
 ********************************* FINISHED ********************************* 
 
 
 
+
 1) Replace the ole GenerateStateMachine with our NewGenerateStateMachine ****DONE****
+
 
 12) moddify how we record data to have a goal size determination(NUMM_GOALS) and a soft maxEpisodes to use before breaking ****DONE****
 
-13) rename currentSucesses to just Sucesses for readability ****DONE****
 
+13) rename currentSucesses to just Sucesses for readability ****DONE****
 15) Check to make sure machines continue to work after newGenerateStateMachine is added in replacement ****DONE****

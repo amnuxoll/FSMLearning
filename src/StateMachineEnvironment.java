@@ -25,7 +25,7 @@ import java.util.TreeSet;
 public class StateMachineEnvironment {
 
 	// Instance variables
-	public static int NUM_STATES = 50;
+	public static int NUM_STATES = 10;
 	public static int GOAL_STATE = NUM_STATES - 1;
 	public static int ALPHABET_SIZE = 3;  //this must be in the range [2,26]
         
@@ -62,6 +62,8 @@ public class StateMachineEnvironment {
             currentState = 0;
             generateStateMachine();
             findShortestPaths();
+            
+            System.out.println(shortestBlindPathToGoal());
             if (debug) {
                     //System.out.println("Shortest Path: " + paths[0]);
                     printStateMachine();
@@ -82,14 +84,11 @@ public class StateMachineEnvironment {
             fillAlphabet();
             currentState = 0;
             transition = transitions;
-
-            if(debug) {
-                    printStateMachine();
-            }
-
             findShortestPaths();
+            
             if(debug) {
                     System.out.println("Shortest Path: " + paths[0]);
+                    printStateMachine();
             }
     }
 
@@ -144,7 +143,9 @@ public class StateMachineEnvironment {
             transition[GOAL_STATE][i] = GOAL_STATE;
         }
 
-
+        
+        if(MAX_TRANSITIONS_TO_GOAL == 0)
+            MAX_TRANSITIONS_TO_GOAL = 1;
         pickTransitions(GOAL_STATE,(random.nextInt(MAX_TRANSITIONS_TO_GOAL) + 1));
     }
     

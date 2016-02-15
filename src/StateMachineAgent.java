@@ -66,7 +66,7 @@ public class StateMachineAgent extends Agent{
             sequencesNotPerformed.add(lengthSize, tempList);
         }
 	}//StateMachineAgent ctor
-
+        
     /** accessor */
 	protected StateMachineEnvironment getEnv() {
 		return env;
@@ -401,9 +401,11 @@ public class StateMachineAgent extends Agent{
 
             FileWriter csv = new FileWriter(OUTPUT_FILE);
             for(int i = 0; i < NUM_MACHINES; ++i) {
+                System.out.println("Starting on Machine" + i);
                 StateMachineAgent gilligan = new StateMachineAgent();
                 gilligan.exploreEnvironment();
                 gilligan.recordLearningCurve(csv);
+                System.out.println("Done with machine" + i + "\n");
             }
             recordAverage(csv);
             csv.close();
