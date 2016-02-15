@@ -15,8 +15,6 @@ import java.util.Random;
 /**
  *
  * @author Will
- * superman that OH
- * HAHA
  */
 public abstract class Agent {
     //Instance Variables
