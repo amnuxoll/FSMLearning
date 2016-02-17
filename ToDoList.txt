@@ -22,7 +22,8 @@
 
 10) tryOneCombo takes a csv but never uses it? none off the try combos(one, random, all) call recordlearningcurve and seem to not record any data. Appear to be unused. (this was my issue when i said earlier to "consolidate the try methods")
 
-this for loop:
+
+17)this for loop:
 
 	
     
@@ -43,7 +44,8 @@ csv.close();
 
 
 should probably be in main considering tryonecombo and trygenlearningcurves do it. I get making the main look clean but coppying the code just makes the other methods look messy. Also makes NewAgent's redundant(ish)
-15) either make a determinsSUSScore()/determineLMSScore() with a getSus()/getLMS() or concatenate them both into a CompileSus()/CompileLMS(). LMS right now uses one method, SUS uses two. they act the same way, make methods act the same way
+16) either make a determinsSUSScore()/determineLMSScore() with a getSus()/getLMS() or concatenate them both into a CompileSus()/CompileLMS(). LMS right now uses one method, SUS uses two. they act the same way, make methods act the same way
+17) There is now proof that BlindPathToGoal does not find the guarenteed shortest
 ********************************* FINISHED ********************************* 
 
 
