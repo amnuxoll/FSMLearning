@@ -5,15 +5,10 @@
 
 
 4) TestNewAgent should be rewritten as a JUnit test, not a class
-
-
-5) Rename StateMachineAgent to Kirk/Chandler agent name
-
-
 6) Find what is necessary and write a general constructor in Agent abstract class (instantiate env and alphabet and memory are a few good ones)
 
 
-7) take the momory needing to be "primed" out. I see why they did it so they can "look back" even on the first tunthrough but it seems inefficent and easilt worked around(see nsm).
+7) take the momory needing to be "primed" out. I see why they did it so they can "look back" even on the first tunthrough but it seems inefficent and easily worked around(see nsm).
 
 
 8) remove the path class and fix agents that use it
@@ -48,9 +43,6 @@ csv.close();
 
 
 should probably be in main considering tryonecombo and trygenlearningcurves do it. I get making the main look clean but coppying the code just makes the other methods look messy.
-
-
-11) change name of NewAgent to ChenMeise(sp)
 15) either make a determinsSUSScore()/determineLMSScore() with a getSus()/getLMS() or concatenate them both into a CompileSus()/CompileLMS(). LMS right now uses one method, SUS uses two. they act the same way, make methods act the same way
 
 ********************************* FINISHED ********************************* 
@@ -58,11 +50,13 @@ should probably be in main considering tryonecombo and trygenlearningcurves do i
 
 
 
-1) Replace the ole GenerateStateMachine with our NewGenerateStateMachine ****DONE****
+1) Replace the ole GenerateStateMachine with our NewGenerateStateMachine
+12) moddify how we record data to have a goal size determination(NUMM_GOALS) and a soft maxEpisodes to use before breaking
+13) rename currentSucesses to just Sucesses for readability
+15) Check to make sure machines continue to work after newGenerateStateMachine is added in replacement
+
+5) Rename StateMachineAgent to Kirk/Chandler agent name
 
 
-12) moddify how we record data to have a goal size determination(NUMM_GOALS) and a soft maxEpisodes to use before breaking ****DONE****
 
-
-13) rename currentSucesses to just Sucesses for readability ****DONE****
-15) Check to make sure machines continue to work after newGenerateStateMachine is added in replacement ****DONE****
+11) change name of NewAgent to ChenMeise(sp)

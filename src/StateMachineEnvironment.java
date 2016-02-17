@@ -63,10 +63,10 @@ public class StateMachineEnvironment {
             generateStateMachine();
             findShortestPaths();
             
-            System.out.println(shortestBlindPathToGoal());
             if (debug) {
                     //System.out.println("Shortest Path: " + paths[0]);
                     printStateMachine();
+                    System.out.println(shortestBlindPathToGoal());
             }
     }
 
