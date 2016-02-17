@@ -24,7 +24,7 @@ import java.math.RoundingMode;
  *
  */
 
-public class TestNewAgent {
+public class TestChenMeisAgent {
 
     /**
      * main
@@ -32,7 +32,7 @@ public class TestNewAgent {
      */
     public static void main(String[] args) {
         //variables
-        NewAgent ourAgent = new NewAgent();
+        ChenMeisAgent ourAgent = new ChenMeisAgent();
         //original and found sequence variables
         Episode[] original = null;
         Episode[] found = null;

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 
-public class StateMachineAgent extends Agent{
+public class KirkChandlerAgent extends Agent{
     
     /**
      * The SUS is the shortest unique sequence that has not been performed yet.
@@ -46,7 +46,7 @@ public class StateMachineAgent extends Agent{
 	 * possible SUS actions (up to a maximum length) for use during execution. 
 	 * 
 	 */
-	public StateMachineAgent() {
+	public KirkChandlerAgent() {
         
         informationColumns = 2;
             
@@ -402,7 +402,7 @@ public class StateMachineAgent extends Agent{
             FileWriter csv = new FileWriter(OUTPUT_FILE);
             for(int i = 0; i < NUM_MACHINES; ++i) {
                 System.out.println("Starting on Machine" + i);
-                StateMachineAgent gilligan = new StateMachineAgent();
+                KirkChandlerAgent gilligan = new KirkChandlerAgent();
                 gilligan.exploreEnvironment();
                 gilligan.recordLearningCurve(csv);
                 System.out.println("Done with machine" + i + "\n");
@@ -432,7 +432,7 @@ public class StateMachineAgent extends Agent{
         double sum = 0;//total num successes
         for (int l = 0; l < NUM_MACHINES; l++) {//test with multiple FSMs
             
-            StateMachineAgent gilligan = new StateMachineAgent();
+            KirkChandlerAgent gilligan = new KirkChandlerAgent();
             gilligan.RANDOM_SCORE = randWeight;
             gilligan.SUS_CONSTANT = susWeight;
             gilligan.LMS_CONSTANT = lmsWeight;

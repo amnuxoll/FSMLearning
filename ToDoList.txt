@@ -1,7 +1,7 @@
 2) Prevent Agents from getting a boolean array from each tick() command in SteMachineEnvironment (see move() method below it)
 
 
-3) re-write agents after 2 so they now work. remove encodeSensors()
+3) re-write agents after #2 so they now work. remove encodeSensors()
 
 
 4) TestNewAgent should be rewritten as a JUnit test, not a class
@@ -51,8 +51,7 @@ should probably be in main considering tryonecombo and trygenlearningcurves do i
 
 
 11) change name of NewAgent to ChenMeise(sp)
-
-
+15) either make a determinsSUSScore()/determineLMSScore() with a getSus()/getLMS() or concatenate them both into a CompileSus()/CompileLMS(). LMS right now uses one method, SUS uses two. they act the same way, make methods act the same way
 
 ********************************* FINISHED ********************************* 
 

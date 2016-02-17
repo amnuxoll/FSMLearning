@@ -20,7 +20,7 @@ import java.util.*;
  */
 
 
-public class NewAgent extends Agent
+public class ChenMeisAgent extends Agent
 {
     
     
@@ -82,7 +82,7 @@ public class NewAgent extends Agent
      * calls super from StateMachine Agent
      * initializes topNextActions array and frequencyNextActions array
      */
-    public NewAgent()
+    public ChenMeisAgent()
     {
         
         informationColumns = 8;
@@ -612,7 +612,7 @@ public class NewAgent extends Agent
             for(int i = 0; i < NUM_MACHINES; ++i) {
                 //keep track of what machine we are on in console
                 System.out.println("machine number: " + (i+1));
-                NewAgent gilligan = new NewAgent();
+                ChenMeisAgent gilligan = new ChenMeisAgent();
 
                 //DEBUGGING--Runtimes
                 long startTime = System.currentTimeMillis();
@@ -690,7 +690,7 @@ public class NewAgent extends Agent
         double sum = 0;//total num successes
         for (int l = 0; l < NUM_MACHINES; l++) {//test with multiple FSMs
 
-            NewAgent gilligan = new NewAgent();
+            ChenMeisAgent gilligan = new ChenMeisAgent();
             RANDOM_SCORE = randWeight;
             SUS_CONSTANT = susWeight;
             COUNTING_CONSTANT = qualityWeight;
