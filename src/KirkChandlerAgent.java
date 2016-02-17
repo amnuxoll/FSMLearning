@@ -436,24 +436,11 @@ public class KirkChandlerAgent extends Agent{
             gilligan.RANDOM_SCORE = randWeight;
             gilligan.SUS_CONSTANT = susWeight;
             gilligan.LMS_CONSTANT = lmsWeight;
-            
             gilligan.exploreEnvironment();
-            
+            gilligan.recordLearningCurve(csv);
             sum += gilligan.Sucesses;
         }//for
         double averageSuccesses = sum / NUM_MACHINES;
-
-        //write the results of this combo to the file
-        try {
-            System.out.println("tryOneCombo: Could not write to given csv file.");
-            csv.flush();
-        }
-        catch (IOException e) {
-            System.out.println("Could not create file, what a noob...");
-            System.exit(-1);
-        }
-
-
     }//tryOneCombo
 
 	/**
@@ -481,6 +468,7 @@ public class KirkChandlerAgent extends Agent{
                     }//lms
                 }//sus
             }//random
+            recordAverage(csv);
             csv.close();
         }
         catch (IOException e) {

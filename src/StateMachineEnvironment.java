@@ -30,7 +30,7 @@ public class StateMachineEnvironment {
 	public static int ALPHABET_SIZE = 3;  //this must be in the range [2,26]
         
         //instance variables created for Will and Ashley's methods
-        public static double TRANSITIONS_PERCENT = 0.01; //must be at least .01
+        public static double TRANSITIONS_PERCENT = 0.04; //must be at least .01. percent of transition table that will have a goal state transition
         public static int MAX_TRANSITIONS_TO_GOAL = (int)(((NUM_STATES-1)*ALPHABET_SIZE)*TRANSITIONS_PERCENT);// IF ZERO, WILL BE CHANGED TO 1 in constructor
         public int TRANSITIONS_DONE;
 
@@ -48,7 +48,7 @@ public class StateMachineEnvironment {
     private Random random = new Random();
 	
 	//DEBUG
-	private boolean debug = false;
+	private boolean debug = true;
 
     /**
      * StatMachineEnvironment

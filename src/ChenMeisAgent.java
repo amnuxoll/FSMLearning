@@ -745,6 +745,7 @@ public class ChenMeisAgent extends Agent
                     }//quality
                 }//sus
             }//random
+            recordAverage(csv);
             csv.close();
         }
         catch (IOException e) {

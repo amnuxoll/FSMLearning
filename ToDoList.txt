@@ -42,9 +42,8 @@ csv.close();
 
 
 
-should probably be in main considering tryonecombo and trygenlearningcurves do it. I get making the main look clean but coppying the code just makes the other methods look messy.
+should probably be in main considering tryonecombo and trygenlearningcurves do it. I get making the main look clean but coppying the code just makes the other methods look messy. Also makes NewAgent's redundant(ish)
 15) either make a determinsSUSScore()/determineLMSScore() with a getSus()/getLMS() or concatenate them both into a CompileSus()/CompileLMS(). LMS right now uses one method, SUS uses two. they act the same way, make methods act the same way
-
 ********************************* FINISHED ********************************* 
 
 
