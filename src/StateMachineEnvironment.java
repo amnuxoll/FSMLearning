@@ -25,9 +25,9 @@ import java.util.TreeSet;
 public class StateMachineEnvironment {
 
 	// Instance variables
-	public static int NUM_STATES = 10;
+	public static int NUM_STATES = 4;
 	public static int GOAL_STATE = NUM_STATES - 1;
-	public static int ALPHABET_SIZE = 3;  //this must be in the range [2,26]
+	public static int ALPHABET_SIZE = 2;  //this must be in the range [2,26]
         
         //instance variables created for Will and Ashley's methods
         public static double TRANSITIONS_PERCENT = 0.04; //must be at least .01. percent of transition table that will have a goal state transition
@@ -66,7 +66,10 @@ public class StateMachineEnvironment {
             if (debug) {
                     //System.out.println("Shortest Path: " + paths[0]);
                     printStateMachine();
-                    System.out.println(shortestBlindPathToGoal());
+                    String oldBlindpath = shortestBlindPathToGoal();
+                    System.out.println("Old shortest path: " + oldBlindpath + "  length: " + oldBlindpath.length());
+                    String newBlindPath = shortestPathToGoal();
+                    System.out.println("Will's shortest path: " + newBlindPath + "  length: " + newBlindPath.length());
             }
     }
 
@@ -556,6 +559,65 @@ public class StateMachineEnvironment {
         
         return "OOPS!"; //should not be reached
     }//shortestBlindPathToGoal
+    
+    /**
+     * ShortestPathToGoal
+     * 
+     * attempt to find shortest blind path to the goal made by William Goolkasian
+     * using a search algorithm similar to Dijkstra to lower big O complexity.
+     */
+    public String shortestPathToGoal(){ 
+        String path = "";
+        String testPath;
+        int endState, score;
+        ArrayList<String> possiblePaths = new ArrayList<String>();
+        ArrayList<String> pastPaths = new ArrayList<String>();
+        ArrayList<Integer> endStates = new ArrayList<Integer>();
+        int[] states = new int[NUM_STATES];
+        //initialize//
+        possiblePaths.add("");
+        int bestScore = 0;
+        while(bestScore != NUM_STATES-1)
+        {
+            pastPaths.clear();
+            pastPaths.addAll(possiblePaths);
+            possiblePaths.clear();
+            for(char c : alphabet)
+            {
+                for(String p : pastPaths)
+                {
+                    testPath = p + c;
+                    endStates.clear();
+                    score=0;
+                    for(int state = 0; state < states.length; state++)
+                    {
+                        endState = pathResult(state, testPath);
+                        if(!endStates.contains(endState))
+                            endStates.add(endState);
+                    }
+                    score = NUM_STATES - endStates.size(); //if all stay in same place, score is 0. if all go to one state, score is NUM_STATES-1(win).
+                    if(score>bestScore)
+                    {
+                        possiblePaths.clear();
+                        bestScore = score;
+                        possiblePaths.add(testPath);
+                    }
+                    else if(score==bestScore)
+                    {
+                        possiblePaths.add(testPath);
+                    }
+                }
+            }
+        }
+        path = possiblePaths.get(0);
+        if(possiblePaths.size()-1 >= 1)
+        {
+            System.out.println("there are more than one shortest paths to this machine. The remainders are;");
+            for(int i = 1; i<=possiblePaths.size()-1; i++)
+                System.out.println(possiblePaths.get(i));
+        }
+        return path;
+    }
     
     /**
      * Calculates how many steps the agent will take to reach the goal from any

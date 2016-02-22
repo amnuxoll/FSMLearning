@@ -15,9 +15,7 @@
 
 
 14) after consolidation to a single record method (so all beginning excell columns look the same) the undefined variable informationColumns in Agent can be made static and final amongst all agents (look at our new recordAverage() method for its use. right now we define its value in each agent's constructor)
-17) KirkChandler Agent's recordLearningCurve method gets called after each machine finishes and rewrites the data(innefficent). EX. it records row 1, then row 1 and 2, then row 1, 2, and 3... instead of recording row 1 then just row 2 then just row 3... (see NewAgent)
-16) either make a determinsSUSScore()/determineLMSScore() with a getSus()/getLMS() or concatenate them both into a CompileSus()/CompileLMS(). LMS right now uses one method, SUS uses two. they act the same way, make methods act the same way
-17) There is now proof that BlindPathToGoal does not find the guarenteed shortest
+17) There is now proof that BlindPathToGoal does not find the guarenteed shortest (got close with new one, but still wrong)
 ********************************* FINISHED ********************************* 
 
 
@@ -36,5 +34,8 @@
 6) Find what is necessary and write a general constructor in Agent abstract class (instantiate env and alphabet and memory are a few good ones)
 
 
+
 10) tryOneCombo takes a csv but never uses it? none off the try combos(one, random, all) call recordlearningcurve and seem to not record any data. Appear to be unused. (this was my issue when i said earlier to "consolidate the try methods")
 
+
+16) either make a determinsSUSScore()/determineLMSScore() with a getSus()/getLMS() or concatenate them both into a CompileSus()/CompileLMS(). LMS right now uses the later method, SUS uses the former. they act the same way, so lets make methods in the same fassion.
