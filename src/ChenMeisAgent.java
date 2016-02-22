@@ -83,18 +83,9 @@ public class ChenMeisAgent extends Agent
      * initializes topNextActions array and frequencyNextActions array
      */
     public ChenMeisAgent()
-    {
-        
+    {    
         informationColumns = 8;
         
-        ////////////line of code was suoer(). coppied from StateMacchineAgent's constructor////////////
-        env = new StateMachineEnvironment();
-		alphabet = env.getAlphabet();
-		episodicMemory = new ArrayList<Episode>();
-
-		//prime the epmem with a first episode that is empty
-		episodicMemory.add(new Episode(' ', NO_TRANSITION));//the space cmd means unknown cmd for first memory
-
         //build the permutations of all sequences (up to max SUS len) 
         sequencesNotPerformed = new ArrayList<ArrayList<String>>();
         sequencesNotPerformed.add(0, null);//since a path of size 0 should be skipped (might not be necessary)
@@ -103,9 +94,6 @@ public class ChenMeisAgent extends Agent
             fillPermutations(alphabet, lengthSize, tempList);
             sequencesNotPerformed.add(lengthSize, tempList);
         }
-        ////////////line of code was suoer(). coppied from StateMacchineAgent's constructor////////////
-        
-        
         
         //use NUM_TOP_ACTIONS+1 so we can sort and keep NUM_TOP_ACTIONS
         topNextActions = new Recommendation[NUM_TOP_ACTIONS+1];
@@ -620,7 +608,6 @@ public class ChenMeisAgent extends Agent
                 long endTime = System.currentTimeMillis();
                 totalMachineTime = endTime - startTime;
 
-                //record what gilligan has done in a csv file
                 gilligan.recordLearningCurve(csv);
             }
             recordAverage(csv);
@@ -697,7 +684,6 @@ public class ChenMeisAgent extends Agent
             ALIGNED_CONSTANT = qualityWeight;
 
             gilligan.exploreEnvironment();
-            //write the results of this combo to the file
             gilligan.recordLearningCurve(csv);
 
 

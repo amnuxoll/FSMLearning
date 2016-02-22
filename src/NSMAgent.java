@@ -154,22 +154,8 @@ public class NSMAgent extends Agent {
 	 * The constructor for the agent simply initializes it's instance variables
 	 */
 	public NSMAgent() {
-            
-            informationColumns = 2;
-            
-    ///////////////coppied constructor code (shortened to important lines) from StateMachineAgent ////////////////////////
-             env = new StateMachineEnvironment();
-		alphabet = env.getAlphabet();
-		episodicMemory = new ArrayList<Episode>();
-
-		//prime the epmem with a first episode that is empty
-		episodicMemory.add(new Episode(' ', NO_TRANSITION));//the space cmd means unknown cmd for first memory
-
-    ///////////////coppied constructor code (shortened to important lines) from StateMachineAgent ////////////////////////
-
-            
-        //env = new StateMachineEnvironment();
-		//alphabet = env.getAlphabet();
+        informationColumns = 2;
+        
         nhoods = new NHood[alphabet.length];
         episodicMemory.clear();
 	}//NSMAgent ctor

@@ -46,17 +46,9 @@ public class KirkChandlerAgent extends Agent{
 	 * possible SUS actions (up to a maximum length) for use during execution. 
 	 * 
 	 */
-	public KirkChandlerAgent() {
-        
+	public KirkChandlerAgent() { 
         informationColumns = 2;
-            
-        env = new StateMachineEnvironment();
-		alphabet = env.getAlphabet();
-		episodicMemory = new ArrayList<Episode>();
-
-		//prime the epmem with a first episode that is empty
-		episodicMemory.add(new Episode(' ', NO_TRANSITION));//the space cmd means unknown cmd for first memory
-
+        
         //build the permutations of all sequences (up to max SUS len) 
         sequencesNotPerformed = new ArrayList<ArrayList<String>>();
         sequencesNotPerformed.add(0, null);//since a path of size 0 should be skipped (might not be necessary)
@@ -85,7 +77,7 @@ public class KirkChandlerAgent extends Agent{
     public void exploreEnvironment() {
         while (episodicMemory.size() < MAX_EPISODES && Sucesses <= NUM_GOALS) { 
             //Find sus and lms scores
-            determineSusScore();
+            String currentSus = determineSusScore();
             String currentLms = determineLmsScore();
 
             String pathToAttempt;
@@ -94,7 +86,7 @@ public class KirkChandlerAgent extends Agent{
                 pathToAttempt = "" + generateSemiRandomAction();
             }
             else if (susScore > lmsScore) {
-                pathToAttempt = getSus();
+                pathToAttempt = currentSus;
             }
             else if (lmsScore > susScore) {
                 pathToAttempt = currentLms;
@@ -184,7 +176,7 @@ public class KirkChandlerAgent extends Agent{
      *
      * set the susScore based on the summation equation and constant
      */
-    public void determineSusScore() {
+    public String determineSusScore() {
         //loop through mem to find length of sus
         int susLength=0;
 
@@ -199,16 +191,16 @@ public class KirkChandlerAgent extends Agent{
         //if the length is still 0 the sus has dried up, set to 0
         if (susLength == 0){
             susScore = 0;
-            return;
+        }
+        else{//otherwise add up summation and multiply by constant
+            double sum = 0;
+            for (int i=susLength; i>0; i--) {
+                sum+=i;
+            }
+            susScore = (1 / sum) * SUS_CONSTANT;
         }
 
-        //otherwise add up summation and multiply by constant
-        double sum = 0;
-        for (int i=susLength; i>0; i--) {
-            sum+=i;
-        }
-
-        susScore = (1 / sum) * SUS_CONSTANT;
+        return getSus();
     }//determineSusScore
 
     /**

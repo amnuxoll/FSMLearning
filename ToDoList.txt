@@ -5,10 +5,7 @@
 
 
 4) TestNewAgent should be rewritten as a JUnit test, not a class
-6) Find what is necessary and write a general constructor in Agent abstract class (instantiate env and alphabet and memory are a few good ones)
-
-
-7) take the momory needing to be "primed" out. I see why they did it so they can "look back" even on the first tunthrough but it seems inefficent and easily worked around(see nsm).
+7) take the momory needing to be "primed" out of agent's constructor. I see why they did it so they can "look back" even on the first tunthrough but it seems inefficent and easily worked around(see nsm, it clears the memory before using it anyway).
 
 
 8) remove the path class and fix agents that use it
@@ -17,33 +14,8 @@
 9) Consolidate the recording methods into the abstract recordData() perhaps that gets called after each goal(the only one that is different is NewAgent and that data can still be recorded in a helper method only in NewAgent that calls the general record data from the abstract though see below why it would be nice to have all of them "start" on the same column)
 
 
-14) after consolidation to a single record method (so all excells look the same) the undefined variable informationColumns in Agent can be made static and final amongst all agents (look at our new recordAverage() method for its use. right now we define its value in each agent's constructor)
-
-
-10) tryOneCombo takes a csv but never uses it? none off the try combos(one, random, all) call recordlearningcurve and seem to not record any data. Appear to be unused. (this was my issue when i said earlier to "consolidate the try methods")
-
-
-17)this for loop:
-
-	
-    
-FileWriter csv = new FileWriter(OUTPUT_FILE);
-            
-for(int i = 0; i < NUM_MACHINES; ++i) {
-                
-StateMachineAgent gilligan = new StateMachineAgent();
-                
-gilligan.exploreEnvironment();
-                
-gilligan.recordLearningCurve(csv);
-            
-}
-            
-csv.close();
-
-
-
-should probably be in main considering tryonecombo and trygenlearningcurves do it. I get making the main look clean but coppying the code just makes the other methods look messy. Also makes NewAgent's redundant(ish)
+14) after consolidation to a single record method (so all beginning excell columns look the same) the undefined variable informationColumns in Agent can be made static and final amongst all agents (look at our new recordAverage() method for its use. right now we define its value in each agent's constructor)
+17) KirkChandler Agent's recordLearningCurve method gets called after each machine finishes and rewrites the data(innefficent). EX. it records row 1, then row 1 and 2, then row 1, 2, and 3... instead of recording row 1 then just row 2 then just row 3... (see NewAgent)
 16) either make a determinsSUSScore()/determineLMSScore() with a getSus()/getLMS() or concatenate them both into a CompileSus()/CompileLMS(). LMS right now uses one method, SUS uses two. they act the same way, make methods act the same way
 17) There is now proof that BlindPathToGoal does not find the guarenteed shortest
 ********************************* FINISHED ********************************* 
@@ -61,3 +33,8 @@ should probably be in main considering tryonecombo and trygenlearningcurves do i
 
 
 11) change name of NewAgent to ChenMeise(sp)
+6) Find what is necessary and write a general constructor in Agent abstract class (instantiate env and alphabet and memory are a few good ones)
+
+
+10) tryOneCombo takes a csv but never uses it? none off the try combos(one, random, all) call recordlearningcurve and seem to not record any data. Appear to be unused. (this was my issue when i said earlier to "consolidate the try methods")
+

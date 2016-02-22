@@ -57,9 +57,11 @@ public abstract class Agent {
     public Agent()
     {
         //gets called when child instances are instantiated. could probably copy StateMachineAgent's(as NewAgent and NSMagent call it anyway) but didn't want to yet. so its emppty.
-//        env = new StateMachineEnvironment();
-//        alphabet = env.getAlphabet();
-//        episodicMemory = new ArrayList<Episode>();
+        env = new StateMachineEnvironment();
+        alphabet = env.getAlphabet();
+        episodicMemory = new ArrayList<Episode>();
+        //prime the epmem with a first episode that is empty
+        episodicMemory.add(new Episode(' ', NO_TRANSITION));//the space cmd means unknown cmd for first memory
     }
     
     /**
@@ -114,6 +116,14 @@ public abstract class Agent {
         return memory;
     }
     
+    /**
+     * recordAverage
+     * 
+     * Called after recording all data for all the runs and adds the "=average(b1:b25)" 
+     * row at the bottom. numbers/rows change dynamically
+     * 
+     * @param csv needs to write the output file so needs to take that file in
+     */
     public static void recordAverage(FileWriter csv) {
         try {
             for(int i=0; i<informationColumns-2; i++)
@@ -135,7 +145,16 @@ public abstract class Agent {
         }
                 
 	}//recordData
-     
+    
+     /**
+     * getColumnString
+     * 
+     * Helper method for recordAverage. turns integers for columns into 
+     * Microsoft Excel's string based column system.
+     * 
+     * @param n takes an int of what column number it is on 
+     * @return String that represents the column char(or string in case of AA, AB, ...)
+     */
     public static String getColumnString(int n) {
         char[] buf = new char[(int) floor(log(25 * (n + 1)) / log(26))];
         for (int i = buf.length - 1; i >= 0; i--) {
@@ -146,6 +165,11 @@ public abstract class Agent {
         return new String(buf);
     }
    
+    /**
+     * exploreEnvironment
+     * 
+     * abstract method all agents should override. main method used for agents to navigate
+     */
     public abstract void exploreEnvironment();
     
     
@@ -153,7 +177,7 @@ public abstract class Agent {
     
     
     
-    /////////////inherited Methods from Old Code////////////////////////////////
+/////////////////////////////////////unchanged inherited Methods from Old Code/////////////////////////////////////
     
     
         /**
@@ -173,35 +197,35 @@ public abstract class Agent {
     }
     
     /**
-	 * A helper method which determines a given letter's
-	 * location in the alphabet
-	 * 
-	 * @param letter
-	 * 		The letter who's index we wish to find
-	 * @return
-	 * 		The index of the given letter (or -1 if the letter was not found)
-	 */
-	protected int findAlphabetIndex(char letter) {
-		// Iterate the through the alphabet to find the index of letter
-		for(int i = 0; i < alphabet.length; i++){
-			if(alphabet[i] == letter)
-				return i;
-		}
+    * A helper method which determines a given letter's
+    * location in the alphabet
+    * 
+    * @param letter
+    * 		The letter who's index we wish to find
+    * @return
+    * 		The index of the given letter (or -1 if the letter was not found)
+    */
+    protected int findAlphabetIndex(char letter) {
+       // Iterate the through the alphabet to find the index of letter
+       for(int i = 0; i < alphabet.length; i++){
+           if(alphabet[i] == letter)
+               return i;
+        }
 
-		// Error if letter is not found
-		return -1;
-	}
-        
-        	/**
+        // Error if letter is not found
+        return -1;
+    }
+   
+    /**
      * generateSemiRandomAction
      *
-	 * Generates a semi random action for the Agent to take There is a
+     * Generates a semi random action for the Agent to take There is a
      * disposition against making the same move again since prior research has
      * shown duplicate commands are rarely successful
-	 * 
-	 * @return A random action for the Agent to take
-	 */
-	public char generateSemiRandomAction() {
+     * 
+     * @return A random action for the Agent to take
+     */
+    public char generateSemiRandomAction() {
         //decide if a dup command is acceptable
         double chanceForDup = Math.random();
         boolean dupPermitted = false;
@@ -219,11 +243,10 @@ public abstract class Agent {
             if (dupPermitted)//if they are allowed we don't care to check for dup
                 break;
         } while (possibleCmd == lastCommand); //same cmd, redo loop
-
-		return possibleCmd;
-	}
+        return possibleCmd;
+    }
     
-         /**
+     /**
      * stringToPath
      *
      * Takes a string of chars and converts them into a path
@@ -241,40 +264,36 @@ public abstract class Agent {
     /**
      * tryPath
      *
-	 * Given a full string of moves, tryPath will enter the moves
-	 * one by one and determine if the entered path is successful
+     * Given a full string of moves, tryPath will enter the moves
+     * one by one and determine if the entered path is successful
      * A path is successful (returns true) only if it reaches the goal
      * on the last cmd, otherwise it will return false. If it reaches the
      * goal prematurely it will not execute anymore cmd's and return false
-	 *
-	 * @param pathToTry
-	 * 		An ArrayList of Characters representing the path to try
-	 * 
-	 * @return
-	 * 		A boolean which is true if the path was reached the goal and
-	 * 		false if it did not
-	 */
-	public boolean tryPath(Path pathToTry) {
-		boolean[] sensors;
-		// Enter each character in the path
-		for (int i = 0; i < pathToTry.size(); i++) {
-			sensors = env.tick(pathToTry.get(i));
-			int encodedSensorResult = encodeSensors(sensors);
-			episodicMemory.add(new Episode(pathToTry.get(i), encodedSensorResult));
-
+     *
+     * @param pathToTry; An ArrayList of Characters representing the path to try
+     * 
+     * @return A boolean which is true if the path was reached the goal and
+     * false if it did not
+     */
+    public boolean tryPath(Path pathToTry) {
+        boolean[] sensors;
+        // Enter each character in the path
+        for (int i = 0; i < pathToTry.size(); i++) {
+            sensors = env.tick(pathToTry.get(i));
+            int encodedSensorResult = encodeSensors(sensors);
+            episodicMemory.add(new Episode(pathToTry.get(i), encodedSensorResult));
             if (sensors[IS_GOAL]){
                 Sucesses++;
             }
+            if (sensors[IS_GOAL] && i == pathToTry.size()-1) { //if at goal and last cmd return true
+                    return true;
+            }
+        }
+        // If we make it through the entire loop, the path was unsuccessful
+        return false;
+    }//tryPath
 
-			if (sensors[IS_GOAL] && i == pathToTry.size()-1) { //if at goal and last cmd return true
-				return true;
-			}
-		}
-		// If we make it through the entire loop, the path was unsuccessful
-		return false;
-	}//tryPath
-        
-        /**
+    /**
      * Takes in an agent's sensor data and encodes it into an integer
      * @param sensors The agent's sensor data
      * @return the integer encoding of that sensor data
@@ -297,22 +316,21 @@ public abstract class Agent {
         return encodedSensorResult;
     }
     
-    	/**
-	 * Returns the index of the given character in the
+    /**
+     * Returns the index of the given character in the
      *
      * array
-	 * @param toCheck the character to find the index of
-	 * @return the index of toCheck
-	 */
-	protected int indexOfCharacter(char toCheck) {
-		for (int i = 0; i < alphabet.length; i++) {
-			if (alphabet[i] == toCheck) {
-				return i;
-			}
-		}
-
-		return -1;
-	}
+     * @param toCheck the character to find the index of
+     * @return the index of toCheck
+     */
+    protected int indexOfCharacter(char toCheck) {
+        for (int i = 0; i < alphabet.length; i++) {
+            if (alphabet[i] == toCheck) {
+                return i;
+            }
+        }
+        return -1;
+    }
     
     /**
      * matchedMemoryStringLength
