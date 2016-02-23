@@ -95,4 +95,67 @@ public class GoolRoseAgent extends Agent{
                 
 	}//recordLearningCurve
     
+    /**
+     * Takes a permutation and checks if it exists in current memory
+     *
+     * @param permutation      The permutation you want to try to find in current memory
+     *
+     * @return rtnVal     Returns true if it exists in memory, false if it does not exist in memory
+     * 
+     * caveat:
+     *      if permutation = "bab", then if "bab|" is a substring return false, but if there exists
+     *      a 'bab" in memory anywhere return true reguardless
+     */
+    private boolean checkPermutations(String permutation){
+        boolean rtnVal = false;
+        String memory = this.memoryToString();
+        ArrayList<Integer> idxVals = this.findAllInstancesOf(permutation);
+        if(idxVals.isEmpty){
+            return rtnVal;
+        }
+        
+        int substringBarCount = 0;
+        for(Integer i: idxVals){
+            if(memory.charAt(i+permutation.length()) == '|'){
+                substringBarCount++;
+            }
+        }
+        if(substringBarCount != idxVals.size()){
+            rtnVal = true;
+        }
+        
+        return rtnVal;
+        
+    }
+    
+    /**
+     * Helper method for checkPermutations. This method searches through memory to find all 
+     * instances of the given substring.
+     *
+     * @param str   String that is being searched for in memory
+     *
+     * @return rtnVal   an ArrayList of starting indexes of all instances of the substring
+     *
+     */
+    private ArrayList<Integer> findAllInstancesOf(String str){
+        String memory = this.memoryToString();
+        ArrayList<Integer> rtnVal = new ArrayList<Integer>();
+        while(memory != ""){
+            Integer idxVal = memory.LastIndexOf(str);
+            if(idxVal != -1){
+                if(!rtnVal.contains(idxVal)){
+                    rtnVal.add(idxVal);
+                }
+                memory = memory.substring(0, memory.length()-1)
+            }
+            else{
+                //if there are no more instances of the substring then we are done
+                memory = "";
+            }
+        }
+        //remove duplicates through LinkedHashSet functionality
+        //rtnval = new ArrayList<Integer>(new LinkedHashSet<Integer>(rtnVal));
+    }
+   
+    
 }
