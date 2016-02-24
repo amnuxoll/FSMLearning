@@ -13,39 +13,68 @@ import java.util.ArrayList;
  * @author Will
  */
 public class GoolRoseAgent extends Agent{
-     private ArrayList<ArrayList<String>> sequencesNotPerformed;
-     private static final int MAX_SEQUENCE_SIZE = 10; //should be dynamic based on size. May be easier to write something that stores done sequences and puts more into it as time goes on
-     
+        private int lastPermutationIndex;
+        private String lastAttempt;
+        private boolean lastWasGoal;
     
     public GoolRoseAgent(){
+        System.out.println(getColumnString(1500));
         informationColumns = 2;
-        env = new StateMachineEnvironment();
-        alphabet = env.getAlphabet();
-        episodicMemory = new ArrayList<Episode>();
-
-        sequencesNotPerformed = new ArrayList<ArrayList<String>>();
-        sequencesNotPerformed.add(0, null);//since a path of size 0 should be skipped (might not be necessary)
-        for(int lengthSize=1; lengthSize<=MAX_SEQUENCE_SIZE; lengthSize++)
-        {
-            ArrayList<String> tempList = new ArrayList<String>();
-            fillPermutations(alphabet, lengthSize, tempList);
-            sequencesNotPerformed.add(lengthSize, tempList);
-        }
+        int lastPermutationIndex = 0;
+        String lastAttempt = "";
+        boolean lastWasGoal = false;
     }
     
     public static void main(String [ ] args) {
-        tryGenLearningCurves();
-	}
+//        GoolRoseAgent gilligan = new GoolRoseAgent();
+//        boolean trysd = gilligan.checkPermutation(lastAttempt);
+//        if(trysd)
+//            System.out.println("true");
+//        else
+//            System.out.println("false");
+       tryGenLearningCurves();
+    }
     
     @Override
     public void exploreEnvironment(){
+        while (episodicMemory.size() < MAX_EPISODES && Sucesses <= NUM_GOALS) {
+            if(lastWasGoal){
+                attempt(lastAttempt);
+                continue;
+            } //do the lastAttempt string because it worked last
+            else
+            {
+                lastAttempt = nextPermutation();
+                while(checkPermutation(lastAttempt))//while you have done this
+                {
+                    lastAttempt = nextPermutation(); //find next until you have not done it
+                }
+            }
+            attempt(lastAttempt);
+        }//while
         
+    }
+    
+    public void attempt(String attempt)
+    {
+        boolean lastStep;
+        lastWasGoal = false;
+        for(int i=0; i<attempt.length(); i++)
+        {
+            lastStep = move(attempt.charAt(i));
+            if(lastStep)
+            {
+                Sucesses++;
+                lastWasGoal = true;
+                return;
+            }
+        }
+        System.out.println(attempt);
     }
     
     public static void tryGenLearningCurves()
     {
         try {
-
             FileWriter csv = new FileWriter(OUTPUT_FILE);
             for(int i = 0; i < NUM_MACHINES; ++i) {
                 System.out.println("Starting on Machine" + i);
@@ -64,14 +93,14 @@ public class GoolRoseAgent extends Agent{
     }//tryGenLearningCurves
     
     /**
-	 * recordLearningCurve
-	 * 
-	 * examine's the agents memory and prints out how many steps the agent took
-	 * to reach the goal each time
-	 * 
+     * recordLearningCurve
+     * 
+     * examine's the agents memory and prints out how many steps the agent took
+     * to reach the goal each time
+     * 
      * @param csv         an open file to write to
-	 */
-	protected void recordLearningCurve(FileWriter csv) {
+     */
+    protected void recordLearningCurve(FileWriter csv) {
         try {
             csv.append(episodicMemory.size() + ",");
             csv.flush();
@@ -92,8 +121,28 @@ public class GoolRoseAgent extends Agent{
             System.out.println("recordLearningCurve: Could not write to given csv file.");
             System.exit(-1);
         }
-                
-	}//recordLearningCurve
+    }//recordLearningCurve
+    
+    /**
+     * based on 
+     * @param index
+     * @return 
+     */
+    public String nextPermutation() {
+        lastPermutationIndex++;
+        int index = lastPermutationIndex;
+        if (index <= 0)
+            throw new IndexOutOfBoundsException("index must be a positive number");
+        if (index <= alphabet.length)
+            return Character.toString(alphabet[index - 1]);
+        StringBuffer sb = new StringBuffer();
+        while (index > 0) {
+            sb.insert(0, alphabet[--index % alphabet.length]);
+            index /= alphabet.length;
+        }
+        return sb.toString();
+    }
+
     
     /**
      * Takes a permutation and checks if it exists in current memory
@@ -106,19 +155,19 @@ public class GoolRoseAgent extends Agent{
      *      if permutation = "bab", then if "bab|" is a substring return false, but if there exists
      *      a 'bab" in memory anywhere return true reguardless
      */
-    private boolean checkPermutations(String permutation){
+    private boolean checkPermutation(String permutation){
         boolean rtnVal = false;
         String memory = this.memoryToString();
         ArrayList<Integer> idxVals = this.findAllInstancesOf(permutation);
-        if(idxVals.isEmpty){
+        if(idxVals.isEmpty()){
             return rtnVal;
         }
         
         int substringBarCount = 0;
         for(Integer i: idxVals){
-            if(memory.charAt(i+permutation.length()) == '|'){
-                substringBarCount++;
-            }
+            if (!(i+permutation.length() >= memory.length()))
+                if(memory.charAt(i+permutation.length()) == '|')
+                    substringBarCount++;
         }
         if(substringBarCount != idxVals.size()){
             rtnVal = true;
@@ -141,21 +190,18 @@ public class GoolRoseAgent extends Agent{
         String memory = this.memoryToString();
         ArrayList<Integer> rtnVal = new ArrayList<Integer>();
         while(memory != ""){
-            Integer idxVal = memory.LastIndexOf(str);
+            Integer idxVal = memory.lastIndexOf(str);
             if(idxVal != -1){
                 if(!rtnVal.contains(idxVal)){
                     rtnVal.add(idxVal);
                 }
-                memory = memory.substring(0, memory.length()-1)
+                memory = memory.substring(0, memory.length()-1);
             }
             else{
                 //if there are no more instances of the substring then we are done
                 memory = "";
             }
         }
-        //remove duplicates through LinkedHashSet functionality
-        //rtnval = new ArrayList<Integer>(new LinkedHashSet<Integer>(rtnVal));
+        return rtnVal;
     }
-   
-    
 }

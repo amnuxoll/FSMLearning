@@ -25,9 +25,9 @@ import java.util.TreeSet;
 public class StateMachineEnvironment {
 
 	// Instance variables
-	public static int NUM_STATES = 4;
+	public static int NUM_STATES = 10;
 	public static int GOAL_STATE = NUM_STATES - 1;
-	public static int ALPHABET_SIZE = 2;  //this must be in the range [2,26]
+	public static int ALPHABET_SIZE = 3;  //this must be in the range [2,26]
         
         //instance variables created for Will and Ashley's methods
         public static double TRANSITIONS_PERCENT = 0.04; //must be at least .01. percent of transition table that will have a goal state transition
@@ -296,10 +296,10 @@ public class StateMachineEnvironment {
 		// two sensors. The first represents if he is in a new
 		// state and the second represents if he is at the goal
 		boolean result = false;
-		int newState = transition[currentState][findAlphabetIndex(move)];
+		currentState = transition[currentState][findAlphabetIndex(move)];
 		
 		// If we have reached the goal, update the goal sensor
-		if(newState == GOAL_STATE){
+		if(currentState == GOAL_STATE){
 			result = true;
 			reset();
 		}

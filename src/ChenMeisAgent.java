@@ -86,6 +86,9 @@ public class ChenMeisAgent extends Agent
     {    
         informationColumns = 8;
         
+        //prime the epmem with a first episode that is empty
+        episodicMemory.add(new Episode(' ', NO_TRANSITION));//the space cmd means unknown cmd for first memory
+        
         //build the permutations of all sequences (up to max SUS len) 
         sequencesNotPerformed = new ArrayList<ArrayList<String>>();
         sequencesNotPerformed.add(0, null);//since a path of size 0 should be skipped (might not be necessary)

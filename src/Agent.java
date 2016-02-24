@@ -43,10 +43,10 @@ public abstract class Agent {
     
     
     /** Number of episodes per run */
-    public static final int MAX_EPISODES = 100000;
-    public static final int NUM_GOALS = 200;
+    public static final int MAX_EPISODES = 50000;
+    public static final int NUM_GOALS = 1500;
     /** Number of state machines to test a given constant combo with */
-    public static final int NUM_MACHINES = 25;
+    public static final int NUM_MACHINES = 1000;
     
     boolean debug = true;
     
@@ -60,8 +60,6 @@ public abstract class Agent {
         env = new StateMachineEnvironment();
         alphabet = env.getAlphabet();
         episodicMemory = new ArrayList<Episode>();
-        //prime the epmem with a first episode that is empty
-        episodicMemory.add(new Episode(' ', NO_TRANSITION));//the space cmd means unknown cmd for first memory
     }
     
     /**
