@@ -18,7 +18,6 @@ public class GoolRoseAgent extends Agent{
         private boolean lastWasGoal;
     
     public GoolRoseAgent(){
-        System.out.println(getColumnString(1500));
         informationColumns = 2;
         int lastPermutationIndex = 0;
         String lastAttempt = "";
@@ -45,9 +44,13 @@ public class GoolRoseAgent extends Agent{
             else
             {
                 lastAttempt = nextPermutation();
-                while(checkPermutation(lastAttempt))//while you have done this
+                while(checkPermutation(lastAttempt))//while you have done this already
                 {
                     lastAttempt = nextPermutation(); //find next until you have not done it
+                }
+                if(Sucesses > 3)
+                {
+                    findEndStrings();
                 }
             }
             attempt(lastAttempt);
@@ -55,8 +58,14 @@ public class GoolRoseAgent extends Agent{
         
     }
     
+    public void findEndStrings()
+    {
+        
+    }
+    
     public void attempt(String attempt)
     {
+        System.out.println(attempt);
         boolean lastStep;
         lastWasGoal = false;
         for(int i=0; i<attempt.length(); i++)
@@ -69,7 +78,6 @@ public class GoolRoseAgent extends Agent{
                 return;
             }
         }
-        System.out.println(attempt);
     }
     
     public static void tryGenLearningCurves()
@@ -156,52 +164,21 @@ public class GoolRoseAgent extends Agent{
      *      a 'bab" in memory anywhere return true reguardless
      */
     private boolean checkPermutation(String permutation){
-        boolean rtnVal = false;
-        String memory = this.memoryToString();
-        ArrayList<Integer> idxVals = this.findAllInstancesOf(permutation);
-        if(idxVals.isEmpty()){
-            return rtnVal;
+        String memory = memoryToString();
+        if(memory != null && !memory.isEmpty())
+        {
+            for(char c : alphabet)
+                if( memory.contains(permutation+c))
+                    return true;
+            
+            if("".endsWith(permutation)) //may be redundant and never ever be true
+            {
+                System.out.println("ends with");
+                return true;
+            }
         }
-        
-        int substringBarCount = 0;
-        for(Integer i: idxVals){
-            if (!(i+permutation.length() >= memory.length()))
-                if(memory.charAt(i+permutation.length()) == '|')
-                    substringBarCount++;
-        }
-        if(substringBarCount != idxVals.size()){
-            rtnVal = true;
-        }
-        
-        return rtnVal;
+        return false;
         
     }
     
-    /**
-     * Helper method for checkPermutations. This method searches through memory to find all 
-     * instances of the given substring.
-     *
-     * @param str   String that is being searched for in memory
-     *
-     * @return rtnVal   an ArrayList of starting indexes of all instances of the substring
-     *
-     */
-    private ArrayList<Integer> findAllInstancesOf(String str){
-        String memory = this.memoryToString();
-        ArrayList<Integer> rtnVal = new ArrayList<Integer>();
-        while(memory != ""){
-            Integer idxVal = memory.lastIndexOf(str);
-            if(idxVal != -1){
-                if(!rtnVal.contains(idxVal)){
-                    rtnVal.add(idxVal);
-                }
-                memory = memory.substring(0, memory.length()-1);
-            }
-            else{
-                //if there are no more instances of the substring then we are done
-                memory = "";
-            }
-        }
-        return rtnVal;
-    }
 }
