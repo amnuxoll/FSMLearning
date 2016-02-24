@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Will
+ * @author Will Goolkasian and Ashley Rosenberg
  */
 public class GoolRoseAgent extends Agent{
-        private int lastPermutationIndex;
-        private String lastAttempt;
-        private boolean lastWasGoal;
+    private int lastPermutationIndex;
+    private String lastAttempt;
+    private boolean lastWasGoal;
     
     public GoolRoseAgent(){
         System.out.println(getColumnString(1500));
@@ -26,14 +26,14 @@ public class GoolRoseAgent extends Agent{
     }
     
     public static void main(String [ ] args) {
-//        GoolRoseAgent gilligan = new GoolRoseAgent();
-//        boolean trysd = gilligan.checkPermutation(lastAttempt);
-//        if(trysd)
-//            System.out.println("true");
-//        else
-//            System.out.println("false");
-       tryGenLearningCurves();
-    }
+        //        GoolRoseAgent gilligan = new GoolRoseAgent();
+        //        boolean trysd = gilligan.checkPermutation(lastAttempt);
+        //        if(trysd)
+        //            System.out.println("true");
+        //        else
+        //            System.out.println("false");
+        tryGenLearningCurves();
+    }//main
     
     @Override
     public void exploreEnvironment(){
@@ -53,7 +53,7 @@ public class GoolRoseAgent extends Agent{
             attempt(lastAttempt);
         }//while
         
-    }
+    }//exploreEnvironment
     
     public void attempt(String attempt)
     {
@@ -70,7 +70,7 @@ public class GoolRoseAgent extends Agent{
             }
         }
         System.out.println(attempt);
-    }
+    }//attempt
     
     public static void tryGenLearningCurves()
     {
@@ -94,10 +94,10 @@ public class GoolRoseAgent extends Agent{
     
     /**
      * recordLearningCurve
-     * 
+     *
      * examine's the agents memory and prints out how many steps the agent took
      * to reach the goal each time
-     * 
+     *
      * @param csv         an open file to write to
      */
     protected void recordLearningCurve(FileWriter csv) {
@@ -113,7 +113,7 @@ public class GoolRoseAgent extends Agent{
                     prevGoalPoint = i;
                 }//if
             }//for
-
+            
             csv.append("\n");
             csv.flush();
         }
@@ -124,9 +124,9 @@ public class GoolRoseAgent extends Agent{
     }//recordLearningCurve
     
     /**
-     * based on 
+     * based on
      * @param index
-     * @return 
+     * @return
      */
     public String nextPermutation() {
         lastPermutationIndex++;
@@ -141,8 +141,8 @@ public class GoolRoseAgent extends Agent{
             index /= alphabet.length;
         }
         return sb.toString();
-    }
-
+    }//nextPermutation
+    
     
     /**
      * Takes a permutation and checks if it exists in current memory
@@ -150,58 +150,31 @@ public class GoolRoseAgent extends Agent{
      * @param permutation      The permutation you want to try to find in current memory
      *
      * @return rtnVal     Returns true if it exists in memory, false if it does not exist in memory
-     * 
+     *
      * caveat:
-     *      if permutation = "bab", then if "bab|" is a substring return false, but if there exists
-     *      a 'bab" in memory anywhere return true reguardless
+     *      if permutation = "bab", then if only "bab|" exists in memory return false, but if there exists
+     *      a 'bab" in memory anywhere return true reguardless.  If the permutation was able to get the agent to the 
+     *      goal, we want to keep using it, as it may be the shortest path.
      */
     private boolean checkPermutation(String permutation){
         boolean rtnVal = false;
         String memory = this.memoryToString();
-        ArrayList<Integer> idxVals = this.findAllInstancesOf(permutation);
-        if(idxVals.isEmpty()){
-            return rtnVal;
+        
+        //if the substring exists in memory followed by another letter in the alphabet then we have tried that combo
+        for(char i: this.alphabet){
+            if(memory.contains(permutation + i)){
+                rtnVal = true;
+                break;
+            }
         }
         
-        int substringBarCount = 0;
-        for(Integer i: idxVals){
-            if (!(i+permutation.length() >= memory.length()))
-                if(memory.charAt(i+permutation.length()) == '|')
-                    substringBarCount++;
-        }
-        if(substringBarCount != idxVals.size()){
+        //check if the permutation exists at the very end of the string
+        if(memory.endsWith(permutation)){
             rtnVal = true;
         }
         
         return rtnVal;
         
-    }
-    
-    /**
-     * Helper method for checkPermutations. This method searches through memory to find all 
-     * instances of the given substring.
-     *
-     * @param str   String that is being searched for in memory
-     *
-     * @return rtnVal   an ArrayList of starting indexes of all instances of the substring
-     *
-     */
-    private ArrayList<Integer> findAllInstancesOf(String str){
-        String memory = this.memoryToString();
-        ArrayList<Integer> rtnVal = new ArrayList<Integer>();
-        while(memory != ""){
-            Integer idxVal = memory.lastIndexOf(str);
-            if(idxVal != -1){
-                if(!rtnVal.contains(idxVal)){
-                    rtnVal.add(idxVal);
-                }
-                memory = memory.substring(0, memory.length()-1);
-            }
-            else{
-                //if there are no more instances of the substring then we are done
-                memory = "";
-            }
-        }
-        return rtnVal;
-    }
+    }//checkPermutations
+
 }
