@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Will
+ * @author Will Goolkasian and Ashley Rosenberg
  */
 public class GoolRoseAgent extends Agent{
-        private int lastPermutationIndex;
-        private String lastAttempt;
-        private boolean lastWasGoal;
+    private int lastPermutationIndex;
+    private String lastAttempt;
+    private boolean lastWasGoal;
     
     public GoolRoseAgent(){
         informationColumns = 2;
@@ -25,14 +25,14 @@ public class GoolRoseAgent extends Agent{
     }
     
     public static void main(String [ ] args) {
-//        GoolRoseAgent gilligan = new GoolRoseAgent();
-//        boolean trysd = gilligan.checkPermutation(lastAttempt);
-//        if(trysd)
-//            System.out.println("true");
-//        else
-//            System.out.println("false");
-       tryGenLearningCurves();
-    }
+        //        GoolRoseAgent gilligan = new GoolRoseAgent();
+        //        boolean trysd = gilligan.checkPermutation(lastAttempt);
+        //        if(trysd)
+        //            System.out.println("true");
+        //        else
+        //            System.out.println("false");
+        tryGenLearningCurves();
+    }//main
     
     @Override
     public void exploreEnvironment(){
@@ -56,7 +56,7 @@ public class GoolRoseAgent extends Agent{
             attempt(lastAttempt);
         }//while
         
-    }
+    }//exploreEnvironment
     
     public void findEndStrings()
     {
@@ -102,10 +102,10 @@ public class GoolRoseAgent extends Agent{
     
     /**
      * recordLearningCurve
-     * 
+     *
      * examine's the agents memory and prints out how many steps the agent took
      * to reach the goal each time
-     * 
+     *
      * @param csv         an open file to write to
      */
     protected void recordLearningCurve(FileWriter csv) {
@@ -121,7 +121,7 @@ public class GoolRoseAgent extends Agent{
                     prevGoalPoint = i;
                 }//if
             }//for
-
+            
             csv.append("\n");
             csv.flush();
         }
@@ -132,9 +132,9 @@ public class GoolRoseAgent extends Agent{
     }//recordLearningCurve
     
     /**
-     * based on 
+     * based on
      * @param index
-     * @return 
+     * @return
      */
     public String nextPermutation() {
         lastPermutationIndex++;
@@ -149,8 +149,8 @@ public class GoolRoseAgent extends Agent{
             index /= alphabet.length;
         }
         return sb.toString();
-    }
-
+    }//nextPermutation
+    
     
     /**
      * Takes a permutation and checks if it exists in current memory
@@ -158,10 +158,11 @@ public class GoolRoseAgent extends Agent{
      * @param permutation      The permutation you want to try to find in current memory
      *
      * @return rtnVal     Returns true if it exists in memory, false if it does not exist in memory
-     * 
+     *
      * caveat:
-     *      if permutation = "bab", then if "bab|" is a substring return false, but if there exists
-     *      a 'bab" in memory anywhere return true reguardless
+     *      if permutation = "bab", then if only "bab|" exists in memory return false, but if there exists
+     *      a 'bab" in memory anywhere return true reguardless.  If the permutation was able to get the agent to the 
+     *      goal, we want to keep using it, as it may be the shortest path.
      */
     private boolean checkPermutation(String permutation){
         String memory = memoryToString();
