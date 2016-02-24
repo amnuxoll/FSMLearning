@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Will Goolkasian and Ashley Rosenberg
+ * @author Will Goolkasian
  */
 public class GoolRoseAgent extends Agent{
     private int lastPermutationIndex;
@@ -58,8 +58,20 @@ public class GoolRoseAgent extends Agent{
         
     }//exploreEnvironment
     
+    /**
+     * will eventually be an LMS type system that looks for patterns at the end 
+     * of strings of each goal to determine if a sus generated permutation
+     * should be attempted or not
+     */
     public void findEndStrings()
     {
+        //maybe this returrns a value saying "according to me, signifigant strings end in one of these sequences: (ArrayList)
+        //then that goes through to some other check method that checks if the current next permutation 's end matches these.
+        
+        //give strings a buffer layer? use matcher to find it. if ALL goals end in cac, only look for strings that end in ac. 
+        //eventually all strings will start to end in somehting like dcac so then look for strings with cac at end. 
+        //leave the last character as a buffer to allow for other possibilities, but then as patterns emerge past some threshold, take them as permenant.
+        
         
     }
     
