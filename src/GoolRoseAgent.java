@@ -189,12 +189,12 @@ public class GoolRoseAgent extends Agent{
      */
     protected void recordLearningCurve(FileWriter csv) {
         try {
-            csv.append(episodicMemory.size() + ",");
+            csv.append(memory.length() + ","); //includes the goal '|' character. need to remove for this
             csv.flush();
             int prevGoalPoint = 0; //which episode I last reached the goal at
-            for(int i = 0; i < episodicMemory.size(); ++i) {
-                Episode ep = episodicMemory.get(i);
-                if (ep.sensorValue == GOAL) {
+            for(int i = 0; i < memory.length(); ++i) {
+                char c = memory.charAt(i);
+                if (c == '|') { //all of below is off by 1 because of moving pointers. will fix soon.
                     csv.append(i - prevGoalPoint + ",");
                     csv.flush();
                     prevGoalPoint = i;
