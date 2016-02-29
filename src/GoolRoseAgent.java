@@ -1,7 +1,9 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -67,12 +69,28 @@ public class GoolRoseAgent extends Agent{
      */
     public void updateEndStrings()
     {
-        HashMap compareEndings = new HashMap();
+        HashMap<String, Integer> compareEndings = new HashMap();
         for(String goal : goals)
         { 
-            if(compareEndings.contains(goal.substring(goal.length()-endStringLength, goal.length())))
-                
+            String lastBit = goal.substring(goal.length()-endStringLength, goal.length()); //out of bounds when goal is tiny like ba and looking for length of 3(ex)
+            if(compareEndings.containsKey(lastBit))
+                compareEndings.put(lastBit, compareEndings.get(lastBit) + 1);
+            else
+                compareEndings.put(lastBit, 1);
         }
+        
+        int maxValueInMap=(Collections.max(compareEndings.values())); //this is crude. if bab and bcb are equally likely and true solutions, you might get 50% of ab's and 50% of cb's when looking for the length 2 endings.
+        if((maxValueInMap*100)/goals.size() >= ASSURANCE_PERCENTAGE)
+        {
+            for (Entry<String, Integer> entry : compareEndings.entrySet())   // Itrate through hashmap to find which one it was
+                if (entry.getValue()==maxValueInMap) 
+                {
+                    possibleEndings.add(entry.getKey());     // add that ending to PossibleEndings
+                    endStringLength++; //go looking for the next endings with length of 1 more.
+                }
+            
+        }
+        
         if(possibleEndings.contains("") && possibleEndings.size() == 1)
             possibleEndings.remove("");
         
