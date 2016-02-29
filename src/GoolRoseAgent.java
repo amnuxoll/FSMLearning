@@ -19,8 +19,8 @@ public class GoolRoseAgent extends Agent{
     private int lastPermutationIndex;
     private String lastAttempt;
     private boolean lastWasGoal;
-    private ArrayList<String> possibleEndings;
-    private ArrayList<String> goals;
+    private ArrayList<String> possibleEndings = new ArrayList<String>();
+    private ArrayList<String> goals = new ArrayList<String>();
     private String currentGoalMemory;
     
     private int endStringLength = 1;//used in updateEndStrings() increments as it goes.
