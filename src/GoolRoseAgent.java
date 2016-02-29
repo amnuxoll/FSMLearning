@@ -25,12 +25,6 @@ public class GoolRoseAgent extends Agent{
     }
     
     public static void main(String [ ] args) {
-        //        GoolRoseAgent gilligan = new GoolRoseAgent();
-        //        boolean trysd = gilligan.checkPermutation(lastAttempt);
-        //        if(trysd)
-        //            System.out.println("true");
-        //        else
-        //            System.out.println("false");
         tryGenLearningCurves();
     }//main
     
@@ -44,7 +38,7 @@ public class GoolRoseAgent extends Agent{
             else
             {
                 lastAttempt = nextPermutation();
-                while(checkPermutation(lastAttempt))//while you have done this already
+                while(checkIfDone(lastAttempt) && isEndingBad(lastAttempt))//while you have done this already
                 {
                     lastAttempt = nextPermutation(); //find next until you have not done it
                 }
@@ -68,16 +62,14 @@ public class GoolRoseAgent extends Agent{
         //maybe this returrns a value saying "according to me, signifigant strings end in one of these sequences: (ArrayList)
         //then that goes through to some other check method that checks if the current next permutation 's end matches these.
         
-        //give strings a buffer layer? use matcher to find it. if ALL goals end in cac, only look for strings that end in ac. 
+        //give strings a buffer layer? use matcher to find it. if ALL(or some percentage) goals end in cac, only look for strings that end in ac. 
         //eventually all strings will start to end in somehting like dcac so then look for strings with cac at end. 
         //leave the last character as a buffer to allow for other possibilities, but then as patterns emerge past some threshold, take them as permenant.
-        
-        
     }
     
     public void attempt(String attempt)
     {
-        System.out.println(attempt);
+        System.out.println(memoryToString());
         boolean lastStep;
         lastWasGoal = false;
         for(int i=0; i<attempt.length(); i++)
@@ -176,7 +168,7 @@ public class GoolRoseAgent extends Agent{
      *      a 'bab" in memory anywhere return true reguardless.  If the permutation was able to get the agent to the 
      *      goal, we want to keep using it, as it may be the shortest path.
      */
-    private boolean checkPermutation(String permutation){
+    private boolean checkIfDone(String permutation){
         String memory = memoryToString();
         if(memory != null && !memory.isEmpty())
         {
@@ -191,7 +183,11 @@ public class GoolRoseAgent extends Agent{
             }
         }
         return false;
+    }
+    
+    private boolean isEndingBad(String permutation){
         
+        return true; //the ending is bad.
     }
     
 }
