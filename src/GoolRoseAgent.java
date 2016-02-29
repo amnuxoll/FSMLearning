@@ -41,20 +41,21 @@ public class GoolRoseAgent extends Agent{
     @Override
     public void exploreEnvironment(){
         while (episodicMemory.size() < MAX_EPISODES && Sucesses <= NUM_GOALS) {
+            System.out.println(memory);
             if(lastWasGoal){
                 attempt(lastAttempt);
                 continue;
             } //do the lastAttempt string because it worked last
             else
             {
+                if(Sucesses > 3)
+                {
+                    updateEndStrings();
+                }
                 lastAttempt = nextPermutation();
                 while(checkIfDone(lastAttempt) || isEndingBad(lastAttempt))//while you have done this already
                 {
                     lastAttempt = nextPermutation(); //find next until you have not done it
-                }
-                if(Sucesses > 3)
-                {
-                    updateEndStrings();
                 }
             }
             attempt(lastAttempt);
@@ -115,7 +116,6 @@ public class GoolRoseAgent extends Agent{
     
     public void attempt(String attempt)
     {
-        System.out.println(memory);
         boolean lastStep;
         lastWasGoal = false;
         for(int i=0; i<attempt.length(); i++)
