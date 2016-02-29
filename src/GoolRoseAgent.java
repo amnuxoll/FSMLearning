@@ -94,9 +94,8 @@ public class GoolRoseAgent extends Agent{
                         {
                             possibleEndings.remove(endings);
                         }
-                    
                     endStringLength++; //go looking for the next endings incrementally larger
-                    
+                    deleteObsoleteGoals();//see comment in method as to why this might not be best
                 }
             
         }
@@ -136,6 +135,28 @@ public class GoolRoseAgent extends Agent{
     public void updateGoals(){
         goals.add(currentGoalMemory);
         currentGoalMemory = "";
+        deleteObsoleteGoals();
+    }
+    
+    /**
+     * remove all goals that are less than the string length we are looking for.
+     * this will stop out of bounds, though kinda throws data out
+     * though we do not need the data because we already have accounted for it.
+     * might be better to have a check in the checkEndStrings that will then up all counters in 
+     * the hashmap who's keys end in whatever goal it is we are disregarding.
+     */
+    public void deleteObsoleteGoals(){
+        //doesnt work because you cant remove while itterating.
+//        for(String g : goals)
+//            if(g.length() < endStringLength)
+//                goals.remove(g);
+        int cursor = 0;
+        do {
+            if (goals.get(cursor).length() < endStringLength)
+                goals.remove(cursor);
+            else 
+                cursor++;
+        } while (cursor != goals.size());
     }
     
     public static void tryGenLearningCurves()
