@@ -21,6 +21,7 @@ public abstract class Agent {
     protected StateMachineEnvironment env;
     protected char[] alphabet;
     protected ArrayList<Episode> episodicMemory;
+    protected String memory;
     protected int Sucesses = 0; //THIS WAS MADE BY WILL AND ASHLEY TO RENAME THE INT BELOW. UNUSED
     
     //Sensor values
@@ -60,21 +61,22 @@ public abstract class Agent {
         env = new StateMachineEnvironment();
         alphabet = env.getAlphabet();
         episodicMemory = new ArrayList<Episode>();
+        memory = "";
     }
     
     /**
-     * method the Agents ******SHOULD****** be using to return only Boolean, not array
+     * method the Agents ******SHOULD****** be using to return only Boolean, not array.
+     * GoolRose Agent uses
      * 
      * @param charToMove the input command
      * @return 
      */
     public boolean move(char charToMove)
     {
+        memory = memory +charToMove;
         boolean result = env.move(charToMove);
         if(result)
-            episodicMemory.add(new Episode(charToMove, 1));
-        else
-            episodicMemory.add(new Episode(charToMove, 0));  
+            memory = memory +"|";
         return result;
     }
     

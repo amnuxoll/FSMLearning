@@ -1,6 +1,7 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,12 +17,19 @@ public class GoolRoseAgent extends Agent{
     private int lastPermutationIndex;
     private String lastAttempt;
     private boolean lastWasGoal;
+    private ArrayList<String> possibleEndings;
+    private ArrayList<String> goals;
+    private String currentGoalMemory;
+    
+    private int endStringLength = 1;//used in updateEndStrings() increments as it goes.
+    private static final int ASSURANCE_PERCENTAGE = 90; //used in updat3eEndStrings()
     
     public GoolRoseAgent(){
         informationColumns = 2;
         int lastPermutationIndex = 0;
         String lastAttempt = "";
         boolean lastWasGoal = false;
+        possibleEndings.add("");//add a blank ending so for the first few runs it will accept anything, will be deleted and replaced later in updateEndStrings()
     }
     
     public static void main(String [ ] args) {
@@ -44,7 +52,7 @@ public class GoolRoseAgent extends Agent{
                 }
                 if(Sucesses > 3)
                 {
-                    findEndStrings();
+                    updateEndStrings();
                 }
             }
             attempt(lastAttempt);
@@ -57,8 +65,17 @@ public class GoolRoseAgent extends Agent{
      * of strings of each goal to determine if a sus generated permutation
      * should be attempted or not
      */
-    public void findEndStrings()
+    public void updateEndStrings()
     {
+        HashMap compareEndings = new HashMap();
+        for(String goal : goals)
+        { 
+            if(compareEndings.contains(goal.substring(goal.length()-endStringLength, goal.length())))
+                
+        }
+        if(possibleEndings.contains("") && possibleEndings.size() == 1)
+            possibleEndings.remove("");
+        
         //maybe this returrns a value saying "according to me, signifigant strings end in one of these sequences: (ArrayList)
         //then that goes through to some other check method that checks if the current next permutation 's end matches these.
         
@@ -69,19 +86,26 @@ public class GoolRoseAgent extends Agent{
     
     public void attempt(String attempt)
     {
-        System.out.println(memoryToString());
+        System.out.println(memory);
         boolean lastStep;
         lastWasGoal = false;
         for(int i=0; i<attempt.length(); i++)
         {
+            currentGoalMemory = currentGoalMemory + attempt.charAt(i);
             lastStep = move(attempt.charAt(i));
             if(lastStep)
             {
                 Sucesses++;
                 lastWasGoal = true;
+                updateGoals();
                 return;
             }
         }
+    }
+    
+    public void updateGoals(){
+        goals.add(currentGoalMemory);
+        currentGoalMemory = "";
     }
     
     public static void tryGenLearningCurves()
@@ -169,14 +193,13 @@ public class GoolRoseAgent extends Agent{
      *      goal, we want to keep using it, as it may be the shortest path.
      */
     private boolean checkIfDone(String permutation){
-        String memory = memoryToString();
         if(memory != null && !memory.isEmpty())
         {
             for(char c : alphabet)
                 if( memory.contains(permutation+c))
                     return true;
             
-            if("".endsWith(permutation)) //may be redundant and never ever be true
+            if(memory.endsWith(permutation)) //may be redundant and never ever be true
             {
                 System.out.println("ends with");
                 return true;
@@ -186,7 +209,9 @@ public class GoolRoseAgent extends Agent{
     }
     
     private boolean isEndingBad(String permutation){
-        
+        for(String ending : possibleEndings)
+            if (permutation.endsWith(ending))
+                return false;//the ending is good
         return true; //the ending is bad.
     }
     
