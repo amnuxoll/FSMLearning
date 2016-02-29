@@ -48,7 +48,7 @@ public class GoolRoseAgent extends Agent{
             else
             {
                 lastAttempt = nextPermutation();
-                while(checkIfDone(lastAttempt) && isEndingBad(lastAttempt))//while you have done this already
+                while(checkIfDone(lastAttempt) || isEndingBad(lastAttempt))//while you have done this already
                 {
                     lastAttempt = nextPermutation(); //find next until you have not done it
                 }
@@ -86,13 +86,24 @@ public class GoolRoseAgent extends Agent{
                 if (entry.getValue()==maxValueInMap) 
                 {
                     possibleEndings.add(entry.getKey());     // add that ending to PossibleEndings
-                    endStringLength++; //go looking for the next endings with length of 1 more.
+                    //scan and remove all endings that are shorter (when you find a 1 length, remoev all 0. when you find a 2, remove all 1. (will remove blank)
+                    for(String endings : possibleEndings)
+                        if(endings.length() == endStringLength-1)
+                        {
+                            possibleEndings.remove(endings);
+                        }
+                    
+                    endStringLength++; //go looking for the next endings incrementally larger
+                    
                 }
             
         }
         
-        if(possibleEndings.contains("") && possibleEndings.size() == 1)
-            possibleEndings.remove("");
+        System.out.println("\nPOSSIBLEeNDINGS:");
+        for(String endings : possibleEndings)
+            System.out.println(endings);
+        System.out.println("");
+        
         
         //maybe this returrns a value saying "according to me, signifigant strings end in one of these sequences: (ArrayList)
         //then that goes through to some other check method that checks if the current next permutation 's end matches these.
@@ -229,7 +240,12 @@ public class GoolRoseAgent extends Agent{
     private boolean isEndingBad(String permutation){
         for(String ending : possibleEndings)
             if (permutation.endsWith(ending))
-                return false;//the ending is good
+            {
+                System.out.println(permutation + " ends with '" + ending + "'");
+                return false;
+            }
+        
+        
         return true; //the ending is bad.
     }
     
