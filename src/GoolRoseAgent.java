@@ -144,12 +144,16 @@ public class GoolRoseAgent extends Agent{
      * though we do not need the data because we already have accounted for it.
      * might be better to have a check in the checkEndStrings that will then up all counters in 
      * the hashmap who's keys end in whatever goal it is we are disregarding.
+     * 
+     * also deletes strings that do NOT end in the list of current possible endings
      */
     public void deleteObsoleteGoals(){
         //doesnt work because you cant remove while itterating.
 //        for(String g : goals)
 //            if(g.length() < endStringLength)
 //                goals.remove(g);
+
+        //removes the too short goals for bounds        
         int cursor = 0;
         do {
             if (goals.get(cursor).length() < endStringLength)
@@ -157,6 +161,20 @@ public class GoolRoseAgent extends Agent{
             else 
                 cursor++;
         } while (cursor != goals.size());
+        
+//        //removes the strings that do not have a compatable ending
+//        cursor = 0;
+//        do {
+//            for(String ending : possibleEndings)
+//                if(goals.get(cursor).endsWith(ending))
+//                    continue;
+//                else
+//                    cursor++;
+//            goals.remove(cursor);
+//                    
+//        } while (cursor != goals.size());
+            
+        
     }
     
     public static void tryGenLearningCurves()
