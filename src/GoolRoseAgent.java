@@ -136,6 +136,11 @@ public class GoolRoseAgent extends Agent{
         goals.add(currentGoalMemory);
         currentGoalMemory = "";
         deleteObsoleteGoals();
+        
+        System.out.println("\nGOALS:");
+        for(String goal : goals)
+            System.out.println(goal);
+        System.out.println("\n");
     }
     
     /**
@@ -156,23 +161,22 @@ public class GoolRoseAgent extends Agent{
         //removes the too short goals for bounds        
         int cursor = 0;
         do {
-            if (goals.get(cursor).length() < endStringLength)
+            boolean isValid = true;
+            for(String ending : possibleEndings){
+                if(goals.get(cursor).endsWith(ending))
+                {
+                    isValid = true;
+                    break;
+                }
+                else
+                    isValid = false;
+            }
+            
+            if (goals.get(cursor).length() < endStringLength || !isValid)
                 goals.remove(cursor);
             else 
                 cursor++;
         } while (cursor != goals.size());
-        
-//        //removes the strings that do not have a compatable ending
-//        cursor = 0;
-//        do {
-//            for(String ending : possibleEndings)
-//                if(goals.get(cursor).endsWith(ending))
-//                    continue;
-//                else
-//                    cursor++;
-//            goals.remove(cursor);
-//                    
-//        } while (cursor != goals.size());
             
         
     }
@@ -207,15 +211,17 @@ public class GoolRoseAgent extends Agent{
      */
     protected void recordLearningCurve(FileWriter csv) {
         try {
-            csv.append(memory.length() + ","); //includes the goal '|' character. need to remove for this
+            String tempMemory = memory;
+            tempMemory.replaceAll("|", "");
+            csv.append(tempMemory.length() + ","); 
             csv.flush();
             int prevGoalPoint = 0; //which episode I last reached the goal at
             for(int i = 0; i < memory.length(); ++i) {
                 char c = memory.charAt(i);
-                if (c == '|') { //all of below is off by 1 because of moving pointers. will fix soon.
+                if (c == '|') { 
                     csv.append(i - prevGoalPoint + ",");
                     csv.flush();
-                    prevGoalPoint = i;
+                    prevGoalPoint = i+1;
                 }//if
             }//for
             
