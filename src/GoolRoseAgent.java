@@ -39,10 +39,30 @@ public class GoolRoseAgent extends Agent{
         tryGenLearningCurves();
     }//main
     
+    public static void tryGenLearningCurves()
+    {
+        try {
+            FileWriter csv = new FileWriter(OUTPUT_FILE);
+            for(int i = 0; i < NUM_MACHINES; ++i) {
+                System.out.println("Starting on Machine" + i);
+                GoolRoseAgent gilligan = new GoolRoseAgent();
+                gilligan.exploreEnvironment();
+                gilligan.recordLearningCurve(csv);
+                System.out.println("Done with machine" + i + "\n");
+            }
+            recordAverage(csv);
+            csv.close();
+        }
+        catch (IOException e) {
+            System.out.println("tryGenLearningCurves: Error creating file");
+            System.exit(-1);
+        }
+    }//tryGenLearningCurves
+    
     @Override
     public void exploreEnvironment(){
         while (episodicMemory.size() < MAX_EPISODES && Sucesses <= NUM_GOALS) {
-            System.out.println(memory);
+            //System.out.println(memory);
             if(lastWasGoal){
                 attempt(lastAttempt);
                 continue;
@@ -100,10 +120,10 @@ public class GoolRoseAgent extends Agent{
             
         }
         
-        System.out.println("\nPOSSIBLEeNDINGS:");
-        for(String endings : possibleEndings)
-            System.out.println(endings);
-        System.out.println("");
+//        System.out.println("\nPOSSIBLEeNDINGS:");
+//        for(String endings : possibleEndings)
+//            System.out.println(endings);
+//        System.out.println("");
         
         
         //maybe this returrns a value saying "according to me, signifigant strings end in one of these sequences: (ArrayList)
@@ -137,10 +157,10 @@ public class GoolRoseAgent extends Agent{
         currentGoalMemory = "";
         deleteObsoleteGoals();
         
-        System.out.println("\nGOALS:");
-        for(String goal : goals)
-            System.out.println(goal);
-        System.out.println("\n");
+//        System.out.println("\nGOALS:");
+//        for(String goal : goals)
+//            System.out.println(goal);
+//        System.out.println("\n");
     }
     
     /**
@@ -180,26 +200,6 @@ public class GoolRoseAgent extends Agent{
             
         
     }
-    
-    public static void tryGenLearningCurves()
-    {
-        try {
-            FileWriter csv = new FileWriter(OUTPUT_FILE);
-            for(int i = 0; i < NUM_MACHINES; ++i) {
-                System.out.println("Starting on Machine" + i);
-                GoolRoseAgent gilligan = new GoolRoseAgent();
-                gilligan.exploreEnvironment();
-                gilligan.recordLearningCurve(csv);
-                System.out.println("Done with machine" + i + "\n");
-            }
-            recordAverage(csv);
-            csv.close();
-        }
-        catch (IOException e) {
-            System.out.println("tryGenLearningCurves: Error creating file");
-            System.exit(-1);
-        }
-    }//tryGenLearningCurves
     
     /**
      * recordLearningCurve
@@ -287,7 +287,7 @@ public class GoolRoseAgent extends Agent{
         for(String ending : possibleEndings)
             if (permutation.endsWith(ending))
             {
-                System.out.println(permutation + " ends with '" + ending + "'");
+                //System.out.println(permutation + " ends with '" + ending + "'");
                 return false;
             }
         

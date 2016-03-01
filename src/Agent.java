@@ -47,7 +47,7 @@ public abstract class Agent {
     public static final int MAX_EPISODES = 50000;
     public static final int NUM_GOALS = 1500;
     /** Number of state machines to test a given constant combo with */
-    public static final int NUM_MACHINES = 1000;
+    public static final int NUM_MACHINES = 20;
     
     boolean debug = true;
     
