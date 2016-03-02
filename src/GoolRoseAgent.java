@@ -24,7 +24,7 @@ public class GoolRoseAgent extends Agent{
     private String currentGoalMemory;
     
     private int endStringLength = 1;//used in updateEndStrings() increments as it goes.
-    private static final int ASSURANCE_PERCENTAGE = 90; //used in updat3eEndStrings()
+    private static final int ASSURANCE_PERCENTAGE = 60; //used in updateEndStrings() 
     
     public GoolRoseAgent(){
         informationColumns = 2;
@@ -61,7 +61,7 @@ public class GoolRoseAgent extends Agent{
     
     @Override
     public void exploreEnvironment(){
-        while (episodicMemory.size() < MAX_EPISODES && Sucesses <= NUM_GOALS) {
+        while (memory.length() < MAX_EPISODES && Sucesses <= NUM_GOALS) {
             //System.out.println(memory);
             if(lastWasGoal){
                 attempt(lastAttempt);
@@ -88,10 +88,16 @@ public class GoolRoseAgent extends Agent{
      * will eventually be an LMS type system that looks for patterns at the end 
      * of strings of each goal to determine if a sus generated permutation
      * should be attempted or not
+     * 
+     * PROBLEM: as it stands, if it has a small number of goals in the goals array(say 1), 
+     * it will take all those characters as "law" and not compare them 
+     * to anything else because it is technically 100%. check for goal size?
+     * 
      */
     public void updateEndStrings()
     {
         HashMap<String, Integer> compareEndings = new HashMap();
+        //compareEndings.put("!",0); //to prevent an empty hashmap error in the finding max line
         for(String goal : goals)
         { 
             String lastBit = goal.substring(goal.length()-endStringLength, goal.length()); //out of bounds when goal is tiny like ba and looking for length of 3(ex)
@@ -101,7 +107,21 @@ public class GoolRoseAgent extends Agent{
                 compareEndings.put(lastBit, 1);
         }
         
-        int maxValueInMap=(Collections.max(compareEndings.values())); //this is crude. if bab and bcb are equally likely and true solutions, you might get 50% of ab's and 50% of cb's when looking for the length 2 endings.
+        
+        //////////////////////////print the hashmap///////////////////////
+        System.out.println("\n HASHMAP OF ENDINGS OF LENGTH " + endStringLength);
+        for (Entry<String, Integer> entry : compareEndings.entrySet())
+        {
+            System.out.println(entry.getKey() + ": " + entry.getValue() + " -- " + (entry.getValue()*100/goals.size()) + "%");
+        }
+        System.out.println("");
+        //////////////////////////print the hashmap///////////////////////
+        
+        
+        
+        
+        
+        Integer maxValueInMap = Collections.max(compareEndings.values()); //this is crude. if bab and bcb are equally likely and true solutions, you might get 50% of ab's and 50% of cb's when looking for the length 2 endings.
         if((maxValueInMap*100)/goals.size() >= ASSURANCE_PERCENTAGE)
         {
             for (Entry<String, Integer> entry : compareEndings.entrySet())   // Itrate through hashmap to find which one it was
@@ -136,6 +156,7 @@ public class GoolRoseAgent extends Agent{
     
     public void attempt(String attempt)
     {
+        System.out.println(attempt);
         boolean lastStep;
         lastWasGoal = false;
         for(int i=0; i<attempt.length(); i++)
@@ -274,7 +295,7 @@ public class GoolRoseAgent extends Agent{
                 if( memory.contains(permutation+c))
                     return true;
             
-            if(memory.endsWith(permutation)) //may be redundant and never ever be true
+            if(memory.endsWith(permutation))
             {
                 System.out.println("ends with");
                 return true;
