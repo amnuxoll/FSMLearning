@@ -27,6 +27,8 @@ public class GoolRoseAgent extends Agent{
     private static final int ASSURANCE_PERCENTAGE = 15; //used in updateEndStrings() 
     private static final int GOALS_NEEDED_TO_COMPARE = 10;
     
+    private String suffix;
+    
     public GoolRoseAgent(){
         informationColumns = 2;
         int lastPermutationIndex = 0;
@@ -34,6 +36,7 @@ public class GoolRoseAgent extends Agent{
         boolean lastWasGoal = false;
         possibleEndings.add("");//add a blank ending so for the first few runs it will accept anything, will be deleted and replaced later in updateEndStrings()
         currentGoalMemory = "";
+        suffix = "";
     }
     
     public static void main(String [ ] args) {
@@ -338,6 +341,29 @@ public class GoolRoseAgent extends Agent{
         
         
         return true; //the ending is bad.
+    }
+    
+    private void comparePossibleEndings()
+    {
+        try
+        {
+            int counter = 0;
+            //the last character of the first potential ending disregarding the already established suffix
+            String potentialSuffix = possibleEndings.get(0).substring(possibleEndings.get(0).length()-suffix.length()-1); 
+            for(String ending : possibleEndings)
+                if(!ending.endsWith(suffix))
+                    return;
+                else
+                    counter++;
+
+            if(counter == possibleEndings.size()) //if all the  possibleEndings end in the suffix
+            {
+                suffix = potentialSuffix;
+                comparePossibleEndings(); //recurse to make sure when it is called, it finds the best suffix
+            }
+        }
+        catch(Exception e){/**the first possibleEnding is exactly the length of the suffix so do nothing or possibleEndings is empty so do nothing**/}
+            
     }
     
 }
