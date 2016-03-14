@@ -24,7 +24,7 @@ public class GoolRoseAgent extends Agent{
     private String currentGoalMemory;
     
     private int endStringLength = 1;//used in updateEndStrings() increments as it goes.
-    private static final int ASSURANCE_PERCENTAGE = 60; //used in updateEndStrings() 
+    private static final int ASSURANCE_PERCENTAGE = 40; //used in updateEndStrings() 
     
     public GoolRoseAgent(){
         informationColumns = 2;
@@ -69,10 +69,7 @@ public class GoolRoseAgent extends Agent{
             } //do the lastAttempt string because it worked last
             else
             {
-                if(Sucesses > 3)
-                {
-                    updateEndStrings();
-                }
+                updateEndStrings();
                 lastAttempt = nextPermutation();
                 while(checkIfDone(lastAttempt) || isEndingBad(lastAttempt))//while you have done this already
                 {
@@ -89,61 +86,73 @@ public class GoolRoseAgent extends Agent{
      * of strings of each goal to determine if a sus generated permutation
      * should be attempted or not
      * 
-     * PROBLEM: as it stands, if it has a small number of goals in the goals array(say 1), 
-     * it will take all those characters as "law" and not compare them 
-     * to anything else because it is technically 100%. check for goal size?
+     * PROBLEM: changed it so it wont be assured of the answer with only a sample size of 1 goal,
+     * but the "4 goals or greater" to compare is arbitrary.
+     * 
+     * PROBLEM2: ties are not accounted for.
+     * 
+     * really don't have much faith in this anymore, needs to be re-written. perhaps "take out the bottom option" is the best way to go.
      * 
      */
     public void updateEndStrings()
     {
-        HashMap<String, Integer> compareEndings = new HashMap();
-        //compareEndings.put("!",0); //to prevent an empty hashmap error in the finding max line
-        for(String goal : goals)
-        { 
-            String lastBit = goal.substring(goal.length()-endStringLength, goal.length()); //out of bounds when goal is tiny like ba and looking for length of 3(ex)
-            if(compareEndings.containsKey(lastBit))
-                compareEndings.put(lastBit, compareEndings.get(lastBit) + 1);
-            else
-                compareEndings.put(lastBit, 1);
-        }
-        
-        
-        //////////////////////////print the hashmap///////////////////////
-        System.out.println("\n HASHMAP OF ENDINGS OF LENGTH " + endStringLength);
-        for (Entry<String, Integer> entry : compareEndings.entrySet())
-        {
-            System.out.println(entry.getKey() + ": " + entry.getValue() + " -- " + (entry.getValue()*100/goals.size()) + "%");
-        }
-        System.out.println("");
-        //////////////////////////print the hashmap///////////////////////
-        
-        
-        
-        
-        
-        Integer maxValueInMap = Collections.max(compareEndings.values()); //this is crude. if bab and bcb are equally likely and true solutions, you might get 50% of ab's and 50% of cb's when looking for the length 2 endings.
-        if((maxValueInMap*100)/goals.size() >= ASSURANCE_PERCENTAGE)
-        {
-            for (Entry<String, Integer> entry : compareEndings.entrySet())   // Itrate through hashmap to find which one it was
-                if (entry.getValue()==maxValueInMap) 
+        if(goals.size() > 3){ //arbitrary. makes the Ai need at least three goal strings to compare before it can officially say it has reason to believe in an ending
+            HashMap<String, Integer> compareEndings = new HashMap();
+            //compareEndings.put("!",0); //to prevent an empty hashmap error in the finding max line for testing
+            for(String goal : goals){ 
+                String lastBit = goal.substring(goal.length()-endStringLength, goal.length()); //out of bounds when goal is tiny like ba and looking for length of 3(ex). fixed by deleting these goals in updateGoals()
+                if(compareEndings.containsKey(lastBit))
+                    compareEndings.put(lastBit, compareEndings.get(lastBit) + 1);
+                else
+                    compareEndings.put(lastBit, 1);
+            }
+
+
+            //////////////////////////print the hashmap///////////////////////
+            System.out.println("\n HASHMAP OF ENDINGS OF LENGTH " + endStringLength);
+            for (Entry<String, Integer> entry : compareEndings.entrySet()){
+                System.out.println(entry.getKey() + ": " + entry.getValue() + " -- " + (entry.getValue()*100/goals.size()) + "%");
+            }
+            System.out.println("");
+            //////////////////////////print the hashmap///////////////////////
+
+
+            for (Entry<String, Integer> entry : compareEndings.entrySet()) //itterate through each entry in hashmap
+            {
+                if((entry.getValue()*100)/goals.size() >= ASSURANCE_PERCENTAGE) //if the entry fits our assurance
                 {
                     possibleEndings.add(entry.getKey());     // add that ending to PossibleEndings
-                    //scan and remove all endings that are shorter (when you find a 1 length, remoev all 0. when you find a 2, remove all 1. (will remove blank)
-                    for(String endings : possibleEndings)
-                        if(endings.length() == endStringLength-1)
-                        {
-                            possibleEndings.remove(endings);
-                        }
-                    endStringLength++; //go looking for the next endings incrementally larger
-                    deleteObsoleteGoals();//see comment in method as to why this might not be best
+                    endStringLength = entry.getKey().length() + 1; //set the new endLength to the next integer larger than what was just found
                 }
+            }
+            deleteObsoleteEndings();
+            deleteObsoleteGoals();//see comment in method as to why this might not be best
             
+            
+            
+            
+            
+//            Integer maxValueInMap = 0;
+//            if(!compareEndings.isEmpty())
+//                maxValueInMap = Collections.max(compareEndings.values()); //this is crude. if bab and bcb are equally likely and true solutions, you might get 50% of ab's and 50% of cb's when looking for the length 2 endings.
+//            if((maxValueInMap*100)/goals.size() >= ASSURANCE_PERCENTAGE){
+//                for (Entry<String, Integer> entry : compareEndings.entrySet())   // Itrate through hashmap to find which one it was
+//                    if (entry.getValue()==maxValueInMap) {
+//                        possibleEndings.add(entry.getKey());     // add that ending to PossibleEndings
+//                        //scan and remove all endings that are shorter (when you find a 1 length, remoev all 0. when you find a 2, remove all 1. (will remove blank)
+//                        for(String endings : possibleEndings){
+//                                possibleEndings.remove(endings);
+//                            }
+//                        endStringLength++; //go looking for the next endings incrementally larger
+//                        deleteObsoleteGoals();//see comment in method as to why this might not be best
+//                    }
+//            }
         }
         
-//        System.out.println("\nPOSSIBLEeNDINGS:");
-//        for(String endings : possibleEndings)
-//            System.out.println(endings);
-//        System.out.println("");
+        System.out.println("\nPOSSIBLEeNDINGS:");
+        for(String endings : possibleEndings)
+            System.out.println(endings);
+        System.out.println("");
         
         
         //maybe this returrns a value saying "according to me, signifigant strings end in one of these sequences: (ArrayList)
@@ -154,17 +163,33 @@ public class GoolRoseAgent extends Agent{
         //leave the last character as a buffer to allow for other possibilities, but then as patterns emerge past some threshold, take them as permenant.
     }
     
+    public void deleteObsoleteEndings()
+    {
+        //doesnt work because you cant remove while itterating.
+//        for(String ending : possibleEndings)
+//        {
+//            if(ending.length() < endStringLength-1)
+//                possibleEndings.remove(ending);
+//        }
+        
+        int cursor = 0;
+        do {
+            if(possibleEndings.get(cursor).length() >= endStringLength-1)
+                cursor++;
+            else
+                possibleEndings.remove(cursor);
+        } while (cursor != possibleEndings.size());
+    }
+    
     public void attempt(String attempt)
     {
         System.out.println(attempt);
         boolean lastStep;
         lastWasGoal = false;
-        for(int i=0; i<attempt.length(); i++)
-        {
+        for(int i=0; i<attempt.length(); i++){
             currentGoalMemory = currentGoalMemory + attempt.charAt(i);
             lastStep = move(attempt.charAt(i));
-            if(lastStep)
-            {
+            if(lastStep){
                 Sucesses++;
                 lastWasGoal = true;
                 updateGoals();
@@ -199,21 +224,19 @@ public class GoolRoseAgent extends Agent{
 //            if(g.length() < endStringLength)
 //                goals.remove(g);
 
-        //removes the too short goals for bounds        
+        //removes the too short goals for bounds and goals that do not end with any of the possibleEndings   
         int cursor = 0;
         do {
             boolean isValid = true;
             for(String ending : possibleEndings){
-                if(goals.get(cursor).endsWith(ending))
-                {
+                if(goals.get(cursor).endsWith(ending) && goals.get(cursor).length() >= endStringLength ){
                     isValid = true;
                     break;
                 }
                 else
                     isValid = false;
             }
-            
-            if (goals.get(cursor).length() < endStringLength || !isValid)
+            if (!isValid)
                 goals.remove(cursor);
             else 
                 cursor++;
