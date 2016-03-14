@@ -24,7 +24,8 @@ public class GoolRoseAgent extends Agent{
     private String currentGoalMemory;
     
     private int endStringLength = 1;//used in updateEndStrings() increments as it goes.
-    private static final int ASSURANCE_PERCENTAGE = 40; //used in updateEndStrings() 
+    private static final int ASSURANCE_PERCENTAGE = 15; //used in updateEndStrings() 
+    private static final int GOALS_NEEDED_TO_COMPARE = 10;
     
     public GoolRoseAgent(){
         informationColumns = 2;
@@ -96,7 +97,7 @@ public class GoolRoseAgent extends Agent{
      */
     public void updateEndStrings()
     {
-        if(goals.size() > 3){ //arbitrary. makes the Ai need at least three goal strings to compare before it can officially say it has reason to believe in an ending
+        if(goals.size() > GOALS_NEEDED_TO_COMPARE){ //arbitrary. makes the Ai need at least three goal strings to compare before it can officially say it has reason to believe in an ending
             HashMap<String, Integer> compareEndings = new HashMap();
             //compareEndings.put("!",0); //to prevent an empty hashmap error in the finding max line for testing
             for(String goal : goals){ 
