@@ -49,8 +49,6 @@ public abstract class Agent {
     /** Number of state machines to test a given constant combo with */
     public static final int NUM_MACHINES = 100;
     
-    boolean debug = true;
-    
     public static int informationColumns; //for now before consolidation of recording data must be declared in each agent
     
     

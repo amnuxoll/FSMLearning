@@ -16,6 +16,10 @@ import java.util.Map.Entry;
  * @author Will Goolkasian
  */
 public class GoolRoseAgent extends Agent{
+    
+    private static boolean debug = false;
+        
+        
     private int lastPermutationIndex;
     private String lastAttempt;
     private boolean lastWasGoal;
@@ -40,7 +44,38 @@ public class GoolRoseAgent extends Agent{
     }
     
     public static void main(String [ ] args) {
-        tryGenLearningCurves();
+        if(debug)
+        {
+            GoolRoseAgent gilligan = new GoolRoseAgent();
+            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            //System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            //System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            //System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            //System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
+           
+            String permutation = gilligan.nextPermutation();
+            System.out.println("just did '" + permutation + "'");
+            String suffix = permutation.substring(permutation.length()-1);
+            System.out.println("assume the suffix is = '" + suffix + "'");
+            String debatable = permutation.substring(0, permutation.length()-1);
+            System.out.println("debatable = '" + debatable + "'");
+            int index = gilligan.permutationToNumber(debatable);
+            System.out.println("'" + debatable + "' is index number " + index);
+            gilligan.lastPermutationIndex = index;
+            System.out.println("so next thing we should do is " + (gilligan.nextPermutation()+suffix));
+        }
+        else
+        {
+            tryGenLearningCurves();
+        }
     }//main
     
     public static void tryGenLearningCurves()
@@ -74,10 +109,10 @@ public class GoolRoseAgent extends Agent{
             else
             {
                 updateEndStrings();
-                lastAttempt = nextPermutation();
+                lastAttempt = nextPermutation() + suffix;
                 while(checkIfDone(lastAttempt) || isEndingBad(lastAttempt))//while you have done this already
                 {
-                    lastAttempt = nextPermutation(); //find next until you have not done it
+                    lastAttempt = nextPermutation() + suffix; //find next until you have not done it
                 }
             }
             attempt(lastAttempt);
@@ -131,6 +166,10 @@ public class GoolRoseAgent extends Agent{
             }
             deleteObsoleteEndings();
             deleteObsoleteGoals();//see comment in method as to why this might not be best
+            if(comparePossibleEndings())
+            {
+                updateLastPermutationForSuffix();
+            }
             
             
             
@@ -165,6 +204,12 @@ public class GoolRoseAgent extends Agent{
         //give strings a buffer layer? use matcher to find it. if ALL(or some percentage) goals end in cac, only look for strings that end in ac. 
         //eventually all strings will start to end in somehting like dcac so then look for strings with cac at end. 
         //leave the last character as a buffer to allow for other possibilities, but then as patterns emerge past some threshold, take them as permenant.
+    }
+    
+    public void updateLastPermutationForSuffix()
+    {
+        String debatable = lastAttempt.substring(0, lastAttempt.length()-suffix.length());
+        lastPermutationIndex = permutationToNumber(debatable);
     }
     
     public void deleteObsoleteEndings()
@@ -290,7 +335,7 @@ public class GoolRoseAgent extends Agent{
     public String nextPermutation() {
         lastPermutationIndex++;
         int index = lastPermutationIndex;
-        if (index <= 0)
+        if (index <= 0) 
             throw new IndexOutOfBoundsException("index must be a positive number");
         if (index <= alphabet.length)
             return Character.toString(alphabet[index - 1]);
@@ -301,6 +346,15 @@ public class GoolRoseAgent extends Agent{
         }
         return sb.toString();
     }//nextPermutation
+    
+    public int permutationToNumber(String permutation) {
+        permutation = permutation.toUpperCase();
+        int number = 0;
+        for (int i = 0; i < permutation.length(); i++) {
+            number = number * alphabet.length + (permutation.charAt(i) - ('A' - 1));
+        }
+        return number;
+    }
     
     
     /**
@@ -343,7 +397,7 @@ public class GoolRoseAgent extends Agent{
         return true; //the ending is bad.
     }
     
-    private void comparePossibleEndings()
+    private boolean comparePossibleEndings()
     {
         try
         {
@@ -351,19 +405,23 @@ public class GoolRoseAgent extends Agent{
             //the last character of the first potential ending disregarding the already established suffix
             String potentialSuffix = possibleEndings.get(0).substring(possibleEndings.get(0).length()-suffix.length()-1); 
             for(String ending : possibleEndings)
-                if(!ending.endsWith(suffix))
-                    return;
+                if(!ending.endsWith(potentialSuffix))
+                    return false; //nothing has changed
                 else
                     counter++;
 
-            if(counter == possibleEndings.size()) //if all the  possibleEndings end in the suffix
+            if(counter == possibleEndings.size()) //if all the  possibleEndings end in the potentialSuffix
             {
                 suffix = potentialSuffix;
                 comparePossibleEndings(); //recurse to make sure when it is called, it finds the best suffix
+                System.out.println("FOUND A NEW SUFFIX! '" + suffix);
+                return true;
             }
+            else
+                return false;
         }
         catch(Exception e){/**the first possibleEnding is exactly the length of the suffix so do nothing or possibleEndings is empty so do nothing**/}
-            
+        return false;  
     }
     
 }
