@@ -128,7 +128,7 @@ public abstract class Agent {
                 csv.append(""+",");
             csv.append("AVG" + ",");
             csv.flush();
-            for(int i=informationColumns; i < NUM_GOALS+informationColumns; i++)
+            for(int i=informationColumns; i <= NUM_GOALS+informationColumns; i++)
             {
                 csv.append("=average("+getColumnString(i)+"1:"+getColumnString(i)+""+NUM_MACHINES+")" + ",");
                 csv.flush();

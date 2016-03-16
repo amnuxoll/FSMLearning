@@ -28,8 +28,9 @@ public class GoolRoseAgent extends Agent{
     private String currentGoalMemory;
     
     private int endStringLength = 1;//used in updateEndStrings() increments as it goes.
+    
     private static final int ASSURANCE_PERCENTAGE = 15; //used in updateEndStrings() 
-    private static final int GOALS_NEEDED_TO_COMPARE = 10;
+    private int GOALS_NEEDED_TO_COMPARE = 10*endStringLength;
     
     private String suffix;
     
@@ -46,31 +47,7 @@ public class GoolRoseAgent extends Agent{
     public static void main(String [ ] args) {
         if(debug)
         {
-            GoolRoseAgent gilligan = new GoolRoseAgent();
-            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            //System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            //System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            //System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            //System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-            System.out.println(gilligan.lastPermutationIndex + ": '" + gilligan.nextPermutation() + "' goes to " + gilligan.lastPermutationIndex);
-           
-            String permutation = gilligan.nextPermutation();
-            System.out.println("just did '" + permutation + "'");
-            String suffix = permutation.substring(permutation.length()-1);
-            System.out.println("assume the suffix is = '" + suffix + "'");
-            String debatable = permutation.substring(0, permutation.length()-1);
-            System.out.println("debatable = '" + debatable + "'");
-            int index = gilligan.permutationToNumber(debatable);
-            System.out.println("'" + debatable + "' is index number " + index);
-            gilligan.lastPermutationIndex = index;
-            System.out.println("so next thing we should do is " + (gilligan.nextPermutation()+suffix));
+
         }
         else
         {
@@ -148,11 +125,14 @@ public class GoolRoseAgent extends Agent{
 
 
             //////////////////////////print the hashmap///////////////////////
-            System.out.println("\n HASHMAP OF ENDINGS OF LENGTH " + endStringLength);
-            for (Entry<String, Integer> entry : compareEndings.entrySet()){
-                System.out.println(entry.getKey() + ": " + entry.getValue() + " -- " + (entry.getValue()*100/goals.size()) + "%");
+            if(debug)
+            {
+                System.out.println("\n HASHMAP OF ENDINGS OF LENGTH " + endStringLength);
+                for (Entry<String, Integer> entry : compareEndings.entrySet()){
+                    System.out.println(entry.getKey() + ": " + entry.getValue() + " -- " + (entry.getValue()*100/goals.size()) + "%");
+                }
+                System.out.println("");
             }
-            System.out.println("");
             //////////////////////////print the hashmap///////////////////////
 
 
@@ -192,10 +172,13 @@ public class GoolRoseAgent extends Agent{
 //            }
         }
         
-        System.out.println("\nPOSSIBLEeNDINGS:");
-        for(String endings : possibleEndings)
-            System.out.println(endings);
-        System.out.println("");
+        if(debug)
+        {
+            System.out.println("\nPOSSIBLEeNDINGS:");
+            for(String endings : possibleEndings)
+                System.out.println(endings);
+            System.out.println("");
+        }
         
         
         //maybe this returrns a value saying "according to me, signifigant strings end in one of these sequences: (ArrayList)
@@ -232,7 +215,10 @@ public class GoolRoseAgent extends Agent{
     
     public void attempt(String attempt)
     {
-        System.out.println(attempt);
+        if(debug)
+        {
+            System.out.println(attempt);
+        }
         boolean lastStep;
         lastWasGoal = false;
         for(int i=0; i<attempt.length(); i++){
@@ -251,11 +237,6 @@ public class GoolRoseAgent extends Agent{
         goals.add(currentGoalMemory);
         currentGoalMemory = "";
         deleteObsoleteGoals();
-        
-//        System.out.println("\nGOALS:");
-//        for(String goal : goals)
-//            System.out.println(goal);
-//        System.out.println("\n");
     }
     
     /**
@@ -378,7 +359,6 @@ public class GoolRoseAgent extends Agent{
             
             if(memory.endsWith(permutation))
             {
-                System.out.println("ends with");
                 return true;
             }
         }
@@ -414,7 +394,10 @@ public class GoolRoseAgent extends Agent{
             {
                 suffix = potentialSuffix;
                 comparePossibleEndings(); //recurse to make sure when it is called, it finds the best suffix
-                System.out.println("FOUND A NEW SUFFIX! '" + suffix);
+                if(debug)
+                {
+                    System.out.println("FOUND A NEW SUFFIX! '" + suffix + "'");
+                }
                 return true;
             }
             else
