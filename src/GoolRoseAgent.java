@@ -18,8 +18,7 @@ import java.util.Map.Entry;
 public class GoolRoseAgent extends Agent{
     
     private static boolean debug = false;
-        
-        
+    
     private int lastPermutationIndex;
     private String lastAttempt;
     private boolean lastWasGoal;
@@ -29,7 +28,7 @@ public class GoolRoseAgent extends Agent{
     
     private int endStringLength = 1;//used in updateEndStrings() increments as it goes.
     
-    private static final int ASSURANCE_PERCENTAGE = 15; //used in updateEndStrings() 
+    private static final int ASSURANCE_PERCENTAGE = 75; //used in updateEndStrings() 
     private int GOALS_NEEDED_TO_COMPARE = 10*endStringLength;
     
     private String suffix;
@@ -57,6 +56,7 @@ public class GoolRoseAgent extends Agent{
     
     public static void tryGenLearningCurves()
     {
+        int sumOfAvgSteps = 0;
         try {
             FileWriter csv = new FileWriter(OUTPUT_FILE);
             for(int i = 0; i < NUM_MACHINES; ++i) {
@@ -64,7 +64,15 @@ public class GoolRoseAgent extends Agent{
                 GoolRoseAgent gilligan = new GoolRoseAgent();
                 gilligan.exploreEnvironment();
                 gilligan.recordLearningCurve(csv);
-                System.out.println("Done with machine" + i + "\n");
+                System.out.println("last run = '" + gilligan.lastAttempt + "'");
+                System.out.println("Done with machine" + i);
+                
+                String path = gilligan.env.shortestPathToGoal(); //will's
+                String path2 = gilligan.env.shortestBlindPathToGoal(); //nux's
+                if(path.length() > path2.length())
+                    path = path2;
+                sumOfAvgSteps += gilligan.env.avgStepsToGoalWithPath(path);
+                System.out.println("Current average shortest steps to goal = " + (sumOfAvgSteps/(i+1)) + "\n");
             }
             recordAverage(csv);
             csv.close();
@@ -94,6 +102,8 @@ public class GoolRoseAgent extends Agent{
             }
             attempt(lastAttempt);
         }//while
+        
+        
         
     }//exploreEnvironment
     

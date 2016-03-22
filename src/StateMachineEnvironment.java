@@ -27,7 +27,7 @@ public class StateMachineEnvironment {
 	// Instance variables
 	public static int NUM_STATES = 25;
 	public static int GOAL_STATE = NUM_STATES - 1;
-	public static int ALPHABET_SIZE = 6;  //this must be in the range [2,26]
+	public static int ALPHABET_SIZE = 3;  //this must be in the range [2,26]
         
         //instance variables created for Will and Ashley's methods
         public static double TRANSITIONS_PERCENT = 0.04; //must be at least .01. percent of transition table that will have a goal state transition
@@ -610,7 +610,7 @@ public class StateMachineEnvironment {
             }
         }
         path = possiblePaths.get(0);
-        if(possiblePaths.size()-1 >= 1)
+        if(possiblePaths.size()-1 >= 1 && debug)
         {
             System.out.println("there are more than one shortest paths to this machine. The remainders are;");
             for(int i = 1; i<=possiblePaths.size()-1; i++)
