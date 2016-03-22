@@ -142,7 +142,37 @@ public abstract class Agent {
             System.exit(-1);
         }
                 
-	}//recordData
+	}//recordAverage
+    
+    /**
+     * recordAverage
+     * 
+     * Called after recording all data for all the runs and adds the "=average(b1:b25)" 
+     * row at the bottom. numbers/rows change dynamically
+     * 
+     * @param csv needs to write the output file so needs to take that file in
+     */
+    public static void recordBaseline(FileWriter csv, int baseline) {
+        try {
+            for(int i=0; i<informationColumns-2; i++)
+                csv.append(""+",");
+            csv.append("BASELINE" + ",");
+            csv.flush();
+            for(int i=informationColumns; i <= NUM_GOALS+informationColumns; i++)
+            {
+                csv.append(baseline + ",");
+                csv.flush();
+            }
+
+            csv.append("\n");
+            csv.flush();
+        }
+        catch (IOException eO) {
+            System.out.println("Could not write to given csv file.");
+            System.exit(-1);
+        }
+                
+	}//recordBaseline
     
      /**
      * getColumnString

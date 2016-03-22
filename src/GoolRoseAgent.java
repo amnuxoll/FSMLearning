@@ -57,6 +57,7 @@ public class GoolRoseAgent extends Agent{
     public static void tryGenLearningCurves()
     {
         int sumOfAvgSteps = 0;
+        int currentBaseline = 0;
         try {
             FileWriter csv = new FileWriter(OUTPUT_FILE);
             for(int i = 0; i < NUM_MACHINES; ++i) {
@@ -72,9 +73,11 @@ public class GoolRoseAgent extends Agent{
                 if(path.length() > path2.length())
                     path = path2;
                 sumOfAvgSteps += gilligan.env.avgStepsToGoalWithPath(path);
-                System.out.println("Current average shortest steps to goal = " + (sumOfAvgSteps/(i+1)) + "\n");
+                currentBaseline = sumOfAvgSteps/(i+1);
+                System.out.println("Current average shortest steps to goal = " + (currentBaseline) + "\n");
             }
             recordAverage(csv);
+            recordBaseline(csv, currentBaseline);
             csv.close();
         }
         catch (IOException e) {
