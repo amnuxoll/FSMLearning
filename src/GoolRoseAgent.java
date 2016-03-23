@@ -19,6 +19,18 @@ public class GoolRoseAgent extends Agent{
     
     private static boolean debug = false;
     
+    
+    /** WILL NOTES **
+     * accept things and move onto the next endstringlength to find possible endings 
+     * based on a high percentage. but whilst you are searching through them to try 
+     * to get to that value, delete other endings that are just complete shit. 
+     * if you have 33%, 33%, 15%, 2%, 3%, 4%, 10%, you can sucessfully drop out 
+     * the 2, 3, and 4 percent most likely but should still keep looking for whatever 
+     * length it is you are looking for because you havent found a good one yet.
+     */
+    
+    
+    
     private int lastPermutationIndex;
     private String lastAttempt;
     private boolean lastWasGoal;
@@ -28,8 +40,11 @@ public class GoolRoseAgent extends Agent{
     
     private int endStringLength = 1;//used in updateEndStrings() increments as it goes.
     
-    private static final int ASSURANCE_PERCENTAGE = 75; //used in updateEndStrings() 
+    private static final int ASSURANCE_PERCENTAGE = 25; //used in updateEndStrings() 
     private int GOALS_NEEDED_TO_COMPARE = 10*endStringLength;
+    
+    
+    public static final String OUTPUT_FILE = "results.txt";
     
     private String suffix;
     
@@ -44,14 +59,7 @@ public class GoolRoseAgent extends Agent{
     }
     
     public static void main(String [ ] args) {
-        if(debug)
-        {
-
-        }
-        else
-        {
             tryGenLearningCurves();
-        }
     }//main
     
     public static void tryGenLearningCurves()
@@ -76,12 +84,13 @@ public class GoolRoseAgent extends Agent{
                 currentBaseline = sumOfAvgSteps/(i+1);
                 System.out.println("Current average shortest steps to goal = " + (currentBaseline) + "\n");
             }
-            recordAverage(csv);
-            recordBaseline(csv, currentBaseline);
+            //recordAverage(csv);
+            //recordBaseline(csv, currentBaseline);
             csv.close();
         }
         catch (IOException e) {
             System.out.println("tryGenLearningCurves: Error creating file");
+            System.out.println("***YOU PROBABLY HAVE THE FILE OPEN***");
             System.exit(-1);
         }
     }//tryGenLearningCurves
@@ -300,19 +309,19 @@ public class GoolRoseAgent extends Agent{
         try {
             String tempMemory = memory;
             tempMemory.replaceAll("|", "");
-            csv.append(tempMemory.length() + ","); 
+            csv.append(tempMemory.length() + "\n"); 
             csv.flush();
             int prevGoalPoint = 0; //which episode I last reached the goal at
             for(int i = 0; i < memory.length(); ++i) {
                 char c = memory.charAt(i);
                 if (c == '|') { 
-                    csv.append(i - prevGoalPoint + ",");
+                    csv.append(i - prevGoalPoint + "\n");
                     csv.flush();
                     prevGoalPoint = i+1;
                 }//if
             }//for
             
-            csv.append("\n");
+            csv.append("end\n");
             csv.flush();
         }
         catch (IOException e) {
