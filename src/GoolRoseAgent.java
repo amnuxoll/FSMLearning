@@ -64,8 +64,8 @@ public class GoolRoseAgent extends Agent{
     
     public static void tryGenLearningCurves()
     {
-        int sumOfAvgSteps = 0;
-        int currentBaseline = 0;
+        double sumOfAvgSteps = 0.00;
+        double currentBaseline = 0.00;
         try {
             FileWriter csv = new FileWriter(OUTPUT_FILE);
             for(int i = 0; i < NUM_MACHINES; ++i) {
