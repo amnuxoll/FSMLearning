@@ -44,10 +44,10 @@ public abstract class Agent {
     
     
     /** Number of episodes per run */
-    public static final int MAX_EPISODES = 4250000;
-    public static final int NUM_GOALS = 64000;
+    public static final int MAX_EPISODES = 2000000;
+    public static final int NUM_GOALS = 2000;
     /** Number of state machines to test a given constant combo with */
-    public static final int NUM_MACHINES = 100;
+    public static final int NUM_MACHINES = 10;
     
     public static int informationColumns; //for now before consolidation of recording data must be declared in each agent
     
@@ -120,6 +120,8 @@ public abstract class Agent {
      * Called after recording all data for all the runs and adds the "=average(b1:b25)" 
      * row at the bottom. numbers/rows change dynamically
      * 
+     * only works for non-columnify recording of data
+     * 
      * @param csv needs to write the output file so needs to take that file in
      */
     public static void recordAverage(FileWriter csv) {
@@ -145,26 +147,57 @@ public abstract class Agent {
 	}//recordAverage
     
     /**
-     * recordAverage
+     * recordColumnAverage
      * 
      * Called after recording all data for all the runs and adds the "=average(b1:b25)" 
      * row at the bottom. numbers/rows change dynamically
      * 
+     * only works for non-columnify recording of data
+     * 
      * @param csv needs to write the output file so needs to take that file in
      */
-    public static void recordBaseline(FileWriter csv, int baseline) {
+    public static void recordColumnAverage(FileWriter csv) {
         try {
             for(int i=0; i<informationColumns-2; i++)
-                csv.append(""+",");
-            csv.append("BASELINE" + ",");
+                csv.append(""+"\n");
+            csv.append("AVG" + "\n");
             csv.flush();
             for(int i=informationColumns; i <= NUM_GOALS+informationColumns; i++)
             {
-                csv.append(baseline + ",");
+                csv.append("=average(a"+ i + ":"+getColumnString(NUM_MACHINES)+i+")" + "\n");
                 csv.flush();
             }
 
-            csv.append("\n");
+            csv.append("end\n");
+            csv.flush();
+        }
+        catch (IOException eO) {
+            System.out.println("Could not write to given csv file.");
+            System.exit(-1);
+        }
+                
+	}//recordAverage
+    
+    /**
+     * recordBaseline
+     * 
+     * only works for columnify version of recording data
+     * 
+     * @param csv needs to write the output file so needs to take that file in
+     */
+    public static void recordBaseline(FileWriter csv, double baseline) {
+        try {
+            for(int i=0; i<informationColumns-2; i++)
+                csv.append(""+"\n");
+            csv.append("BASELINE" + "\n");
+            csv.flush();
+            for(int i=informationColumns; i <= NUM_GOALS+informationColumns; i++)
+            {
+                csv.append(baseline + "\n");
+                csv.flush();
+            }
+
+            csv.append("end\n");
             csv.flush();
         }
         catch (IOException eO) {

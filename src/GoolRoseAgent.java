@@ -84,8 +84,8 @@ public class GoolRoseAgent extends Agent{
                 currentBaseline = sumOfAvgSteps/(i+1);
                 System.out.println("Current average shortest steps to goal = " + (currentBaseline) + "\n");
             }
-            //recordAverage(csv);
-            //recordBaseline(csv, currentBaseline);
+            recordColumnAverage(csv);
+            recordBaseline(csv, currentBaseline);
             csv.close();
         }
         catch (IOException e) {
