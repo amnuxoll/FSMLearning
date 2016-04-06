@@ -25,7 +25,7 @@ import java.util.TreeSet;
 public class StateMachineEnvironment {
 
 	// Instance variables
-	public static int NUM_STATES = 10;
+	public static int NUM_STATES = 14;
 	public static int GOAL_STATE = NUM_STATES - 1;
 	public static int ALPHABET_SIZE = 6;  //this must be in the range [2,26]
         
@@ -534,6 +534,7 @@ public class StateMachineEnvironment {
      
      */
     public String shortestBlindPathToGoal() {
+        System.out.println("Starting Nux's");
         //An ordered set containing this initial node
         PathNode pn = new PathNode();
         TreeSet<PathNode> queue = new TreeSet<PathNode>();
@@ -563,10 +564,14 @@ public class StateMachineEnvironment {
     /**
      * ShortestPathToGoal
      * 
-     * attempt to find shortest blind path to the goal made by William Goolkasian
+     * Second attempt to find shortest blind path to the goal made by William Goolkasian
      * using a search algorithm similar to Dijkstra to lower big O complexity.
+     * Used to replace the method above, though sometimes rarely finds a solution
+     * that is worse.
+     * 
      */
     public String shortestPathToGoal(){ 
+        System.out.println("Starting Will's");
         String path = "";
         String testPath;
         int endState, score;

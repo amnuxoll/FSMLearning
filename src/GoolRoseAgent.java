@@ -66,6 +66,8 @@ public class GoolRoseAgent extends Agent{
     {
         double sumOfAvgSteps = 0.00;
         double currentBaseline = 0.00;
+        double sumOfFoundSteps = 0.00;
+        double currentFoundSteps = 0.00;
         try {
             FileWriter csv = new FileWriter(OUTPUT_FILE);
             for(int i = 0; i < NUM_MACHINES; ++i) {
@@ -77,13 +79,27 @@ public class GoolRoseAgent extends Agent{
                 System.out.println("Done with machine" + i);
                 
                 String path = gilligan.env.shortestPathToGoal(); //will's
-                String path2 = gilligan.env.shortestBlindPathToGoal(); //nux's
-                if(path.length() > path2.length())
-                    path = path2;
+//                String path2 = gilligan.env.shortestBlindPathToGoal(); //nux's
+//                if(path.length() > path2.length())
+//                    path = path2;
                 sumOfAvgSteps += gilligan.env.avgStepsToGoalWithPath(path);
                 currentBaseline = sumOfAvgSteps/(i+1);
                 System.out.println("Current average shortest steps to goal = " + (currentBaseline) + "\n");
+                
+                String foundPath = gilligan.lastAttempt; //will's
+//                String path2 = gilligan.env.shortestBlindPathToGoal(); //nux's
+//                if(path.length() > path2.length())
+//                    path = path2;
+                sumOfFoundSteps += foundPath.length();
+                currentFoundSteps = sumOfFoundSteps/(i+1);
+                System.out.println("Current average of found paths = " + (currentFoundSteps) + "\n");
+                
+                System.out.println("Current quality percentage = " + (currentBaseline/currentFoundSteps)*100 + "\n");
             }
+            System.out.println("\n\nFINAL AVERAGE LENGTH OF SHORTEST(OPTIOMAL) PATHS = " + currentBaseline);
+            System.out.println("FINAL AVERAGE LENGTH OF AIs BEST FOUND PATHS = " + currentFoundSteps);
+            System.out.println("QUALITY OF THESE LENGTHS AS A PERCENTAGE = " + (currentBaseline/currentFoundSteps)*100);
+            
             recordColumnAverage(csv);
             recordBaseline(csv, currentBaseline);
             csv.close();
@@ -213,7 +229,9 @@ public class GoolRoseAgent extends Agent{
     
     public void updateLastPermutationForSuffix()
     {
-        String debatable = lastAttempt.substring(0, lastAttempt.length()-suffix.length());
+        String debatable = "";
+        if(lastAttempt.length() > suffix.length())
+            debatable = lastAttempt.substring(0, lastAttempt.length()-suffix.length());
         lastPermutationIndex = permutationToNumber(debatable);
     }
     
