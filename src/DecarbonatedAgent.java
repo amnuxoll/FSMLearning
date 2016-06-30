@@ -26,6 +26,15 @@ public class DecarbonatedAgent extends Agent {
             this.queueSeq = null;
         }//ctor
 
+        public String toString() {
+            String output = suffix + ":";
+            if (queueSeq != null) {
+                output += queueSeq;
+            }
+            
+            return output + "," + failCount + "/" + tries;
+        }
+
     }//class SuffixNode    
 
     /*---=== CONSTANTS ===---*/
@@ -38,6 +47,9 @@ public class DecarbonatedAgent extends Agent {
     public static final double GWEIGHT = 0.2;
 
     /*---==== MEMBER VARIABLES ===---*/
+
+    //TODO
+    int lastPermutationIndex = 0;
     
     /** the list of SuffixNodes that currently candidates for the universal
        sequence */
@@ -82,6 +94,15 @@ public class DecarbonatedAgent extends Agent {
 
                 //Try this sequence until it fails
                 Path path = stringToPath(nextSeqToTry);
+
+                //TODO: REMOVE DEBUG
+                {
+                    String s = "";
+                    for(int i = 0; i < (15-nextSeqToTry.length()); ++i) {
+                        s += ".";
+                    }
+                    System.out.println("trying: " + s + nextSeqToTry);
+                }
                 while(tryPath(path))
                 {
                     if (Sucesses >= NUM_GOALS) { 
@@ -110,11 +131,132 @@ public class DecarbonatedAgent extends Agent {
             }
 
             //See if the active node has enough attempts that it can be expanded
-            //TBD
+            if (activeNode.tries >= this.MIN_TRIES) {
+            	expandNode();
+            	
+            	double theBEASLIESTCombo = 17976931348623157.0;
+            	int bestNodeIndex = 0;
+            	
+            	for (SuffixNode node: fringe){
+            		double gVal = (double)node.suffix.length() * this.GWEIGHT;
+            		double failRate = ((double)node.failCount) / ((double)node.tries);
+            		if((failRate + gVal) < theBEASLIESTCombo){
+            			theBEASLIESTCombo = failRate + gVal;
+            			bestNodeIndex = fringe.indexOf(node);
+            		}
+            	}
+            	activeNode = fringe.get(bestNodeIndex);
+
+                //TODO: REMOVE DEBUG
+                System.out.println("New active node: " + activeNode);
+            	
+            	if (activeNode.queueSeq != null) {
+            		this.nextSeqToTry = activeNode.queueSeq;
+            	}else{
+            		this.nextSeqToTry = nextPermutation();
+            	}
+            }else{
+            	this.nextSeqToTry = nextPermutation();
+            }
+            
 
 
         }//while
     }//exploreEnvironment
+    
+    /**
+     * nextSuffix
+     * 
+     * finds the next suffix to try
+     */
+    
+    public String nextPermutation() {
+        lastPermutationIndex++;
+        int index = lastPermutationIndex;
+        if (index <= 0) 
+            throw new IndexOutOfBoundsException("index must be a positive number");
+        if (index <= alphabet.length)
+            return Character.toString(alphabet[index - 1]);
+        StringBuffer sb = new StringBuffer();
+        while (index > 0) {
+            sb.insert(0, alphabet[--index % alphabet.length]);
+            index /= alphabet.length;
+        }
+        return sb.toString();
+    }//nextPermutation
+    
+    
+    /**
+     * expandNode
+     *
+     * Expands the active node
+     *
+     * creates child nodes and adds them to the fringe. Removes itself from the fringe.
+     */
+    public void expandNode(){
+        //TODO: REMOVE DEBUG
+        System.out.print("Spliting " + activeNode + " into: ");
+            
+    	for (int i = 0; i < alphabet.length; i++){
+    		int[] tryCountVals = getTryCount(alphabet[i] + activeNode.suffix);
+            SuffixNode newNode = new SuffixNode(alphabet[i] + activeNode.suffix, tryCountVals[0] , tryCountVals[1]);
+
+            //TODO: REMOVE DEBUG
+            System.out.print("" + newNode + ",");
+            
+    		fringe.add(newNode);
+    	}
+
+        fringe.remove(activeNode);
+        activeNode = null;
+        
+        //TODO: REMOVE DEBUG
+        System.out.println();
+            
+    }
+    
+    /**
+     * getTryCount
+     * 
+     * scans memory and finds counts the number of times a sequence has been tried and how many times it has failed to reach the goal
+     * 
+     */
+    public int[] getTryCount(String suffix){
+    	
+    	int numTries = 0; //number of times sequence was tried
+    	int numFails = 0; //number of times sequence wasn't tried and failed
+    	int[] returnVal = new int[2];
+    	int suffixIndex = 0;
+    	
+    	for (Episode e: episodicMemory){ //for each episode in memory
+    		if(e.command == suffix.charAt(suffixIndex)) { //if episode's command char equals char at suffixIndex in suffix
+    			suffixIndex ++;
+    			
+    			if (e.sensorValue == GOAL) { //if reached goal before finishing sequence
+    				numTries ++;
+    				suffixIndex = 0;
+    			}
+    			
+    			if (suffixIndex == suffix.length()){  //if reached end of sequence
+    				numTries ++;
+    				suffixIndex = 0;
+    				if (e.sensorValue != GOAL) { //if didn't reach goal by end of sequence
+    					numFails ++;
+    				}
+    			}
+    		}
+    		else{
+    			if(e.command == suffix.charAt(0)){
+    				suffixIndex = 1;
+    			}else{
+    				suffixIndex = 0;
+    			}
+    		}
+    	}
+    	returnVal[0] = numTries;
+    	returnVal[1] = numFails;
+    	return returnVal;
+    }
 
 
     /**
@@ -218,8 +360,8 @@ public class DecarbonatedAgent extends Agent {
      * Modify this method to call the one(s) you want.
 	 */
 	public static void main(String [ ] args) {
+        System.out.println("avg solution length: " + tryAvgWithShortPath(100));
         tryGenLearningCurves();
-        System.out.println(tryAvgWithShortPath(100));
 	}
 
 }//class DecarbonatedAgent
