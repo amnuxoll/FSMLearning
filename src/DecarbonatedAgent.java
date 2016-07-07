@@ -18,6 +18,7 @@ public class DecarbonatedAgent extends Agent {
                                 //that we've tried
         public int tries;       //number of times this suffix has been tried
         public String queueSeq; //first sequence with this suffix that was skipped
+        public int queSeqIndex;
         
         public SuffixNode(String initSuffix, int initFailCount, int initTries) {
             this.suffix = initSuffix;
@@ -40,7 +41,7 @@ public class DecarbonatedAgent extends Agent {
     /*---=== CONSTANTS ===---*/
 
     //minimum tries before a suffix node is expanded
-    public static final int MIN_TRIES = 5;
+    public static final int MIN_TRIES = 15;
 
     //how much weight to apply to the g-value of a suffix node
     //(should be in the range (0.0..1.0)
@@ -96,12 +97,15 @@ public class DecarbonatedAgent extends Agent {
                 Path path = stringToPath(nextSeqToTry);
 
                 //TODO: REMOVE DEBUG
+                boolean firsttry = true;
                 {
                     String s = "";
                     for(int i = 0; i < (15-nextSeqToTry.length()); ++i) {
                         s += ".";
                     }
-                    System.out.println("trying: " + s + nextSeqToTry);
+                    System.out.print("trying: " + s + nextSeqToTry);
+                    
+                   
                 }
                 while(tryPath(path))
                 {
@@ -111,11 +115,36 @@ public class DecarbonatedAgent extends Agent {
 
                     //Update n to reflect the success
                     activeNode.tries++;
+                    //TODO: REMOVE DEBUG
+                    {
+                        String s = "";
+                        for(int i = 0; i < (15-nextSeqToTry.length()); ++i) {
+                            s += ".";
+                        }
+                        
+                        if(firsttry){
+                        	firsttry = false;
+                        }else{
+                            System.out.print("trying: " + s + nextSeqToTry);
+                        }
+                        
+                        System.out.println("   Sucess");
+                       
+                    }
+                    
                 }
 
                 //Update node to reflect failure
                 activeNode.tries++;
                 activeNode.failCount++;
+                if(!firsttry){
+                	String s = "";
+                	for(int i = 0; i < (15-nextSeqToTry.length()); ++i) {
+                		s += ".";
+                	}
+                	System.out.print("trying: " + s + nextSeqToTry);
+                }
+                System.out.println("");
                 
             }//if
 
@@ -125,6 +154,7 @@ public class DecarbonatedAgent extends Agent {
                     if (node == activeNode) continue;
                     if (nextSeqToTry.endsWith(node.suffix) && node.queueSeq == null) {
                         node.queueSeq = nextSeqToTry;
+                        node.queSeqIndex = lastPermutationIndex;
                         break;
                     }
                 }
@@ -152,6 +182,7 @@ public class DecarbonatedAgent extends Agent {
             	
             	if (activeNode.queueSeq != null) {
             		this.nextSeqToTry = activeNode.queueSeq;
+            		lastPermutationIndex = activeNode.queSeqIndex;
             	}else{
             		this.nextSeqToTry = nextPermutation();
             	}
@@ -196,10 +227,11 @@ public class DecarbonatedAgent extends Agent {
     public void expandNode(){
         //TODO: REMOVE DEBUG
         System.out.print("Spliting " + activeNode + " into: ");
+        int[] tryCountVals = new int[2];
             
     	for (int i = 0; i < alphabet.length; i++){
-    		int[] tryCountVals = getTryCount(alphabet[i] + activeNode.suffix);
-            SuffixNode newNode = new SuffixNode(alphabet[i] + activeNode.suffix, tryCountVals[0] , tryCountVals[1]);
+    		tryCountVals = getTryCount(alphabet[i] + activeNode.suffix);
+            SuffixNode newNode = new SuffixNode(alphabet[i] + activeNode.suffix, tryCountVals[1] , tryCountVals[0]);
 
             //TODO: REMOVE DEBUG
             System.out.print("" + newNode + ",");
@@ -226,36 +258,48 @@ public class DecarbonatedAgent extends Agent {
     	int numTries = 0; //number of times sequence was tried
     	int numFails = 0; //number of times sequence wasn't tried and failed
     	int[] returnVal = new int[2];
-    	int suffixIndex = 0;
     	
-    	for (Episode e: episodicMemory){ //for each episode in memory
-    		if(e.command == suffix.charAt(suffixIndex)) { //if episode's command char equals char at suffixIndex in suffix
-    			suffixIndex ++;
+    	for (int i = 0; i < episodicMemory.size(); i++){ //for each episode in memory
     			
-    			if (e.sensorValue == GOAL) { //if reached goal before finishing sequence
-    				numTries ++;
-    				suffixIndex = 0;
+			boolean suffixEqual = true; //if we have found a usage of the suffix
+			
+			//check the next letters and see if we have found a usage of the suffix
+			for(int j = 0; j < suffix.length(); j ++){ //for each char in the suffix
+				
+				//if we have not run past the length of the memory or if the memory's next command does not equal the suffix's next command
+				if (i+j >= episodicMemory.size() || episodicMemory.get(i + j).command != suffix.charAt(j)){
+    				suffixEqual = false;
+    				break;
     			}
-    			
-    			if (suffixIndex == suffix.length()){  //if reached end of sequence
-    				numTries ++;
-    				suffixIndex = 0;
-    				if (e.sensorValue != GOAL) { //if didn't reach goal by end of sequence
-    					numFails ++;
-    				}
+			}
+			
+			//tally tries and fails
+			if (suffixEqual){ //if we found a usage of the suffix
+    			for(int j = 0; j < suffix.length(); j ++){ //for each char in the suffix
+        			
+    				if (i+j < episodicMemory.size()){ //safety check to make sure we are inbounds
+	        			if (episodicMemory.get(i + j).sensorValue == GOAL) { //if reached goal before finishing sequence
+	        				numTries ++;
+	        				break;
+	        			}
+	        			
+	        			if (j == suffix.length() - 1){  //if reached end of sequence
+	        				numTries ++;
+	        				if (episodicMemory.get(i + j).sensorValue != GOAL) { //if didn't reach goal by end of sequence
+	        					numFails ++;
+	        				}
+	        				break;
+	        			}
+	        		}
+    				
     			}
-    		}
-    		else{
-    			if(e.command == suffix.charAt(0)){
-    				suffixIndex = 1;
-    			}else{
-    				suffixIndex = 0;
-    			}
-    		}
-    	}
+			}
+		}
+    	
+    	//return values
     	returnVal[0] = numTries;
     	returnVal[1] = numFails;
-    	return returnVal;
+    	return returnVal; //return
     }
 
 
