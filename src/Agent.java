@@ -345,10 +345,9 @@ public abstract class Agent {
             episodicMemory.add(new Episode(pathToTry.get(i), encodedSensorResult));
             if (sensors[IS_GOAL]){
                 Sucesses++;
-            }
-            if (sensors[IS_GOAL] && i == pathToTry.size()-1) { //if at goal and last cmd return true
-                    return true;
-            }
+                System.out.println("Success after " + (i + 1) + " steps."); 
+                return true;
+           }
         }
         // If we make it through the entire loop, the path was unsuccessful
         return false;
