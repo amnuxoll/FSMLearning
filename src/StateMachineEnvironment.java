@@ -534,7 +534,6 @@ public class StateMachineEnvironment {
      
      */
     public String shortestBlindPathToGoal() {
-        System.out.println("Starting Nux's");
         //An ordered set containing this initial node
         PathNode pn = new PathNode();
         TreeSet<PathNode> queue = new TreeSet<PathNode>();
@@ -571,7 +570,6 @@ public class StateMachineEnvironment {
      * 
      */
     public String shortestPathToGoal(){ 
-        System.out.println("Starting Will's");
         String path = "";
         String testPath;
         int endState, score;
