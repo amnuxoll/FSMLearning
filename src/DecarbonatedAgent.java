@@ -125,11 +125,8 @@ public class DecarbonatedAgent extends Agent {
                         if(firsttry){
                         	firsttry = false;
                         }else{
-                            System.out.print("trying: " + s + nextSeqToTry);
+                            System.out.print("trying: " + s + nextSeqToTry + "\t\t");
                         }
-                        
-                        System.out.println("   Sucess");
-                       
                     }
                     
                 }
@@ -360,6 +357,7 @@ public class DecarbonatedAgent extends Agent {
             for(int i = 0; i < NUM_MACHINES; ++i) {
                 System.out.println("Starting on Machine" + i);
                 DecarbonatedAgent gilligan = new DecarbonatedAgent();
+                gilligan.env.printStateMachineGraph();
                 gilligan.exploreEnvironment();
                 gilligan.recordLearningCurve(csv);
                 System.out.println("Done with machine" + i + "\n");
