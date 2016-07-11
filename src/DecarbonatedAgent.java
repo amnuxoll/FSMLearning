@@ -47,6 +47,9 @@ public class DecarbonatedAgent extends Agent {
     //(should be in the range (0.0..1.0)
     public static final double GWEIGHT = 0.2;
 
+    //when printing a sequence (debug) pad it with spaces to this length
+    public static final int PADLEN = 15;
+
     /*---==== MEMBER VARIABLES ===---*/
 
     //TODO
@@ -77,6 +80,7 @@ public class DecarbonatedAgent extends Agent {
         
 	}//StateMachineAgent ctor
 
+
     /**
      * exploreEnvironment
      *
@@ -93,21 +97,11 @@ public class DecarbonatedAgent extends Agent {
             //Is the next sequence worth trying?
             if (nextSeqToTry.endsWith(activeNode.suffix)) {
 
-                //Try this sequence until it fails
-                Path path = stringToPath(nextSeqToTry);
-
-                //TODO: REMOVE DEBUG
+                //print each sequence that is tried
                 boolean firsttry = true;
-                {
-                    String s = "";
-                    for(int i = 0; i < (15-nextSeqToTry.length()); ++i) {
-                        s += ".";
-                    }
-                    System.out.print("trying: " + s + nextSeqToTry);
-                    
-                   
-                }
-                while(tryPath(path))
+                debugPrint(String.format("trying: %1$"+PADLEN+ "s\t\t", nextSeqToTry));
+                
+                while(tryPath(nextSeqToTry))
                 {
                     if (Successes >= NUM_GOALS) { 
                         return;  //if we reach this, path is likely universal sequence
@@ -115,37 +109,29 @@ public class DecarbonatedAgent extends Agent {
 
                     //Update n to reflect the success
                     activeNode.tries++;
-                    //TODO: REMOVE DEBUG
-                    {
-                        String s = "";
-                        for(int i = 0; i < (15-nextSeqToTry.length()); ++i) {
-                            s += ".";
-                        }
-                        
-                        if(firsttry){
-                        	firsttry = false;
-                        }else{
-                            System.out.print("trying: " + s + nextSeqToTry + "\t\t");
-                        }
-                    }
+                    
+                    //DEBUG: print the sequence if it's repeated
+                    debugPrint(String.format(" retry: %1$"+PADLEN+ "s\t\t", nextSeqToTry));
                     
                 }
 
                 //Update node to reflect failure
                 activeNode.tries++;
                 activeNode.failCount++;
+
+                //TODO:  Do we need this??
                 if(!firsttry){
-                	String s = "";
-                	for(int i = 0; i < (15-nextSeqToTry.length()); ++i) {
-                		s += ".";
-                	}
-                	System.out.print("trying: " + s + nextSeqToTry);
+                    debugPrint(String.format("trying: %1$"+PADLEN+ "s\t\t", nextSeqToTry));
                 }
-                System.out.println("");
+                debugPrintln("");
                 
             }//if
 
             //Save this sequence until the active node has a matching suffix
+            //
+            //TODO:  Should queueSeq actually be a queue of skipped sequences?
+            //       It doesn't decrease the number of tries but may speed up
+            //       the algorithm.
             else {
                 for(SuffixNode node : fringe) {
                     if (node == activeNode) continue;
@@ -174,8 +160,7 @@ public class DecarbonatedAgent extends Agent {
             	}
             	activeNode = fringe.get(bestNodeIndex);
 
-                //TODO: REMOVE DEBUG
-                System.out.println("New active node: " + activeNode);
+                debugPrintln("New active node: " + activeNode);
             	
             	if (activeNode.queueSeq != null) {
             		this.nextSeqToTry = activeNode.queueSeq;
@@ -222,25 +207,23 @@ public class DecarbonatedAgent extends Agent {
      * creates child nodes and adds them to the fringe. Removes itself from the fringe.
      */
     public void expandNode(){
-        //TODO: REMOVE DEBUG
-        System.out.print("Spliting " + activeNode + " into: ");
+        debugPrint("Spliting " + activeNode + " into: ");
+
         int[] tryCountVals = new int[2];
             
     	for (int i = 0; i < alphabet.length; i++){
     		tryCountVals = getTryCount(alphabet[i] + activeNode.suffix);
             SuffixNode newNode = new SuffixNode(alphabet[i] + activeNode.suffix, tryCountVals[1] , tryCountVals[0]);
 
-            //TODO: REMOVE DEBUG
-            System.out.print("" + newNode + ",");
+            debugPrint("" + newNode + ",");
             
     		fringe.add(newNode);
     	}
 
         fringe.remove(activeNode);
         activeNode = null;
-        
-        //TODO: REMOVE DEBUG
-        System.out.println();
+
+        debugPrintln("");
             
     }
     
@@ -354,13 +337,13 @@ public class DecarbonatedAgent extends Agent {
         try {
 
             FileWriter csv = new FileWriter(OUTPUT_FILE);
-            for(int i = 0; i < NUM_MACHINES; ++i) {
-                System.out.println("Starting on Machine" + i);
+            for(int i = 1; i <= NUM_MACHINES; ++i) {
+                debugPrintln("Starting on Machine " + i + " of " + NUM_MACHINES);
                 DecarbonatedAgent gilligan = new DecarbonatedAgent();
-                gilligan.env.printStateMachineGraph();
+                if (Agent.debug) gilligan.env.printStateMachineGraph();
                 gilligan.exploreEnvironment();
                 gilligan.recordLearningCurve(csv);
-                System.out.println("Done with machine" + i + "\n");
+                debugPrintln("Done with machine" + i + "\n");
             }
             recordAverage(csv);
             csv.close();
@@ -402,7 +385,7 @@ public class DecarbonatedAgent extends Agent {
      * Modify this method to call the one(s) you want.
 	 */
 	public static void main(String [ ] args) {
-        System.out.println("avg solution length: " + tryAvgWithShortPath(100));
+        Agent.debugPrintln("avg solution length: " + tryAvgWithShortPath(100));
         tryGenLearningCurves();
 	}
 

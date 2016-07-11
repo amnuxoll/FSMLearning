@@ -51,8 +51,20 @@ public abstract class Agent {
     
     public static int informationColumns; //for now before consolidation of recording data must be declared in each agent
     
+    /** Turn this on to print debugging messages */
+    public static boolean debug = true;
+    /** println for debug messages only */
+    public static void debugPrintln(String s) { if (debug) System.out.println(s); }
+    public static void debugPrint(String s) { if (debug) System.out.print(s); }
+
+
     
-    
+    /**
+     * ctor
+     *
+     * creates a new environment for hte agent and then initializes variables
+     *
+     **/
     public Agent()
     {
         //gets called when child instances are instantiated. could probably copy StateMachineAgent's(as NewAgent and NSMagent call it anyway) but didn't want to yet. so its emppty.
@@ -345,13 +357,21 @@ public abstract class Agent {
             episodicMemory.add(new Episode(pathToTry.get(i), encodedSensorResult));
             if (sensors[IS_GOAL]){
                 Successes++;
-                System.out.println("Success after " + (i + 1) + " steps."); 
+                debugPrintln("Success after " + (i + 1) + " steps."); 
                 return true;
            }
         }
         // If we make it through the entire loop, the path was unsuccessful
         return false;
     }//tryPath
+
+    /** tryPath
+     *
+     *  overloaded version that takes a string
+     */
+    public boolean tryPath(String pathToTry) {
+        return tryPath(stringToPath(pathToTry));
+    }
 
     /**
      * Takes in an agent's sensor data and encodes it into an integer
@@ -488,4 +508,6 @@ public abstract class Agent {
         }
         return -1;
     }
+    
+
 }

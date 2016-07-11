@@ -17,9 +17,6 @@ import java.util.Map.Entry;
  */
 public class GoolRoseAgent extends Agent{
     
-    private static boolean debug = false;
-    
-    
     /** WILL NOTES **
      * accept things and move onto the next endstringlength to find possible endings 
      * based on a high percentage. but whilst you are searching through them to try 
@@ -163,7 +160,7 @@ public class GoolRoseAgent extends Agent{
 
 
             //////////////////////////print the hashmap///////////////////////
-            if(debug)
+            if(Agent.debug)
             {
                 System.out.println("\n HASHMAP OF ENDINGS OF LENGTH " + endStringLength);
                 for (Entry<String, Integer> entry : compareEndings.entrySet()){
@@ -210,7 +207,7 @@ public class GoolRoseAgent extends Agent{
 //            }
         }
         
-        if(debug)
+        if(Agent.debug)
         {
             System.out.println("\nPOSSIBLEeNDINGS:");
             for(String endings : possibleEndings)
@@ -255,10 +252,8 @@ public class GoolRoseAgent extends Agent{
     
     public void attempt(String attempt)
     {
-        if(debug)
-        {
-            System.out.println(attempt);
-        }
+        Agent.debugPrintln(attempt);
+        
         boolean lastStep;
         lastWasGoal = false;
         for(int i=0; i<attempt.length(); i++){
@@ -434,10 +429,9 @@ public class GoolRoseAgent extends Agent{
             {
                 suffix = potentialSuffix;
                 comparePossibleEndings(); //recurse to make sure when it is called, it finds the best suffix
-                if(debug)
-                {
-                    System.out.println("FOUND A NEW SUFFIX! '" + suffix + "'");
-                }
+
+                debugPrintln("FOUND A NEW SUFFIX! '" + suffix + "'");
+
                 return true;
             }
             else

@@ -11,9 +11,6 @@ public class Path {
     //list of steps taken along the path
 	private ArrayList<Character> path;
 
-	//Debugging Variable
-	private boolean debug = true;
-
 	/**
 	 * initializes a path with an array of character 
      *
@@ -54,9 +51,7 @@ public class Path {
 	}
 
 	public void printpath() {
-		if (debug) {
-			System.out.println("path: " + toString());
-		}
+		Agent.debugPrintln("path: " + toString());
 	}
 
 	public void remove(int index) {
