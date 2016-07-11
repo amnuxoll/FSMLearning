@@ -151,7 +151,7 @@ public class GoolRoseAgent extends Agent{
     public void updateEndStrings()
     {
         if(goals.size() >= GOALS_NEEDED_TO_COMPARE){ //arbitrary. makes the Ai need at least three goal strings to compare before it can officially say it has reason to believe in an ending
-            HashMap<String, Integer> compareEndings = new HashMap();
+            HashMap<String, Integer> compareEndings = new HashMap<String, Integer>();
             //compareEndings.put("!",0); //to prevent an empty hashmap error in the finding max line for testing
             for(String goal : goals){ 
                 String lastBit = goal.substring(goal.length()-endStringLength, goal.length()); //out of bounds when goal is tiny like ba and looking for length of 3(ex). fixed by deleting these goals in updateGoals()
