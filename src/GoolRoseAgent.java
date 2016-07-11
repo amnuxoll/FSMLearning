@@ -113,7 +113,7 @@ public class GoolRoseAgent extends Agent{
     
     @Override
     public void exploreEnvironment(){
-        while (memory.length() < MAX_EPISODES && Sucesses <= NUM_GOALS) {
+        while (memory.length() < MAX_EPISODES && Successes <= NUM_GOALS) {
             //System.out.println(memory);
             if(lastWasGoal){
                 attempt(lastAttempt);
@@ -265,7 +265,7 @@ public class GoolRoseAgent extends Agent{
             currentGoalMemory = currentGoalMemory + attempt.charAt(i);
             lastStep = move(attempt.charAt(i));
             if(lastStep){
-                Sucesses++;
+                Successes++;
                 lastWasGoal = true;
                 updateGoals();
                 return;

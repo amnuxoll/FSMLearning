@@ -146,7 +146,7 @@ public class ChenMeisAgent extends Agent
 
         //while we have not exceeded the max number of episodes, keep getting new original sequences to test
         //then make moves
-        while (episodicMemory.size() < MAX_EPISODES && Sucesses <= NUM_GOALS) {
+        while (episodicMemory.size() < MAX_EPISODES && Successes <= NUM_GOALS) {
             lastGoalIndex = findLastGoal(episodicMemory.size()); //get last goal index
 
             //DEBUGGING to see how long it takes checkConditions to execute/////////////////////////
@@ -690,7 +690,7 @@ public class ChenMeisAgent extends Agent
             gilligan.recordLearningCurve(csv);
 
 
-            sum += gilligan.Sucesses;
+            sum += gilligan.Successes;
         }//for
         double averageSuccesses = sum / NUM_MACHINES;
 

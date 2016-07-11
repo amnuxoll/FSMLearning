@@ -263,14 +263,14 @@ public class NSMAgent extends Agent {
     public void exploreEnvironment() {
         int prevSensors = 0; //what was sensed last time
         
-        while (episodicMemory.size() < MAX_EPISODES && Sucesses <= NUM_GOALS) { 
+        while (episodicMemory.size() < MAX_EPISODES && Successes <= NUM_GOALS) { 
             //add an episode to represent the current moment
             char cmd = alphabet[random.nextInt(alphabet.length)];  //default is random for now
             QEpisode nowEp = new QEpisode(cmd, prevSensors);
 			episodicMemory.add(nowEp);
             
             // We can't use NSM until we've found the goal at least once
-            if(Sucesses > 0) {
+            if(Successes > 0) {
                 populateNHoods();
 
                 // (if not using random action) select the action that has the
@@ -295,7 +295,7 @@ public class NSMAgent extends Agent {
             //Setup for next iteration
             prevSensors = encodeSensors(sensors);
             if (sensors[IS_GOAL]){
-                Sucesses++;
+                Successes++;
 
                 //%%%DEBUG: REMOVE
                 System.out.print(episodicMemory.size() - lastSuccess);

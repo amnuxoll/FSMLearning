@@ -22,7 +22,7 @@ public abstract class Agent {
     protected char[] alphabet;
     protected ArrayList<Episode> episodicMemory;
     protected String memory;
-    protected int Sucesses = 0; //THIS WAS MADE BY WILL AND ASHLEY TO RENAME THE INT BELOW. UNUSED
+    protected int Successes = 0; //THIS WAS MADE BY WILL AND ASHLEY TO RENAME THE INT BELOW. UNUSED
     
     //Sensor values
     //Important Note: we discovered a bug with the way the sensor constant values in the StateMachineAgent in the
@@ -344,7 +344,7 @@ public abstract class Agent {
             int encodedSensorResult = encodeSensors(sensors);
             episodicMemory.add(new Episode(pathToTry.get(i), encodedSensorResult));
             if (sensors[IS_GOAL]){
-                Sucesses++;
+                Successes++;
                 System.out.println("Success after " + (i + 1) + " steps."); 
                 return true;
            }

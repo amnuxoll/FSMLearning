@@ -78,7 +78,7 @@ public class KirkChandlerAgent extends Agent{
      */
     @Override
     public void exploreEnvironment() {
-        while (episodicMemory.size() < MAX_EPISODES && Sucesses <= NUM_GOALS) { 
+        while (episodicMemory.size() < MAX_EPISODES && Successes <= NUM_GOALS) { 
             //Find sus and lms scores
             String currentSus = determineSusScore();
             String currentLms = determineLmsScore();
@@ -433,7 +433,7 @@ public class KirkChandlerAgent extends Agent{
             gilligan.LMS_CONSTANT = lmsWeight;
             gilligan.exploreEnvironment();
             gilligan.recordLearningCurve(csv);
-            sum += gilligan.Sucesses;
+            sum += gilligan.Successes;
         }//for
         double averageSuccesses = sum / NUM_MACHINES;
     }//tryOneCombo

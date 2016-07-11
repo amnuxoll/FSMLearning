@@ -88,7 +88,7 @@ public class DecarbonatedAgent extends Agent {
      */
     @Override
     public void exploreEnvironment() {
-        while (episodicMemory.size() < MAX_EPISODES && Sucesses <= NUM_GOALS) { 
+        while (episodicMemory.size() < MAX_EPISODES && Successes <= NUM_GOALS) { 
 
             //Is the next sequence worth trying?
             if (nextSeqToTry.endsWith(activeNode.suffix)) {
@@ -109,7 +109,7 @@ public class DecarbonatedAgent extends Agent {
                 }
                 while(tryPath(path))
                 {
-                    if (Sucesses >= NUM_GOALS) { 
+                    if (Successes >= NUM_GOALS) { 
                         return;  //if we reach this, path is likely universal sequence
                     }
 
