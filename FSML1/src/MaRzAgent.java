@@ -76,6 +76,9 @@ public class MaRzAgent extends Agent {
 								// non-active node sequence
 		public double heuristic;
 		public int g;// distance from root
+		public ArrayList<Integer> successIndexList;
+		public ArrayList<Integer> failsIndexList;
+		public int indexOfLastEpisodeTried;
 
 		/**
 		 * SuffixNode
@@ -86,13 +89,17 @@ public class MaRzAgent extends Agent {
 		 * @param initHeuristic
 		 */
 		public SuffixNode(String initSuffix, int initFailCount, int initTries,
-				double initHeuristic, int initG) {
+				double initHeuristic, int initG, int initIndexOfLastEpisodeTried, ArrayList<Integer> initSuccessIndexList, ArrayList<Integer> initFailsIndexList) {
 			this.suffix = initSuffix;
 			this.failedTries = initFailCount;
 			this.tries = initTries;
 			this.queueSeq = "";
 			this.heuristic = initHeuristic;
 			this.g = initG;
+			this.indexOfLastEpisodeTried = initIndexOfLastEpisodeTried;
+			this.successIndexList = initSuccessIndexList;
+			this.failsIndexList = initFailsIndexList;
+			
 		}// ctor
 
 		/*
@@ -117,9 +124,12 @@ public class MaRzAgent extends Agent {
 	 */
 	public MaRzAgent() {
 		hashFringe = new HashMap<MaRzAgent.SuffixNode, String>();
+		
+		ArrayList<Integer> tempSuccessIndexList = new ArrayList<Integer>();
+		ArrayList<Integer> tempFailsIndexList = new ArrayList<Integer>();
 
 		// Create the initial suffix node
-		SuffixNode initNode = new SuffixNode("", 0, 0, 0.0, 0);
+		SuffixNode initNode = new SuffixNode("", 0, 0, 0.0, 0, 0, tempSuccessIndexList, tempFailsIndexList);
 		hashFringe.put(initNode, initNode.suffix);
 		this.activeNode = initNode;
 
@@ -207,24 +217,36 @@ public class MaRzAgent extends Agent {
 		debugPrintln("NODE TO BE SPLIT: " + aSuffix);
 
 		for (int i = 0; i < alphabet.length; i++) {
-			int tempTries[] = new int[2];
+			
 
-			int[] newTries = updateTries(alphabet[i] + aSuffix);
+			updateTries(alphabet[i] + aSuffix);
 
-			System.arraycopy(newTries, 0, tempTries, 0, 2);
+			//TODO: UPDATE THE indexOfLastEpisodeTried, not sure if in here or in UpdateTries method
 
 			double heuristic = 0.0;
-			if (tempTries[0] == 0) {
+			if (activeNode.successIndexList.size()+activeNode.failsIndexList.size() == 0) {
 				heuristic = (activeNode.g * G_WEIGHT);
 			} else {
-				heuristic = (tempTries[1] / tempTries[0])
+				heuristic = (activeNode.failsIndexList.size() / activeNode.successIndexList.size()+activeNode.failsIndexList.size())
 						+ (activeNode.g * G_WEIGHT);
 			}
 			debugPrintln("SPLITTING NODE INTO: " + (alphabet[i] + aSuffix)
-					+ " fails: " + tempTries[1] + " total tries: "
-					+ tempTries[0]);
+					+ " fails: " + activeNode.failsIndexList.size() + " total tries: "
+					+ activeNode.successIndexList.size()+activeNode.failsIndexList.size());
+			
+			ArrayList<Integer> tempSuccessIndexList = new ArrayList<Integer>();
+			ArrayList<Integer> tempFailsIndexList = new ArrayList<Integer>();
+			
+			//TODO: SPLIT PARENT ARRAYS FOR SUCCESS AND FAILURE INTO TEMP ARRAY FOR THIS NEW CHILD NODE
+			//TODO: MIGHT BE DONE IN UpdateTries:
+			//TODO: NEED TO ALSO CHECK ONE CHAR BEHIND THE INDEX, SO UPDATE INDEXES TO BE ORIGINAL - 1, AND THEN LOOK AT NEW SUFFIX TRIED
+			if(){
+				
+			}
+			
+			//TODO: PASS IN THE NEW TEMP ARRAYS FOR THIS CHILD NODE AND PASS THE indexOfLastEpisodeTried
 			SuffixNode aNode = new SuffixNode(alphabet[i] + aSuffix,
-					tempTries[1], tempTries[0], heuristic, activeNode.g + 1);
+					activeNode.failsIndexList.size(), activeNode.successIndexList.size()+activeNode.failsIndexList.size(), heuristic, activeNode.g + 1,);
 			hashFringe.put(aNode, alphabet[i] + aSuffix);
 		}
 
@@ -355,6 +377,20 @@ public class MaRzAgent extends Agent {
 		}
 
 	}// trySeq
+	
+	
+	/**
+	 * Timing Scripts
+	 * 
+	 * 	TBD: REMOVE - PROFILING
+	 *	long startTime = System.currentTimeMillis();
+	 *
+	 *	TBD: REMOVE - PROFILING
+	 *	long endTime = System.currentTimeMillis();
+	 *	this.totalTime += endTime - startTime;
+	 */
+	
+	
 
 	/**
 	 * updateTries
@@ -362,31 +398,38 @@ public class MaRzAgent extends Agent {
 	 * @param suffix
 	 * @return
 	 */
-	public int[] updateTries(String suffix) {
+	public ArrayList<ArrayList<Integer>> updateTries(String suffix) {
+		
+		//TODO: RESHPAE THIS METHOD TO RETURN AN arrayList of arrayLists
+		
 
 		// int numTries = 0; // number of times sequence was tried
 		int numFails = 0; // number of times sequence wasn't tried and failed
-		int[] returnVal = new int[2];
-		ArrayList<Integer> indexSuf = new ArrayList<Integer>();
+		ArrayList<ArrayList<Integer>> returnVal = new ArrayList<ArrayList<Integer>>();
+		
+		ArrayList<Integer> successIndexSuf = new ArrayList<Integer>();
+		ArrayList<Integer> failsIndexSuf = new ArrayList<Integer>();
 
-		for (int i = 0; i < memory.length(); i++) {
-			indexSuf = getIndexOfSuffix(memory, suffix);
-		}
-
-		// TBD: REMOVE - PROFILING
-		long startTime = System.currentTimeMillis();
-		for (int i = 0; i < episodicMemory.size(); i++) {
-			if (episodicMemory.get(i).sensorValue != GOAL
-					&& indexSuf.contains(i)) {
-				numFails++;
+		//TODO: CHANGE THESE FOR LOOPS TO ADD INDEXS TO CORRECT ARRAYLIST
+		for (int i = memory.substring(activeNode.indexOfLastEpisodeTried, memory.length()).length(); i < memory.length(); i++) {
+			//TODO: THIS SHOULD LOOK AT THE INDEXS OF THE PARENT, GO ONE STEP BACK, AND CHECK IF ANY OF THE LETTERS IN THAT PATH HIT THE GOAL.
+			//TODO: DOES NOT DO WHAT IT SHOULD, RIGHT NOW
+			if (episodicMemory.get(i).sensorValue != GOAL && failsIndexSuf.contains(i)) {
+				failsIndexSuf = getIndexOfSuffix(memory.substring(activeNode.indexOfLastEpisodeTried, memory.length()), suffix);
+			}
+			else{
+				successIndexSuf = getIndexOfSuffix(memory.substring(activeNode.indexOfLastEpisodeTried, memory.length()), suffix);
 			}
 		}
-		// TBD: REMOVE - PROFILING
-		long endTime = System.currentTimeMillis();
-		this.totalTime += endTime - startTime;
 
-		returnVal[0] = indexSuf.size();
-		returnVal[1] = numFails;
+		//TODO:
+		for (int i = 0; i < episodicMemory.size(); i++) {
+			
+		}
+
+		//add the arrayList to One ArrayList of ArrayLists
+		returnVal.add(successIndexSuf);
+		returnVal.add(failsIndexSuf);
 
 		return returnVal; // return
 	}// updateTries
