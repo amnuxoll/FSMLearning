@@ -343,6 +343,9 @@ public abstract class Agent {
      * on the last cmd, otherwise it will return false. If it reaches the
      * goal prematurely it will not execute anymore cmd's and return false
      *
+     * TODO:  We're really not using Path anymore.  This method and overloaded
+     * one below should be updated to reflect that
+     *
      * @param pathToTry; An ArrayList of Characters representing the path to try
      * 
      * @return A boolean which is true if the path was reached the goal and

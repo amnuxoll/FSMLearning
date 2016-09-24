@@ -1,10 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * MaRzAgent Class
@@ -20,9 +16,6 @@ public class MaRzAgent extends Agent {
 
 	/*---====CONSTANTS====---*/
 
-	// hash function for retrieving suffix node
-	HashMap<SuffixNode, String> hashFringe;
-
 	// minimum tries before a suffix node is expanded
 	public static final int MIN_TRIES = 100;
 
@@ -35,17 +28,20 @@ public class MaRzAgent extends Agent {
 
 	/*---==== MEMBER VARIABLES ===---*/
 
-	int lastPermutationIndex = 0;
-	boolean universal;
-	//
-	// int largestSeqLength = 0;
+	/** hash table of all nodes on the fringe of our search */
+	HashMap<String, SuffixNode> hashFringe;
 
-	/** only one node at a time can be active */
+	/** this is the node we're currently using to search with */
 	SuffixNode activeNode = null;
 
-	/** the next sequence to consider testing */
+    /** each permutation has a number associated with it.  This is used to track
+	  * the last permutation the agent tried.
+      */
+	int lastPermutationIndex = 0;
+
+	/** the next sequence to consider testing (typically generated via
+     * lastPermutationIndex */
 	String nextSeqToTry = "a"; // 'a' is always safe because of how
-	// StateMachineEnvironment creates FSMs
 
 	/**
 	 * to print a status message every N milliseconds we need to track time
@@ -59,48 +55,46 @@ public class MaRzAgent extends Agent {
 
 	/**
 	 * SufixNode Class
-	 * 
+	 *
 	 * @author Christian Rodriguez
 	 * @author Giselle Marston
 	 * @version 1.0
 	 * @date 9/12/2016
 	 * 
 	 */
+
 	public class SuffixNode {
-		/*--==Local Constants==--*/
-		public String suffix; //
-		public int failedTries; // number of failed sequences with this suffix
-								// that we've tried
-		public int tries; // number of times this suffix has been tried
-		public String queueSeq; // first skipped sequence to come back to;
-								// non-active node sequence
-		public double heuristic;
-		public int g;// distance from root
-		public ArrayList<Integer> successIndexList;
+		/*--==Instance Variables==--*/
+		public String suffix;   
+		public String queueSeq; // if this node becomes active, start with this sequence
+		public double heuristic;// the current overall potential of this suffix
+		public int g;           // distance from root (ala A* search)
+
+        /* indices into episodicMemory of successful/failed sequences with this suffix */
+		public ArrayList<Integer> successIndexList;  
 		public ArrayList<Integer> failsIndexList;
+
+        /* the length of episodicMemory the last time the above lists were updated */
 		public int indexOfLastEpisodeTried;
 
 		/**
-		 * SuffixNode
+		 * SuffixNode default ctor inits variables for a root node.
+         * 
+         * NOTE: If creating a non-root node (@see #splitNode) these values will
+		 * need to be initialized properly.  It can't be done in ctor without
+		 * creating inefficiencies.
 		 * 
-		 * @param initSuffix
-		 * @param initFailCount
-		 * @param initTries
-		 * @param initHeuristic
 		 */
-		public SuffixNode(String initSuffix, int initFailCount, int initTries,
-				double initHeuristic, int initG, int initIndexOfLastEpisodeTried, ArrayList<Integer> initSuccessIndexList, ArrayList<Integer> initFailsIndexList) {
-			this.suffix = initSuffix;
-			this.failedTries = initFailCount;
-			this.tries = initTries;
+		public SuffixNode() {
+			this.suffix = "";
 			this.queueSeq = "";
-			this.heuristic = initHeuristic;
-			this.g = initG;
-			this.indexOfLastEpisodeTried = initIndexOfLastEpisodeTried;
-			this.successIndexList = initSuccessIndexList;
-			this.failsIndexList = initFailsIndexList;
-			
+			this.heuristic = 0.0;
+			this.g = 0;
+			this.indexOfLastEpisodeTried = 0;
+			this.successIndexList = new ArrayList<Integer>();
+			this.failsIndexList = new ArrayList<Integer>();
 		}// ctor
+
 
 		/*
 		 * toString
@@ -109,12 +103,15 @@ public class MaRzAgent extends Agent {
 		 */
 		@Override
 		public String toString() {
-			String output = suffix + ":";
+			String output = suffix;
 			if (queueSeq != null) {
-				output += queueSeq;
+				output += "(" + queueSeq + ")";
 			}
 
-			return output + "," + failedTries + "/" + tries;
+            int failedTries = failsIndexList.size();
+            int tries = failedTries + successIndexList.size();
+            
+			return output + ":" + failedTries + "/" + tries;
 		}
 	}// SuffixNode Class
 
@@ -123,15 +120,14 @@ public class MaRzAgent extends Agent {
 	 * 
 	 */
 	public MaRzAgent() {
-		hashFringe = new HashMap<MaRzAgent.SuffixNode, String>();
+		hashFringe = new HashMap<String, MaRzAgent.SuffixNode>();
 		
-		ArrayList<Integer> tempSuccessIndexList = new ArrayList<Integer>();
-		ArrayList<Integer> tempFailsIndexList = new ArrayList<Integer>();
-
-		// Create the initial suffix node
-		SuffixNode initNode = new SuffixNode("", 0, 0, 0.0, 0, 0, tempSuccessIndexList, tempFailsIndexList);
-		hashFringe.put(initNode, initNode.suffix);
-		this.activeNode = initNode;
+		// Create an empty root node and split it to create an initial fringe
+		// that has a node for each letter in the alphabet
+		SuffixNode initNode = new SuffixNode();
+		hashFringe.put("", initNode);
+        this.activeNode = initNode;
+        splitNode();
 
 	}// ctor
 
@@ -144,23 +140,16 @@ public class MaRzAgent extends Agent {
 	public void exploreEnvironment() {
 
 		while (memory.length() < MAX_EPISODES && Successes <= NUM_GOALS) {
-			if (activeNode.tries != 0 && !activeNode.suffix.equals("")) {
-				if (universal) {
-					System.out.println("**********UNIVERSAL SEQUENCE FOUND: "
-							+ activeNode.suffix + " **********");
-					return;
-				}
-			}
 
 			// Initial node gets special treatment
 			if (activeNode.suffix.length() == 0) {
 				nextSeqToTry = "a";
-				splitNode(activeNode.suffix);
+				splitNode();
 			}
 
 			if (hashFringe.size() > NODE_LIST_SIZE) {
 				SuffixNode worst = findWorstNodeToTry();
-				hashFringe.remove(worst);
+				hashFringe.remove(worst.suffix);
 			}
 
 			// System.out.println("FRINGE SIZE: " + hashFringe.size());
@@ -168,31 +157,10 @@ public class MaRzAgent extends Agent {
 			if (nextSeqToTry.endsWith(activeNode.suffix)) {
 				debugPrintln("Trying Sequence: " + nextSeqToTry);
 
-				// THE SNIPPET :/
-				boolean pass = true;
-				while (pass) {
-					if (Successes >= NUM_GOALS) {
-						universal = true;
-
-						return; // if we reach this, path is likely universal
-								// sequence
-					}
-
-					pass = tryPath(nextSeqToTry);
-
-					activeNode.tries++;
-
-					if (!pass) {
-						activeNode.failedTries++;
-					}
-
-				}
-				// END SNIPPET
-
 				trySeq();
 
 			} else {
-				activeNode = findNextNodeToTry();
+				activeNode = hashFringe.get(this.nextSeqToTry);
 				if (activeNode.queueSeq.equals("")) {
 					activeNode.queueSeq = nextSeqToTry;
 					debugPrintln("\nTrying Sequence: " + nextSeqToTry);
@@ -206,77 +174,80 @@ public class MaRzAgent extends Agent {
 
 	}// exploreEnviroment
 
+    /*a useful code snippet to save for later */
+    /*
+			double heuristic = 0.0;
+			if (activeNode.successIndexList.size() + activeNode.failsIndexList.size() == 0) {
+				heuristic = (activeNode.g * G_WEIGHT);
+			} else {
+				heuristic = (activeNode.failsIndexList.size() / (activeNode.successIndexList.size() + activeNode.failsIndexList.size()))
+						+ (activeNode.g * G_WEIGHT);
+			}
+    */
+    
 	/**
 	 * splitNode
 	 * 
-	 * Add new alphabet.length number of new nodes to fringe Delete parent node
-	 * from the fringe
+	 * Add new alphabet.length number of new nodes to fringe by replacing the
+	 * current active node with a new node that prepends each letter to the
+	 * active node's suffix.  success/fail values and similar are recalculated
+	 * using the parent node's data.
+     *
+     * SIDE EFFECT:  the active node is removed from the fringe
+     * PREREQ:  the active node's values are up to date
 	 * 
 	 */
-	public void splitNode(String aSuffix) {
-		debugPrintln("NODE TO BE SPLIT: " + aSuffix);
+	public void splitNode() {
+        String parentSuffix = this.activeNode.suffix;
+		debugPrintln("NODE TO BE SPLIT: " + parentSuffix);
 
+        //Create the initial child nodes
+        SuffixNode[] children = new SuffixNode[alphabet.length];
 		for (int i = 0; i < alphabet.length; i++) {
-			
+            children[i] = new SuffixNode();
+			children[i].suffix = alphabet[i] + parentSuffix;
+			children[i].g = activeNode.g + 1;
+			children[i].indexOfLastEpisodeTried = memory.length() - 1;
 
-			updateTries(alphabet[i] + aSuffix);
+            hashFringe.put(children[i].suffix, children[i]);
+        }
 
-			//TODO: UPDATE THE indexOfLastEpisodeTried, not sure if in here or in UpdateTries method
+        //Divy up the parent's success list
+        for(Integer indexObj : activeNode.successIndexList) {
+            int index = indexObj.intValue() - 1;
+            if (index < 0) continue;
 
-			double heuristic = 0.0;
-			if (activeNode.successIndexList.size()+activeNode.failsIndexList.size() == 0) {
-				heuristic = (activeNode.g * G_WEIGHT);
-			} else {
-				heuristic = (activeNode.failsIndexList.size() / activeNode.successIndexList.size()+activeNode.failsIndexList.size())
-						+ (activeNode.g * G_WEIGHT);
-			}
-			debugPrintln("SPLITTING NODE INTO: " + (alphabet[i] + aSuffix)
-					+ " fails: " + activeNode.failsIndexList.size() + " total tries: "
-					+ activeNode.successIndexList.size()+activeNode.failsIndexList.size());
-			
-			ArrayList<Integer> tempSuccessIndexList = new ArrayList<Integer>();
-			ArrayList<Integer> tempFailsIndexList = new ArrayList<Integer>();
-			
-			//TODO: SPLIT PARENT ARRAYS FOR SUCCESS AND FAILURE INTO TEMP ARRAY FOR THIS NEW CHILD NODE
-			//TODO: MIGHT BE DONE IN UpdateTries:
-			//TODO: NEED TO ALSO CHECK ONE CHAR BEHIND THE INDEX, SO UPDATE INDEXES TO BE ORIGINAL - 1, AND THEN LOOK AT NEW SUFFIX TRIED
-			if(){
-				
-			}
-			
-			//TODO: PASS IN THE NEW TEMP ARRAYS FOR THIS CHILD NODE AND PASS THE indexOfLastEpisodeTried
-			SuffixNode aNode = new SuffixNode(alphabet[i] + aSuffix,
-					activeNode.failsIndexList.size(), activeNode.successIndexList.size()+activeNode.failsIndexList.size(), heuristic, activeNode.g + 1,);
-			hashFringe.put(aNode, alphabet[i] + aSuffix);
-		}
+            int childIdx = memory.charAt(index) - 'a';
+            children[childIdx].successIndexList.add(new Integer(index));
+        }
 
-		hashFringe.remove(activeNode);
+        //Divy up the parent's fails lists
+        for(Integer indexObj : activeNode.failsIndexList) {
+            int index = indexObj.intValue() - 1;
+            if (index < 0) continue;
+
+            int childIdx = memory.charAt(index) - 'a';
+            if (episodicMemory.get(index).sensorValue == GOAL) {
+                children[childIdx].successIndexList.add(new Integer(index));
+            }
+            else {
+                children[childIdx].failsIndexList.add(new Integer(index));
+            }
+        }
+
+        //Recalulate the children's heuristics
+		for (int i = 0; i < alphabet.length; i++) {
+            if (children[i].successIndexList.size() + children[i].failsIndexList.size() == 0) {
+                children[i].heuristic = (children[i].g * G_WEIGHT);
+            } else {
+                children[i].heuristic = (children[i].failsIndexList.size()
+                                         / (children[i].successIndexList.size()
+                                            + children[i].failsIndexList.size()))
+                                        + (children[i].g * G_WEIGHT);
+            }
+        }
 
 	}// splitNode
-
-	/**
-	 * findNextNodeToTry
-	 * 
-	 * finds node with suffix matching nextSeqToTry and returns it
-	 * 
-	 * 9/7/16
-	 * http://stackoverflow.com/questions/11420920/search-a-hashmap-in-an-
-	 * arraylist-of-hashmap
-	 * 
-	 */
-
-	public SuffixNode findNextNodeToTry() {
-
-		SuffixNode nextNode = activeNode;
-		for (Map.Entry<SuffixNode, String> entry : hashFringe.entrySet()) {
-			if (Objects.equals(nextSeqToTry, entry.getValue())) {
-				nextNode = entry.getKey();
-			}
-		}
-
-		return nextNode;
-
-	}// findNextNodeToTry
 
 	/**
 	 * findBestNodeToTry
@@ -290,43 +261,49 @@ public class MaRzAgent extends Agent {
 	 */
 
 	public SuffixNode findBestNodeToTry() {
-		double theBEASLIESTCombo = 17976931348623157.0;
-		SuffixNode bestNode = activeNode; // temporarily sets it to activeNode
-
-		for (Map.Entry<SuffixNode, String> entry : hashFringe.entrySet()) {
-			if (theBEASLIESTCombo > entry.getKey().heuristic) {
-				theBEASLIESTCombo = entry.getKey().heuristic;
-				bestNode = entry.getKey();
-			}
-		}
-
+        SuffixNode[] nodes = (SuffixNode[])hashFringe.values().toArray();
+        assert(nodes.length > 0);
+        
+        double theBEASTLIESTCombo = nodes[0].heuristic;
+        SuffixNode bestNode = nodes[0];
+        for(SuffixNode node : nodes)
+        {
+            if (node.heuristic > theBEASTLIESTCombo)
+            {
+                theBEASTLIESTCombo = node.heuristic;
+                bestNode = node;
+            }
+        }
+        
 		return bestNode;
 
-	}// findNextNodeToTry
+	}// findBestNodeToTry
 
 	/**
 	 * findWorstNode
 	 * 
-	 * finds node with highest heuristic
-	 * 
-	 * 
+	 * finds node with smallest heuristic
 	 * 
 	 */
 
 	public SuffixNode findWorstNodeToTry() {
-		double theBEASLIESTCombo = 0;
-		SuffixNode worstNode = activeNode; // temporarily sets it to activeNode
-
-		for (Map.Entry<SuffixNode, String> entry : hashFringe.entrySet()) {
-			if (theBEASLIESTCombo < entry.getKey().heuristic) {
-				theBEASLIESTCombo = entry.getKey().heuristic;
-				worstNode = entry.getKey();
-			}
-		}
-
+        SuffixNode[] nodes = (SuffixNode[])hashFringe.values().toArray();
+        assert(nodes.length > 0);
+        
+        double theBEASTLIESTCombo = nodes[0].heuristic;
+        SuffixNode worstNode = nodes[0];
+        for(SuffixNode node : nodes)
+        {
+            if (node.heuristic < theBEASTLIESTCombo)
+            {
+                theBEASTLIESTCombo = node.heuristic;
+                worstNode = node;
+            }
+        }
+        
 		return worstNode;
 
-	}// findNextNodeToTry
+	}// findWorstNodeToTry
 
 	/**
 	 * trySeq
@@ -344,37 +321,27 @@ public class MaRzAgent extends Agent {
 		}
 
 		while (pass) {
-			if (Successes >= NUM_GOALS) {
-				universal = true;
-				return; // if we reach this, path is likely universal sequence
-			}
-
 			pass = tryPath(nextSeqToTry);
 
-			activeNode.tries++;
+            //TODO:  Update the active node's success/fail lists and related
+            // based upon whether it succeeds in the suffix or not.  Also update
+            // the heuristic
 
-			if (!pass) {
-				activeNode.failedTries++;
-			}
 
 		}
 
-		if (activeNode.tries != 0) {
-			activeNode.heuristic = (activeNode.failedTries / activeNode.tries)
-					+ (activeNode.g * G_WEIGHT);
-		} else {
-			activeNode.heuristic = (activeNode.g * G_WEIGHT);
-		}
-
-		if (activeNode.tries >= MIN_TRIES) {
-			splitNode(activeNode.suffix);
+        //Check for split of active node
+        int tries = activeNode.failsIndexList.size() + activeNode.successIndexList.size();
+		if (tries >= MIN_TRIES) {
+			splitNode();
 
 			activeNode = findBestNodeToTry();
 
+            //Use the new active node's queue sequence if it exists
 			if (!activeNode.queueSeq.equals("")) {
 				nextSeqToTry = activeNode.queueSeq;
 			}
-		}
+		}//if
 
 	}// trySeq
 	
@@ -394,61 +361,60 @@ public class MaRzAgent extends Agent {
 
 	/**
 	 * updateTries
-	 * 
-	 * @param suffix
-	 * @return
+	 *
+     * Updates the tries, failedTries, successIndex and failedIndex data in the
+     * activeNode to be current with all entries added to episodicMemory since
+     * the last update
 	 */
-	public ArrayList<ArrayList<Integer>> updateTries(String suffix) {
-		
-		//TODO: RESHPAE THIS METHOD TO RETURN AN arrayList of arrayLists
-		
+	public void updateTries() {
 
-		// int numTries = 0; // number of times sequence was tried
-		int numFails = 0; // number of times sequence wasn't tried and failed
-		ArrayList<ArrayList<Integer>> returnVal = new ArrayList<ArrayList<Integer>>();
-		
-		ArrayList<Integer> successIndexSuf = new ArrayList<Integer>();
-		ArrayList<Integer> failsIndexSuf = new ArrayList<Integer>();
+        //Find all new instances of the active node's suffix
+        int startIndex = activeNode.indexOfLastEpisodeTried - activeNode.suffix.length() + 1;
+        ArrayList<Integer> newIndexes =
+            getIndexOfSuffix(this.memory, startIndex, activeNode.suffix);
 
-		//TODO: CHANGE THESE FOR LOOPS TO ADD INDEXS TO CORRECT ARRAYLIST
-		for (int i = memory.substring(activeNode.indexOfLastEpisodeTried, memory.length()).length(); i < memory.length(); i++) {
-			//TODO: THIS SHOULD LOOK AT THE INDEXS OF THE PARENT, GO ONE STEP BACK, AND CHECK IF ANY OF THE LETTERS IN THAT PATH HIT THE GOAL.
-			//TODO: DOES NOT DO WHAT IT SHOULD, RIGHT NOW
-			if (episodicMemory.get(i).sensorValue != GOAL && failsIndexSuf.contains(i)) {
-				failsIndexSuf = getIndexOfSuffix(memory.substring(activeNode.indexOfLastEpisodeTried, memory.length()), suffix);
-			}
-			else{
-				successIndexSuf = getIndexOfSuffix(memory.substring(activeNode.indexOfLastEpisodeTried, memory.length()), suffix);
-			}
-		}
+        //Categorize each instance as a success or failure
+        for(Integer indexObj : newIndexes) {
+            int index = indexObj.intValue();
+            boolean fail = true;
+            for(int i = 0; i < activeNode.suffix.length(); ++i) {
+                if (episodicMemory.get(index + i).sensorValue == GOAL) {
+                    fail = false;
+                    break;
+                }
+            }
 
-		//TODO:
-		for (int i = 0; i < episodicMemory.size(); i++) {
-			
-		}
+            if (fail) {
+                activeNode.failsIndexList.add(indexObj);
+            }
+            else {
+                activeNode.successIndexList.add(indexObj);
+            }
+        }
 
-		//add the arrayList to One ArrayList of ArrayLists
-		returnVal.add(successIndexSuf);
-		returnVal.add(failsIndexSuf);
-
-		return returnVal; // return
+        activeNode.indexOfLastEpisodeTried = memory.length() - 1;
 	}// updateTries
 
 	/**
 	 * getIndexOfSuffix
-	 * 
-	 * @param aString
-	 * @param suffix
-	 * @return
+	 *
+     * returns an list of the indexes into the string where a particular
+     * subsequence (suffix) occurs after a given starting index.  In other
+     * words, it's like a mass indexOf().
+     *
+     * CAVEAT:  caller is responsible for passing in reasonable values
 	 */
-	public ArrayList<Integer> getIndexOfSuffix(String aString, String suffix) {
-		String word = aString;
-		String lookForString = suffix;
+	public ArrayList<Integer> getIndexOfSuffix(String memoryStr, int startIndex, String suffix) {
 		ArrayList<Integer> indexOfSuffix = new ArrayList<Integer>();
-		int index = word.indexOf(lookForString);
+
+        
+		int index = memoryStr.indexOf(suffix, startIndex);
 		while (index >= 0) {
 			indexOfSuffix.add(index);
-			index = word.indexOf(lookForString, index + 1);
+            startIndex += index + 1;
+            if (startIndex >= memoryStr.length()) break;
+            
+			index = memory.indexOf(memoryStr, startIndex);
 		}
 
 		return indexOfSuffix;
@@ -507,7 +473,7 @@ public class MaRzAgent extends Agent {
 				sumOfAvgSteps += gilligan.env.avgStepsToGoalWithPath(path);
 				currentBaseline = sumOfAvgSteps / (i + 1);
 
-				gilligan.exploreEnvironment();
+			gilligan.exploreEnvironment();
 				gilligan.recordLearningCurve(csv);
 				debugPrintln("Done with machine " + i + "\n");
 			}
