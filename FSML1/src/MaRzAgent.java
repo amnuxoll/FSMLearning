@@ -1,6 +1,11 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.lang.*;
+
+import javax.mail.Address;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 /**
  * MaRzAgent Class
@@ -38,7 +43,7 @@ public class MaRzAgent extends Agent {
 	 * each permutation has a number associated with it. This is used to track
 	 * the last permutation the agent tried.
 	 */
-	int lastPermutationIndex = 0;
+	int lastPermutationIndex = 1;// set to 1 because we hard coded the first permutation to be 'a'
 
 	/**
 	 * the next sequence to consider testing (typically generated via
@@ -154,6 +159,7 @@ public class MaRzAgent extends Agent {
 			if (activeNode.suffix.length() == 0) {
 				nextSeqToTry = "a";
 				splitNode();
+				activeNode = findBestNodeToTry();
 			}
 
 			if (hashFringe.size() > NODE_LIST_SIZE) {
@@ -162,7 +168,11 @@ public class MaRzAgent extends Agent {
 			}
 
 			// System.out.println("FRINGE SIZE: " + hashFringe.size());
-
+			// System.out.println("ACTIVENODE: " + activeNode.toString());
+			System.out.println("Successes: " + Successes);
+			
+			
+			//TODO: WHAT THE **** IS THIS!!!!! QUEUESEQ IS NOT NEEDED, IS IT?
 			if (nextSeqToTry.endsWith(activeNode.suffix)) {
 				debugPrintln("Trying Sequence: " + nextSeqToTry);
 
@@ -173,7 +183,6 @@ public class MaRzAgent extends Agent {
 				if (activeNode.queueSeq.equals("")) {
 					activeNode.queueSeq = nextSeqToTry;
 					debugPrintln("\nTrying Sequence: " + nextSeqToTry);
-					// System.out.println("WE START HERE");
 					trySeq();
 				}
 			}
@@ -245,16 +254,19 @@ public class MaRzAgent extends Agent {
 
 		// Recalculate the children's heuristics
 		for (int i = 0; i < alphabet.length; i++) {
-//			if (children[i].successIndexList.size()
-//					+ children[i].failsIndexList.size() == 0) {
-//				children[i].heuristic = (children[i].g * G_WEIGHT);
-//			} else {
-//				children[i].heuristic = (children[i].failsIndexList.size() / (children[i].successIndexList
-//						.size() + children[i].failsIndexList.size()))
-//						+ (children[i].g * G_WEIGHT);
-//			}
+			// if (children[i].successIndexList.size()
+			// + children[i].failsIndexList.size() == 0) {
+			// children[i].heuristic = (children[i].g * G_WEIGHT);
+			// } else {
+			// children[i].heuristic = (children[i].failsIndexList.size() /
+			// (children[i].successIndexList
+			// .size() + children[i].failsIndexList.size()))
+			// + (children[i].g * G_WEIGHT);
+			// }
 			updateHeuristic(children[i]);
 		}
+
+		hashFringe.remove(activeNode.suffix);
 
 	}// splitNode
 
@@ -286,7 +298,9 @@ public class MaRzAgent extends Agent {
 	 */
 
 	public SuffixNode findBestNodeToTry() {
-		SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray();
+
+		SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray(
+				new SuffixNode[hashFringe.size()]);
 		assert (nodes.length > 0);
 
 		double theBEASTLIESTCombo = nodes[0].heuristic;
@@ -310,7 +324,8 @@ public class MaRzAgent extends Agent {
 	 */
 
 	public SuffixNode findWorstNodeToTry() {
-		SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray();
+		SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray(
+				new SuffixNode[hashFringe.size()]);
 		assert (nodes.length > 0);
 
 		double theBEASTLIESTCombo = nodes[0].heuristic;
@@ -378,16 +393,18 @@ public class MaRzAgent extends Agent {
 		// Check for split of active node
 		int tries = activeNode.failsIndexList.size()
 				+ activeNode.successIndexList.size();
-		if (tries >= MIN_TRIES) {
-			splitNode();
+		// if (tries >= MIN_TRIES) {
+		splitNode();
 
-			activeNode = findBestNodeToTry();
+		activeNode = findBestNodeToTry();
 
-			// Use the new active node's queue sequence if it exists
-			if (!activeNode.queueSeq.equals("")) {
-				nextSeqToTry = activeNode.queueSeq;
-			}
-		}// if
+		
+		// Use the new active node's queue sequence if it exists
+		if (!activeNode.queueSeq.equals("")) {
+			nextSeqToTry = activeNode.queueSeq;
+		}
+
+		// }// if
 
 	}// trySeq
 
@@ -566,8 +583,31 @@ public class MaRzAgent extends Agent {
 
 		Date date = new Date();
 		System.out.println("Start: " + date.toString());
+		Scanner scan = new Scanner(System.in);
+		System.out.println("What is the email your are sending from: ");
+		String emailAddress = scan.next();
+		Address[] addresses = { new InternetAddress(), new InternetAddress(),
+				new InternetAddress() };
+		try {
+			addresses = new Address[] {
+					new InternetAddress("rodrigch18@up.edu"),
+					new InternetAddress("marston18@up.edu"),
+					new InternetAddress("nuxoll@up.edu") };
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.err.println("ERROR ON EMAIL EXCEPTION");
+		}
+		System.out
+				.println("What is the password for the email you indicated: ");
+		String password = scan.next();
+
 		tryGenLearningCurves();
 		Date eDate = new Date();
+		SendAttachmentInEmail email = new SendAttachmentInEmail();
+
+		email.sendEmail(emailAddress, password, addresses);
+
 		System.out.println("End: " + eDate.toString());
 
 		// TBD: REMOVE - PROFILING
