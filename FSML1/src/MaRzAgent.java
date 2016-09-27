@@ -2,6 +2,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+
 /**
  * MaRzAgent Class
  * 
@@ -310,7 +311,6 @@ public class MaRzAgent extends Agent {
 	 * 
 	 */
 	public void trySeq() {
-		boolean pass = true;
 
 		// TBD: DEBUGGING
 		long timeSince = System.currentTimeMillis() - timeOfLastStatus;
@@ -320,15 +320,36 @@ public class MaRzAgent extends Agent {
 			this.timeOfLastStatus = System.currentTimeMillis();
 		}
 
-		while (pass) {
-			pass = tryPath(nextSeqToTry);
+        //Try the sequence until it fails
+        String result = "";
+        do
+        {
+            result = tryPath(nextSeqToTry);
 
-            //TODO:  Update the active node's success/fail lists and related
-            // based upon whether it succeeds in the suffix or not.  Also update
+            // Update the active node's success/fail lists and related based
+            // upon whether we reached the goal or not.  Reaching the goal
+            // before the suffix is reached is treated as neither a fail nor
+            // success for heuristic purposes.  However, it is still an overall
+            // success so the path will be repeated in this loop.
+            if (result.equals("FAIL")) {
+                activeNode.failsIndexList.add(new Integer(this.memory.length() - activeNode.suffix.length()));
+            }
+            else { //possible success
+                int unusedLen = nextSeqToTry.length() - result.length();
+
+                //Did we reach the suffix?
+                if (unusedLen < activeNode.suffix.length()) {
+                    activeNode.successIndexList.add(new Integer(this.memory.length() + unusedLen - activeNode.suffix.length()));
+                }
+
+                //If it succeeded before the suffix it's neither a success nor a
+                //failure
+            }//else
+
+            //TODO:  Also update
             // the heuristic
 
-
-		}
+		} while (!result.equals("FAIL"));
 
         //Check for split of active node
         int tries = activeNode.failsIndexList.size() + activeNode.successIndexList.size();

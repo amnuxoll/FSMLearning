@@ -112,7 +112,7 @@ public class DecarbonatedAgent extends Agent {
                 	System.out.println("trying sequence of length " + nextSeqToTry.length() + "   " + date.toString());
                 }
                 
-                while(tryPath(nextSeqToTry))
+                while(!tryPath(nextSeqToTry).equals("FAIL"))
                 {
                     if (Successes >= NUM_GOALS) { 
                         return;  //if we reach this, path is likely universal sequence

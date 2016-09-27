@@ -1,4 +1,3 @@
-
 import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Math.floor;
@@ -333,7 +332,7 @@ public abstract class Agent {
         }
         return new Path(generatedPath);
     }//stringToPath
-    
+
     /**
      * tryPath
      *
@@ -343,8 +342,7 @@ public abstract class Agent {
      * on the last cmd, otherwise it will return false. If it reaches the
      * goal prematurely it will not execute anymore cmd's and return false
      *
-     * TODO:  We're really not using Path anymore.  This method and overloaded
-     * one below should be updated to reflect that
+     * TODO:  This is a deprecated version and should be phased out
      *
      * @param pathToTry; An ArrayList of Characters representing the path to try
      * 
@@ -368,14 +366,43 @@ public abstract class Agent {
         return false;
     }//tryPath
 
-    /** tryPath
+
+    
+    /**
+     * tryPath
      *
-     *  overloaded version that takes a string
+     * Given a full string of moves, tryPath will enter the moves
+     * one by one until it reaches the goal.  Once the goal is reached the
+     * method stops so the entire given path may not be tried.
+     *
+     * TODO: Should we really stop without finishing the entire path when we
+     * reach a success?  Will the agent perform better or worse if it always
+     * finishes the path?
+     *
+     * @param pathToTry; a string representing the path to try
+     * 
+     * @return the amount of the given path that was actually tried or the code
+     * "FAIL" if the entire path was tried without reaching the goal
      */
-    public boolean tryPath(String pathToTry) {
-    	memory = memory + pathToTry;
-        return tryPath(stringToPath(pathToTry));
-    }
+    public String tryPath(String pathToTry) {
+        boolean[] sensors;
+        // Enter each character in the path
+        for (int i = 0; i < pathToTry.length(); i++) {
+            sensors = env.tick(pathToTry.charAt(i));
+            int encodedSensorResult = encodeSensors(sensors);
+            episodicMemory.add(new Episode(pathToTry.charAt(i), encodedSensorResult));
+            memory = memory + pathToTry.charAt(i);
+            if (sensors[IS_GOAL]) {
+                Successes++;
+                debugPrintln("Success after " + (i + 1) + " steps.");
+
+                
+                return pathToTry.substring(0,i+1);
+            }
+        }
+        // If we make it through the entire loop, the path was unsuccessful
+        return "FAIL";
+    }//tryPath
 
     /**
      * Takes in an agent's sensor data and encodes it into an integer
