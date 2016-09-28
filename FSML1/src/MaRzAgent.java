@@ -1,8 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.lang.*;
-
 import javax.mail.Address;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -22,7 +20,7 @@ public class MaRzAgent extends Agent {
 	/*---====CONSTANTS====---*/
 
 	// minimum tries before a suffix node is expanded
-	public static final int MIN_TRIES = 100;
+	public static final int MIN_TRIES = 50;
 
 	// the likeliness to jump back to another node
 	// (should be in the range (0.0 - 1.0)
@@ -43,7 +41,8 @@ public class MaRzAgent extends Agent {
 	 * each permutation has a number associated with it. This is used to track
 	 * the last permutation the agent tried.
 	 */
-	int lastPermutationIndex = 1;// set to 1 because we hard coded the first permutation to be 'a'
+	int lastPermutationIndex = 1;// set to 1 because we hard coded the first
+									// permutation to be 'a'
 
 	/**
 	 * the next sequence to consider testing (typically generated via
@@ -56,6 +55,12 @@ public class MaRzAgent extends Agent {
 	 * elapsed
 	 */
 	long timeOfLastStatus = 0;
+
+	/*
+	 * Tracked the amount of tries performed by the active node, done for
+	 * splitting purposes. Reset to 0 at time of choosing new activeNode.
+	 */
+	int triesDoneBeforeSplit = 0;
 
 	/** for profiling: log total time spent in various code */
 	public static long overallStartTime = 0;
@@ -170,22 +175,23 @@ public class MaRzAgent extends Agent {
 			// System.out.println("FRINGE SIZE: " + hashFringe.size());
 			// System.out.println("ACTIVENODE: " + activeNode.toString());
 			System.out.println("Successes: " + Successes);
-			
-			
-			//TODO: WHAT THE **** IS THIS!!!!! QUEUESEQ IS NOT NEEDED, IS IT?
+
+			// TODO: WHAT THE **** IS THIS!!!!! QUEUESEQ IS NOT NEEDED, IS IT?
 			if (nextSeqToTry.endsWith(activeNode.suffix)) {
 				debugPrintln("Trying Sequence: " + nextSeqToTry);
 
 				trySeq();
 
-			} else {
-				activeNode = hashFringe.get(this.nextSeqToTry);
-				if (activeNode.queueSeq.equals("")) {
-					activeNode.queueSeq = nextSeqToTry;
-					debugPrintln("\nTrying Sequence: " + nextSeqToTry);
-					trySeq();
-				}
 			}
+			// else {
+			// // activeNode = hashFringe.get(this.nextSeqToTry);
+			// // if (activeNode.queueSeq.equals("")) {
+			// // activeNode.queueSeq = nextSeqToTry;
+			// // debugPrintln("\nTrying Sequence: " + nextSeqToTry);
+			// // trySeq();
+			// // }
+			// nextSeqToTry = nextPermutation();
+			// }
 			nextSeqToTry = nextPermutation();
 
 		}// while
@@ -385,23 +391,51 @@ public class MaRzAgent extends Agent {
 				// failure
 			}// else
 
-			// TODO: Also update
-			// the heuristic
+			triesDoneBeforeSplit++;
 
 		} while (!result.equals("FAIL"));
 
 		// Check for split of active node
 		int tries = activeNode.failsIndexList.size()
 				+ activeNode.successIndexList.size();
-		// if (tries >= MIN_TRIES) {
-		splitNode();
+		if (triesDoneBeforeSplit >= MIN_TRIES) {
+			splitNode();
+			activeNode = findBestNodeToTry();
+			triesDoneBeforeSplit = 0;
 
-		activeNode = findBestNodeToTry();
+			// Use the new active node's queue sequence if it exists
+			if (!activeNode.queueSeq.equals("")) {
+				nextSeqToTry = activeNode.queueSeq;
+			}
+			if (!nextSeqToTry.endsWith(this.activeNode.suffix)) {
+				// NST should end in the suffix
 
-		
-		// Use the new active node's queue sequence if it exists
-		if (!activeNode.queueSeq.equals("")) {
-			nextSeqToTry = activeNode.queueSeq;
+				// for(key a : hashFringe map){
+				// if(nextSeqToTry.endsWith(key.suffix)){
+				// key.queueSeq = nextSeqToTry;
+				// nextSeqToTry = nextPermutation;
+				// }
+				// }
+
+				//TODO: FIX THIS!!
+				for (Map.Entry<String, SuffixNode> entry : hashFringe
+						.entrySet()) {
+					
+					String sListName = entry.getKey();
+					if (nextSeqToTry.endsWith(entry.getKey())) {
+						hashFringe.get(entry.getKey()).queueSeq = nextSeqToTry;
+						nextSeqToTry = nextPermutation();
+					}
+
+					// NEED TO IMPLEMENT THE ABOVECODE NOT IN N TIME!!!!!! (in
+					// other
+					// words no loops)
+					// if((hashFringe.get(this.nextSeqToTry) != null) &&
+					// (hashFringe.get(this.nextSeqToTry).g == activeNode.g)){
+					//
+					// }
+				}
+			}
 		}
 
 		// }// if
@@ -594,7 +628,7 @@ public class MaRzAgent extends Agent {
 					new InternetAddress("marston18@up.edu"),
 					new InternetAddress("nuxoll@up.edu") };
 		} catch (AddressException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			System.err.println("ERROR ON EMAIL EXCEPTION");
 		}
