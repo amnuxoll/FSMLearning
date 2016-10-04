@@ -44,7 +44,7 @@ public abstract class Agent {
     
     /** Number of episodes per run */
     public static final int MAX_EPISODES = 2000000;
-    public static final int NUM_GOALS = 8000;
+    public static final int NUM_GOALS = 70;
     /** Number of state machines to test a given constant combo with */
     public static final int NUM_MACHINES = 10;
     
@@ -141,7 +141,7 @@ public abstract class Agent {
                 csv.append(""+",");
             csv.append("AVG" + ",");
             csv.flush();
-            for(int i=informationColumns; i <= NUM_GOALS+informationColumns; i++)
+            for(int i=informationColumns+2; i <= NUM_GOALS+informationColumns+2; i++)
             {
                 csv.append("=average("+getColumnString(i)+"1:"+getColumnString(i)+""+NUM_MACHINES+")" + ",");
                 csv.flush();
@@ -173,7 +173,7 @@ public abstract class Agent {
                 csv.append(""+"\n");
             csv.append("AVG" + "\n");
             csv.flush();
-            for(int i=informationColumns; i <= NUM_GOALS+informationColumns; i++)
+            for(int i=informationColumns;i <= NUM_GOALS+informationColumns; i++)
             {
                 csv.append("=average(a"+ i + ":"+getColumnString(NUM_MACHINES)+i+")" + "\n");
                 csv.flush();

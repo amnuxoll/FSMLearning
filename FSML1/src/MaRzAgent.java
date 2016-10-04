@@ -20,7 +20,7 @@ public class MaRzAgent extends Agent {
 	/*---====CONSTANTS====---*/
 
 	// minimum tries before a suffix node is expanded
-	public static final int MIN_TRIES = 50;
+	public static final int MIN_TRIES = 6;
 
 	// the likeliness to jump back to another node
 	// (should be in the range (0.0 - 1.0)
@@ -174,22 +174,42 @@ public class MaRzAgent extends Agent {
 
 			// System.out.println("FRINGE SIZE: " + hashFringe.size());
 			// System.out.println("ACTIVENODE: " + activeNode.toString());
-			System.out.println("Successes: " + Successes);
+			// System.out.println("Successes: " + Successes);
 
-			// TODO: WHAT THE **** IS THIS!!!!! QUEUESEQ IS NOT NEEDED, IS IT?
+			System.out.println("ActiveNode: " + activeNode.toString());
+			System.out.println("hashFringe: " + hashFringe.toString());
+
 			if (nextSeqToTry.endsWith(activeNode.suffix)) {
 				debugPrintln("Trying Sequence: " + nextSeqToTry);
+				// System.out.println("Trying Sequence: " + nextSeqToTry);
+
+				if (Successes >= NUM_GOALS) {
+					break;
+				}
 
 				trySeq();
 
+			} else {
+
+				// TODO: FIX THIS!!
+				for (Map.Entry<String, SuffixNode> entry : hashFringe
+						.entrySet()) {
+
+					if (nextSeqToTry.endsWith(entry.getKey())) {
+						hashFringe.get(entry.getKey()).queueSeq = nextSeqToTry;
+						// break;
+					}
+
+				}
+
 			}
 			// else {
-			// // activeNode = hashFringe.get(this.nextSeqToTry);
-			// // if (activeNode.queueSeq.equals("")) {
-			// // activeNode.queueSeq = nextSeqToTry;
-			// // debugPrintln("\nTrying Sequence: " + nextSeqToTry);
-			// // trySeq();
-			// // }
+			// activeNode = hashFringe.get(this.nextSeqToTry);
+			// if (activeNode.queueSeq.equals("")) {
+			// activeNode.queueSeq = nextSeqToTry;
+			// debugPrintln("\nTrying Sequence: " + nextSeqToTry);
+			// trySeq();
+			// }
 			// nextSeqToTry = nextPermutation();
 			// }
 			nextSeqToTry = nextPermutation();
@@ -197,15 +217,6 @@ public class MaRzAgent extends Agent {
 		}// while
 
 	}// exploreEnviroment
-
-	/* a useful code snippet to save for later */
-	/*
-	 * double heuristic = 0.0; if (activeNode.successIndexList.size() +
-	 * activeNode.failsIndexList.size() == 0) { heuristic = (activeNode.g *
-	 * G_WEIGHT); } else { heuristic = (activeNode.failsIndexList.size() /
-	 * (activeNode.successIndexList.size() + activeNode.failsIndexList.size()))
-	 * + (activeNode.g * G_WEIGHT); }
-	 */
 
 	/**
 	 * splitNode
@@ -353,17 +364,14 @@ public class MaRzAgent extends Agent {
 	 */
 	public void trySeq() {
 
-		// TBD: DEBUGGING
-		long timeSince = System.currentTimeMillis() - timeOfLastStatus;
-		if (timeSince > 500) {
-			System.out.println("Successes: " + Successes);
-			System.out.println("TRYING: " + nextSeqToTry);
-			this.timeOfLastStatus = System.currentTimeMillis();
-		}
+		// System.out.println("Successes: " + Successes);
+		// System.out.println("TRYING: " + nextSeqToTry);
 
 		// Try the sequence until it fails
 		String result = "";
 		do {
+			// System.out.println("Successes: " + Successes);
+
 			result = tryPath(nextSeqToTry);
 
 			// Update the active node's success/fail lists and related based
@@ -393,12 +401,10 @@ public class MaRzAgent extends Agent {
 
 			triesDoneBeforeSplit++;
 
-		} while (!result.equals("FAIL"));
+		} while (!result.equals("FAIL") && Successes <= NUM_GOALS);
 
 		// Check for split of active node
-		int tries = activeNode.failsIndexList.size()
-				+ activeNode.successIndexList.size();
-		if (triesDoneBeforeSplit >= MIN_TRIES) {
+		if (triesDoneBeforeSplit >= MIN_TRIES && Successes <= NUM_GOALS) {
 			splitNode();
 			activeNode = findBestNodeToTry();
 			triesDoneBeforeSplit = 0;
@@ -407,35 +413,7 @@ public class MaRzAgent extends Agent {
 			if (!activeNode.queueSeq.equals("")) {
 				nextSeqToTry = activeNode.queueSeq;
 			}
-			if (!nextSeqToTry.endsWith(this.activeNode.suffix)) {
-				// NST should end in the suffix
 
-				// for(key a : hashFringe map){
-				// if(nextSeqToTry.endsWith(key.suffix)){
-				// key.queueSeq = nextSeqToTry;
-				// nextSeqToTry = nextPermutation;
-				// }
-				// }
-
-				//TODO: FIX THIS!!
-				for (Map.Entry<String, SuffixNode> entry : hashFringe
-						.entrySet()) {
-					
-					String sListName = entry.getKey();
-					if (nextSeqToTry.endsWith(entry.getKey())) {
-						hashFringe.get(entry.getKey()).queueSeq = nextSeqToTry;
-						nextSeqToTry = nextPermutation();
-					}
-
-					// NEED TO IMPLEMENT THE ABOVECODE NOT IN N TIME!!!!!! (in
-					// other
-					// words no loops)
-					// if((hashFringe.get(this.nextSeqToTry) != null) &&
-					// (hashFringe.get(this.nextSeqToTry).g == activeNode.g)){
-					//
-					// }
-				}
-			}
 		}
 
 		// }// if
@@ -617,30 +595,30 @@ public class MaRzAgent extends Agent {
 
 		Date date = new Date();
 		System.out.println("Start: " + date.toString());
-		Scanner scan = new Scanner(System.in);
-		System.out.println("What is the email your are sending from: ");
-		String emailAddress = scan.next();
-		Address[] addresses = { new InternetAddress(), new InternetAddress(),
-				new InternetAddress() };
-		try {
-			addresses = new Address[] {
-					new InternetAddress("rodrigch18@up.edu"),
-					new InternetAddress("marston18@up.edu"),
-					new InternetAddress("nuxoll@up.edu") };
-		} catch (AddressException e) {
-			
-			e.printStackTrace();
-			System.err.println("ERROR ON EMAIL EXCEPTION");
-		}
-		System.out
-				.println("What is the password for the email you indicated: ");
-		String password = scan.next();
-
+		// Scanner scan = new Scanner(System.in);
+		// System.out.println("What is the email your are sending from: ");
+		// String emailAddress = scan.next();
+		// Address[] addresses = { new InternetAddress(), new InternetAddress(),
+		// new InternetAddress() };
+		// try {
+		// addresses = new Address[] {
+		// new InternetAddress("rodrigch18@up.edu"),
+		// new InternetAddress("marston18@up.edu"),
+		// new InternetAddress("nuxoll@up.edu") };
+		// } catch (AddressException e) {
+		//
+		// e.printStackTrace();
+		// System.err.println("ERROR ON EMAIL EXCEPTION");
+		// }
+		// System.out
+		// .println("What is the password for the email you indicated: ");
+		// String password = scan.next();
+		//
 		tryGenLearningCurves();
 		Date eDate = new Date();
 		SendAttachmentInEmail email = new SendAttachmentInEmail();
-
-		email.sendEmail(emailAddress, password, addresses);
+		//
+		// email.sendEmail(emailAddress, password, addresses);
 
 		System.out.println("End: " + eDate.toString());
 
