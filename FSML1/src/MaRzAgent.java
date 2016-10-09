@@ -1,9 +1,18 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+
+import javax.mail.Address;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 // import javax.mail.Address;
 // import javax.mail.internet.AddressException;
 // import javax.mail.internet.InternetAddress;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  * MaRzAgent Class
@@ -20,11 +29,11 @@ public class MaRzAgent extends Agent {
 	/*---====CONSTANTS====---*/
 
 	// minimum tries before a suffix node is expanded
-	public static final int MIN_TRIES = 6;
+	public static final int MIN_TRIES = 10;
 
 	// the likeliness to jump back to another node
 	// (should be in the range (0.0 - 1.0)
-	public static final double G_WEIGHT = 0.2;
+	public static final double G_WEIGHT = 0.001;
 
 	// max size of list of nodes
 	public static final int NODE_LIST_SIZE = 1000;
@@ -79,7 +88,8 @@ public class MaRzAgent extends Agent {
 	public class SuffixNode {
 		/*--==Instance Variables==--*/
 		public String suffix;
-		public int queueSeq; // if this node becomes active, start with this permutation
+		public int queueSeq; // if this node becomes active, start with this
+								// permutation
 		public double heuristic;// the current overall potential of this suffix
 		public int g; // distance from root (ala A* search)
 
@@ -122,14 +132,14 @@ public class MaRzAgent extends Agent {
 		@Override
 		public String toString() {
 			String output = suffix;
-            output += "(" + nextPermutation(queueSeq) + ")";
+			output += "(" + nextPermutation(queueSeq) + ")";
 
 			int failedTries = failsIndexList.size();
 			int tries = failedTries + successIndexList.size();
 
 			output = output + ":" + failedTries + "/" + tries;
-            output = output + "=" + heuristic;
-            return output;
+			output = output + "=" + heuristic;
+			return output;
 		}
 	}// SuffixNode Class
 
@@ -190,37 +200,34 @@ public class MaRzAgent extends Agent {
 
 			} else {
 
-                // int charIndex = nextSeqToTry.length() - 2;
-                // String key = "" + nextSeqToTry.charAt(charIndex + 1);
-                // while (!hashFringe.containsKey(key)) {
-                //     key = nextSeqToTry.charAt(charIndex) + key;
-                //     charIndex--;
-                //     if (charIndex == -1) break; //should never happen
-                // }
-                // SuffixNode node = hashFringe.get(key);
-                // if (node.queueSeq == 1)
-                // {
-                //     node.queueSeq = lastPermutationIndex - 1;
-                // }
-                
-                
-				// TODO: FIX THIS!!  See code above might fix it?
+				// int charIndex = nextSeqToTry.length() - 2;
+				// String key = "" + nextSeqToTry.charAt(charIndex + 1);
+				// while (!hashFringe.containsKey(key)) {
+				// key = nextSeqToTry.charAt(charIndex) + key;
+				// charIndex--;
+				// if (charIndex == -1) break; //should never happen
+				// }
+				// SuffixNode node = hashFringe.get(key);
+				// if (node.queueSeq == 1)
+				// {
+				// node.queueSeq = lastPermutationIndex - 1;
+				// }
+
+				// TODO: FIX THIS!! See code above might fix it?
 				for (Map.Entry<String, SuffixNode> entry : hashFringe
 						.entrySet()) {
 
-					if (nextSeqToTry.endsWith(entry.getKey()))
-                    {
-                        SuffixNode node = hashFringe.get(entry.getKey());
-                        if (node.queueSeq == 1)
-                        {
-                            node.queueSeq = lastPermutationIndex - 1;
-                        }
-                        break;
+					if (nextSeqToTry.endsWith(entry.getKey())) {
+						SuffixNode node = hashFringe.get(entry.getKey());
+						if (node.queueSeq == 1) {
+							node.queueSeq = lastPermutationIndex - 1;
+						}
+						break;
 					}
 
-                }//for
-			}//else
-            
+				}// for
+			}// else
+
 			// else {
 			// activeNode = hashFringe.get(this.nextSeqToTry);
 			// if (activeNode.queueSeq.equals("")) {
@@ -427,13 +434,11 @@ public class MaRzAgent extends Agent {
 			activeNode = findBestNodeToTry();
 			triesDoneBeforeSplit = 0;
 
+			debugPrintln("New active node: " + activeNode);
 
-            debugPrintln("New active node: " + activeNode);
-
-            
 			// Use the new active node's queue sequence if it exists
 			if (activeNode.queueSeq > 1) {
-                lastPermutationIndex = activeNode.queueSeq;
+				lastPermutationIndex = activeNode.queueSeq;
 			}
 
 		}
@@ -514,7 +519,7 @@ public class MaRzAgent extends Agent {
 
 	}// getIndexOfSuffix
 
-    /** TODO:  Comment please */
+	/** TODO: Comment please */
 	public String nextPermutation(int index) {
 		if (index <= 0)
 			throw new IndexOutOfBoundsException(
@@ -528,9 +533,8 @@ public class MaRzAgent extends Agent {
 		}
 		return sb.toString();
 
-    }//nextPermutation
+	}// nextPermutation
 
-    
 	/**
 	 * nextPermutation
 	 * 
@@ -538,7 +542,7 @@ public class MaRzAgent extends Agent {
 	 */
 	public String nextPermutation() {
 		lastPermutationIndex++;
-        return nextPermutation(lastPermutationIndex);
+		return nextPermutation(lastPermutationIndex);
 	}// nextPermutation
 
 	/**
@@ -623,30 +627,50 @@ public class MaRzAgent extends Agent {
 
 		Date date = new Date();
 		System.out.println("Start: " + date.toString());
-		// Scanner scan = new Scanner(System.in);
-		// System.out.println("What is the email your are sending from: ");
-		// String emailAddress = scan.next();
-		// Address[] addresses = { new InternetAddress(), new InternetAddress(),
-		// new InternetAddress() };
-		// try {
-		// addresses = new Address[] {
-		// new InternetAddress("rodrigch18@up.edu"),
-		// new InternetAddress("marston18@up.edu"),
-		// new InternetAddress("nuxoll@up.edu") };
-		// } catch (AddressException e) {
-		//
-		// e.printStackTrace();
-		// System.err.println("ERROR ON EMAIL EXCEPTION");
-		// }
-		// System.out
-		// .println("What is the password for the email you indicated: ");
-		// String password = scan.next();
-		//
+
+		JLabel jUserName = new JLabel("Email to be Sent From (UP email only)");
+		JTextField userName = new JTextField();
+		JLabel jPassword = new JLabel("Password");
+		JTextField password = new JPasswordField();
+		Object[] ob = { jUserName, userName, jPassword, password };
+		int result = JOptionPane.showConfirmDialog(null, ob,
+				"Please input password for JOptionPane showConfirmDialog",
+				JOptionPane.OK_CANCEL_OPTION);
+
+		String from = userName.getText();
+		String pass = password.getText();
+		Address[] addresses = null;
+		if (result == JOptionPane.OK_OPTION) {
+			from = userName.getText();
+			pass = password.getText();
+			// Here is some validation code
+		
+
+		JFrame frame2 = new JFrame("Emails to Send To");
+		String to = JOptionPane
+				.showInputDialog(frame2,
+						"What's email are you sending to (separate emails using spaces)?");
+		String[] token = to.split(" ");
+
+		addresses = new Address[token.length];
+		try {
+			for (int i = 0; i < token.length; i++) {
+				addresses[i] = new InternetAddress(token[i]);
+			}
+		} catch (AddressException e) {
+			e.printStackTrace();
+			System.err.println("ERROR ON EMAIL EXCEPTION");
+		}
+		}
+
 		tryGenLearningCurves();
 		Date eDate = new Date();
-		//SendAttachmentInEmail email = new SendAttachmentInEmail();
-		//
-		// email.sendEmail(emailAddress, password, addresses);
+		
+		if (result == JOptionPane.OK_OPTION) {
+			SendAttachmentInEmail email = new SendAttachmentInEmail();
+
+			email.sendEmail(from, pass, addresses, G_WEIGHT, MIN_TRIES);
+		}
 
 		System.out.println("End: " + eDate.toString());
 
@@ -658,6 +682,7 @@ public class MaRzAgent extends Agent {
 				/ (double) overallTotalTime;
 		System.out.println("Portion spent: " + MaRzAgent.totalTime + " ms = "
 				+ percent + "%");
+		System.exit(0);
 	}
 
 }

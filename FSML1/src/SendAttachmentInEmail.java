@@ -16,7 +16,7 @@ import javax.mail.PasswordAuthentication;
 
 public class SendAttachmentInEmail extends Authenticator {
 
-    public void sendEmail(String emailAdress, String Password, Address[] addresses) {
+    public void sendEmail(String emailAdress, String Password, Address[] addresses, double gWeight, int MinTries) {
         //
         // Defines the E-Mail information.
         //
@@ -24,7 +24,7 @@ public class SendAttachmentInEmail extends Authenticator {
     	
         final String from = emailAdress;
         final Address[] to = addresses;
-        String subject = "Agent Complete";
+        String subject = "Agent Complete with gWeight and minTries: " + gWeight + " " + MinTries;
         String bodyText = "Here lies the results to our AI: AIReport.csv";
         
         final String password = Password;
@@ -35,8 +35,8 @@ public class SendAttachmentInEmail extends Authenticator {
         //
         // The attachment file name.
         //
-        String attachmentName = ("C:/Users/Christian/git/FSMLearning/FSML1/AIReport.csv");
-        //"C:/Users/Christian/git/FSMLearning/FSML1/AIReport.csv";
+        String attachmentName = ("P:/git/FSMLearning/FSML1/AIReport.csv");
+       
 
         //
         // Creates a Session with the following properties.
