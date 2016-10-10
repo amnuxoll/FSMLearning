@@ -46,12 +46,12 @@ public abstract class Agent {
     public static final int MAX_EPISODES = 2000000;
     public static final int NUM_GOALS = 500;
     /** Number of state machines to test a given constant combo with */
-    public static final int NUM_MACHINES = 500;
+    public static final int NUM_MACHINES = 10;
     
     public static int informationColumns; //for now before consolidation of recording data must be declared in each agent
     
     /** Turn this on to print debugging messages */
-    public static boolean debug = false;
+    public static boolean debug = true;
     /** println for debug messages only */
     public static void debugPrintln(String s) { if (debug) System.out.println(s); }
     public static void debugPrint(String s) { if (debug) System.out.print(s); }
