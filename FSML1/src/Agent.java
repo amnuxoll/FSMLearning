@@ -46,7 +46,7 @@ public abstract class Agent {
     public static final int MAX_EPISODES = 2000000;
     public static final int NUM_GOALS = 500;
     /** Number of state machines to test a given constant combo with */
-    public static final int NUM_MACHINES = 10;
+    public static final int NUM_MACHINES = 100;
     
     public static int informationColumns; //for now before consolidation of recording data must be declared in each agent
     
@@ -200,11 +200,11 @@ public abstract class Agent {
         try {
             for(int i=0; i<informationColumns-2; i++)
                 csv.append(""+"\n");
-            csv.append("BASELINE" + "\n");
+            csv.append("BASELINE" + ",");
             csv.flush();
             for(int i=informationColumns; i <= NUM_GOALS+informationColumns; i++)
             {
-                csv.append(baseline + "\n");
+                csv.append(baseline + ",");
                 csv.flush();
             }
 
