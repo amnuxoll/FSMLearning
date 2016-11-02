@@ -28,7 +28,7 @@ public class MaRzAgent extends Agent
 	/*---====CONSTANTS====---*/
 
 	// minimum tries before a suffix node is expanded
-	public static final int MIN_TRIES = 45;
+	//public static final int MIN_TRIES = 45;
 
 	// the likeliness to jump back to another node
 	// (should be in the range (0.0 - 1.0)
@@ -87,10 +87,13 @@ public class MaRzAgent extends Agent
 	{
 		/*--==Instance Variables==--*/
 		public String suffix;
-		public int queueSeq; 	// if this node becomes active, start with this
-								// permutation
-		public double heuristic;// the current overall potential of this suffix
-		public int g;			// distance from root (ala A* search)
+		public int queueSeq; 		// if this node becomes active, start with this
+									// permutation
+		public double heuristic;	// the current overall potential of this suffix
+		public int g;				// distance from root (ala A* search)
+		public int minTries;  // minimum tries before a suffix node is expanded
+		
+		public double prevHeuristic; 
 
 		/*
 		 * indices into episodicMemory of successful/failed sequences with this
@@ -122,6 +125,8 @@ public class MaRzAgent extends Agent
 			this.indexOfLastEpisodeTried = 0;
 			this.successIndexList = new ArrayList<Integer>();
 			this.failsIndexList = new ArrayList<Integer>();
+			this.minTries = 75;
+			this.prevHeuristic = 0.0;
 		}// ctor
 
 		/**
@@ -139,7 +144,7 @@ public class MaRzAgent extends Agent
 			int tries = failedTries + successIndexList.size();
 
 			output = output + ":" + failedTries + "/" + tries;
-			output = output + "=" + heuristic;
+			output = output + "=" + heuristic + " minTries: " + minTries;
 			return output;
 		}
 	}// SuffixNode Class
@@ -187,6 +192,9 @@ public class MaRzAgent extends Agent
 				SuffixNode worst = findWorstNodeToTry();
 				hashFringe.remove(worst.suffix);
 			}// if
+			
+			//backpropagate(activeNode);
+			//System.out.println("ACTIVE NODE: " + activeNode.toString());
 
 			if (nextSeqToTry.endsWith(activeNode.suffix)) 
 			{
@@ -268,6 +276,7 @@ public class MaRzAgent extends Agent
 			children[i].suffix = alphabet[i] + parentSuffix;
 			children[i].g = activeNode.g + 1;
 			children[i].indexOfLastEpisodeTried = memory.length() - 1;
+			children[i].minTries = activeNode.minTries;
 
 			hashFringe.put(children[i].suffix, children[i]);
 		}// for
@@ -277,7 +286,9 @@ public class MaRzAgent extends Agent
 		{
 			int index = indexObj.intValue() - 1;
 			if (index < 0)
+			{
 				continue;
+			}// if
 
 			int childIdx = memory.charAt(index) - 'a';
 			children[childIdx].successIndexList.add(new Integer(index));
@@ -288,7 +299,9 @@ public class MaRzAgent extends Agent
 		{
 			int index = indexObj.intValue() - 1;
 			if (index < 0)
+			{
 				continue;
+			}// if
 
 			int childIdx = memory.charAt(index) - 'a';
 			if (episodicMemory.get(index).sensorValue == GOAL) 
@@ -304,8 +317,8 @@ public class MaRzAgent extends Agent
 		// Recalculate the children's heuristics
 		for (int i = 0; i < alphabet.length; i++) 
 		{
-
 			updateHeuristic(children[i]);
+			backpropagate(children[i]);
 		}// for
 
 		hashFringe.remove(activeNode.suffix);
@@ -320,6 +333,9 @@ public class MaRzAgent extends Agent
 	public void updateHeuristic(SuffixNode theNode) 
 	{
 
+		// save the last heuristic	
+		theNode.prevHeuristic = theNode.heuristic;
+	
 		if (theNode.successIndexList.size() + theNode.failsIndexList.size() == 0) 
 		{
 			theNode.heuristic = ((double) theNode.g * (double) G_WEIGHT);
@@ -331,6 +347,55 @@ public class MaRzAgent extends Agent
 		}// else
 
 	}// updateHeuristic
+	
+	/**
+	 * backpropagate
+	 * 
+	 * 
+	 */
+	public void backpropagate(SuffixNode theNode) 
+	{
+		//create instance variable for previous heuristic
+		
+		//compare current heuristic to previous
+		//adjust misTries accordingly
+		if(theNode.minTries < 175){
+			if(theNode.prevHeuristic != 0.0){	
+				if(theNode.heuristic < theNode.prevHeuristic)
+				{
+					
+					theNode.minTries++;
+				}// if
+				else if(theNode.heuristic > theNode.prevHeuristic)
+				{
+					if(theNode.minTries > 25)
+					theNode.minTries--;
+				
+				}// else
+				System.out.println("ACTIVE NODE: " + activeNode.toString());
+			}
+		}// if
+		
+		
+		
+//		if(theNode.heuristic > ((double)(Successes/NUM_GOALS) + ((double) theNode.g * (double) G_WEIGHT)))
+//		{
+//			theNode.minTries = (int)(theNode.minTries - (theNode.minTries * theNode.heuristic));
+//			if(theNode.minTries < 2)
+//			{
+//				theNode.minTries = theNode.minTries * -1;
+//			}
+//		}
+//		else 
+//		{
+//			theNode.minTries = (int)((theNode.minTries * theNode.heuristic) + theNode.minTries);
+//			if(theNode.minTries < 2)
+//			{
+//				theNode.minTries = theNode.minTries * -1;
+//			}
+//		}
+
+	}// backpropagate
 
 	/**
 	 * findBestNodeToTry
@@ -412,6 +477,7 @@ public class MaRzAgent extends Agent
 				activeNode.failsIndexList.add(new Integer(this.memory.length()
 						- activeNode.suffix.length()));
 				updateHeuristic(activeNode);
+				backpropagate(activeNode);
 			}// if 
 			else // possible success 
 			{ 
@@ -424,20 +490,21 @@ public class MaRzAgent extends Agent
 							.add(new Integer(this.memory.length() + unusedLen
 									- activeNode.suffix.length()));
 					updateHeuristic(activeNode);
+					backpropagate(activeNode);
 				}// if
 
 				// If it succeeded before the suffix it's neither a success nor
 				// a failure
 				
 			}// else
-
+			
 			triesDoneBeforeSplit++;
 
 		} while (!result.equals("FAIL") && memory.length() < MAX_EPISODES
 				&& Successes <= NUM_GOALS);
 
 		// Check for split of active node
-		if (triesDoneBeforeSplit >= MIN_TRIES && memory.length() < MAX_EPISODES
+		if (triesDoneBeforeSplit >= activeNode.minTries && memory.length() < MAX_EPISODES
 				&& Successes <= NUM_GOALS) 
 		{
 			splitNode();
