@@ -2,14 +2,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-import javax.mail.Address;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+//import javax.mail.Address;
+//import javax.mail.internet.AddressException;
+//import javax.mail.internet.InternetAddress;
+//import javax.swing.JFrame;
+//import javax.swing.JLabel;
+//import javax.swing.JOptionPane;
+//import javax.swing.JPasswordField;
+//import javax.swing.JTextField;
 
 /**
  * MaRzAgent Class
@@ -35,7 +35,7 @@ public class MaRzAgent extends Agent
 	public static final double G_WEIGHT = 0.1;
 
 	// max size of list of nodes
-	public static final int NODE_LIST_SIZE = 100000;
+	public static final int NODE_LIST_SIZE = 1000000;
 
 	/*---==== MEMBER VARIABLES ===---*/
 
@@ -126,11 +126,12 @@ public class MaRzAgent extends Agent
 			this.indexOfLastEpisodeTried = 0;
 			this.successIndexList = new ArrayList<Integer>();
 			this.failsIndexList = new ArrayList<Integer>();
-			this.minTries = 100;
+			this.minTries = alphabet.length * alphabet.length * alphabet.length;
+			;
 			this.prevHeuristic = 0.0;
 			this.failRate = 0.0;
 			this.parentFailRate = 0.0;
-			
+
 		}// ctor
 
 		/**
@@ -197,8 +198,9 @@ public class MaRzAgent extends Agent
 				hashFringe.remove(worst.suffix);
 			}// if
 
-			//backpropagate(activeNode);
-			//System.out.println("ACTIVE NODE: " + activeNode.toString());
+			// backpropagate(activeNode);
+			// TODO: TURN OFF
+			// System.out.println("ACTIVE NODE: " + activeNode.toString());
 
 			if (nextSeqToTry.endsWith(activeNode.suffix))
 			{
@@ -340,7 +342,6 @@ public class MaRzAgent extends Agent
 
 		// save the last heuristic
 		theNode.prevHeuristic = theNode.heuristic;
-		
 
 		if (theNode.successIndexList.size() + theNode.failsIndexList.size() == 0)
 		{
@@ -360,50 +361,63 @@ public class MaRzAgent extends Agent
 	/**
 	 * backpropagate
 	 * 
+	 * compares failRate of current node to its parents' failRate and adjusts
+	 * minTries if the new suffix is doing better than the parent, minTries
+	 * decreases if it is doing worse, minTries increases
 	 * 
+	 * TODO: solve recursive learning rate
 	 */
 	public void backpropagate(SuffixNode theNode)
 	{
-		// create instance variable for previous heuristic
-
-		// compare current heuristic to previous
-		// adjust misTries accordingly
 
 		if (theNode.failRate < theNode.parentFailRate)
 		{
-			if (theNode.minTries - 1 != 0 && theNode.minTries + 1 != 0)
+			if (theNode.minTries != 0)
 			{
-				int temp = theNode.minTries;
 				if (theNode.failRate != 0.0)
 				{
-
-					theNode.minTries = (int) ((theNode.minTries * (1-theNode.failRate)/100));
-					if (theNode.minTries < 25)
-					{
-
-						theNode.minTries = temp--;
-					}
-				}
-			}
+					theNode.minTries = (int) ((double) theNode.minTries * (double) (theNode.failRate));
+				}// if
+				else
+				{
+					theNode.minTries = alphabet.length * alphabet.length
+							* alphabet.length;
+				}// else
+			}// if
+			else
+			{
+				theNode.minTries = alphabet.length * alphabet.length
+						* alphabet.length;
+			}// else
 
 		}// if
 		else
 		{
-			if (theNode.minTries - 1 != 0 && theNode.minTries + 1 != 0)
+			if (theNode.minTries != 0)
 			{
-				int temp = theNode.minTries;
 				if (theNode.failRate != 0.0)
 				{
 					theNode.minTries = theNode.minTries
-							+ (int) (theNode.minTries * theNode.failRate);
-					if (theNode.minTries > 101)
-					{
-						theNode.minTries = temp--;
-					}
-				}
-			}
+							+ (int) ((double) theNode.minTries * (double) (1 - theNode.failRate));
+				}// if
+				else
+				{
+					theNode.minTries = alphabet.length * alphabet.length
+							* alphabet.length;
+				}// else
+			}// if
+			else
+			{
+				theNode.minTries = alphabet.length * alphabet.length
+						* alphabet.length;
+			}// else
 
 		}// else
+		if (theNode.minTries == 0)
+		{
+			theNode.minTries = alphabet.length * alphabet.length
+					* alphabet.length;
+		}
 
 	}// backpropagate
 

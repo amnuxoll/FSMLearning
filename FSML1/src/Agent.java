@@ -37,16 +37,16 @@ public abstract class Agent {
     public static final int IS_NEW_STATE = 0;
     public static final int IS_GOAL = 1;
     //filename to store experimental results
-    public static final String OUTPUT_FILE = "AIReport.csv";
+    public static  String OUTPUT_FILE = "AIReportFinal.csv";
     
     double DUPLICATE_FORGIVENESS = .25; //25% chance a duplicate is permitted (S.W.A.G.)
     
     
     /** Number of episodes per run */
     public static final int MAX_EPISODES = 2000000;
-    public static final int NUM_GOALS = 2000;
+    public static final int NUM_GOALS = 3000;
     /** Number of state machines to test a given constant combo with */
-    public static final int NUM_MACHINES = 100;
+    public static final int NUM_MACHINES = 10000;
     
     public static int informationColumns; //for now before consolidation of recording data must be declared in each agent
     
