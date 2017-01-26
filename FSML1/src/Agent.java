@@ -21,7 +21,7 @@ public abstract class Agent {
     protected char[] alphabet;
     protected ArrayList<Episode> episodicMemory;
     protected String memory;
-    protected int Successes = 0; //THIS WAS MADE BY WILL AND ASHLEY TO RENAME THE INT BELOW. UNUSED
+    protected int Successes = 0;
     
     //Sensor values
     //Important Note: we discovered a bug with the way the sensor constant values in the StateMachineAgent in the
@@ -44,11 +44,12 @@ public abstract class Agent {
     
     /** Number of episodes per run */
     public static final int MAX_EPISODES = 2000000;
-    public static final int NUM_GOALS = 3000;
+    public static final int NUM_GOALS = 500;
     /** Number of state machines to test a given constant combo with */
-    public static final int NUM_MACHINES = 10000;
+    public static final int NUM_MACHINES = 50;
     
-    public static int informationColumns; //for now before consolidation of recording data must be declared in each agent
+    public static int informationColumns = 0; //for now before consolidation of recording data must be declared in each agent
+    public static int informationRows = 1; //how many header rows there are before the data in the csv
     
     /** Turn this on to print debugging messages */
     public static boolean debug = false;
@@ -137,13 +138,15 @@ public abstract class Agent {
      */
     public static void recordAverage(FileWriter csv) {
         try {
-            for(int i=0; i<informationColumns-2; i++)
+            for(int i=0; i<informationColumns-1; i++)
                 csv.append(""+",");
             csv.append("AVG" + ",");
             csv.flush();
-            for(int i=informationColumns+2; i <= NUM_GOALS+informationColumns+2; i++)
+            for(int i=0; i <= NUM_GOALS; i++)
             {
-                csv.append("=average("+getColumnString(i)+"1:"+getColumnString(i)+""+NUM_MACHINES+")" + ",");
+                String colStr = getColumnString(i+informationColumns+1);
+                String range = colStr + (informationRows+1) + ":"+colStr+(NUM_MACHINES + informationRows);
+                csv.append("=average("+range+"),");
                 csv.flush();
             }
 
