@@ -2,6 +2,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+import javax.xml.transform.Templates;
+
 //import javax.mail.Address;
 //import javax.mail.internet.AddressException;
 //import javax.mail.internet.InternetAddress;
@@ -32,10 +34,10 @@ public class MaRzAgent extends Agent
 
 	// the likeliness to jump back to another node
 	// (should be in the range (0.0 - 1.0)
-	public static final double G_WEIGHT = 0.1;
+	public static double G_WEIGHT = .1;
 
 	// max size of list of nodes
-	public static final int NODE_LIST_SIZE = 1000000;
+	public static final int NODE_LIST_SIZE = 100000;
 
 	/*---==== MEMBER VARIABLES ===---*/
 
@@ -68,7 +70,7 @@ public class MaRzAgent extends Agent
 	 * Tracked the amount of tries performed by the active node, done for
 	 * splitting purposes. Reset to 0 at time of choosing new activeNode.
 	 */
-	int triesDoneBeforeSplit = 0;
+	int triesDoneBeforeSplit = 100;
 
 	/** for profiling: log total time spent in various code */
 	public static long overallStartTime = 0;
@@ -95,6 +97,7 @@ public class MaRzAgent extends Agent
 		public double failRate;
 		public double parentFailRate;
 		public double prevHeuristic;
+		public boolean split;
 
 		/*
 		 * indices into episodicMemory of successful/failed sequences with this
@@ -102,6 +105,8 @@ public class MaRzAgent extends Agent
 		 */
 		public ArrayList<Integer> successIndexList;
 		public ArrayList<Integer> failsIndexList;
+		
+		public ArrayList<String> siblings;
 
 		/*
 		 * the length of episodicMemory the last time the above lists were
@@ -126,11 +131,12 @@ public class MaRzAgent extends Agent
 			this.indexOfLastEpisodeTried = 0;
 			this.successIndexList = new ArrayList<Integer>();
 			this.failsIndexList = new ArrayList<Integer>();
-			this.minTries = alphabet.length * alphabet.length * alphabet.length;
-			;
+			this.minTries = 0;
 			this.prevHeuristic = 0.0;
 			this.failRate = 0.0;
 			this.parentFailRate = 0.0;
+			this.split = false;
+			this.siblings = new ArrayList<String>();
 
 		}// ctor
 
@@ -188,6 +194,7 @@ public class MaRzAgent extends Agent
 			{
 				nextSeqToTry = "a";
 				splitNode();
+				hashFringe.remove(activeNode.suffix);
 				activeNode = findBestNodeToTry();
 			}// if
 
@@ -200,7 +207,7 @@ public class MaRzAgent extends Agent
 
 			// backpropagate(activeNode);
 			// TODO: TURN OFF
-			// System.out.println("ACTIVE NODE: " + activeNode.toString());
+			// System.out.println("FRINGE: " + hashFringe.toString());
 
 			if (nextSeqToTry.endsWith(activeNode.suffix))
 			{
@@ -209,6 +216,16 @@ public class MaRzAgent extends Agent
 				if (Successes <= NUM_GOALS)
 				{
 					trySeq();
+					activeNode = findBestNodeToTry();
+
+					debugPrintln("New active node: " + activeNode);
+
+					// Use the new active node's queue sequence if it exists
+					if (activeNode.queueSeq > 1)
+					{
+						lastPermutationIndex = activeNode.queueSeq;
+//						activeNode.queueSeq = 1;
+					}// if
 				}// if
 
 			}// if
@@ -235,23 +252,11 @@ public class MaRzAgent extends Agent
 					}// if
 				}// if
 
-				// for (Map.Entry<String, SuffixNode> entry : hashFringe
-				// .entrySet()) {
-				//
-				// if (nextSeqToTry.endsWith(entry.getKey())) {
-				// SuffixNode node = hashFringe.get(entry.getKey());
-				// if (node.queueSeq == 1) {
-				// node.queueSeq = lastPermutationIndex - 1;
-				// }
-				// break;
-				// }
-				// }
-				//
-				// }// for
 
 			}// else
-
+			
 			nextSeqToTry = nextPermutation();
+			
 
 		}// while
 
@@ -276,17 +281,23 @@ public class MaRzAgent extends Agent
 
 		// Create the initial child nodes
 		SuffixNode[] children = new SuffixNode[alphabet.length];
+		ArrayList<String> siblings = new ArrayList<String>();
 		for (int i = 0; i < alphabet.length; i++)
 		{
 			children[i] = new SuffixNode();
 			children[i].suffix = alphabet[i] + parentSuffix;
 			children[i].g = activeNode.g + 1;
 			children[i].indexOfLastEpisodeTried = memory.length() - 1;
-			children[i].minTries = activeNode.minTries;
 			children[i].parentFailRate = activeNode.failRate;
-
+			siblings.add(alphabet[i] + parentSuffix);
+			
 			hashFringe.put(children[i].suffix, children[i]);
 		}// for
+		
+		for(int j = 0; j < children.length; j++)
+		{
+			children[j].siblings.addAll(siblings);
+		}
 
 		// Divy up the parent's success list
 		for (Integer indexObj : activeNode.successIndexList)
@@ -325,7 +336,7 @@ public class MaRzAgent extends Agent
 		for (int i = 0; i < alphabet.length; i++)
 		{
 			updateHeuristic(children[i]);
-			backpropagate(children[i]);
+//			backpropagate(children[i]);
 		}// for
 
 		hashFringe.remove(activeNode.suffix);
@@ -345,81 +356,81 @@ public class MaRzAgent extends Agent
 
 		if (theNode.successIndexList.size() + theNode.failsIndexList.size() == 0)
 		{
-			theNode.heuristic = ((double) theNode.g * (double) G_WEIGHT);
+			theNode.heuristic = ((double) theNode.g*(double) G_WEIGHT);
 			theNode.failRate = 0.0;
 		}// if
 		else
 		{
 			theNode.heuristic = (((double) theNode.failsIndexList.size() / (double) (theNode.successIndexList
-					.size() + (double) theNode.failsIndexList.size())) + ((double) theNode.g * (double) G_WEIGHT));
+					.size() + (double) theNode.failsIndexList.size())) + ((double) theNode.g *(double) G_WEIGHT));
 			theNode.failRate = ((double) theNode.failsIndexList.size() / (double) (theNode.successIndexList
 					.size() + (double) theNode.failsIndexList.size()));
 		}// else
 
 	}// updateHeuristic
 
-	/**
-	 * backpropagate
-	 * 
-	 * compares failRate of current node to its parents' failRate and adjusts
-	 * minTries if the new suffix is doing better than the parent, minTries
-	 * decreases if it is doing worse, minTries increases
-	 * 
-	 * TODO: solve recursive learning rate
-	 */
-	public void backpropagate(SuffixNode theNode)
-	{
-
-		if (theNode.failRate < theNode.parentFailRate)
-		{
-			if (theNode.minTries != 0)
-			{
-				if (theNode.failRate != 0.0)
-				{
-					theNode.minTries = (int) ((double) theNode.minTries * (double) (theNode.failRate));
-				}// if
-				else
-				{
-					theNode.minTries = alphabet.length * alphabet.length
-							* alphabet.length;
-				}// else
-			}// if
-			else
-			{
-				theNode.minTries = alphabet.length * alphabet.length
-						* alphabet.length;
-			}// else
-
-		}// if
-		else
-		{
-			if (theNode.minTries != 0)
-			{
-				if (theNode.failRate != 0.0)
-				{
-					theNode.minTries = theNode.minTries
-							+ (int) ((double) theNode.minTries * (double) (1 - theNode.failRate));
-				}// if
-				else
-				{
-					theNode.minTries = alphabet.length * alphabet.length
-							* alphabet.length;
-				}// else
-			}// if
-			else
-			{
-				theNode.minTries = alphabet.length * alphabet.length
-						* alphabet.length;
-			}// else
-
-		}// else
-		if (theNode.minTries == 0)
-		{
-			theNode.minTries = alphabet.length * alphabet.length
-					* alphabet.length;
-		}
-
-	}// backpropagate
+//	/**
+//	 * backpropagate
+//	 * 
+//	 * compares failRate of current node to its parents' failRate and adjusts
+//	 * minTries if the new suffix is doing better than the parent, minTries
+//	 * decreases if it is doing worse, minTries increases
+//	 * 
+//	 * TODO: solve recursive learning rate
+//	 */
+//	public void backpropagate(SuffixNode theNode)
+//	{
+//
+//		if (theNode.failRate < theNode.parentFailRate)
+//		{
+//			if (theNode.minTries != 0)
+//			{
+//				if (theNode.failRate != 0.0)
+//				{
+//					theNode.minTries = (int) ((double) theNode.minTries * (double) (theNode.failRate));
+//				}// if
+//				else
+//				{
+//					theNode.minTries = alphabet.length * alphabet.length
+//							* alphabet.length;
+//				}// else
+//			}// if
+//			else
+//			{
+//				theNode.minTries = alphabet.length * alphabet.length
+//						* alphabet.length;
+//			}// else
+//
+//		}// if
+//		else
+//		{
+//			if (theNode.minTries != 0)
+//			{
+//				if (theNode.failRate != 0.0)
+//				{
+//					theNode.minTries = theNode.minTries
+//							+ (int) ((double) theNode.minTries * (double) (1 - theNode.failRate));
+//				}// if
+//				else
+//				{
+//					theNode.minTries = alphabet.length * alphabet.length
+//							* alphabet.length;
+//				}// else
+//			}// if
+//			else
+//			{
+//				theNode.minTries = alphabet.length * alphabet.length
+//						* alphabet.length;
+//			}// else
+//
+//		}// else
+//		if (theNode.minTries == 0)
+//		{
+//			theNode.minTries = alphabet.length * alphabet.length
+//					* alphabet.length;
+//		}
+//
+//	}// backpropagate
 
 	/**
 	 * findBestNodeToTry
@@ -514,6 +525,7 @@ public class MaRzAgent extends Agent
 					activeNode.successIndexList
 							.add(new Integer(this.memory.length() + unusedLen
 									- activeNode.suffix.length()));
+					
 					updateHeuristic(activeNode);
 					// backpropagate(activeNode);
 				}// if
@@ -523,18 +535,58 @@ public class MaRzAgent extends Agent
 
 			}// else
 
-			triesDoneBeforeSplit++;
+			activeNode.minTries++;
 
 		} while (!result.equals("FAIL") && memory.length() < MAX_EPISODES
 				&& Successes <= NUM_GOALS);
 
 		// Check for split of active node
-		if (triesDoneBeforeSplit >= activeNode.minTries
-				&& memory.length() < MAX_EPISODES && Successes <= NUM_GOALS)
+		if ( activeNode.minTries >= triesDoneBeforeSplit
+				&& memory.length() < MAX_EPISODES && Successes <= NUM_GOALS && !activeNode.split)
 		{
-			splitNode();
-			activeNode = findBestNodeToTry();
-			triesDoneBeforeSplit = 0;
+			//TODO: Added a method to prune nodes that will likely not be good in the future
+			if(activeNode.suffix.length() > 1)
+			{
+				double worst = -1.0;
+				for(String suf : activeNode.siblings)
+				{
+					SuffixNode temp = hashFringe.get(suf);
+					if(temp != null)
+					{
+						if(temp.failRate > worst)
+						{
+							worst = temp.failRate;
+						}
+					}
+				}
+				
+				if((activeNode.failRate <= activeNode.parentFailRate && activeNode.failRate < worst) || activeNode.siblings.size() <= 1)
+				{
+					splitNode();
+					activeNode.split = true;
+					activeNode = findBestNodeToTry();
+				}
+				else
+				{
+					for(int k = 0; k < activeNode.siblings.size(); k++)
+					{
+						SuffixNode temp = hashFringe.get(activeNode.siblings.get(k));
+						if(temp != null)
+						{
+							temp.siblings.remove(activeNode.suffix);
+						}
+					}
+					
+					hashFringe.remove(activeNode.suffix);
+					
+				}
+			}
+			else
+			{
+				splitNode();
+				activeNode.split = true;
+				activeNode = findBestNodeToTry();
+			}
 
 			debugPrintln("New active node: " + activeNode);
 
@@ -542,6 +594,7 @@ public class MaRzAgent extends Agent
 			if (activeNode.queueSeq > 1)
 			{
 				lastPermutationIndex = activeNode.queueSeq;
+//				activeNode.queueSeq = 1;
 			}// if
 
 		}// if
@@ -687,7 +740,7 @@ public class MaRzAgent extends Agent
 		{
 
 			FileWriter csv = new FileWriter(OUTPUT_FILE);
-
+			
 			for (int i = 1; i <= NUM_MACHINES; ++i)
 			{
 

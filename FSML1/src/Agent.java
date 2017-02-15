@@ -37,14 +37,14 @@ public abstract class Agent {
     public static final int IS_NEW_STATE = 0;
     public static final int IS_GOAL = 1;
     //filename to store experimental results
-    public static  String OUTPUT_FILE = "AIReportFinal.csv";
+    public static  String OUTPUT_FILE = "++--AIReport_List100000_Goal1000_30State_100Tries.csv";
     
     double DUPLICATE_FORGIVENESS = .25; //25% chance a duplicate is permitted (S.W.A.G.)
     
     
     /** Number of episodes per run */
     public static final int MAX_EPISODES = 2000000;
-    public static final int NUM_GOALS = 500;
+    public static final int NUM_GOALS = 1000;
     /** Number of state machines to test a given constant combo with */
     public static final int NUM_MACHINES = 50;
     
@@ -144,8 +144,8 @@ public abstract class Agent {
             csv.flush();
             for(int i=0; i <= NUM_GOALS; i++)
             {
-                String colStr = getColumnString(i+informationColumns+1);
-                String range = colStr + (informationRows+1) + ":"+colStr+(NUM_MACHINES + informationRows);
+                String colStr = getColumnString(i+informationColumns+2);
+                String range = colStr + (informationRows) + ":"+colStr+(NUM_MACHINES + informationRows -1);
                 csv.append("=average("+range+"),");
                 csv.flush();
             }
