@@ -4,15 +4,6 @@ import java.util.*;
 
 import javax.xml.transform.Templates;
 
-//import javax.mail.Address;
-//import javax.mail.internet.AddressException;
-//import javax.mail.internet.InternetAddress;
-//import javax.swing.JFrame;
-//import javax.swing.JLabel;
-//import javax.swing.JOptionPane;
-//import javax.swing.JPasswordField;
-//import javax.swing.JTextField;
-
 /**
  * MaRzAgent Class
  * 
@@ -224,14 +215,13 @@ public class MaRzAgent extends Agent
 					if (activeNode.queueSeq > 1)
 					{
 						lastPermutationIndex = activeNode.queueSeq;
-//						activeNode.queueSeq = 1;
 					}// if
 				}// if
 
 			}// if
-			else
+			else  //sequence's suffix did not match active node
 			{
-
+                //Find the non-active node that does match this sequence
 				int charIndex = nextSeqToTry.length() - 1;
 				String key = "" + nextSeqToTry.charAt(charIndex);
 				while (!hashFringe.containsKey(key))
@@ -243,6 +233,8 @@ public class MaRzAgent extends Agent
 						break;
 					}// if
 				}// while
+
+                //If this non-active node doesn't have a queueSeq yet, set it
 				SuffixNode node = hashFringe.get(key);
 				if (node != null)
 				{
@@ -369,69 +361,6 @@ public class MaRzAgent extends Agent
 
 	}// updateHeuristic
 
-//	/**
-//	 * backpropagate
-//	 * 
-//	 * compares failRate of current node to its parents' failRate and adjusts
-//	 * minTries if the new suffix is doing better than the parent, minTries
-//	 * decreases if it is doing worse, minTries increases
-//	 * 
-//	 * TODO: solve recursive learning rate
-//	 */
-//	public void backpropagate(SuffixNode theNode)
-//	{
-//
-//		if (theNode.failRate < theNode.parentFailRate)
-//		{
-//			if (theNode.minTries != 0)
-//			{
-//				if (theNode.failRate != 0.0)
-//				{
-//					theNode.minTries = (int) ((double) theNode.minTries * (double) (theNode.failRate));
-//				}// if
-//				else
-//				{
-//					theNode.minTries = alphabet.length * alphabet.length
-//							* alphabet.length;
-//				}// else
-//			}// if
-//			else
-//			{
-//				theNode.minTries = alphabet.length * alphabet.length
-//						* alphabet.length;
-//			}// else
-//
-//		}// if
-//		else
-//		{
-//			if (theNode.minTries != 0)
-//			{
-//				if (theNode.failRate != 0.0)
-//				{
-//					theNode.minTries = theNode.minTries
-//							+ (int) ((double) theNode.minTries * (double) (1 - theNode.failRate));
-//				}// if
-//				else
-//				{
-//					theNode.minTries = alphabet.length * alphabet.length
-//							* alphabet.length;
-//				}// else
-//			}// if
-//			else
-//			{
-//				theNode.minTries = alphabet.length * alphabet.length
-//						* alphabet.length;
-//			}// else
-//
-//		}// else
-//		if (theNode.minTries == 0)
-//		{
-//			theNode.minTries = alphabet.length * alphabet.length
-//					* alphabet.length;
-//		}
-//
-//	}// backpropagate
-
 	/**
 	 * findBestNodeToTry
 	 * 
@@ -512,10 +441,9 @@ public class MaRzAgent extends Agent
 				activeNode.failsIndexList.add(new Integer(this.memory.length()
 						- activeNode.suffix.length()));
 				updateHeuristic(activeNode);
-				// backpropagate(activeNode);
 			}// if
-			else
-			// possible success
+            
+			else // possible success
 			{
 				int unusedLen = nextSeqToTry.length() - result.length();
 
@@ -544,9 +472,11 @@ public class MaRzAgent extends Agent
 		if ( activeNode.minTries >= triesDoneBeforeSplit
 				&& memory.length() < MAX_EPISODES && Successes <= NUM_GOALS && !activeNode.split)
 		{
-			//TODO: Added a method to prune nodes that will likely not be good in the future
+			//TODO: Add a method to prune nodes that will likely not be good in the future
+
 			if(activeNode.suffix.length() > 1)
 			{
+                //Calculate which of this node's siblings (including itself) is worst
 				double worst = -1.0;
 				for(String suf : activeNode.siblings)
 				{
@@ -560,7 +490,9 @@ public class MaRzAgent extends Agent
 					}
 				}
 				
-				if((activeNode.failRate <= activeNode.parentFailRate && activeNode.failRate < worst) || activeNode.siblings.size() <= 1)
+				if( (activeNode.failRate <= activeNode.parentFailRate
+                     && activeNode.failRate < worst)
+                    || activeNode.siblings.size() <= 1)
 				{
 					splitNode();
 					activeNode.split = true;
@@ -581,7 +513,7 @@ public class MaRzAgent extends Agent
 					
 				}
 			}
-			else
+			else  //suffix length == 1
 			{
 				splitNode();
 				activeNode.split = true;
@@ -594,7 +526,6 @@ public class MaRzAgent extends Agent
 			if (activeNode.queueSeq > 1)
 			{
 				lastPermutationIndex = activeNode.queueSeq;
-//				activeNode.queueSeq = 1;
 			}// if
 
 		}// if
@@ -739,7 +670,8 @@ public class MaRzAgent extends Agent
 		try
 		{
 
-			FileWriter csv = new FileWriter(OUTPUT_FILE);
+            String fname = "AIReport_" + makeNowString() + ".csv";
+            FileWriter csv = new FileWriter(fname);
 			
 			for (int i = 1; i <= NUM_MACHINES; ++i)
 			{

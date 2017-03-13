@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Collections;
-import java.util.Date;
 
 /**
  * class NSMAgent
@@ -350,29 +349,6 @@ public class NSMAgent extends Agent {
         }
                 
 	}//recordLearningCurve
-
-    /**
-     * makeNowString
-     *
-     * generates a string representing right now that contains no characters
-     * that are file system file name unfriendly
-     */
-    protected static String makeNowString() {
-        String nowStr = new Date().toString();
-        int spaceIndex = nowStr.indexOf(" ");
-        while(spaceIndex > -1)
-        {
-            nowStr = nowStr.substring(0,spaceIndex) + nowStr.substring(spaceIndex+1);
-            spaceIndex = nowStr.indexOf(" ");
-        }
-        spaceIndex = nowStr.indexOf(":");
-        while(spaceIndex > -1)
-        {
-            nowStr = nowStr.substring(0,spaceIndex) + nowStr.substring(spaceIndex+1);
-            spaceIndex = nowStr.indexOf(":");
-        }
-        return nowStr;
-    }//makeNowString
 
 	/**
 	 * main

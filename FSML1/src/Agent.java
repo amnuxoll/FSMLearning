@@ -4,6 +4,7 @@ import static java.lang.Math.floor;
 import static java.lang.Math.log;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Date;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,7 +14,7 @@ import java.util.Random;
 
 /**
  *
- * @author Will
+ * @author Will Goolkasian
  */
 public abstract class Agent {
     //Instance Variables
@@ -37,7 +38,7 @@ public abstract class Agent {
     public static final int IS_NEW_STATE = 0;
     public static final int IS_GOAL = 1;
     //filename to store experimental results
-    public static  String OUTPUT_FILE = "++--AIReport_List100000_Goal1000_30State_100Tries.csv";
+    public static  String OUTPUT_FILE = "AIReport.csv";
     
     double DUPLICATE_FORGIVENESS = .25; //25% chance a duplicate is permitted (S.W.A.G.)
     
@@ -542,6 +543,30 @@ public abstract class Agent {
         }
         return -1;
     }
+
+    /**
+     * makeNowString
+     *
+     * generates a string representing right now that contains no characters
+     * that are file system file name unfriendly
+     */
+    protected static String makeNowString() {
+        String nowStr = new Date().toString();
+        int spaceIndex = nowStr.indexOf(" ");
+        while(spaceIndex > -1)
+        {
+            nowStr = nowStr.substring(0,spaceIndex) + nowStr.substring(spaceIndex+1);
+            spaceIndex = nowStr.indexOf(" ");
+        }
+        spaceIndex = nowStr.indexOf(":");
+        while(spaceIndex > -1)
+        {
+            nowStr = nowStr.substring(0,spaceIndex) + nowStr.substring(spaceIndex+1);
+            spaceIndex = nowStr.indexOf(":");
+        }
+        return nowStr;
+    }//makeNowString
+
     
 
-}
+}//abstract class Agent
