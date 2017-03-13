@@ -422,14 +422,14 @@ public class NSMAgent extends Agent {
                     NSMAgent skipper = new NSMAgent();
 
                     //Print blind path length 
-                    int sbpLen = skipper.env.shortestBlindPathToGoal().length();
-                    csv.append("" + sbpLen + ",");
-                    blindLengthSum += sbpLen;
+                    String sbPath = skipper.env.shortestPathToGoal();
+                    csv.append("" + sbPath.length() + ",");
+                    blindLengthSum += skipper.env.avgStepsToGoalWithPath(sbPath);
                     csv.flush();
 
                     //A little reassurance for the humans
                     System.out.println("Beginning machine " + (i+1) + " of " + NUM_MACHINES);
-                    System.out.println("shortest blind path len: " + sbpLen);
+                    System.out.println("shortest blind path len: " + sbPath.length());
                     
                     //This is what takes forever...
                     skipper.exploreEnvironment();
