@@ -12,16 +12,13 @@ import javax.xml.transform.Templates;
  * @version 2.0
  * @date 10/11/2016
  * 
- *       NOTE: Finished. NOTE: Be aware, Constants MIN_TRIES and G_WEIGHT
- *       affects the learning process.
+ *       NOTE: Finished. NOTE: Be aware, triesDoneBeforeSplit and G_WEIGHT
+ *       affect the learning process.
  */
 public class MaRzAgent extends Agent
 {
 
 	/*---====CONSTANTS====---*/
-
-	// minimum tries before a suffix node is expanded
-	// public static final int MIN_TRIES = 45;
 
 	// the likeliness to jump back to another node
 	// (should be in the range (0.0 - 1.0)
@@ -84,11 +81,9 @@ public class MaRzAgent extends Agent
 								// permutation
 		public double heuristic; // the current overall potential of this suffix
 		public int g; // distance from root (ala A* search)
-		public int minTries; // minimum tries before a suffix node is expanded
-		public double failRate;
-		public double parentFailRate;
-		public double prevHeuristic;
-		public boolean split;
+		public int tries; // number of times a sequence with this suffix has been tried
+		public double failRate;  //[0.0..1.0] fraction of failed tries
+		public double parentFailRate;  //save parent's fail rate to track my progress
 
 		/*
 		 * indices into episodicMemory of successful/failed sequences with this
@@ -97,8 +92,6 @@ public class MaRzAgent extends Agent
 		public ArrayList<Integer> successIndexList;
 		public ArrayList<Integer> failsIndexList;
 		
-		public ArrayList<String> siblings;
-
 		/*
 		 * the length of episodicMemory the last time the above lists were
 		 * updated
@@ -122,12 +115,9 @@ public class MaRzAgent extends Agent
 			this.indexOfLastEpisodeTried = 0;
 			this.successIndexList = new ArrayList<Integer>();
 			this.failsIndexList = new ArrayList<Integer>();
-			this.minTries = 0;
-			this.prevHeuristic = 0.0;
+			this.tries = 0;
 			this.failRate = 0.0;
 			this.parentFailRate = 0.0;
-			this.split = false;
-			this.siblings = new ArrayList<String>();
 
 		}// ctor
 
@@ -146,7 +136,7 @@ public class MaRzAgent extends Agent
 			int tries = failedTries + successIndexList.size();
 
 			output = output + ":" + failedTries + "/" + tries;
-			output = output + "=" + heuristic + " minTries: " + minTries;
+			output = output + "=" + heuristic + " tries: " + tries;
 			return output;
 		}
 	}// SuffixNode Class
@@ -195,10 +185,6 @@ public class MaRzAgent extends Agent
 				SuffixNode worst = findWorstNodeToTry();
 				hashFringe.remove(worst.suffix);
 			}// if
-
-			// backpropagate(activeNode);
-			// TODO: TURN OFF
-			// System.out.println("FRINGE: " + hashFringe.toString());
 
 			if (nextSeqToTry.endsWith(activeNode.suffix))
 			{
@@ -273,7 +259,6 @@ public class MaRzAgent extends Agent
 
 		// Create the initial child nodes
 		SuffixNode[] children = new SuffixNode[alphabet.length];
-		ArrayList<String> siblings = new ArrayList<String>();
 		for (int i = 0; i < alphabet.length; i++)
 		{
 			children[i] = new SuffixNode();
@@ -281,16 +266,10 @@ public class MaRzAgent extends Agent
 			children[i].g = activeNode.g + 1;
 			children[i].indexOfLastEpisodeTried = memory.length() - 1;
 			children[i].parentFailRate = activeNode.failRate;
-			siblings.add(alphabet[i] + parentSuffix);
 			
 			hashFringe.put(children[i].suffix, children[i]);
 		}// for
 		
-		for(int j = 0; j < children.length; j++)
-		{
-			children[j].siblings.addAll(siblings);
-		}
-
 		// Divy up the parent's success list
 		for (Integer indexObj : activeNode.successIndexList)
 		{
@@ -328,7 +307,6 @@ public class MaRzAgent extends Agent
 		for (int i = 0; i < alphabet.length; i++)
 		{
 			updateHeuristic(children[i]);
-//			backpropagate(children[i]);
 		}// for
 
 		hashFringe.remove(activeNode.suffix);
@@ -342,9 +320,6 @@ public class MaRzAgent extends Agent
 	 */
 	public void updateHeuristic(SuffixNode theNode)
 	{
-
-		// save the last heuristic
-		theNode.prevHeuristic = theNode.heuristic;
 
 		if (theNode.successIndexList.size() + theNode.failsIndexList.size() == 0)
 		{
@@ -455,7 +430,6 @@ public class MaRzAgent extends Agent
 									- activeNode.suffix.length()));
 					
 					updateHeuristic(activeNode);
-					// backpropagate(activeNode);
 				}// if
 
 				// If it succeeded before the suffix it's neither a success nor
@@ -463,62 +437,19 @@ public class MaRzAgent extends Agent
 
 			}// else
 
-			activeNode.minTries++;
+			activeNode.tries++;
 
 		} while (!result.equals("FAIL") && memory.length() < MAX_EPISODES
 				&& Successes <= NUM_GOALS);
 
 		// Check for split of active node
-		if ( activeNode.minTries >= triesDoneBeforeSplit
-				&& memory.length() < MAX_EPISODES && Successes <= NUM_GOALS && !activeNode.split)
+		if ( activeNode.tries >= triesDoneBeforeSplit
+				&& memory.length() < MAX_EPISODES && Successes <= NUM_GOALS)
 		{
 			//TODO: Add a method to prune nodes that will likely not be good in the future
-
-			if(activeNode.suffix.length() > 1)
-			{
-                //Calculate which of this node's siblings (including itself) is worst
-				double worst = -1.0;
-				for(String suf : activeNode.siblings)
-				{
-					SuffixNode temp = hashFringe.get(suf);
-					if(temp != null)
-					{
-						if(temp.failRate > worst)
-						{
-							worst = temp.failRate;
-						}
-					}
-				}
-				
-				if( (activeNode.failRate <= activeNode.parentFailRate
-                     && activeNode.failRate < worst)
-                    || activeNode.siblings.size() <= 1)
-				{
-					splitNode();
-					activeNode.split = true;
-					activeNode = findBestNodeToTry();
-				}
-				else
-				{
-					for(int k = 0; k < activeNode.siblings.size(); k++)
-					{
-						SuffixNode temp = hashFringe.get(activeNode.siblings.get(k));
-						if(temp != null)
-						{
-							temp.siblings.remove(activeNode.suffix);
-						}
-					}
-					
-					hashFringe.remove(activeNode.suffix);
-					
-				}
-			}
-			else  //suffix length == 1
-			{
-				splitNode();
-				activeNode.split = true;
-				activeNode = findBestNodeToTry();
-			}
+            
+            splitNode();
+            activeNode = findBestNodeToTry();
 
 			debugPrintln("New active node: " + activeNode);
 
