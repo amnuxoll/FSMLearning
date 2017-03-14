@@ -409,6 +409,73 @@ public abstract class Agent {
     }//tryPath
 
     /**
+     * checkSeq
+     *
+     * checks to see if a given sequence has already been tried
+     *
+     * @param pathToTry; a string representing the path to try
+     * 
+     * @return the amount of the given path that was actually tried or the code
+     * "FAIL" if the entire path was tried without reaching the goal
+     */
+    public String checkSeq(String pathToTry, String suffix) {
+        int pathIndex = 0;
+        int epIndex = 0;
+        char currChar = pathToTry.charAt(pathIndex);
+        String result = "NOT FOUND";
+
+        //the index at which the suffix begins (we'll need this in the loop)
+        int suffixIndex = pathToTry.length() - suffix.length();
+
+        //iterate through all of epmem looking for a match
+        for(epIndex = 0; epIndex < episodicMemory.size(); epIndex++)
+        {
+            char epChar = episodicMemory.get(epIndex).command;
+
+            //does the current epmem episode match the path so far?
+            if (epChar == pathToTry.charAt(pathIndex))
+            {
+                //If we reached the goal that's a special case
+                if (episodicMemory.get(epIndex).sensorValue == IS_GOAL)
+                {
+                    //if goal is in the suffix that's a success
+                    if (pathIndex >= suffixIndex)
+                    {
+                        result = pathToTry.substring(0, pathIndex + 1);
+                        break;
+                    }
+                    //otherwise (before the suffix) that's a mismatch
+                    else
+                    {
+                        pathIndex = 0;
+                    }
+                }
+
+                //it's a regular match (no goal)
+                else
+                {
+                    //increment to match next char on next iteration
+                    pathIndex++;
+                }
+                
+                //If we've matched the entire path with no goal that's a fail
+                if (pathIndex == pathToTry.length())
+                {
+                    result = "FAIL";
+                    break;
+                }
+            }
+            else //no match, so reset
+            {
+                pathIndex = 0;
+            }
+        }//for
+
+        return result;
+    }//checkSeq
+    
+    
+    /**
      * Takes in an agent's sensor data and encodes it into an integer
      * @param sensors The agent's sensor data
      * @return the integer encoding of that sensor data

@@ -130,13 +130,17 @@ public class MaRzAgent extends Agent
 		public String toString()
 		{
 			String output = suffix;
-			output += "(" + nextPermutation(queueSeq) + ")";
+            if (queueSeq > 1)
+            {
+                output += "(" + nextPermutation(queueSeq) + ")";
+            }
 
 			int failedTries = failsIndexList.size();
 			int tries = failedTries + successIndexList.size();
 
-			output = output + ":" + failedTries + "/" + tries;
-			output = output + "=" + heuristic + " tries: " + tries;
+			output = output + ":" + g + "+" + failedTries + "/" + tries;
+            double truncatedHeur = (int)(heuristic * 1000.0) / 1000.0;
+			output = output + "=" + truncatedHeur + " tries: " + tries;
 			return output;
 		}
 	}// SuffixNode Class
@@ -154,7 +158,6 @@ public class MaRzAgent extends Agent
 		SuffixNode initNode = new SuffixNode();
 		hashFringe.put("", initNode);
 		this.activeNode = initNode;
-		splitNode();
 
 	}// ctor
 
@@ -170,17 +173,8 @@ public class MaRzAgent extends Agent
 		while (memory.length() < MAX_EPISODES && Successes <= NUM_GOALS)
 		{
 
-			// Initial node gets special treatment
-			if (activeNode.suffix.length() == 0)
-			{
-				nextSeqToTry = "a";
-				splitNode();
-				hashFringe.remove(activeNode.suffix);
-				activeNode = findBestNodeToTry();
-			}// if
-
 			// Erase worst node in the hashFringe once we hit our Constant limit
-			if (hashFringe.size() > NODE_LIST_SIZE)
+			while (hashFringe.size() > NODE_LIST_SIZE)
 			{
 				SuffixNode worst = findWorstNodeToTry();
 				hashFringe.remove(worst.suffix);
@@ -404,7 +398,13 @@ public class MaRzAgent extends Agent
 		{
 			// System.out.println("Successes: " + Successes);
 
-			result = tryPath(nextSeqToTry);
+            //First see if I've already failed with this next sequence before
+            //NOTE:  This check does help but not much.  Is it really worthwhile?
+            result = checkSeq(nextSeqToTry, activeNode.suffix);
+            if (! result.equals("FAIL")) {
+                //Okay, then, actually try it.
+                result = tryPath(nextSeqToTry);
+            }
 
 			// Update the active node's success/fail lists and related based
 			// upon whether we reached the goal or not. Reaching the goal
@@ -445,6 +445,10 @@ public class MaRzAgent extends Agent
 		// Check for split of active node
 		if ( activeNode.tries >= triesDoneBeforeSplit
 				&& memory.length() < MAX_EPISODES && Successes <= NUM_GOALS)
+        // //%%%TEMPORARY: experiment
+        // int numSucc = activeNode.successIndexList.size();
+		// if ( (numSucc >= 10 && activeNode.tries >= 25)
+        //      || activeNode.tries >= triesDoneBeforeSplit )
 		{
 			//TODO: Add a method to prune nodes that will likely not be good in the future
             
@@ -452,6 +456,7 @@ public class MaRzAgent extends Agent
             activeNode = findBestNodeToTry();
 
 			debugPrintln("New active node: " + activeNode);
+            //%%%REMOVE System.out.println("New active node: " + activeNode);
 
 			// Use the new active node's queue sequence if it exists
 			if (activeNode.queueSeq > 1)
