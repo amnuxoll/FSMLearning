@@ -9,11 +9,9 @@ import javax.xml.transform.Templates;
  * 
  * @author Christian Rodriguez
  * @author Giselle Marston
- * @version 2.0
- * @date 10/11/2016
+ * @author Andrew Nuxoll
+ * @version 3.0
  * 
- *       NOTE: Finished. NOTE: Be aware, triesDoneBeforeSplit and G_WEIGHT
- *       affect the learning process.
  */
 public class MaRzAgent extends Agent
 {
@@ -22,7 +20,7 @@ public class MaRzAgent extends Agent
 
 	// the likeliness to jump back to another node
 	// (should be in the range (0.0 - 1.0)
-	public static double G_WEIGHT = .1;
+	public static double G_WEIGHT = 0.1;
 
 	// max size of list of nodes
 	public static final int NODE_LIST_SIZE = 100000;
@@ -54,11 +52,11 @@ public class MaRzAgent extends Agent
 	 */
 	long timeOfLastStatus = 0;
 
-	/*
-	 * Tracked the amount of tries performed by the active node, done for
-	 * splitting purposes. Reset to 0 at time of choosing new activeNode.
+	/**
+	 * the last sequence that was successful (used for reporting and not
+	 * required for the algorithm)
 	 */
-	int triesDoneBeforeSplit = 100;
+	String lastSuccessfulSequence = "";
 
 	/** for profiling: log total time spent in various code */
 	public static long overallStartTime = 0;
@@ -79,20 +77,24 @@ public class MaRzAgent extends Agent
 		public String suffix;
 		public int queueSeq; // if this node becomes active, start with this
 								// permutation
-		public double heuristic; // the current overall potential of this suffix
+		public double f; // the current overall potential of this suffix (f = g + h)
 		public int g; // distance from root (ala A* search)
 		public int tries; // number of times a sequence with this suffix has been tried
 		public double failRate;  //[0.0..1.0] fraction of failed tries
 		public double parentFailRate;  //save parent's fail rate to track my progress
-
-		/*
+        public boolean goalFound = false;  //have we found a sequence that ends
+                                           //exactly at the goal when this node is active
+        public int lastScanIndex = 0;      //The last time epmem was scanned for
+                                           //matches to this suffix, it stopped here
+        
+		/**
 		 * indices into episodicMemory of successful/failed sequences with this
 		 * suffix
 		 */
 		public ArrayList<Integer> successIndexList;
 		public ArrayList<Integer> failsIndexList;
 		
-		/*
+		/**
 		 * the length of episodicMemory the last time the above lists were
 		 * updated
 		 */
@@ -110,7 +112,7 @@ public class MaRzAgent extends Agent
 		{
 			this.suffix = "";
 			this.queueSeq = 1;
-			this.heuristic = 0.0;
+			this.f = 0.0;
 			this.g = 0;
 			this.indexOfLastEpisodeTried = 0;
 			this.successIndexList = new ArrayList<Integer>();
@@ -132,17 +134,48 @@ public class MaRzAgent extends Agent
 			String output = suffix;
             if (queueSeq > 1)
             {
-                output += "(" + nextPermutation(queueSeq) + ")";
+                output += "(q=" + nextPermutation(queueSeq+1) + ")";
             }
 
 			int failedTries = failsIndexList.size();
+            int succTries = successIndexList.size();
 			int tries = failedTries + successIndexList.size();
 
-			output = output + ":" + g + "+" + failedTries + "/" + tries;
-            double truncatedHeur = (int)(heuristic * 1000.0) / 1000.0;
-			output = output + "=" + truncatedHeur + " tries: " + tries;
+            updateHeuristic();
+            double truncatedG = (int)(g * G_WEIGHT * 100.0) / 100.0;  //trim to 2 decimal places
+			output = output + ":" + truncatedG + "+" + (failedTries) + "/" + (failedTries + succTries);
+            double truncatedHeur = (int)(f * 1000.0) / 1000.0;  //trim to 3 decimal places
+			output = output + "=" + truncatedHeur;
 			return output;
 		}
+        
+        /**
+         * updateHeuristic
+         * 
+         * Recalculate this node's heuristic value (h) and overall value(f)
+         */
+        public void updateHeuristic()
+        {
+            double gWeight = this.g * G_WEIGHT;
+        
+            //special case: avoid divide-by-zero
+            if (successIndexList.size() + failsIndexList.size() == 0)  
+            {
+                this.f = gWeight;
+                this.failRate = 0.0;
+            }// if
+
+            //this is the usual case
+            else
+            {
+                double numFail = this.failsIndexList.size();
+                double numSucc = this.successIndexList.size();
+                this.failRate = numFail / (numFail + numSucc);
+                this.f = gWeight + this.failRate;
+            }// else
+
+        }// updateHeuristic
+
 	}// SuffixNode Class
 
 	/**
@@ -180,6 +213,7 @@ public class MaRzAgent extends Agent
 				hashFringe.remove(worst.suffix);
 			}// if
 
+            //If the next sequence matches the active node, try it
 			if (nextSeqToTry.endsWith(activeNode.suffix))
 			{
 				debugPrintln("Trying Sequence: " + nextSeqToTry);
@@ -187,44 +221,34 @@ public class MaRzAgent extends Agent
 				if (Successes <= NUM_GOALS)
 				{
 					trySeq();
-					activeNode = findBestNodeToTry();
 
-					debugPrintln("New active node: " + activeNode);
+                    //check to see if another node would be better now
+                    SuffixNode newBestNode = findBestNodeToTry();
 
-					// Use the new active node's queue sequence if it exists
-					if (activeNode.queueSeq > 1)
-					{
-						lastPermutationIndex = activeNode.queueSeq;
-					}// if
+                    if (newBestNode != activeNode) {
+                        activeNode.queueSeq = 1;
+                        activeNode = newBestNode;
+
+                        // Use the new active node's queue sequence if it exists
+                        if (activeNode.queueSeq > 1)
+                        {
+                            lastPermutationIndex = activeNode.queueSeq;
+                            activeNode.queueSeq = 1;
+                        }// if
+                    }
+
 				}// if
 
 			}// if
+            
 			else  //sequence's suffix did not match active node
 			{
-                //Find the non-active node that does match this sequence
-				int charIndex = nextSeqToTry.length() - 1;
-				String key = "" + nextSeqToTry.charAt(charIndex);
-				while (!hashFringe.containsKey(key))
-				{
-					key = nextSeqToTry.charAt(charIndex) + key;
-					charIndex--;
-					if (charIndex == 0)
-					{
-						break;
-					}// if
-				}// while
-
                 //If this non-active node doesn't have a queueSeq yet, set it
-				SuffixNode node = hashFringe.get(key);
-				if (node != null)
+				SuffixNode node = findNodeForPath(nextSeqToTry);
+				if ((node != null) && (node.queueSeq == 1))
 				{
-					if (node.queueSeq == 1)
-					{
-						node.queueSeq = lastPermutationIndex - 1;
-					}// if
+                    node.queueSeq = lastPermutationIndex - 1;
 				}// if
-
-
 			}// else
 			
 			nextSeqToTry = nextPermutation();
@@ -234,6 +258,114 @@ public class MaRzAgent extends Agent
 
 	}// exploreEnviroment
 
+    /**
+     * findNodeForPath
+     *
+     * locates the node in the hashFringe that matches a given path
+     *
+     * @param path  the path to search with
+     *
+     * @return the node or null if there is no match
+     */
+    public SuffixNode findNodeForPath(String path) {
+        int charIndex = path.length() - 1;
+        String key = "";
+        while (! hashFringe.containsKey(key))
+        {
+            if (charIndex == -1)
+            {
+                //Example of how this result can be reached:
+                //  given path is "ac" and fringe has keys "aac", "bac" and "cac"
+                return null;
+            }// if
+
+            key = path.charAt(charIndex) + key;
+            charIndex--;
+        }// while
+
+        //If this non-active node doesn't have a queueSeq yet, set it
+        return hashFringe.get(key);
+
+    }//findNodeForPath
+
+    /**
+     * findNodeForIndex
+     *
+     * locates the node in the hashFringe that matches a subsequence of
+     * episodicMemory that *ends* with the episode at the given index
+     *
+     * CAVEAT:  does not check for invalid index!
+     *
+     * @param index  start the search here
+     *
+     * @return the node or null if there is no match
+     */
+    public SuffixNode findNodeForIndex(int index) {
+        String key = "";
+        while (! hashFringe.containsKey(key))
+        {
+            Episode ep = episodicMemory.get(index);
+
+            //if we back into the previous goal without finding a key then there is no match
+            if ((key.length() > 0) && (ep.sensorValue == GOAL)) return null;
+            
+            key = ep.command + key;
+            index--;
+
+            //don't fall off the end of the memory
+            if (index < 0) return null;
+        }// while
+
+        //If this non-active node doesn't have a queueSeq yet, set it
+        return hashFringe.get(key);
+
+    }//findNodeForIndex
+
+    
+    /**
+     * divyIndexes
+     *
+     * is a helper method for splitNode.  It divies up a parent's
+     * successIndexList or failsIndexList among the children.
+     *
+     * @param parent     the parent node
+     * @param children   an array of SuffixNode indexed by the child's new letter
+     * @param success    indicates whether to divy successes or fails
+     */
+    protected void divyIndexes(SuffixNode parent, SuffixNode[] children, boolean success)
+    {
+        //Extract the needed lists
+        ArrayList<Integer> parentList = success ? parent.successIndexList : parent.failsIndexList;
+        ArrayList<ArrayList<Integer>> childLists = new ArrayList<ArrayList<Integer>>();
+		for (int i = 0; i < alphabet.length; i++)
+		{
+            childLists.add( success ? children[i].successIndexList : children[i].failsIndexList );
+        }
+
+        //divy
+		for (Integer indexObj : parentList)
+		{
+			int index = indexObj.intValue() - 1;  //the -1 because child adds a letter
+
+            //If we fall off the back of the epmem then it can't be matched
+            if (index < 0)
+			{
+				continue;
+			}// if
+
+            //If we've backed into the previous goal then we can't match either
+			if ((parent.suffix.length() > 0) && (episodicMemory.get(index).sensorValue == GOAL))
+			{
+                continue;
+            }
+
+			int childIdx = memory.charAt(index) - 'a';
+            childLists.get(childIdx).add(new Integer(index));
+            
+		}// for
+        
+    }//divyIndexes
+    
 	/**
 	 * splitNode
 	 * 
@@ -260,75 +392,28 @@ public class MaRzAgent extends Agent
 			children[i].g = activeNode.g + 1;
 			children[i].indexOfLastEpisodeTried = memory.length() - 1;
 			children[i].parentFailRate = activeNode.failRate;
-			
-			hashFringe.put(children[i].suffix, children[i]);
-		}// for
-		
-		// Divy up the parent's success list
-		for (Integer indexObj : activeNode.successIndexList)
-		{
-			int index = indexObj.intValue() - 1;
-			if (index < 0)
-			{
-				continue;
-			}// if
-
-			int childIdx = memory.charAt(index) - 'a';
-			children[childIdx].successIndexList.add(new Integer(index));
 		}// for
 
-		// Divy up the parent's fails lists
-		for (Integer indexObj : activeNode.failsIndexList)
-		{
-			int index = indexObj.intValue() - 1;
-			if (index < 0)
-			{
-				continue;
-			}// if
-
-			int childIdx = memory.charAt(index) - 'a';
-			if (episodicMemory.get(index).sensorValue == GOAL)
-			{
-				children[childIdx].successIndexList.add(new Integer(index));
-			}// if
-			else
-			{
-				children[childIdx].failsIndexList.add(new Integer(index));
-			}// else
-		}// for
+        //Divy the successes and failures among the children
+        divyIndexes(activeNode, children, true);
+        divyIndexes(activeNode, children, false);
 
 		// Recalculate the children's heuristics
 		for (int i = 0; i < alphabet.length; i++)
 		{
-			updateHeuristic(children[i]);
+            //if the child's suffix has never been tried, then it's too soon:
+            //abort this split!
+            if (children[i].failsIndexList.size() == 0) return;
+        }//for        
+        
+        //Ready to commit:  add the children to the fringe and remove the parent
+		for (int i = 0; i < alphabet.length; i++)
+		{
+			hashFringe.put(children[i].suffix, children[i]);
 		}// for
-
 		hashFringe.remove(activeNode.suffix);
 
 	}// splitNode
-
-	/**
-	 * updateHeuristic
-	 * 
-	 * Recalculate this node's heuristics
-	 */
-	public void updateHeuristic(SuffixNode theNode)
-	{
-
-		if (theNode.successIndexList.size() + theNode.failsIndexList.size() == 0)
-		{
-			theNode.heuristic = ((double) theNode.g*(double) G_WEIGHT);
-			theNode.failRate = 0.0;
-		}// if
-		else
-		{
-			theNode.heuristic = (((double) theNode.failsIndexList.size() / (double) (theNode.successIndexList
-					.size() + (double) theNode.failsIndexList.size())) + ((double) theNode.g *(double) G_WEIGHT));
-			theNode.failRate = ((double) theNode.failsIndexList.size() / (double) (theNode.successIndexList
-					.size() + (double) theNode.failsIndexList.size()));
-		}// else
-
-	}// updateHeuristic
 
 	/**
 	 * findBestNodeToTry
@@ -342,13 +427,15 @@ public class MaRzAgent extends Agent
 				new SuffixNode[hashFringe.size()]);
 		assert (nodes.length > 0);
 
-		double theBEASTLIESTCombo = nodes[0].heuristic;
+		double theBEASTLIESTCombo = nodes[0].f;
 		SuffixNode bestNode = nodes[0];
 		for (SuffixNode node : nodes)
 		{
-			if (node.heuristic < theBEASTLIESTCombo)
+            node.updateHeuristic();
+            
+			if (node.f < theBEASTLIESTCombo)
 			{
-				theBEASTLIESTCombo = node.heuristic;
+				theBEASTLIESTCombo = node.f;
 				bestNode = node;
 			}// if
 		}// for
@@ -369,13 +456,13 @@ public class MaRzAgent extends Agent
 				new SuffixNode[hashFringe.size()]);
 		assert (nodes.length > 0);
 
-		double theBEASTLIESTCombo = nodes[0].heuristic;
+		double theBEASTLIESTCombo = nodes[0].f;
 		SuffixNode worstNode = nodes[0];
 		for (SuffixNode node : nodes)
 		{
-			if (node.heuristic > theBEASTLIESTCombo)
+			if (node.f > theBEASTLIESTCombo)
 			{
-				theBEASTLIESTCombo = node.heuristic;
+				theBEASTLIESTCombo = node.f;
 				worstNode = node;
 			}// if
 		}// for
@@ -396,15 +483,7 @@ public class MaRzAgent extends Agent
 		String result = "";
 		do
 		{
-			// System.out.println("Successes: " + Successes);
-
-            //First see if I've already failed with this next sequence before
-            //NOTE:  This check does help but not much.  Is it really worthwhile?
-            result = checkSeq(nextSeqToTry, activeNode.suffix);
-            if (! result.equals("FAIL")) {
-                //Okay, then, actually try it.
-                result = tryPath(nextSeqToTry);
-            }
+            result = tryPath(nextSeqToTry);
 
 			// Update the active node's success/fail lists and related based
 			// upon whether we reached the goal or not. Reaching the goal
@@ -415,53 +494,77 @@ public class MaRzAgent extends Agent
 			{
 				activeNode.failsIndexList.add(new Integer(this.memory.length()
 						- activeNode.suffix.length()));
-				updateHeuristic(activeNode);
 			}// if
             
 			else // possible success
 			{
 				int unusedLen = nextSeqToTry.length() - result.length();
+                lastSuccessfulSequence = nextSeqToTry;
 
-				// Did we reach the suffix?
-				if (unusedLen < activeNode.suffix.length())
+                //if the last step of the sequence hits the goal that's a success
+                if (unusedLen == 0)
 				{
 					activeNode.successIndexList
 							.add(new Integer(this.memory.length() + unusedLen
-									- activeNode.suffix.length()));
-					
-					updateHeuristic(activeNode);
+                                             - activeNode.suffix.length()));
+
+                    activeNode.goalFound = true;
 				}// if
+                else  //found the goal before sequence finished
+                {
+                    //For the activeNode, this is neither a success nor a
+                    //failure.  So, nothing is recorded on that node. However,
+                    //it is a success for the node that matches the success.  So
+                    //we give credit for that here.
+                    SuffixNode node = findNodeForIndex(episodicMemory.size() - 1);
+                    if (node != null) {
+                        int index = this.memory.length() - node.suffix.length();
+                        node.successIndexList.add(new Integer(index));
 
-				// If it succeeded before the suffix it's neither a success nor
-				// a failure
+                        //For all implicit sequences tried since the previous
+                        //goal, record them as failures against the appropriate
+                        //nodes
+                        //NOTE: This seems to make things worse.  I'm not sure
+                        //why but I'm leaving the code here for possible future
+                        //investigation.
+                        // index = episodicMemory.size() - 2;
+                        // while((index > 1) && (episodicMemory.get(index).sensorValue != GOAL))
+                        // {
+                        //     node = findNodeForIndex(index);
+                        //     if (node != null)
+                        //     {
+                        //         Integer newFail = new Integer(index);
+                        //         if (! node.failsIndexList.contains(newFail))
+                        //         {
+                        //             node.failsIndexList.add(newFail);
+                        //         }
+                        //     }
+                        //     index--;
+                        // }
+                        
+                    }//if  (another node can take credit for this success)
 
-			}// else
+                }//else (reached goal too soon)
+
+			}// else (possible success)
 
 			activeNode.tries++;
 
 		} while (!result.equals("FAIL") && memory.length() < MAX_EPISODES
 				&& Successes <= NUM_GOALS);
 
-		// Check for split of active node
-		if ( activeNode.tries >= triesDoneBeforeSplit
-				&& memory.length() < MAX_EPISODES && Successes <= NUM_GOALS)
-        // //%%%TEMPORARY: experiment
-        // int numSucc = activeNode.successIndexList.size();
-		// if ( (numSucc >= 10 && activeNode.tries >= 25)
-        //      || activeNode.tries >= triesDoneBeforeSplit )
+        // The active node is split once it's found a successful sequence but
+        // that sequence eventually failed.
+		if (activeNode.goalFound)
 		{
-			//TODO: Add a method to prune nodes that will likely not be good in the future
-            
             splitNode();
             activeNode = findBestNodeToTry();
-
-			debugPrintln("New active node: " + activeNode);
-            //%%%REMOVE System.out.println("New active node: " + activeNode);
 
 			// Use the new active node's queue sequence if it exists
 			if (activeNode.queueSeq > 1)
 			{
 				lastPermutationIndex = activeNode.queueSeq;
+                activeNode.queueSeq = 1;
 			}// if
 
 		}// if
@@ -476,50 +579,6 @@ public class MaRzAgent extends Agent
 	 * TBD: REMOVE - PROFILING long endTime = System.currentTimeMillis();
 	 * this.totalTime += endTime - startTime;
 	 */
-
-	/**
-	 * updateTries
-	 * 
-	 * Updates the tries, failedTries, successIndex and failedIndex data in the
-	 * activeNode to be current with all entries added to episodicMemory since
-	 * the last update
-	 */
-	public void updateTries()
-	{
-
-		// Find all new instances of the active node's suffix
-		int startIndex = activeNode.indexOfLastEpisodeTried
-				- activeNode.suffix.length() + 1;
-		ArrayList<Integer> newIndexes = getIndexOfSuffix(this.memory,
-				startIndex, activeNode.suffix);
-
-		// Categorize each instance as a success or failure
-		for (Integer indexObj : newIndexes)
-		{
-			int index = indexObj.intValue();
-			boolean fail = true;
-			for (int i = 0; i < activeNode.suffix.length(); ++i)
-			{
-				if (episodicMemory.get(index + i).sensorValue == GOAL)
-				{
-					fail = false;
-					break;
-				}// if
-			}// for
-
-			if (fail)
-			{
-				activeNode.failsIndexList.add(indexObj);
-			}// if
-			else
-			{
-				activeNode.successIndexList.add(indexObj);
-			}// else
-		}// for
-
-		activeNode.indexOfLastEpisodeTried = memory.length() - 1;
-
-	}// updateTries
 
 	/**
 	 * getIndexOfSuffix
@@ -563,7 +622,7 @@ public class MaRzAgent extends Agent
 		if (index <= 0)
 		{
 			throw new IndexOutOfBoundsException(
-					"index must be a positive number");
+					"index must be a positive number.  Has your next permutation index overflowed?");
 		}// if
 		if (index <= alphabet.length)
 		{
@@ -615,6 +674,7 @@ public class MaRzAgent extends Agent
 				System.out.println("Starting on Machine " + i + " of "
 						+ NUM_MACHINES);
 				MaRzAgent gilligan = new MaRzAgent();
+
 				if (Agent.debug)
 					gilligan.env.printStateMachineGraph();
 				System.out.println("Average Universal Sequence (Cheating): "
@@ -629,7 +689,11 @@ public class MaRzAgent extends Agent
 
 				gilligan.exploreEnvironment();
 				gilligan.recordLearningCurve(csv);
-				debugPrintln("Done with machine " + i + "\n");
+                
+				System.out.println("Done with machine " + i);
+                System.out.println("\tlast successful sequence: " + gilligan.lastSuccessfulSequence + " solves " + gilligan.env.numStatesSolvedBy(gilligan.lastSuccessfulSequence) + "/" + StateMachineEnvironment.NUM_STATES + " states");
+				System.out.println("\tactive node: " + gilligan.activeNode);
+                System.out.println();
 			}// for
 			recordAverage(csv);
 			recordBaseline(csv, currentBaseline);

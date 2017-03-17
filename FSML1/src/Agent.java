@@ -126,6 +126,34 @@ public abstract class Agent {
         }
         return memory;
     }
+
+    /**
+     * extractSubstringFromEpMem
+     *
+     * (used for debugging) extracts a subsequence of episodes from
+     * episodicMemory and returns it as a String using only the command letters
+     *
+     * @param index  - starting index of substring
+     * @param len    - length of the substring (zero is okay)
+     *
+     * @return the substring or null on invalid input
+     */
+    public String extractSubstringFromEpMem(int index, int len)
+    {
+        //check for invalid input
+        if (index + len > episodicMemory.size()) return null;
+        if (index < 0) return null;
+        if (len < 0) return null;
+
+        //Generate the result
+        String result = "";
+        for(int i = 0; i < len; ++i)
+        {
+            result += episodicMemory.get(index + i).command;
+        }
+
+        return result;
+    }//extractSubstringFromEpMem
     
     /**
      * recordAverage
@@ -379,9 +407,10 @@ public abstract class Agent {
      * one by one until it reaches the goal.  Once the goal is reached the
      * method stops so the entire given path may not be tried.
      *
-     * TODO: Should we really stop without finishing the entire path when we
+     * NOTE: Should we really stop without finishing the entire path when we
      * reach a success?  Will the agent perform better or worse if it always
-     * finishes the path?
+     * finishes the path?  [15 Mar 2017:  MaRzAgent now relies on current behavior.
+     * I think it's best as is.]
      *
      * @param pathToTry; a string representing the path to try
      * 

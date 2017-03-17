@@ -621,26 +621,29 @@ public class StateMachineEnvironment {
         }
         return path;
     }
-    
+
     /**
-     * Calculates how many steps the agent will take to reach the goal from any
-     * state in the FSM given a path that will reach the goal from any state in
-     * the FSM (@see #shortPathToGoal)
+     * Calculates what state would be reached each state in the FSM if you
+     * followed a given path
      *
      * CAVEAT:  User is responsible for providing a valid path
      *
      * @param path  the path to evaluate
+     * @param currStates an array to fill in with destinations (CAVEAT:  This
+     * array must be allocated and of proper size)
      *
-     * @return the average steps or -1 if path doesn't reach goal from all states
+     * @return the average number of steps taken to reach the goal.  (If the
+     * goal is not reached for a given state then that state is not included
+     * in the average.)
      *
      */
-    public int avgStepsToGoalWithPath(String path) {
+    public int calcDestinationStates(String path, int[] currStates) {
         int sum = 0; //sum of steps to each goal
         int goalCount = 0;  //how many states we've reached goal from
 
         //what state I'd be in if I started at each state and followed the path
         //so far (this has the same use as in shortPathToGoal)
-        int[] currStates = new int[NUM_STATES];
+        if (currStates.length != NUM_STATES) return -1;  //ERROR!
         for(int i = 0; i < NUM_STATES; ++i) {
             currStates[i] = i;
         }
@@ -666,7 +669,60 @@ public class StateMachineEnvironment {
         if (goalCount != NUM_STATES - 1) return -1;
 
         return sum / goalCount;
+    }//calcDestinationStates
+
+    
+    /**
+     * Calculates how many steps the agent will take to reach the goal from any
+     * state in the FSM given a path that will reach the goal from any state in
+     * the FSM (@see #shortPathToGoal)
+     *
+     * CAVEAT:  User is responsible for providing a valid path
+     *
+     * @param path  the path to evaluate
+     *
+     * @return the average steps or -1 if path doesn't reach goal from all states
+     *
+     */
+    public int avgStepsToGoalWithPath(String path) {
+        int[] currStates = new int[NUM_STATES];
+        int avg = calcDestinationStates(path, currStates);
+
+        //Verify that the goal was reached from each state
+        for(int i = 0; i < NUM_STATES; ++i) {
+            if (currStates[i] != GOAL_STATE) {
+                return -1;
+            }
+        }
+
+        return avg;
     }//avgStepsToGoalWithPath
+    
+    /**
+     * Calculates how many states in the FSM you could reach the goal from with
+     * a path
+     *
+     * CAVEAT:  User is responsible for providing a valid path
+     *
+     * @param path  the path to evaluate
+     *
+     * @return a number of states
+     *
+     */
+    public int numStatesSolvedBy(String path) {
+        int[] currStates = new int[NUM_STATES];
+        calcDestinationStates(path, currStates);
+
+        //Count how many states the goal was reached from
+        int count = 0;
+        for(int i = 0; i < NUM_STATES; ++i) {
+            if (currStates[i] == GOAL_STATE) {
+                count++;
+            }
+        }
+
+        return count;
+    }//numStatesSolvedBy
     
 	
 	public String[] getPaths() {
