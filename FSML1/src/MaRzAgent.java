@@ -20,7 +20,7 @@ public class MaRzAgent extends Agent
 
 	// the likeliness to jump back to another node
 	// (should be in the range (0.0 - 1.0)
-	public static double G_WEIGHT = 0.1;
+	public static double G_WEIGHT = 0.05;
 
 	// max size of list of nodes
 	public static final int NODE_LIST_SIZE = 100000;
@@ -412,6 +412,29 @@ public class MaRzAgent extends Agent
 			hashFringe.put(children[i].suffix, children[i]);
 		}// for
 		hashFringe.remove(activeNode.suffix);
+
+        // //%%%REMOVE THIS!
+        // if (hashFringe.size() >= 4)
+        // {
+        //     System.out.println("DONE!!");
+        //     System.out.println("active: " + activeNode);
+        //     for(SuffixNode node : hashFringe.values())
+        //     {
+        //         System.out.println(node);
+        //         System.out.print("fail: ");
+        //         for(Integer i : node.failsIndexList)
+        //         {
+        //             System.out.print(i + ",");
+        //         }
+        //         System.out.print("    success: ");
+        //         for(Integer i : node.successIndexList)
+        //         {
+        //             System.out.print(i + ",");
+        //         }
+        //         System.out.println();
+        //     }
+        //     System.exit(0);
+        // }
 
 	}// splitNode
 
