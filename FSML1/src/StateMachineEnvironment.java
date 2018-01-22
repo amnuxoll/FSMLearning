@@ -37,6 +37,7 @@ public class StateMachineEnvironment {
 	 //These are used as indexes into the the sensor array
 	private static final int IS_NEW_STATE = 0;
 	private static final int IS_GOAL = 1;
+	private static final int IS_EVEN = 2;
 
 
 	private int[][] transition;  //transition table
@@ -272,7 +273,7 @@ public class StateMachineEnvironment {
 		// An array of booleans to keep track of the agents
 		// two sensors. The first represents if he is in a new
 		// state and the second represents if he is at the goal
-		boolean[] sensors = {false, false};
+		boolean[] sensors = {false, false, false};
 		int newState = transition[currentState][findAlphabetIndex(move)];
 		
 		// If the attempted letter brings us to a new state
@@ -280,6 +281,10 @@ public class StateMachineEnvironment {
 		if(newState != currentState){
 			currentState = newState;
 			sensors[IS_NEW_STATE] = true;
+			if(newState % 2 == 0)
+            {
+                sensors[IS_EVEN] = true;
+            }
 		}
 		
 		// If we have reached the goal, update the goal sensor
@@ -287,6 +292,9 @@ public class StateMachineEnvironment {
 			sensors[IS_GOAL] = true;
 			reset();
 		}
+
+
+
 		
 		return sensors;
 	}

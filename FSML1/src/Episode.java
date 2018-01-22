@@ -6,11 +6,14 @@
 public class Episode { 
 	
 	public char command;     //what the agent did
-	public int sensorValue;  //what the agent sensed
+	public int sensorValue[];  //what the agent sensed
 
-	public Episode(char cmd, int sensor) {
+	public Episode(char cmd, int[] sensors) {
 		command = cmd;
-		sensorValue = sensor;
+		for(int i = 0; i < sensors.length; i++)
+		{
+			sensorValue[i] = sensors[i];
+		}
 
 	}
 

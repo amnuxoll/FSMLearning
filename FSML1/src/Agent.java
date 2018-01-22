@@ -121,7 +121,7 @@ public abstract class Agent {
         for(int i = 0; i<episodicMemory.size(); i++)
         {
             memory = memory + episodicMemory.get(i).command;
-            if(episodicMemory.get(i).sensorValue == GOAL)
+            if(episodicMemory.get(i).sensorValue[0] == GOAL)
                 memory = memory + "|";
         }
         return memory;
@@ -293,7 +293,7 @@ public abstract class Agent {
      */
     protected int findLastGoal(int toStart) {
         for (int i = toStart - 1; i > 0; i --) {
-            if (episodicMemory.get(i).sensorValue == GOAL) {
+            if (episodicMemory.get(i).sensorValue[0] == GOAL) {
                 return i;
             }
         }
@@ -386,7 +386,7 @@ public abstract class Agent {
         // Enter each character in the path
         for (int i = 0; i < pathToTry.size(); i++) {
             sensors = env.tick(pathToTry.get(i));
-            int encodedSensorResult = encodeSensors(sensors);
+            int[] encodedSensorResult = encodeSensors(sensors);
             episodicMemory.add(new Episode(pathToTry.get(i), encodedSensorResult));
             if (sensors[IS_GOAL]){
                 Successes++;
@@ -422,7 +422,7 @@ public abstract class Agent {
         // Enter each character in the path
         for (int i = 0; i < pathToTry.length(); i++) {
             sensors = env.tick(pathToTry.charAt(i));
-            int encodedSensorResult = encodeSensors(sensors);
+            int[] encodedSensorResult = encodeSensors(sensors);
             episodicMemory.add(new Episode(pathToTry.charAt(i), encodedSensorResult));
             memory = memory + pathToTry.charAt(i);
             if (sensors[IS_GOAL]) {
@@ -465,7 +465,7 @@ public abstract class Agent {
             if (epChar == pathToTry.charAt(pathIndex))
             {
                 //If we reached the goal that's a special case
-                if (episodicMemory.get(epIndex).sensorValue == IS_GOAL)
+                if (episodicMemory.get(epIndex).sensorValue[0] == IS_GOAL)
                 {
                     //if goal is in the suffix that's a success
                     if (pathIndex >= suffixIndex)
@@ -509,19 +509,27 @@ public abstract class Agent {
      * @param sensors The agent's sensor data
      * @return the integer encoding of that sensor data
      */
-    protected int encodeSensors(boolean[] sensors) {
-        int encodedSensorResult;
+    protected int[] encodeSensors(boolean[] sensors) {
+        int[] encodedSensorResult = new int[2];
 
         if (sensors[IS_GOAL]) {
-            encodedSensorResult = GOAL;
+            encodedSensorResult[0] = GOAL;
         }
 
         else if (sensors[IS_NEW_STATE]) {
-            encodedSensorResult = TRANSITION_ONLY;
+            encodedSensorResult[0] = TRANSITION_ONLY;
         }
 
         else {
-            encodedSensorResult = NO_TRANSITION;
+            encodedSensorResult[0] = NO_TRANSITION;
+        }
+        if(sensors[2]) //Sensors[2] refers to the Odd/Even sensor inside of the State Machine Environment
+        {
+            encodedSensorResult[1] = 1;
+        }
+        else
+        {
+            encodedSensorResult[1] = 0;
         }
 
         return encodedSensorResult;
@@ -562,11 +570,13 @@ public abstract class Agent {
             //sensors from the "right now" episode to the sequence at the
             //index indicated by 'i'
             char currCmd = episodicMemory.get(indexOfMatchingAction).command;
-            int currSensors = episodicMemory.get(indexOfMatchingAction).sensorValue;
+            int currSensors = episodicMemory.get(indexOfMatchingAction).sensorValue[0];
+            int currOddEven = episodicMemory.get(indexOfMatchingAction).sensorValue[1];
             char prevCmd = episodicMemory.get(i).command;
-            int prevSensors = episodicMemory.get(i).sensorValue;
+            int prevSensors = episodicMemory.get(i).sensorValue[0];
+            int prevOddEven = episodicMemory.get(i).sensorValue[1];
 
-            match = ( (currCmd == prevCmd) && (currSensors == prevSensors) );
+            match = ( (currCmd == prevCmd) && (currSensors == prevSensors) && (currOddEven == prevOddEven)  );
 
             if (match) {
                 length++;
@@ -628,12 +638,12 @@ public abstract class Agent {
      * findLastGoal
      *
      * Searches backwards through the list of move-result pairs from the given index
-     * @param toStart The index from which to start the backwards search
+     * @param //toStart The index from which to start the backwards search
      * @return The index of the previous goal
      */
     protected int findLastGoal() {
         for (int i = episodicMemory.size() - 1; i >= 0; i--) {
-            if (episodicMemory.get(i).sensorValue == IS_GOAL) {
+            if (episodicMemory.get(i).sensorValue[0] == IS_GOAL) {
                 return i;
             }
         }

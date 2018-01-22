@@ -307,7 +307,7 @@ public class MaRzAgent extends Agent
             Episode ep = episodicMemory.get(index);
 
             //if we back into the previous goal without finding a key then there is no match
-            if ((key.length() > 0) && (ep.sensorValue == GOAL)) return null;
+            if ((key.length() > 0) && (ep.sensorValue[0] == GOAL)) return null;
             
             key = ep.command + key;
             index--;
@@ -354,7 +354,7 @@ public class MaRzAgent extends Agent
 			}// if
 
             //If we've backed into the previous goal then we can't match either
-			if ((parent.suffix.length() > 0) && (episodicMemory.get(index).sensorValue == GOAL))
+			if ((parent.suffix.length() > 0) && (episodicMemory.get(index).sensorValue[0] == GOAL))
 			{
                 continue;
             }
@@ -746,7 +746,7 @@ public class MaRzAgent extends Agent
 			for (int i = 0; i < episodicMemory.size(); ++i)
 			{
 				Episode ep = episodicMemory.get(i);
-				if (ep.sensorValue == GOAL)
+				if (ep.sensorValue[0] == GOAL)
 				{
 					csv.append(i - prevGoalPoint + ",");
 					csv.flush();
