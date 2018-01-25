@@ -32,7 +32,7 @@ public class NSMAgent extends Agent {
         public double qValue = 0.0;
         public double reward = 0.0;
 
-        public QEpisode(char cmd, int sensor) {
+        public QEpisode(char cmd, int[] sensor) {
             super(cmd, sensor);
         }
     }//class QEpisode
@@ -263,8 +263,10 @@ public class NSMAgent extends Agent {
      */
     @Override
     public void exploreEnvironment() {
-        int prevSensors = 0; //what was sensed last time
-        
+        int[] prevSensors = new int[2]; //what was sensed last time
+        prevSensors[0] = 1;
+
+
         while (episodicMemory.size() < MAX_EPISODES && Successes <= NUM_GOALS) { 
             //add an episode to represent the current moment
             char cmd = alphabet[random.nextInt(alphabet.length)];  //default is random for now
@@ -333,7 +335,7 @@ public class NSMAgent extends Agent {
             int prevGoalPoint = 0; //which episode I last reached the goal at
             for(int i = 0; i < episodicMemory.size(); ++i) {
                 Episode ep = episodicMemory.get(i);
-                if (ep.sensorValue == GOAL) {
+                if (ep.sensorValue[0] == GOAL) {
                     csv.append(i - prevGoalPoint + ",");
                     csv.flush();
                     prevGoalPoint = i;

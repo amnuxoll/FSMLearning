@@ -48,9 +48,10 @@ public class KirkChandlerAgent extends Agent{
 	 */
 	public KirkChandlerAgent() { 
         informationColumns = 2;
-        
+        int[] tempNO_TRANSITION = new int[2]; //what was sensed last time
+        tempNO_TRANSITION[0] = 1;
         //prime the epmem with a first episode that is empty
-        episodicMemory.add(new Episode(' ', NO_TRANSITION));//the space cmd means unknown cmd for first memory
+        episodicMemory.add(new Episode(' ', tempNO_TRANSITION ));//the space cmd means unknown cmd for first memory
         
         //build the permutations of all sequences (up to max SUS len) 
         sequencesNotPerformed = new ArrayList<ArrayList<String>>();
@@ -292,7 +293,7 @@ public class KirkChandlerAgent extends Agent{
         for (int i=idx; i<episodicMemory.size(); i++) {
             steps += episodicMemory.get(i).command;
             //break if at goal
-            if (episodicMemory.get(i).sensorValue == GOAL){
+            if (episodicMemory.get(i).sensorValue[0] == GOAL){
                 break;
             }
         }
@@ -368,7 +369,7 @@ public class KirkChandlerAgent extends Agent{
             int prevGoalPoint = 0; //which episode I last reached the goal at
             for(int i = 0; i < episodicMemory.size(); ++i) {
                 Episode ep = episodicMemory.get(i);
-                if (ep.sensorValue == GOAL) {
+                if (ep.sensorValue[0] == GOAL) {
                     csv.append(i - prevGoalPoint + ",");
                     csv.flush();
                     prevGoalPoint = i;

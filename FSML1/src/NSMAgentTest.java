@@ -39,11 +39,12 @@ public class NSMAgentTest {
         this.agent = new NSMAgent();
         for(int i = 0; i < epmem.length()-1; ++i) {
             char cmd = epmem.charAt(i);
-            int sensor = Agent.NO_TRANSITION;
+            int[] sensor = new int[2];
+            sensor[0] = Agent.NO_TRANSITION;
             if (cmd == '|') {
                 i++;
                 cmd = epmem.charAt(i);
-                sensor = Agent.GOAL;
+                sensor[0] = Agent.GOAL;
             }
             agent.episodicMemory.add(new NSMAgent.QEpisode(cmd, sensor));
         }//for
@@ -51,10 +52,10 @@ public class NSMAgentTest {
         //Verify the result
         NSMAgent.QEpisode qep = (NSMAgent.QEpisode)agent.episodicMemory.get(17);
         if (qep.command != 'a') fail("Wrong cmd for QEp at index 17: " + qep.command);
-        if (qep.sensorValue != Agent.NO_TRANSITION) fail("Wrong sensor for QEp at index 17: " + qep.sensorValue);
+        if (qep.sensorValue[0] != Agent.NO_TRANSITION) fail("Wrong sensor for QEp at index 17: " + qep.sensorValue);
         qep = (NSMAgent.QEpisode)agent.episodicMemory.get(18);
         if (qep.command != 'b') fail("Wrong cmd for QEp at index 18: " + qep.command);
-        if (qep.sensorValue != Agent.GOAL) fail("Wrong sensor for QEp at index 17: " + qep.sensorValue);
+        if (qep.sensorValue[0] != Agent.GOAL) fail("Wrong sensor for QEp at index 17: " + qep.sensorValue);
 
         System.out.println("Success.");
 

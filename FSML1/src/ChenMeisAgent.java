@@ -85,9 +85,10 @@ public class ChenMeisAgent extends Agent
     public ChenMeisAgent()
     {    
         informationColumns = 8;
-        
+        int[] tempNO_TRANSITION = new int[2];
+        tempNO_TRANSITION[0] = NO_TRANSITION;
         //prime the epmem with a first episode that is empty
-        episodicMemory.add(new Episode(' ', NO_TRANSITION));//the space cmd means unknown cmd for first memory
+        episodicMemory.add(new Episode(' ', tempNO_TRANSITION));//the space cmd means unknown cmd for first memory
         
         //build the permutations of all sequences (up to max SUS len) 
         sequencesNotPerformed = new ArrayList<ArrayList<String>>();
@@ -551,7 +552,7 @@ public class ChenMeisAgent extends Agent
         for(int i=(indice-COMPARE_SIZE)+1; i<indice; i++){
 
             //if the episode is a goal, return the index of that episode
-            if(episodicMemory.get(i).sensorValue == GOAL){
+            if(episodicMemory.get(i).sensorValue[0] == GOAL){
                 return i;
             }
         }
@@ -649,7 +650,7 @@ public class ChenMeisAgent extends Agent
 
             for (int i = 0; i < episodicMemory.size(); ++i) {
                 Episode ep = episodicMemory.get(i);
-                if (ep.sensorValue == GOAL) {
+                if (ep.sensorValue[0] == GOAL) {
                     csv.append(i - prevGoalPoint + ",");
                     csv.flush();
                     prevGoalPoint = i;

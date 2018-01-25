@@ -122,11 +122,11 @@ public class TestChenMeisAgent {
 
         //initialize array of Episodes
         Episode[] eps = new Episode[arrayLength];
-
+        int[] noSensors = new int[2];
         //fill eps array
         for (int i = 0; i < arrayLength; i++) {
             //don't care what the sensor value is
-            eps[i] = new Episode(chars[i], 0);
+            eps[i] = new Episode(chars[i], noSensors);
         }
 
         return eps;
