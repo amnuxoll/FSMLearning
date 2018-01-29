@@ -31,7 +31,14 @@ public abstract class Agent {
     public static final int NO_TRANSITION = 0;
     public static final int TRANSITION_ONLY = 2;
     public static final int GOAL = 1;
-    
+    public static final int IS_EVEN = 2;
+
+    //new constants for sensors using binary values ie  1 to 0001
+    public static final int GOAL_SENSOR = 1;
+    public static final int EVEN_SENSOR = 2;
+    public static final int NEWSTATE_SENSOR = 4;
+
+
     //This will be useful
     public static Random random = new Random();
     //These are used as indexes into the the sensor array
@@ -121,7 +128,8 @@ public abstract class Agent {
         for(int i = 0; i<episodicMemory.size(); i++)
         {
             memory = memory + episodicMemory.get(i).command;
-            if(episodicMemory.get(i).sensorValue == GOAL)
+
+            if((episodicMemory.get(i).sensorValue & GOAL) == GOAL)
                 memory = memory + "|";
         }
         return memory;
@@ -293,7 +301,7 @@ public abstract class Agent {
      */
     protected int findLastGoal(int toStart) {
         for (int i = toStart - 1; i > 0; i --) {
-            if (episodicMemory.get(i).sensorValue == GOAL) {
+            if ((episodicMemory.get(i).sensorValue & GOAL_SENSOR) == GOAL) {
                 return i;
             }
         }
@@ -510,18 +518,18 @@ public abstract class Agent {
      * @return the integer encoding of that sensor data
      */
     protected int encodeSensors(boolean[] sensors) {
-        int encodedSensorResult;
+        int encodedSensorResult = 0;
 
         if (sensors[IS_GOAL]) {
-            encodedSensorResult = GOAL;
+            encodedSensorResult = GOAL_SENSOR;
         }
 
-        else if (sensors[IS_NEW_STATE]) {
-            encodedSensorResult = TRANSITION_ONLY;
+        if (sensors[IS_EVEN]){
+            encodedSensorResult = GOAL_SENSOR | EVEN_SENSOR;
         }
 
-        else {
-            encodedSensorResult = NO_TRANSITION;
+        if (sensors[IS_NEW_STATE]){
+            encodedSensorResult = encodedSensorResult | NEWSTATE_SENSOR;
         }
 
         return encodedSensorResult;
@@ -628,7 +636,7 @@ public abstract class Agent {
      * findLastGoal
      *
      * Searches backwards through the list of move-result pairs from the given index
-     * @param toStart The index from which to start the backwards search
+     * @param //toStart The index from which to start the backwards search
      * @return The index of the previous goal
      */
     protected int findLastGoal() {

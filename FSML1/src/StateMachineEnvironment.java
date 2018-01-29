@@ -25,7 +25,7 @@ import java.util.TreeSet;
 public class StateMachineEnvironment {
 
 	// Instance variables
-	public static int NUM_STATES = 20;
+	public static int NUM_STATES = 5;
 	public static int GOAL_STATE = NUM_STATES - 1;
 	public static int ALPHABET_SIZE = 3;  //this must be in the range [2,26]
         
@@ -37,6 +37,7 @@ public class StateMachineEnvironment {
 	 //These are used as indexes into the the sensor array
 	private static final int IS_NEW_STATE = 0;
 	private static final int IS_GOAL = 1;
+	private static final int IS_EVEN = 2;
 
 
 	private int[][] transition;  //transition table
@@ -64,6 +65,7 @@ public class StateMachineEnvironment {
             findShortestPaths();
             
             if (debug) {
+
                     //System.out.println("Shortest Path: " + paths[0]);
                     printStateMachine();
                     String oldBlindpath = shortestBlindPathToGoal();
@@ -272,7 +274,7 @@ public class StateMachineEnvironment {
 		// An array of booleans to keep track of the agents
 		// two sensors. The first represents if he is in a new
 		// state and the second represents if he is at the goal
-		boolean[] sensors = {false, false};
+		boolean[] sensors = {false, false, false};
 		int newState = transition[currentState][findAlphabetIndex(move)];
 		
 		// If the attempted letter brings us to a new state
@@ -281,7 +283,10 @@ public class StateMachineEnvironment {
 			currentState = newState;
 			sensors[IS_NEW_STATE] = true;
 		}
-		
+
+        if(newState % 2 == 0){
+            sensors[IS_EVEN] = true;
+        }
 		// If we have reached the goal, update the goal sensor
 		if(newState == GOAL_STATE){
 			sensors[IS_GOAL] = true;
