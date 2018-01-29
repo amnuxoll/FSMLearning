@@ -9,21 +9,21 @@ import java.util.Collections;
  * class NSMAgent
  *
  * This agent is an implementation of Andrew McCallum's Nearest Sequence Memory
- * algorithm.  
+ * algorithm.
  *
  * @author: Andrew Nuxoll (with many thanks to Zach Faltersack for his original
  * implementation in C)
  *
  */
-public class NSMAgent extends Agent {
+public class GoalSensorOnlyNSMAgent extends Agent {
 
-   
+
     /**
      * ************************************************************************************
      * INNER CLASSES
      * ************************************************************************************
      */
-    /** 
+    /**
      * class QEpisode
      *
      * This class extends Episode to have a q-value and a reward
@@ -36,7 +36,7 @@ public class NSMAgent extends Agent {
             super(cmd, sensor);
         }
     }//class QEpisode
-    
+
     /**
      * class NBor
      *
@@ -60,7 +60,7 @@ public class NSMAgent extends Agent {
             return this.len - other.len;
         }
     }//class NBor
-    
+
     /**
      * class NHood
      *
@@ -72,7 +72,7 @@ public class NSMAgent extends Agent {
      */
     public static class NHood {
         public final int K_NEAREST = 8;  //max allowed size of neighborhood
-        
+
         public char command;           // action associated with this neighborhood
         public ArrayList<NBor> nbors;  // neigbhors in the hood
         public int shortest = 0;       //length of shortest neighbor
@@ -86,7 +86,7 @@ public class NSMAgent extends Agent {
          * CAVEAT:  Caller is responsible for checking the neighbor is long
          * enough to belong. */
         public void addNBor(NBor newGuy) {
-            //if the nhood is full, drop the shorest neighbor to make room
+            //if the nhood is full, drop the shortest neighbor to make room
             while(nbors.size() >= K_NEAREST) {
                 this.nbors.remove(0);
             }
@@ -99,7 +99,7 @@ public class NSMAgent extends Agent {
         }//addNBor
 
     }//class NHood
-    
+
     /**
      * ************************************************************************************
      * VARIABLES
@@ -112,30 +112,30 @@ public class NSMAgent extends Agent {
     public static double REWARD_FAILURE   = -0.1;
     public static double INIT_RAND_CHANCE =  0.8;
     public static double RAND_DECREASE    =  0.95;  //mult randChance by this
-                                                    //value at each goal
+    //value at each goal
     public static double MIN_RAND_CHANCE  =  0.0;
-    
-    
+
+
     protected NHood[] nhoods;
     protected double randChance = INIT_RAND_CHANCE;  //how frequently the agent
-                                                     //make a random move
+    //make a random move
     /**
      * ************************************************************************************
-     * METHODS 
+     * METHODS
      * ************************************************************************************
      */
 
-    
-        
+
+
     /**
-	 * The constructor for the agent simply initializes it's instance variables
-	 */
-	public NSMAgent() {
+     * The constructor for the agent simply initializes it's instance variables
+     */
+    public GoalSensorOnlyNSMAgent() {
         informationColumns = 2;
-        
+
         nhoods = new NHood[alphabet.length];
         episodicMemory.clear();
-	}//NSMAgent ctor
+    }//NSMAgent ctor
 
     /**
      * populateNHoods
@@ -151,17 +151,17 @@ public class NSMAgent extends Agent {
         for(int c = 0; c < alphabet.length; ++c)
         {
             nhoods[c] = new NHood(alphabet[c]);
-            
+
             //temporarily set the to-be-issued command to this value
             ep.command = alphabet[c];
             episodicMemory.set(episodicMemory.size() - 1, ep);
 
-            //find the kNN 
+            //find the kNN
             for(int i = 0; i <= episodicMemory.size() - 2; ++i) {
                 int matchLen = matchedMemoryStringLength(i);
                 if ( (matchLen >0) &&
-                    ( (nhoods[c].shortest <= matchLen)
-                      || (nhoods[c].nbors.size() < nhoods[c].K_NEAREST) ) ) {
+                        ( (nhoods[c].shortest <= matchLen)
+                                || (nhoods[c].nbors.size() < nhoods[c].K_NEAREST) ) ) {
                     nhoods[c].addNBor(new NBor(i, matchLen));
                 }
             }//for
@@ -195,7 +195,7 @@ public class NSMAgent extends Agent {
      * setNewLittleQ
      *
      * This functions takes an episode and the current utility and updates the episode's
-     * expected future discounted reward. 
+     * expected future discounted reward.
      *
      * @param ep A pointer to an episode to update
      * @param utility A double that contains the current state's utility used to update
@@ -206,9 +206,9 @@ public class NSMAgent extends Agent {
         // Set the new q value for the episode
         //if(!g_statsMode) printf("Calculating and setting new expected future discounted reward\n");
         ep.qValue = (1.0 - LEARNING_RATE) * (ep.qValue)
-            + LEARNING_RATE * (ep.reward + DISCOUNT * utility);
+                + LEARNING_RATE * (ep.reward + DISCOUNT * utility);
     }//setNewLittleQ
-    
+
     /**
      * updateAllLittleQ
      *
@@ -247,7 +247,7 @@ public class NSMAgent extends Agent {
             }
         }//for
 
-        // Update the given (most recent) episode's Q value 
+        // Update the given (most recent) episode's Q value
         setNewLittleQ(ep, utility);
 
     }//updateAllLittleQ
@@ -264,15 +264,15 @@ public class NSMAgent extends Agent {
     @Override
     public void exploreEnvironment() {
         int prevSensors = 0; //what was sensed last time
-        
-        while (episodicMemory.size() < MAX_EPISODES && Successes <= NUM_GOALS) { 
+
+        while (episodicMemory.size() < MAX_EPISODES && Successes <= NUM_GOALS) {
             //add an episode to represent the current moment
             char cmd = alphabet[random.nextInt(alphabet.length)];  //default is random for now
             QEpisode nowEp = new QEpisode(cmd, prevSensors);
             //Update the q-values for the previous iteration of this loop
             if (nhoods[0] != null) updateAllLittleQ(nowEp);
-			episodicMemory.add(nowEp);
-            
+            episodicMemory.add(nowEp);
+
             // We can't use NSM until we've found the goal at least once
             populateNHoods();
             if(Successes > 0) {
@@ -290,7 +290,7 @@ public class NSMAgent extends Agent {
                     }//for
                 }//if
             }//if
-            
+
             //execute the command
             nowEp.command = cmd;
             boolean[] sensors = env.tick(cmd);
@@ -314,26 +314,26 @@ public class NSMAgent extends Agent {
             {
                 nowEp.reward = REWARD_FAILURE;
             }
-            
+
         }//while
     }//exploreEnvironment
-    
+
     /**
-	 * recordLearningCurve
-	 * 
-	 * examine's the agents memory and prints out how many steps the agent took
-	 * to reach the goal each time
-	 * 
+     * recordLearningCurve
+     *
+     * examine's the agents memory and prints out how many steps the agent took
+     * to reach the goal each time
+     *
      * @param csv         an open file to write to
-	 */
-	protected void recordLearningCurve(FileWriter csv) {
+     */
+    protected void recordLearningCurve(FileWriter csv) {
         try {
             csv.append("" + episodicMemory.size() + ",");
-            
+
             int prevGoalPoint = 0; //which episode I last reached the goal at
             for(int i = 0; i < episodicMemory.size(); ++i) {
                 Episode ep = episodicMemory.get(i);
-                if ((ep.sensorValue & GOAL_SENSOR)== GOAL) {
+                if (ep.sensorValue == GOAL) {
                     csv.append(i - prevGoalPoint + ",");
                     csv.flush();
                     prevGoalPoint = i;
@@ -347,88 +347,88 @@ public class NSMAgent extends Agent {
             System.out.println("recordLearningCurve: Could not write to given csv file.");
             System.exit(-1);
         }
-                
-	}//recordLearningCurve
 
-	/**
-	 * main
+    }//recordLearningCurve
+
+    /**
+     * main
      *
-	 */
-	public static void main(String [ ] args) {
-        
-            try{
-                String fname = "AIReport_NewNSMAgent_" + makeNowString() + ".csv";
-                FileWriter csv = new FileWriter(fname);
-                
-                //Record the the configuration
-                String config = "";
-                config += "NUM_GOALS," + NUM_GOALS + "\n";
-                config += "MAX_EPISODES," + MAX_EPISODES + "\n";
-                config += "DISCOUNT," + DISCOUNT + "\n";
-                config += "LEARNING_RATE," + LEARNING_RATE + "\n";
-                config += "INIT_RAND_CHANCE," + INIT_RAND_CHANCE + "\n";
-                config += "RAND_DECREASE," + RAND_DECREASE + "\n";
-                config += "MIN_RAND_CHANCE," + MIN_RAND_CHANCE + "\n";
-                config += "NUM_STATES," + StateMachineEnvironment.NUM_STATES + "\n";
-                config += "ALPHABET_SIZE," + StateMachineEnvironment.ALPHABET_SIZE + "\n";
-                config += "TRANSITIONS_PERCENT," + StateMachineEnvironment.TRANSITIONS_PERCENT + "\n";
-                config += "MAX_EPISODES," + MAX_EPISODES + "\n";
-                config += "NUM_GOALS," + NUM_GOALS + "\n";
-                config += "NUM_MACHINES," + NUM_MACHINES + "\n";
-                config += "cmd line:,";
-                for(String s : args) config += s + ",";
-                config += "\n";
-                System.out.println(config);
-                csv.append(config);
-                informationRows += 14; //we just added 14 header rows to the csv
-                
-                //header row
-                csv.append("Opt Path Len,EpMem Size,");
-                for(int i = 1; i <= NUM_GOALS; ++i)
-                {
-                    csv.append("run " + i + ",");
-                }
-                csv.append("\n");
-                informationColumns++;  //see Agent.java
+     */
+    public static void main(String [ ] args) {
 
-                //initialize the blindLengthSum for calc'ing average later
-                int blindLengthSum = 0;
-                
-                for(int i = 0; i < NUM_MACHINES; ++i) {
-                    NSMAgent skipper = new NSMAgent();
+        try{
+            String fname = "AIReport_goalSensorOnlyNSMAgent_" + makeNowString() + ".csv";
+            FileWriter csv = new FileWriter(fname);
 
-                    //Print blind path length 
-                    String sbPath = skipper.env.shortestPathToGoal();
-                    csv.append("" + sbPath.length() + ",");
-                    blindLengthSum += skipper.env.avgStepsToGoalWithPath(sbPath);
-                    csv.flush();
+            //Record the the configuration
+            String config = "";
+            config += "NUM_GOALS," + NUM_GOALS + "\n";
+            config += "MAX_EPISODES," + MAX_EPISODES + "\n";
+            config += "DISCOUNT," + DISCOUNT + "\n";
+            config += "LEARNING_RATE," + LEARNING_RATE + "\n";
+            config += "INIT_RAND_CHANCE," + INIT_RAND_CHANCE + "\n";
+            config += "RAND_DECREASE," + RAND_DECREASE + "\n";
+            config += "MIN_RAND_CHANCE," + MIN_RAND_CHANCE + "\n";
+            config += "NUM_STATES," + StateMachineEnvironment.NUM_STATES + "\n";
+            config += "ALPHABET_SIZE," + StateMachineEnvironment.ALPHABET_SIZE + "\n";
+            config += "TRANSITIONS_PERCENT," + StateMachineEnvironment.TRANSITIONS_PERCENT + "\n";
+            config += "MAX_EPISODES," + MAX_EPISODES + "\n";
+            config += "NUM_GOALS," + NUM_GOALS + "\n";
+            config += "NUM_MACHINES," + NUM_MACHINES + "\n";
+            config += "cmd line:,";
+            for(String s : args) config += s + ",";
+            config += "\n";
+            System.out.println(config);
+            csv.append(config);
+            informationRows += 14; //we just added 14 header rows to the csv
 
-                    //A little reassurance for the humans
-                    System.out.println("Beginning machine " + (i+1) + " of " + NUM_MACHINES);
-                    System.out.println("shortest blind path len: " + sbPath.length());
-                    
-                    //This is what takes forever...
-                    skipper.exploreEnvironment();
-
-                    skipper.recordLearningCurve(csv);
-                    System.out.println();
-                    System.out.println(skipper.memoryToString());
-                }
-                //Record the average steps per goal
-                recordAverage(csv);
-
-                //use the average optimal blind path length as a baseline
-                int blindLengthAvg = (int)((0.5 + blindLengthSum) / NUM_MACHINES);
-                recordBaseline(csv, blindLengthAvg);
-                
-                // end of file
-                csv.close();
-                System.out.println("End of " + fname);
+            //header row
+            csv.append("Opt Path Len,EpMem Size,");
+            for(int i = 1; i <= NUM_GOALS; ++i)
+            {
+                csv.append("run " + i + ",");
             }
-            catch(IOException e){
-                
+            csv.append("\n");
+            informationColumns++;  //see Agent.java
+
+            //initialize the blindLengthSum for calc'ing average later
+            int blindLengthSum = 0;
+
+            for(int i = 0; i < NUM_MACHINES; ++i) {
+                NSMAgent skipper = new NSMAgent();
+
+                //Print blind path length
+                String sbPath = skipper.env.shortestPathToGoal();
+                csv.append("" + sbPath.length() + ",");
+                blindLengthSum += skipper.env.avgStepsToGoalWithPath(sbPath);
+                csv.flush();
+
+                //A little reassurance for the humans
+                System.out.println("Beginning machine " + (i+1) + " of " + NUM_MACHINES);
+                System.out.println("shortest blind path len: " + sbPath.length());
+
+                //This is what takes forever...
+                skipper.exploreEnvironment();
+
+                skipper.recordLearningCurve(csv);
+                System.out.println();
+                System.out.println(skipper.memoryToString());
             }
-            
-	}
+            //Record the average steps per goal
+            recordAverage(csv);
+
+            //use the average optimal blind path length as a baseline
+            int blindLengthAvg = (int)((0.5 + blindLengthSum) / NUM_MACHINES);
+            recordBaseline(csv, blindLengthAvg);
+
+            // end of file
+            csv.close();
+            System.out.println("End of " + fname);
+        }
+        catch(IOException e){
+
+        }
+
+    }
 
 }//class NSMAgent

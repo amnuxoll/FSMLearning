@@ -688,7 +688,7 @@ public class MaRzAgent extends Agent
 		try
 		{
 
-            String fname = "AIReport_" + makeNowString() + ".csv";
+            String fname = "AIReport_MaRz_" + makeNowString() + ".csv";
             FileWriter csv = new FileWriter(fname);
 			
 			for (int i = 1; i <= NUM_MACHINES; ++i)
@@ -746,7 +746,7 @@ public class MaRzAgent extends Agent
 			for (int i = 0; i < episodicMemory.size(); ++i)
 			{
 				Episode ep = episodicMemory.get(i);
-				if (ep.sensorValue == GOAL)
+				if ((ep.sensorValue & GOAL_SENSOR) == GOAL)
 				{
 					csv.append(i - prevGoalPoint + ",");
 					csv.flush();
