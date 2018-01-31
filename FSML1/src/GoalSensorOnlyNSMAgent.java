@@ -333,7 +333,7 @@ public class GoalSensorOnlyNSMAgent extends Agent {
             int prevGoalPoint = 0; //which episode I last reached the goal at
             for(int i = 0; i < episodicMemory.size(); ++i) {
                 Episode ep = episodicMemory.get(i);
-                if (ep.sensorValue == GOAL) {
+                if ((ep.sensorValue & GOAL_SENSOR) == GOAL_SENSOR) {
                     csv.append(i - prevGoalPoint + ",");
                     csv.flush();
                     prevGoalPoint = i;

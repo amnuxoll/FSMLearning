@@ -129,7 +129,7 @@ public abstract class Agent {
         {
             memory = memory + episodicMemory.get(i).command;
 
-            if((episodicMemory.get(i).sensorValue & GOAL) == GOAL)
+            if((episodicMemory.get(i).sensorValue & GOAL_SENSOR) == GOAL_SENSOR)
                 memory = memory + "|";
         }
         return memory;
@@ -301,7 +301,7 @@ public abstract class Agent {
      */
     protected int findLastGoal(int toStart) {
         for (int i = toStart - 1; i > 0; i --) {
-            if ((episodicMemory.get(i).sensorValue & GOAL_SENSOR) == GOAL) {
+            if ((episodicMemory.get(i).sensorValue & GOAL_SENSOR) == GOAL_SENSOR) {
                 return i;
             }
         }
@@ -523,9 +523,8 @@ public abstract class Agent {
         if (sensors[IS_GOAL]) {
             encodedSensorResult = GOAL_SENSOR;
         }
-
         if (sensors[IS_EVEN]){
-            encodedSensorResult = GOAL_SENSOR | EVEN_SENSOR;
+            encodedSensorResult = encodedSensorResult | EVEN_SENSOR;
         }
 
         if (sensors[IS_NEW_STATE]){
