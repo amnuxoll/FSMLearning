@@ -296,8 +296,9 @@ public class GoalSensorOnlyNSMAgent extends Agent {
             boolean[] sensors = env.tick(cmd);
 
             //Setup for next iteration
-            prevSensors = encodeSensors(sensors);
+            prevSensors = 0; //encodeSensors(sensors);
             if (sensors[IS_GOAL]){
+                prevSensors  = 1;
                 nowEp.reward = REWARD_SUCCESS;
                 Successes++;
                 if (randChance > MIN_RAND_CHANCE)
