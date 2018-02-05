@@ -274,11 +274,12 @@ public class StateMachineEnvironment {
 	 * @return
 	 * 		The agent's updated sensors
 	 */
-	public boolean[] tick(char move) {
+	public Sensors tick(char move) {
 		// An array of booleans to keep track of the agents
 		// two sensors. The first represents if he is in a new
 		// state and the second represents if he is at the goal
-		boolean[] sensors = {false, false, false, false};
+
+		Sensors  sensors = new Sensors();
 		int newState = transition[currentState][findAlphabetIndex(move)];
 		
 		// If the attempted letter brings us to a new state
@@ -286,22 +287,25 @@ public class StateMachineEnvironment {
 		if(newState != currentState){
 		    if(loops.contains(newState)){
 		        loops.clear();
-		        sensors[IS_LOOP] = true;
+		        sensors.ISLOOP_SENSOR = true;
             }
             else{
 		        loops.add(newState);
             }
 
 			currentState = newState;
-			sensors[IS_NEW_STATE] = true;
+			sensors.NEWSTATE_SENSOR = true;
 		}
 
         if(newState % 2 == 0){
-            sensors[IS_EVEN] = true;
+            sensors.EVEN_SENSOR = true;
         }
+
+        sensors.STATENUM_SENSOR = newState;
+
 		// If we have reached the goal, update the goal sensor
 		if(newState == GOAL_STATE){
-			sensors[IS_GOAL] = true;
+			sensors.GOAL_SENSOR = true;
 			reset();
 		}
 		

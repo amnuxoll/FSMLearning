@@ -293,11 +293,11 @@ public class GoalSensorOnlyNSMAgent extends Agent {
 
             //execute the command
             nowEp.command = cmd;
-            boolean[] sensors = env.tick(cmd);
+            Sensors sensors = env.tick(cmd);
 
             //Setup for next iteration
             prevSensors = new Sensors(); //encodeSensors(sensors);
-            if (sensors[IS_GOAL]){
+            if (sensors.GOAL_SENSOR){
 
                 //!!!The below sensor(s) are the only sensors this agent "sees". Update as neccessary.
                 prevSensors.updateSensors("GOAL_SENSOR", true);

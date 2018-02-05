@@ -391,13 +391,13 @@ public abstract class Agent {
      * false if it did not
      */
     public boolean tryPath(Path pathToTry) {
-        boolean[] sensors;
+        Sensors sensors;
         // Enter each character in the path
         for (int i = 0; i < pathToTry.size(); i++) {
             sensors = env.tick(pathToTry.get(i));
-            Sensors encodedSensorResult = encodeSensors(sensors);
+            Sensors encodedSensorResult = new Sensors(sensors);//encodeSensors(sensors);
             episodicMemory.add(new Episode(pathToTry.get(i), encodedSensorResult));
-            if (sensors[IS_GOAL]){
+            if (sensors.GOAL_SENSOR){
                 Successes++;
                 debugPrintln("Success after " + (i + 1) + " steps."); 
                 return true;
@@ -427,14 +427,14 @@ public abstract class Agent {
      * "FAIL" if the entire path was tried without reaching the goal
      */
     public String tryPath(String pathToTry) {
-        boolean[] sensors;
+        Sensors sensors;
         // Enter each character in the path
         for (int i = 0; i < pathToTry.length(); i++) {
             sensors = env.tick(pathToTry.charAt(i));
-            Sensors encodedSensorResult = encodeSensors(sensors);
+            Sensors encodedSensorResult = new Sensors(sensors);
             episodicMemory.add(new Episode(pathToTry.charAt(i), encodedSensorResult));
             memory = memory + pathToTry.charAt(i);
-            if (sensors[IS_GOAL]) {
+            if (sensors.GOAL_SENSOR) {
                 Successes++;
                 debugPrintln("Success after " + (i + 1) + " steps.");
 
@@ -518,7 +518,8 @@ public abstract class Agent {
      * @param sensors The agent's sensor data
      * @return the integer encoding of that sensor data
      */
-    protected Sensors encodeSensors(boolean[] sensors) {
+    /* //TODO phased out method -- delete??
+    protected Sensors encodeSensors(Sensors sensors) {
         Sensors encodedSensorResult = new Sensors();
 
         encodedSensorResult.updateSensors("GOAL_SENSOR", sensors[IS_GOAL]);
@@ -526,7 +527,7 @@ public abstract class Agent {
         encodedSensorResult.updateSensors("NEWSTATE_SENSOR", sensors[IS_NEW_STATE]);
         encodedSensorResult.updateSensors("ISLOOP_SENSOR", sensors[IS_LOOP]);
         return encodedSensorResult;
-    }
+    } */
     
     /**
      * Returns the index of the given character in the

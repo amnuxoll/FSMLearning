@@ -293,11 +293,11 @@ public class NSMAgent extends Agent {
             
             //execute the command
             nowEp.command = cmd;
-            boolean[] sensors = env.tick(cmd);
+            Sensors sensors = env.tick(cmd);
 
             //Setup for next iteration
-            prevSensors = encodeSensors(sensors);
-            if (sensors[IS_GOAL]){
+            prevSensors = new Sensors(sensors);
+            if (sensors.GOAL_SENSOR){
                 nowEp.reward = REWARD_SUCCESS;
                 Successes++;
                 if (randChance > MIN_RAND_CHANCE)
