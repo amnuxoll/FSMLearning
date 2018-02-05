@@ -263,7 +263,7 @@ public class NSMAgent extends Agent {
      */
     @Override
     public void exploreEnvironment() {
-        Sensors prevSensors = new Sensors(); //what was sensed last time //TODO: WHy this this blank?? Initially set to 0 when only sensor was goal only
+        Sensors prevSensors = new Sensors(); //what was sensed last time
         
         while (episodicMemory.size() < MAX_EPISODES && Successes <= NUM_GOALS) { 
             //add an episode to represent the current moment
@@ -296,7 +296,7 @@ public class NSMAgent extends Agent {
             boolean[] sensors = env.tick(cmd);
 
             //Setup for next iteration
-            prevSensors = encodeSensors(sensors); // TODO: Emily thinks this doesn't do anything
+            prevSensors = encodeSensors(sensors);
             if (sensors[IS_GOAL]){
                 nowEp.reward = REWARD_SUCCESS;
                 Successes++;
