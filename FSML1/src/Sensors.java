@@ -12,6 +12,7 @@ public class Sensors {
     boolean EVEN_SENSOR;
     boolean NEWSTATE_SENSOR;
     boolean ISLOOP_SENSOR;
+    boolean ISNOISE_SENSOR;
     int STATENUM_SENSOR;
 
 
@@ -22,6 +23,7 @@ public class Sensors {
         EVEN_SENSOR = false;
         NEWSTATE_SENSOR = false;
         ISLOOP_SENSOR = false;
+        ISNOISE_SENSOR = false;
         STATENUM_SENSOR = -1;
     }
 
@@ -31,6 +33,7 @@ public class Sensors {
         this.EVEN_SENSOR = cpySensor.EVEN_SENSOR;
         this.NEWSTATE_SENSOR = cpySensor.NEWSTATE_SENSOR;
         this.ISLOOP_SENSOR = cpySensor.ISLOOP_SENSOR;
+        this.ISNOISE_SENSOR = cpySensor.ISNOISE_SENSOR;
         this.STATENUM_SENSOR = cpySensor.STATENUM_SENSOR;
     }
 
@@ -54,6 +57,10 @@ public class Sensors {
         }
         else if (sensorInput.equals("ISLOOP_SENSOR")){
             ISLOOP_SENSOR = sensorValue;
+        }
+        else if (sensorInput.equals("ISNOISE_SENSOR"))
+        {
+            ISNOISE_SENSOR = sensorValue;
         }
         else{//warning message if sensor name does not match existing sensor
             System.out.println("Warning, incorrect sensor name: " + sensorInput);
@@ -91,6 +98,10 @@ public class Sensors {
             return false;
         }
         if (compareSensor.ISLOOP_SENSOR != this.ISLOOP_SENSOR){
+            return false;
+        }
+        if (compareSensor.ISNOISE_SENSOR != this.ISNOISE_SENSOR)
+        {
             return false;
         }
         if (compareSensor.STATENUM_SENSOR != this.STATENUM_SENSOR){

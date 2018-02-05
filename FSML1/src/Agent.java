@@ -33,6 +33,7 @@ public abstract class Agent {
     public static final int GOAL = 1;
     public static final int IS_EVEN = 2;
     public static final int IS_LOOP = 3;
+    public static final int IS_NOISE = 4;
 
     //new constants for sensors using binary values ie  1 to 0001
     //public static final int GOAL_SENSOR = 1;

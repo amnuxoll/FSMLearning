@@ -40,6 +40,7 @@ public class StateMachineEnvironment {
 	private static final int IS_GOAL = 1;
 	private static final int IS_EVEN = 2;
 	private static final int IS_LOOP = 3;
+	private static final int IS_NOISE = 4;
 
 
 	private int[][] transition;  //transition table
@@ -308,7 +309,11 @@ public class StateMachineEnvironment {
 			sensors.GOAL_SENSOR = true;
 			reset();
 		}
-		
+		if(random.nextInt(1) == 1)
+        {
+            sensors.ISNOISE_SENSOR = true;
+        }
+
 		return sensors;
 	}
         
