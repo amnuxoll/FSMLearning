@@ -32,7 +32,7 @@ public class NSMAgent extends Agent {
         public double qValue = 0.0;
         public double reward = 0.0;
 
-        public QEpisode(char cmd, int sensor) {
+        public QEpisode(char cmd, Sensors sensor) {
             super(cmd, sensor);
         }
     }//class QEpisode
@@ -263,7 +263,7 @@ public class NSMAgent extends Agent {
      */
     @Override
     public void exploreEnvironment() {
-        int prevSensors = 0; //what was sensed last time
+        Sensors prevSensors = new Sensors(); //what was sensed last time //TODO: WHy this this blank?? Initially set to 0 when only sensor was goal only
         
         while (episodicMemory.size() < MAX_EPISODES && Successes <= NUM_GOALS) { 
             //add an episode to represent the current moment
@@ -296,7 +296,7 @@ public class NSMAgent extends Agent {
             boolean[] sensors = env.tick(cmd);
 
             //Setup for next iteration
-            prevSensors = encodeSensors(sensors);
+            prevSensors = encodeSensors(sensors); // TODO: Emily thinks this doesn't do anything
             if (sensors[IS_GOAL]){
                 nowEp.reward = REWARD_SUCCESS;
                 Successes++;
@@ -333,7 +333,7 @@ public class NSMAgent extends Agent {
             int prevGoalPoint = 0; //which episode I last reached the goal at
             for(int i = 0; i < episodicMemory.size(); ++i) {
                 Episode ep = episodicMemory.get(i);
-                if ((ep.sensorValue & GOAL_SENSOR)== GOAL) {
+                if (ep.sensorValue.GOAL_SENSOR) {
                     csv.append(i - prevGoalPoint + ",");
                     csv.flush();
                     prevGoalPoint = i;
