@@ -14,6 +14,7 @@ public class Sensors {
     boolean ISLOOP_SENSOR;
     int STATENUM_SENSOR;
 
+
     //constructor - sets all sensors to -1 initially.
     public Sensors() {
 

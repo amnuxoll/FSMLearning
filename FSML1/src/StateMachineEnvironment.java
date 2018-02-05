@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.TreeSet;
 
@@ -38,12 +39,14 @@ public class StateMachineEnvironment {
 	private static final int IS_NEW_STATE = 0;
 	private static final int IS_GOAL = 1;
 	private static final int IS_EVEN = 2;
+	private static final int IS_LOOP = 3;
 
 
 	private int[][] transition;  //transition table
 	private char[] alphabet;
 	private String[] paths;  //the shortest path from each state to goal
 	public int currentState;
+	public HashSet<Integer> loops = new HashSet();
 
     //this will be useful
     private Random random = new Random();
@@ -257,8 +260,9 @@ public class StateMachineEnvironment {
 	private void reset() {
         Random randoSquew = new Random();
         int randoState = randoSquew.nextInt(NUM_STATES - 1);
+        loops.clear();
 		currentState = randoState;
-
+        loops.add(currentState);
 	}
 	
 	/**
@@ -274,12 +278,20 @@ public class StateMachineEnvironment {
 		// An array of booleans to keep track of the agents
 		// two sensors. The first represents if he is in a new
 		// state and the second represents if he is at the goal
-		boolean[] sensors = {false, false, false};
+		boolean[] sensors = {false, false, false, false};
 		int newState = transition[currentState][findAlphabetIndex(move)];
 		
 		// If the attempted letter brings us to a new state
 		// update the current state and the new state sensor
 		if(newState != currentState){
+		    if(loops.contains(newState)){
+		        loops.clear();
+		        sensors[IS_LOOP] = true;
+            }
+            else{
+		        loops.add(newState);
+            }
+
 			currentState = newState;
 			sensors[IS_NEW_STATE] = true;
 		}
