@@ -32,7 +32,7 @@ public class GoalSensorOnlyNSMAgent extends Agent {
         public double qValue = 0.0;
         public double reward = 0.0;
 
-        public QEpisode(char cmd, int sensor) {
+        public QEpisode(char cmd, Sensors sensor) {
             super(cmd, sensor);
         }
     }//class QEpisode
@@ -263,7 +263,7 @@ public class GoalSensorOnlyNSMAgent extends Agent {
      */
     @Override
     public void exploreEnvironment() {
-        int prevSensors = 0; //what was sensed last time
+        Sensors prevSensors = new Sensors(); //what was sensed last time
 
         while (episodicMemory.size() < MAX_EPISODES && Successes <= NUM_GOALS) {
             //add an episode to represent the current moment
@@ -296,9 +296,13 @@ public class GoalSensorOnlyNSMAgent extends Agent {
             boolean[] sensors = env.tick(cmd);
 
             //Setup for next iteration
-            prevSensors = 0; //encodeSensors(sensors);
+            prevSensors = new Sensors(); //encodeSensors(sensors);
             if (sensors[IS_GOAL]){
-                prevSensors  = 1;
+
+                //!!!The below sensor(s) are the only sensors this agent "sees". Update as neccessary.
+                prevSensors.updateSensors("GOAL_SENSOR", true);
+
+
                 nowEp.reward = REWARD_SUCCESS;
                 Successes++;
                 if (randChance > MIN_RAND_CHANCE)
@@ -334,7 +338,7 @@ public class GoalSensorOnlyNSMAgent extends Agent {
             int prevGoalPoint = 0; //which episode I last reached the goal at
             for(int i = 0; i < episodicMemory.size(); ++i) {
                 Episode ep = episodicMemory.get(i);
-                if ((ep.sensorValue & GOAL_SENSOR) == GOAL_SENSOR) {
+                if (ep.sensorValue.GOAL_SENSOR) {
                     csv.append(i - prevGoalPoint + ",");
                     csv.flush();
                     prevGoalPoint = i;
