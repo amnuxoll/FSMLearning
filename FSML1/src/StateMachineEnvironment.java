@@ -41,6 +41,7 @@ public class StateMachineEnvironment {
 	private static final int IS_EVEN = 2;
 	private static final int IS_LOOP = 3;
 	private static final int IS_NOISE = 4;
+	private boolean resetOnLoopDiscovered = true;
 
 
 	private int[][] transition;  //transition table
@@ -48,6 +49,7 @@ public class StateMachineEnvironment {
 	private String[] paths;  //the shortest path from each state to goal
 	public int currentState;
 	public HashSet<Integer> loops = new HashSet();
+	public HashSet<Integer> limitedStateNumbers = new HashSet();
 
     //this will be useful
     private Random random = new Random();
@@ -262,6 +264,15 @@ public class StateMachineEnvironment {
         Random randoSquew = new Random();
         int randoState = randoSquew.nextInt(NUM_STATES - 1);
         loops.clear();
+        limitedStateNumbers.clear();
+        for(int i = 0; i < 5; i++)
+        {
+            int tempInt = random.nextInt(20);
+            if(!(limitedStateNumbers.contains(tempInt)))
+            {
+                limitedStateNumbers.add(random.nextInt(20));
+            }
+        }
 		currentState = randoState;
         loops.add(currentState);
 	}
@@ -287,7 +298,10 @@ public class StateMachineEnvironment {
 		// update the current state and the new state sensor
 		if(newState != currentState){
 		    if(loops.contains(newState)){
-		        loops.clear();
+		        if(resetOnLoopDiscovered)
+		        {
+                    loops.clear();
+                }
 		        sensors.ISLOOP_SENSOR = true;
             }
             else{
@@ -300,6 +314,11 @@ public class StateMachineEnvironment {
 
         if(newState % 2 == 0){
             sensors.EVEN_SENSOR = true;
+        }
+
+        if(limitedStateNumbers.contains(newState))
+        {
+            sensors.LIMITEDSTATENUM_SENSOR = newState;
         }
 
         sensors.STATENUM_SENSOR = newState;

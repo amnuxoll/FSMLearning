@@ -15,6 +15,7 @@ public class Sensors {
     boolean ISNOISE_SENSOR;
     int STATENUM_SENSOR;
     int DISTANCE_SENSOR;
+    int LIMITEDSTATENUM_SENSOR;
     int MODBUCKETS_SENSOR;
 
 
@@ -29,16 +30,18 @@ public class Sensors {
         STATENUM_SENSOR = -1;
         DISTANCE_SENSOR = -1;
         MODBUCKETS_SENSOR = -1;
+        LIMITEDSTATENUM_SENSOR = -1;
     }
 
     //copy constructor
     public Sensors( Sensors cpySensor){
         this.GOAL_SENSOR = cpySensor.GOAL_SENSOR;
-        //this.EVEN_SENSOR = cpySensor.EVEN_SENSOR;
-       // this.NEWSTATE_SENSOR = cpySensor.NEWSTATE_SENSOR;
-        //this.ISLOOP_SENSOR = cpySensor.ISLOOP_SENSOR;
-        //this.ISNOISE_SENSOR = cpySensor.ISNOISE_SENSOR;
-       // this.STATENUM_SENSOR = cpySensor.STATENUM_SENSOR;
+        this.EVEN_SENSOR = cpySensor.EVEN_SENSOR;
+        this.NEWSTATE_SENSOR = cpySensor.NEWSTATE_SENSOR;
+        this.ISLOOP_SENSOR = cpySensor.ISLOOP_SENSOR;
+        this.ISNOISE_SENSOR = cpySensor.ISNOISE_SENSOR;
+        this.STATENUM_SENSOR = cpySensor.STATENUM_SENSOR;
+        this.LIMITEDSTATENUM_SENSOR = cpySensor.LIMITEDSTATENUM_SENSOR;
         this.MODBUCKETS_SENSOR = cpySensor.MODBUCKETS_SENSOR;
     }
 
@@ -66,6 +69,9 @@ public class Sensors {
             return false;
         }
         if (compareSensor.STATENUM_SENSOR != this.STATENUM_SENSOR){
+            return false;
+        }
+        if (compareSensor.LIMITEDSTATENUM_SENSOR != this.LIMITEDSTATENUM_SENSOR){
             return false;
         }
         if (compareSensor.MODBUCKETS_SENSOR != this.MODBUCKETS_SENSOR){
