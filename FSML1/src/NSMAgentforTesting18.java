@@ -300,7 +300,7 @@ public class NSMAgentforTesting18 extends Agent {
             if (sensors.GOAL_SENSOR){
 
                 //!!!The below sensor(s) are the only sensors this agent "sees". Update as neccessary.
-                prevSensors.updateSensors("GOAL_SENSOR", true);
+                prevSensors.GOAL_SENSOR = true;
 
 
                 nowEp.reward = REWARD_SUCCESS;

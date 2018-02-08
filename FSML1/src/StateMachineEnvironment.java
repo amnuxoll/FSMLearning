@@ -303,6 +303,7 @@ public class StateMachineEnvironment {
         }
 
         sensors.STATENUM_SENSOR = newState;
+		sensors.MODBUCKETS_SENSOR = newState%(1);
 		sensors.DISTANCE_SENSOR = paths[currentState].length();
 
 		// If we have reached the goal, update the goal sensor

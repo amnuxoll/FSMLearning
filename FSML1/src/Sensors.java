@@ -15,6 +15,7 @@ public class Sensors {
     boolean ISNOISE_SENSOR;
     int STATENUM_SENSOR;
     int DISTANCE_SENSOR;
+    int MODBUCKETS_SENSOR;
 
 
     //constructor - sets all sensors to -1 initially.
@@ -27,64 +28,20 @@ public class Sensors {
         ISNOISE_SENSOR = false;
         STATENUM_SENSOR = -1;
         DISTANCE_SENSOR = -1;
+        MODBUCKETS_SENSOR = -1;
     }
 
     //copy constructor
     public Sensors( Sensors cpySensor){
         this.GOAL_SENSOR = cpySensor.GOAL_SENSOR;
-        this.EVEN_SENSOR = cpySensor.EVEN_SENSOR;
-        this.NEWSTATE_SENSOR = cpySensor.NEWSTATE_SENSOR;
-        this.ISLOOP_SENSOR = cpySensor.ISLOOP_SENSOR;
-        this.ISNOISE_SENSOR = cpySensor.ISNOISE_SENSOR;
-        this.STATENUM_SENSOR = cpySensor.STATENUM_SENSOR;
+        //this.EVEN_SENSOR = cpySensor.EVEN_SENSOR;
+       // this.NEWSTATE_SENSOR = cpySensor.NEWSTATE_SENSOR;
+        //this.ISLOOP_SENSOR = cpySensor.ISLOOP_SENSOR;
+        //this.ISNOISE_SENSOR = cpySensor.ISNOISE_SENSOR;
+       // this.STATENUM_SENSOR = cpySensor.STATENUM_SENSOR;
+        this.MODBUCKETS_SENSOR = cpySensor.MODBUCKETS_SENSOR;
     }
 
-    /**
-     * updateSensors
-     *
-     * changes the correct sensor value based on input
-     * @param sensorInput: the sensor to be changed
-     * @param sensorValue: the value the sensor will be changed to
-     *
-     */
-    public void updateSensors( String sensorInput, boolean sensorValue){
-        if (sensorInput.equals("GOAL_SENSOR")){
-            GOAL_SENSOR = sensorValue;
-        }
-        else if (sensorInput.equals("EVEN_SENSOR")){
-            EVEN_SENSOR = sensorValue;
-        }
-        else if (sensorInput.equals("NEWSTATE_SENSOR")){
-            NEWSTATE_SENSOR = sensorValue;
-        }
-        else if (sensorInput.equals("ISLOOP_SENSOR")){
-            ISLOOP_SENSOR = sensorValue;
-        }
-        else if (sensorInput.equals("ISNOISE_SENSOR"))
-        {
-            ISNOISE_SENSOR = sensorValue;
-        }
-        else{//warning message if sensor name does not match existing sensor
-            System.out.println("Warning, incorrect sensor name: " + sensorInput);
-        }
-    }
-
-    /**
-     * UpdateSensors -- overload for integer sensor values
-     * @param sensorValue overloaded for integer sensor values
-     */
-    public void udpateSensors(  String sensorInput, int sensorValue){
-
-            if (sensorInput.equals("STATENUM_SENSOR")) {
-                STATENUM_SENSOR = sensorValue;
-            }
-            if (sensorInput.equals("DISTANCE_SENSOR")){
-                DISTANCE_SENSOR = sensorValue;
-            }
-            else {//warning message if sensor name does not match existing sensor
-                System.out.println("Warning, incorrect sensor name: " + sensorInput);
-            }
-    }
     /**
      * equals
      *
@@ -109,6 +66,9 @@ public class Sensors {
             return false;
         }
         if (compareSensor.STATENUM_SENSOR != this.STATENUM_SENSOR){
+            return false;
+        }
+        if (compareSensor.MODBUCKETS_SENSOR != this.MODBUCKETS_SENSOR){
             return false;
         }
 
