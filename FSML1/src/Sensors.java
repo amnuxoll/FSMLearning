@@ -14,6 +14,7 @@ public class Sensors {
     boolean ISLOOP_SENSOR;
     boolean ISNOISE_SENSOR;
     int STATENUM_SENSOR;
+    int DISTANCE_SENSOR;
 
 
     //constructor - sets all sensors to -1 initially.
@@ -25,6 +26,7 @@ public class Sensors {
         ISLOOP_SENSOR = false;
         ISNOISE_SENSOR = false;
         STATENUM_SENSOR = -1;
+        DISTANCE_SENSOR = -1;
     }
 
     //copy constructor
@@ -73,10 +75,12 @@ public class Sensors {
      */
     public void udpateSensors(  String sensorInput, int sensorValue){
 
-        if (sensorInput.equals("STATENUM_SENSOR")) {
+            if (sensorInput.equals("STATENUM_SENSOR")) {
                 STATENUM_SENSOR = sensorValue;
             }
-
+            if (sensorInput.equals("DISTANCE_SENSOR")){
+                DISTANCE_SENSOR = sensorValue;
+            }
             else {//warning message if sensor name does not match existing sensor
                 System.out.println("Warning, incorrect sensor name: " + sensorInput);
             }
