@@ -181,10 +181,10 @@ public abstract class Agent {
                 csv.append(""+",");
             csv.append("AVG" + ",");
             csv.flush();
-            for(int i=0; i <= NUM_GOALS; i++)
+            for(int i=0; i < NUM_GOALS; i++)
             {
-                String colStr = getColumnString(i+informationColumns+2);
-                String range = colStr + (informationRows) + ":"+colStr+(NUM_MACHINES + informationRows -1);
+                String colStr = getColumnString(i+informationColumns+1);
+                String range = colStr + (informationRows + 1) + ":"+colStr+(NUM_MACHINES + informationRows);
                 csv.append("=average("+range+"),");
                 csv.flush();
             }
@@ -242,15 +242,15 @@ public abstract class Agent {
         try {
             for(int i=0; i<informationColumns-2; i++)
                 csv.append(""+"\n");
-            csv.append("BASELINE" + ",");
+            csv.append("BASELINE" + ",,");
             csv.flush();
-            for(int i=informationColumns; i <= NUM_GOALS+informationColumns; i++)
+            for(int i=informationColumns; i < NUM_GOALS+informationColumns; i++)
             {
                 csv.append(baseline + ",");
                 csv.flush();
             }
 
-            csv.append("end\n");
+            csv.append("\n");
             csv.flush();
         }
         catch (IOException eO) {
