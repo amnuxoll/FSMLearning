@@ -8,29 +8,29 @@
 
 
 public class Sensors {
-    boolean GOAL_SENSOR;
-    boolean EVEN_SENSOR;
-    boolean NEWSTATE_SENSOR;
-    boolean ISLOOP_SENSOR;
-    boolean ISNOISE_SENSOR;
-    int STATENUM_SENSOR;
-    int DISTANCE_SENSOR;
-    int LIMITEDSTATENUM_SENSOR;
-    int MODBUCKETS_SENSOR;
+    Boolean GOAL_SENSOR; //currently on
+    Boolean EVEN_SENSOR; //currently on
+    Boolean NEWSTATE_SENSOR;
+    Boolean ISLOOP_SENSOR;
+    Boolean ISNOISE_SENSOR;
+    Integer STATENUM_SENSOR;
+    Integer DISTANCE_SENSOR;    //currently on
+    Integer LIMITEDSTATENUM_SENSOR;
+    Integer MODBUCKETS_SENSOR;
 
 
     //constructor - sets all sensors to -1 initially.
     public Sensors() {
 
-        GOAL_SENSOR = false;
-        EVEN_SENSOR = false;
-        NEWSTATE_SENSOR = false;
-        ISLOOP_SENSOR = false;
-        ISNOISE_SENSOR = false;
-        STATENUM_SENSOR = -1;
-        DISTANCE_SENSOR = -1;
-        MODBUCKETS_SENSOR = -1;
-        LIMITEDSTATENUM_SENSOR = -1;
+        GOAL_SENSOR = null;
+        EVEN_SENSOR = null;
+        NEWSTATE_SENSOR = null;
+        ISLOOP_SENSOR = null;
+        ISNOISE_SENSOR = null;
+        STATENUM_SENSOR = null;
+        DISTANCE_SENSOR = null;
+        MODBUCKETS_SENSOR = null;
+        LIMITEDSTATENUM_SENSOR = null;
     }
 
     //copy constructor
@@ -81,4 +81,78 @@ public class Sensors {
         return true;
     }
 
+    /**
+     * equalsOrNull
+     *
+     * Returns true if sensors or equal or one sensor is null which we treat as a wildcard.
+     * Null sensors match any sensors.
+     */
+    public boolean equalsOrNull(Sensors compareSensor){
+
+        if (compareSensor.GOAL_SENSOR != this.GOAL_SENSOR ){ //if the sensors are unequal
+            //do nothing if one or both are null
+            if (compareSensor.GOAL_SENSOR == null || this.GOAL_SENSOR == null){}
+            else { // neither are null, return false
+                return false;
+            }
+        }
+        if (compareSensor.EVEN_SENSOR != this.EVEN_SENSOR){
+            if (compareSensor.EVEN_SENSOR == null || this.EVEN_SENSOR == null){ }
+            else {
+                return false;
+            }
+        }
+        if (compareSensor.NEWSTATE_SENSOR != this.NEWSTATE_SENSOR){
+            if (compareSensor.NEWSTATE_SENSOR == null || this.NEWSTATE_SENSOR == null){ }
+            else {
+                return false;
+            }
+        }
+        if (compareSensor.ISLOOP_SENSOR != this.ISLOOP_SENSOR){
+            if (compareSensor.ISLOOP_SENSOR == null || this.ISLOOP_SENSOR == null){ }
+            else {
+                return false;
+            }
+        }
+        if (compareSensor.ISNOISE_SENSOR != this.ISNOISE_SENSOR)
+        {
+            if (compareSensor.ISNOISE_SENSOR == null || this.ISNOISE_SENSOR == null){ }
+            else {
+                return false;
+            }
+        }
+        if (compareSensor.STATENUM_SENSOR != this.STATENUM_SENSOR){
+            if (compareSensor.STATENUM_SENSOR == null || this.STATENUM_SENSOR == null){ }
+            else {
+                return false;
+            }
+        }
+        if (compareSensor.LIMITEDSTATENUM_SENSOR != this.LIMITEDSTATENUM_SENSOR){
+            if (compareSensor.LIMITEDSTATENUM_SENSOR == null || this.LIMITEDSTATENUM_SENSOR == null){ }
+            else {
+                return false;
+            }
+        }
+        if (compareSensor.MODBUCKETS_SENSOR != this.MODBUCKETS_SENSOR){
+            if (compareSensor.MODBUCKETS_SENSOR == null || this.MODBUCKETS_SENSOR == null){ }
+            else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    /**
+     *toString
+     *
+     * returns a String representation of the sensor object
+     * Goal sensor, even sensor, distance sensor
+     * ex- falsetrue5
+     */
+    public String toString(){
+        String returnString = GOAL_SENSOR.toString() + EVEN_SENSOR.toString() + DISTANCE_SENSOR.toString();
+        return returnString;
+    }
 }

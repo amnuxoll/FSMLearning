@@ -23,22 +23,6 @@ public abstract class Agent {
     protected ArrayList<Episode> episodicMemory;
     protected String memory;
     protected int Successes = 0;
-    
-    //Sensor values
-    //Important Note: we discovered a bug with the way the sensor constant values in the StateMachineAgent in the
-    //main branch worked with the NewAgent and thus changed the TRANSITION_ONLY constant from 1 to 2
-    //and the GOAL constant from 2 to 1
-    public static final int NO_TRANSITION = 0;
-    public static final int TRANSITION_ONLY = 2;
-    public static final int GOAL = 1;
-    public static final int IS_EVEN = 2;
-    public static final int IS_LOOP = 3;
-    public static final int IS_NOISE = 4;
-
-    //new constants for sensors using binary values ie  1 to 0001
-    //public static final int GOAL_SENSOR = 1;
-    //public static final int EVEN_SENSOR = 2;
-    //public static final int NEWSTATE_SENSOR = 4;
 
 
     //This will be useful
@@ -60,13 +44,14 @@ public abstract class Agent {
     
     public static int informationColumns = 0; //for now before consolidation of recording data must be declared in each agent
     public static int informationRows = 1; //how many header rows there are before the data in the csv
-    
+
+    public static boolean azerAgentMode = true; //turn on when AzerAgent is running
+
     /** Turn this on to print debugging messages */
     public static boolean debug = false;
     /** println for debug messages only */
     public static void debugPrintln(String s) { if (debug) System.out.println(s); }
     public static void debugPrint(String s) { if (debug) System.out.print(s); }
-
 
     
     /**
