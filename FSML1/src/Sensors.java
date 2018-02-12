@@ -8,13 +8,13 @@
 
 
 public class Sensors {
-    Boolean GOAL_SENSOR; //currently on
+    Boolean GOAL_SENSOR; //currently on but handled uniquely bc its the goal
     Boolean EVEN_SENSOR; //currently on
     Boolean NEWSTATE_SENSOR;
     Boolean ISLOOP_SENSOR;
     Boolean ISNOISE_SENSOR;
     Integer STATENUM_SENSOR;
-    Integer DISTANCE_SENSOR;    //currently on
+    Integer DISTANCE_SENSOR;
     Integer LIMITEDSTATENUM_SENSOR;
     Integer MODBUCKETS_SENSOR;
 
@@ -145,14 +145,17 @@ public class Sensors {
 
 
     /**
-     *toString
+     *sensorRepresentation
      *
      * returns a String representation of the sensor object
-     * Goal sensor, even sensor, distance sensor
-     * ex- falsetrue5
+     * even sensor as 1 for true, 0 for false
      */
-    public String toString(){
-        String returnString = GOAL_SENSOR.toString() + EVEN_SENSOR.toString() + DISTANCE_SENSOR.toString();
-        return returnString;
+    public int sensorRepresentation(){
+        if (EVEN_SENSOR == true){
+            return 1;
+        }
+        else{
+            return 0;
+        }
     }
 }

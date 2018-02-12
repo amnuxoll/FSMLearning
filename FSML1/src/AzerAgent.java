@@ -1,4 +1,3 @@
-import sun.plugin.javascript.navig.Array;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,7 +32,7 @@ public class AzerAgent extends Agent {
     /*---==== MEMBER VARIABLES ===---*/
 
     /** hash table of all nodes on the fringe of our search */
-    HashMap<String, AzerAgent.SuffixNode> hashFringe;
+    HashMap<String, HashMap<String, AzerAgent.SuffixNode>> hashFringe;
 
     /** this is the node we're currently using to search with */
     AzerAgent.SuffixNode activeNode = null;
@@ -191,12 +190,15 @@ public class AzerAgent extends Agent {
      */
     public AzerAgent()
     {
-        hashFringe = new HashMap<String, AzerAgent.SuffixNode>();
+        hashFringe = new HashMap<String, HashMap<String, AzerAgent.SuffixNode>>();
 
         // Create an empty root node and split it to create an initial fringe
         // that has a node for each letter in the alphabet
+
+        //initilize inner hashmap and put initNode into empty key
         AzerAgent.SuffixNode initNode = new AzerAgent.SuffixNode();
-        hashFringe.put("", initNode);
+        hashFringe.put("", new HashMap<String, AzerAgent.SuffixNode>());
+        hashFringe.get("").put("", initNode);
         this.activeNode = initNode;
 
     }// ctor
@@ -387,6 +389,7 @@ public class AzerAgent extends Agent {
      */
     public void splitNode()
     {
+        int sensorCombos = 2; //number of possible sensor combinations
         String parentSuffix = this.activeNode.suffix;
         debugPrintln("NODE TO BE SPLIT: " + activeNode);
 
@@ -394,11 +397,22 @@ public class AzerAgent extends Agent {
         AzerAgent.SuffixNode[] children = new AzerAgent.SuffixNode[alphabet.length];
         for (int i = 0; i < alphabet.length; i++)
         {
-            children[i] = new AzerAgent.SuffixNode();
-            children[i].suffix = alphabet[i] + parentSuffix; //TODO here needs work
-            children[i].g = activeNode.g + 1;
-            children[i].indexOfLastEpisodeTried = memory.length() - 1;
-            children[i].parentFailRate = activeNode.failRate;
+            for (int j = 0; j < sensorCombos ; j++) {
+                children[i] = new AzerAgent.SuffixNode();
+                children[i].suffix = alphabet[i] + parentSuffix; //TODO here needs work
+                children[i].pastSensors = this.activeNode.pastSensors;
+                Sensors newSensor = new Sensors(); //add a new sensor to "past" sensors for each sensor combo
+                if (j ==1) {
+                    newSensor.EVEN_SENSOR = true;
+                }
+                else{
+                    newSensor.EVEN_SENSOR = false;
+                }
+                children[i].pastSensors.add(newSensor);
+                children[i].g = activeNode.g + 1;
+                children[i].indexOfLastEpisodeTried = memory.length() - 1;
+                children[i].parentFailRate = activeNode.failRate;
+            }
         }// for
 
         //Divy the successes and failures among the children
