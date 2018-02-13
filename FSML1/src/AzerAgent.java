@@ -22,6 +22,10 @@ public class AzerAgent extends Agent {
 
     /*---====CONSTANTS====---*/
 
+    int sensorCombos = 2; //number of possible sensor combinations
+    int numSensors = 1; //number of sensors in use
+    int totalChildren = alphabet.length*sensorCombos;
+
     // the likeliness to jump back to another node
     // (should be in the range (0.0 - 1.0)
     public static double G_WEIGHT = 0.05;
@@ -32,7 +36,7 @@ public class AzerAgent extends Agent {
     /*---==== MEMBER VARIABLES ===---*/
 
     /** hash table of all nodes on the fringe of our search */
-    HashMap<String, HashMap<String, AzerAgent.SuffixNode>> hashFringe;
+    HashMap<String, AzerAgent.SuffixNode> hashFringe;
 
     /** this is the node we're currently using to search with */
     AzerAgent.SuffixNode activeNode = null;
@@ -190,15 +194,13 @@ public class AzerAgent extends Agent {
      */
     public AzerAgent()
     {
-        hashFringe = new HashMap<String, HashMap<String, AzerAgent.SuffixNode>>();
-
+        hashFringe = new HashMap<String, AzerAgent.SuffixNode>();
         // Create an empty root node and split it to create an initial fringe
         // that has a node for each letter in the alphabet
 
         //initilize inner hashmap and put initNode into empty key
         AzerAgent.SuffixNode initNode = new AzerAgent.SuffixNode();
-        hashFringe.put("", new HashMap<String, AzerAgent.SuffixNode>());
-        hashFringe.get("").put("", initNode);
+        hashFringe.put("", initNode);
         this.activeNode = initNode;
 
     }// ctor
@@ -216,6 +218,7 @@ public class AzerAgent extends Agent {
         {
 
             // Erase worst node in the hashFringe once we hit our Constant limit
+
             while (hashFringe.size() > NODE_LIST_SIZE)
             {
                 AzerAgent.SuffixNode worst = findWorstNodeToTry();
@@ -288,8 +291,8 @@ public class AzerAgent extends Agent {
                 return null;
             }// if
 
-            key = path.charAt(charIndex) + key;
-            charIndex--;
+            key = path.charAt(charIndex) + episodicMemory.get(charIndex).sensorValue.sensorRepresentation()+ key;
+            charIndex = charIndex--; //number of sensors plus index for char
         }// while
 
         //If this non-active node doesn't have a queueSeq yet, set it
@@ -318,7 +321,7 @@ public class AzerAgent extends Agent {
             //if we back into the previous goal without finding a key then there is no match
             if ((key.length() > 0) && (ep.sensorValue.GOAL_SENSOR)) return null;
 
-            key = ep.command + key;
+            key = ep.command +ep.sensorValue.sensorRepresentation()+ key; //now returns the char + sensor string
             index--;
 
             //don't fall off the end of the memory
@@ -346,7 +349,7 @@ public class AzerAgent extends Agent {
         //Extract the needed lists
         ArrayList<Integer> parentList = success ? parent.successIndexList : parent.failsIndexList;
         ArrayList<ArrayList<Integer>> childLists = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i < alphabet.length; i++)
+        for (int i = 0; i < totalChildren ; i++)
         {
             childLists.add( success ? children[i].successIndexList : children[i].failsIndexList );
         }
@@ -389,30 +392,29 @@ public class AzerAgent extends Agent {
      */
     public void splitNode()
     {
-        int sensorCombos = 2; //number of possible sensor combinations
         String parentSuffix = this.activeNode.suffix;
         debugPrintln("NODE TO BE SPLIT: " + activeNode);
 
         // Create the initial child nodes
-        AzerAgent.SuffixNode[] children = new AzerAgent.SuffixNode[alphabet.length];
-        for (int i = 0; i < alphabet.length; i++)
+        AzerAgent.SuffixNode[] children = new AzerAgent.SuffixNode[alphabet.length*sensorCombos];
+
+        for (int i = 0; i < totalChildren; i++)
         {
-            for (int j = 0; j < sensorCombos ; j++) {
-                children[i] = new AzerAgent.SuffixNode();
-                children[i].suffix = alphabet[i] + parentSuffix; //TODO here needs work
-                children[i].pastSensors = this.activeNode.pastSensors;
-                Sensors newSensor = new Sensors(); //add a new sensor to "past" sensors for each sensor combo
-                if (j ==1) {
-                    newSensor.EVEN_SENSOR = true;
-                }
-                else{
-                    newSensor.EVEN_SENSOR = false;
-                }
-                children[i].pastSensors.add(newSensor);
-                children[i].g = activeNode.g + 1;
-                children[i].indexOfLastEpisodeTried = memory.length() - 1;
-                children[i].parentFailRate = activeNode.failRate;
+            children[i] = new AzerAgent.SuffixNode();
+            children[i].suffix = alphabet[i%alphabet.length] + parentSuffix;
+            children[i].pastSensors = this.activeNode.pastSensors;
+            Sensors newSensor = new Sensors(); //add a new sensor to "past" sensors for each sensor combo
+            if (i%sensorCombos == 0){
+                newSensor.EVEN_SENSOR = false;
             }
+            if (i%sensorCombos ==1){
+                newSensor.EVEN_SENSOR = true;
+            }
+            children[i].pastSensors.add(0, newSensor);
+            children[i].g = activeNode.g + 1;
+            children[i].indexOfLastEpisodeTried = memory.length() - 1;
+            children[i].parentFailRate = activeNode.failRate;
+
         }// for
 
         //Divy the successes and failures among the children
@@ -427,12 +429,13 @@ public class AzerAgent extends Agent {
             if (children[i].failsIndexList.size() == 0) return;
         }//for        
 
-        //Ready to commit:  add the children to the fringe and remove the parent
-        for (int i = 0; i < alphabet.length; i++)
+        //add the children to the fringe and remove the parent
+        for (int i = 0; i < totalChildren; i++)
         {
-            hashFringe.put(children[i].suffix, children[i]);
+            hashFringe.put(children[i].suffix + children[i].pastSensors.get(0).toString(), children[i] );
+
         }// for
-        hashFringe.remove(activeNode.suffix);
+        hashFringe.remove(activeNode.suffix + activeNode.pastSensors.get(0).toString());
 
         // //%%%REMOVE THIS!
         // if (hashFringe.size() >= 4)
@@ -514,6 +517,7 @@ public class AzerAgent extends Agent {
         return worstNode;
 
     }// findWorstNodeToTry
+
 
     /**
      * trySeq

@@ -150,12 +150,12 @@ public class Sensors {
      * returns a String representation of the sensor object
      * even sensor as 1 for true, 0 for false
      */
-    public int sensorRepresentation(){
+    public String sensorRepresentation(){
         if (EVEN_SENSOR == true){
-            return 1;
+            return "1";
         }
         else{
-            return 0;
+            return "0";
         }
     }
 }
