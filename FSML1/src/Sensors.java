@@ -22,7 +22,7 @@ public class Sensors {
     //constructor - sets all sensors to -1 initially.
     public Sensors() {
 
-        GOAL_SENSOR = null;
+        GOAL_SENSOR = false;
         EVEN_SENSOR = null;
         NEWSTATE_SENSOR = null;
         ISLOOP_SENSOR = null;

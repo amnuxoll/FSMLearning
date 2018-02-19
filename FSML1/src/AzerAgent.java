@@ -1,30 +1,24 @@
-
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
+
+import javax.xml.transform.Templates;
 
 /**
  * AzerAgent Class
  *
- * @author Emily Peterson
  * @author Andrew Ripple
  * @author Zach F.
+ * @author Emily Peterson
+ * @author Regan
  * @author Andrew Nuxoll
- * @version Feb 2018
- *
+ * @version Spring 2018
  *
  */
-
-
-public class AzerAgent extends Agent {
+public class AzerAgent extends Agent
+{
 
     /*---====CONSTANTS====---*/
-
-    int sensorCombos = 2; //number of possible sensor combinations
-    int numSensors = 1; //number of sensors in use
-    int totalChildren = alphabet.length*sensorCombos;
 
     // the likeliness to jump back to another node
     // (should be in the range (0.0 - 1.0)
@@ -36,10 +30,10 @@ public class AzerAgent extends Agent {
     /*---==== MEMBER VARIABLES ===---*/
 
     /** hash table of all nodes on the fringe of our search */
-    HashMap<String, AzerAgent.SuffixNode> hashFringe;
+    HashMap<String, SuffixNode> hashFringe;
 
     /** this is the node we're currently using to search with */
-    AzerAgent.SuffixNode activeNode = null;
+    SuffixNode activeNode = null;
 
     /**
      * each permutation has a number associated with it. This is used to track
@@ -91,7 +85,6 @@ public class AzerAgent extends Agent {
         public double failRate;  //[0.0..1.0] fraction of failed tries
         public double parentFailRate;  //save parent's fail rate to track my progress
         public boolean goalFound = false;  //have we found a sequence that ends
-        public ArrayList<Sensors> pastSensors; //past sensors in episode
         //exactly at the goal when this node is active
         public int lastScanIndex = 0;      //The last time epmem was scanned for
         //matches to this suffix, it stopped here
@@ -129,7 +122,6 @@ public class AzerAgent extends Agent {
             this.tries = 0;
             this.failRate = 0.0;
             this.parentFailRate = 0.0;
-            this.pastSensors = new ArrayList<Sensors>();
 
         }// ctor
 
@@ -141,7 +133,7 @@ public class AzerAgent extends Agent {
         @Override
         public String toString()
         {
-            String output = suffix + pastSensors.toString(); //TODO maybe pastSensor.toString() belongs here
+            String output = suffix;
             if (queueSeq > 1)
             {
                 output += "(q=" + nextPermutation(queueSeq+1) + ")";
@@ -195,11 +187,10 @@ public class AzerAgent extends Agent {
     public AzerAgent()
     {
         hashFringe = new HashMap<String, AzerAgent.SuffixNode>();
+
         // Create an empty root node and split it to create an initial fringe
         // that has a node for each letter in the alphabet
-
-        //initilize inner hashmap and put initNode into empty key
-        AzerAgent.SuffixNode initNode = new AzerAgent.SuffixNode();
+        SuffixNode initNode = new SuffixNode();
         hashFringe.put("", initNode);
         this.activeNode = initNode;
 
@@ -218,10 +209,9 @@ public class AzerAgent extends Agent {
         {
 
             // Erase worst node in the hashFringe once we hit our Constant limit
-
             while (hashFringe.size() > NODE_LIST_SIZE)
             {
-                AzerAgent.SuffixNode worst = findWorstNodeToTry();
+                SuffixNode worst = findWorstNodeToTry();
                 hashFringe.remove(worst.suffix);
             }// if
 
@@ -235,7 +225,7 @@ public class AzerAgent extends Agent {
                     trySeq();
 
                     //check to see if another node would be better now
-                    AzerAgent.SuffixNode newBestNode = findBestNodeToTry();
+                    SuffixNode newBestNode = findBestNodeToTry();
 
                     if (newBestNode != activeNode) {
                         activeNode.queueSeq = 1;
@@ -256,7 +246,7 @@ public class AzerAgent extends Agent {
             else  //sequence's suffix did not match active node
             {
                 //If this non-active node doesn't have a queueSeq yet, set it
-                AzerAgent.SuffixNode node = findNodeForPath(nextSeqToTry);
+                SuffixNode node = findNodeForPath(nextSeqToTry);
                 if ((node != null) && (node.queueSeq == 1))
                 {
                     node.queueSeq = lastPermutationIndex - 1;
@@ -279,7 +269,7 @@ public class AzerAgent extends Agent {
      *
      * @return the node or null if there is no match
      */
-    public AzerAgent.SuffixNode findNodeForPath(String path) {
+    public SuffixNode findNodeForPath(String path) {
         int charIndex = path.length() - 1;
         String key = "";
         while (! hashFringe.containsKey(key))
@@ -291,8 +281,8 @@ public class AzerAgent extends Agent {
                 return null;
             }// if
 
-            key = path.charAt(charIndex) + episodicMemory.get(charIndex).sensorValue.sensorRepresentation()+ key;
-            charIndex = charIndex--; //number of sensors plus index for char
+            key = path.charAt(charIndex) + key;
+            charIndex--;
         }// while
 
         //If this non-active node doesn't have a queueSeq yet, set it
@@ -312,7 +302,7 @@ public class AzerAgent extends Agent {
      *
      * @return the node or null if there is no match
      */
-    public AzerAgent.SuffixNode findNodeForIndex(int index) {
+    public SuffixNode findNodeForIndex(int index) {
         String key = "";
         while (! hashFringe.containsKey(key))
         {
@@ -321,7 +311,7 @@ public class AzerAgent extends Agent {
             //if we back into the previous goal without finding a key then there is no match
             if ((key.length() > 0) && (ep.sensorValue.GOAL_SENSOR)) return null;
 
-            key = ep.command +ep.sensorValue.sensorRepresentation()+ key; //now returns the char + sensor string
+            key = ep.command + key;
             index--;
 
             //don't fall off the end of the memory
@@ -344,12 +334,12 @@ public class AzerAgent extends Agent {
      * @param children   an array of SuffixNode indexed by the child's new letter
      * @param success    indicates whether to divy successes or fails
      */
-    protected void divyIndexes(AzerAgent.SuffixNode parent, AzerAgent.SuffixNode[] children, boolean success)
+    protected void divyIndexes(SuffixNode parent, SuffixNode[] children, boolean success)
     {
         //Extract the needed lists
         ArrayList<Integer> parentList = success ? parent.successIndexList : parent.failsIndexList;
         ArrayList<ArrayList<Integer>> childLists = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i < totalChildren ; i++)
+        for (int i = 0; i < alphabet.length; i++)
         {
             childLists.add( success ? children[i].successIndexList : children[i].failsIndexList );
         }
@@ -396,25 +386,14 @@ public class AzerAgent extends Agent {
         debugPrintln("NODE TO BE SPLIT: " + activeNode);
 
         // Create the initial child nodes
-        AzerAgent.SuffixNode[] children = new AzerAgent.SuffixNode[alphabet.length*sensorCombos];
-
-        for (int i = 0; i < totalChildren; i++)
+        SuffixNode[] children = new SuffixNode[alphabet.length];
+        for (int i = 0; i < alphabet.length; i++)
         {
-            children[i] = new AzerAgent.SuffixNode();
-            children[i].suffix = alphabet[i%alphabet.length] + parentSuffix;
-            children[i].pastSensors = this.activeNode.pastSensors;
-            Sensors newSensor = new Sensors(); //add a new sensor to "past" sensors for each sensor combo
-            if (i%sensorCombos == 0){
-                newSensor.EVEN_SENSOR = false;
-            }
-            if (i%sensorCombos ==1){
-                newSensor.EVEN_SENSOR = true;
-            }
-            children[i].pastSensors.add(0, newSensor);
+            children[i] = new SuffixNode();
+            children[i].suffix = alphabet[i] + parentSuffix;
             children[i].g = activeNode.g + 1;
             children[i].indexOfLastEpisodeTried = memory.length() - 1;
             children[i].parentFailRate = activeNode.failRate;
-
         }// for
 
         //Divy the successes and failures among the children
@@ -429,13 +408,12 @@ public class AzerAgent extends Agent {
             if (children[i].failsIndexList.size() == 0) return;
         }//for        
 
-        //add the children to the fringe and remove the parent
-        for (int i = 0; i < totalChildren; i++)
+        //Ready to commit:  add the children to the fringe and remove the parent
+        for (int i = 0; i < alphabet.length; i++)
         {
-            hashFringe.put(children[i].suffix + children[i].pastSensors.get(0).toString(), children[i] );
-
+            hashFringe.put(children[i].suffix, children[i]);
         }// for
-        hashFringe.remove(activeNode.suffix + activeNode.pastSensors.get(0).toString());
+        hashFringe.remove(activeNode.suffix);
 
         // //%%%REMOVE THIS!
         // if (hashFringe.size() >= 4)
@@ -467,16 +445,16 @@ public class AzerAgent extends Agent {
      *
      * finds node with lowest heuristic
      */
-    public AzerAgent.SuffixNode findBestNodeToTry()
+    public SuffixNode findBestNodeToTry()
     {
 
-        AzerAgent.SuffixNode[] nodes = (AzerAgent.SuffixNode[]) hashFringe.values().toArray(
-                new AzerAgent.SuffixNode[hashFringe.size()]);
+        SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray(
+                new SuffixNode[hashFringe.size()]);
         assert (nodes.length > 0);
 
         double theBEASTLIESTCombo = nodes[0].f;
-        AzerAgent.SuffixNode bestNode = nodes[0];
-        for (AzerAgent.SuffixNode node : nodes)
+        SuffixNode bestNode = nodes[0];
+        for (SuffixNode node : nodes)
         {
             node.updateHeuristic();
 
@@ -497,15 +475,15 @@ public class AzerAgent extends Agent {
      * finds node with largest heuristic
      *
      */
-    public AzerAgent.SuffixNode findWorstNodeToTry()
+    public SuffixNode findWorstNodeToTry()
     {
-        AzerAgent.SuffixNode[] nodes = (AzerAgent.SuffixNode[]) hashFringe.values().toArray(
-                new AzerAgent.SuffixNode[hashFringe.size()]);
+        SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray(
+                new SuffixNode[hashFringe.size()]);
         assert (nodes.length > 0);
 
         double theBEASTLIESTCombo = nodes[0].f;
-        AzerAgent.SuffixNode worstNode = nodes[0];
-        for (AzerAgent.SuffixNode node : nodes)
+        SuffixNode worstNode = nodes[0];
+        for (SuffixNode node : nodes)
         {
             if (node.f > theBEASTLIESTCombo)
             {
@@ -517,7 +495,6 @@ public class AzerAgent extends Agent {
         return worstNode;
 
     }// findWorstNodeToTry
-
 
     /**
      * trySeq
@@ -564,7 +541,7 @@ public class AzerAgent extends Agent {
                     //failure.  So, nothing is recorded on that node. However,
                     //it is a success for the node that matches the success.  So
                     //we give credit for that here.
-                    AzerAgent.SuffixNode node = findNodeForIndex(episodicMemory.size() - 1);
+                    SuffixNode node = findNodeForIndex(episodicMemory.size() - 1);
                     if (node != null) {
                         int index = this.memory.length() - node.suffix.length();
                         node.successIndexList.add(new Integer(index));
@@ -713,7 +690,7 @@ public class AzerAgent extends Agent {
         try
         {
 
-            String fname = "AIReport_Azer_" + makeNowString() + ".csv";
+            String fname = "AIReport_MaRz_" + makeNowString() + ".csv";
             FileWriter csv = new FileWriter(fname);
 
             for (int i = 1; i <= NUM_MACHINES; ++i)
@@ -858,31 +835,4 @@ public class AzerAgent extends Agent {
         System.exit(0);
     }// main
 
-    /**
-     * sensorArrayMatcher
-     *
-     * @param sensors1 & sensors2 -- arrayLists of sensors to check
-     */
-    public boolean sensorArrayMatcher(ArrayList<Sensors> sensors1, ArrayList<Sensors> sensors2){
-
-        if (sensors1.size() != sensors2.size()){ //TODO ask nUx
-            System.out.print("Sizes aren't equal");
-            return false;
-        }
-
-        boolean returnVal = true; //will only return true if all sensors are equal or match with wildcards
-
-        //check each sensor pair between two arrays
-        for (int i = 0; i< sensors1.size(); i++){
-            if (sensors1.get(i).equalsOrNull(sensors2.get(i))){
-                continue;
-            }
-            else{
-                return false;
-            }
-        }
-
-        return returnVal;
-    }
-
-}
+}// AzerAgent
