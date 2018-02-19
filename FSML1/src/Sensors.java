@@ -151,6 +151,10 @@ public class Sensors {
      * even sensor as 1 for true, 0 for false
      */
     public String sensorRepresentation(){
+        if(EVEN_SENSOR == null)
+        {
+            return "*";
+        }
         if (EVEN_SENSOR == true){
             return "1";
         }

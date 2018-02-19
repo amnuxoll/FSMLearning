@@ -180,10 +180,31 @@ public class AzerAgent extends Agent
 
     }// SuffixNode Class
 
-    /**
-     * AzerAgent
-     *
-     */
+
+
+    public class PrefixNode
+    {
+        /*--==Instance Variables==--*/
+        public int sensorValue; // if this node becomes active, start with this
+        public HashMap<String, SuffixNode> prefixHash;
+        // permutation
+
+        public PrefixNode(int sensorVal)
+        {
+            this.sensorValue = sensorVal;
+
+
+
+        }// ctor
+
+
+    }// SuffixNode Class
+
+
+
+
+
+
     public AzerAgent()
     {
         hashFringe = new HashMap<String, AzerAgent.SuffixNode>();
@@ -464,6 +485,14 @@ public class AzerAgent extends Agent
                 bestNode = node;
             }// if
         }// for
+        for(SuffixNode node: nodes)
+        {
+            if(node.failRate == 1)
+            {
+
+            }
+        }
+
 
         return bestNode;
 
@@ -475,6 +504,39 @@ public class AzerAgent extends Agent
      * finds node with largest heuristic
      *
      */
+    public boolean canAzerSplit()
+    {
+        SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray(
+                new SuffixNode[hashFringe.size()]);
+
+        for(SuffixNode node: nodes)
+        {
+            if(node.failRate == 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean isAzerSplit()
+    {
+        return true;
+    }
+    public String hybridMemory()
+    {
+        String hybrid = "";
+        for(int i = 0; i < memory.length(); i++)
+        {
+            hybrid = hybrid + episodicMemory.get(i).sensorValue.sensorRepresentation() + memory.charAt(i);
+        }
+        System.out.println(hybrid);
+        return hybrid;
+
+
+    }
+
+
+
+
     public SuffixNode findWorstNodeToTry()
     {
         SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray(
@@ -509,6 +571,8 @@ public class AzerAgent extends Agent
         do
         {
             result = tryPath(nextSeqToTry);
+            System.out.println(sensorMemory);
+
 
             // Update the active node's success/fail lists and related based
             // upon whether we reached the goal or not. Reaching the goal
@@ -708,6 +772,7 @@ public class AzerAgent extends Agent
                         + gilligan.env.avgStepsToGoalWithPath(gilligan.env
                         .shortestBlindPathToGoal()));
 
+
                 String path = gilligan.env.shortestPathToGoal(); // will's
                 sumOfAvgSteps += gilligan.env.avgStepsToGoalWithPath(path);
                 currentBaseline = sumOfAvgSteps / (i + 1);
@@ -767,6 +832,7 @@ public class AzerAgent extends Agent
         }// catch
 
     }// recordLearningCurve
+
 
     public static void main(String[] args)
     {

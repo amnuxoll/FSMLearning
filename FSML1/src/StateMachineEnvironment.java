@@ -34,6 +34,7 @@ public class StateMachineEnvironment {
         public static double TRANSITIONS_PERCENT = 0.04; //must be at least .01. percent of transition table that will have a goal state transition
         public static int MAX_TRANSITIONS_TO_GOAL = (int)(((NUM_STATES-1)*ALPHABET_SIZE)*TRANSITIONS_PERCENT);// IF ZERO, WILL BE CHANGED TO 1 in constructor
         public int TRANSITIONS_DONE;
+        public boolean resetSensorValue = false;
 
 	 //These are used as indexes into the the sensor array
 	private static final int IS_NEW_STATE = 0;
@@ -327,6 +328,7 @@ public class StateMachineEnvironment {
 
 		// If we have reached the goal, update the goal sensor
 		if(newState == GOAL_STATE){
+		    resetSensorValue = true;
 			sensors.GOAL_SENSOR = true;
 			reset();
 		}

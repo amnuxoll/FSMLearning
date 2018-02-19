@@ -342,6 +342,7 @@ public class MaRzAgent extends Agent
             childLists.add( success ? children[i].successIndexList : children[i].failsIndexList );
         }
 
+
         //divy
 		for (Integer indexObj : parentList)
 		{
@@ -360,6 +361,7 @@ public class MaRzAgent extends Agent
             }
 
 			int childIdx = memory.charAt(index) - 'a';
+            System.out.println(childIdx);
             childLists.get(childIdx).add(new Integer(index));
             
 		}// for
