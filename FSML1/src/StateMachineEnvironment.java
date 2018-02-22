@@ -316,6 +316,9 @@ public class StateMachineEnvironment {
         if(newState % 2 == 0){
             sensors.EVEN_SENSOR = true;
         }
+        else{
+            sensors.EVEN_SENSOR = false;
+        }
 
         if(limitedStateNumbers.contains(newState))
         {
@@ -328,7 +331,7 @@ public class StateMachineEnvironment {
 
 		// If we have reached the goal, update the goal sensor
 		if(newState == GOAL_STATE){
-		    resetSensorValue = true;
+		    resetSensorValue = true; //for Agent triggers new goal marker in sensorMemory
 			sensors.GOAL_SENSOR = true;
 			reset();
 		}

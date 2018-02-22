@@ -68,7 +68,7 @@ public abstract class Agent {
         alphabet = env.getAlphabet();
         episodicMemory = new ArrayList<Episode>();
         memory = "";
-        sensorMemory = "";
+        sensorMemory = "1";
     }
     
     /**
@@ -417,16 +417,15 @@ public abstract class Agent {
     public String tryPath(String pathToTry) {
         Sensors sensors;
         String temp;
-        if(env.resetSensorValue)
+       if(env.resetSensorValue) //trying to get the first value
         {
             if(env.currentState%2 == 0)
             {
-                temp = "0";
+                temp = " | 0";
 
             }
-            else
-            {
-                temp = "1";
+            else {
+                temp = " | 1";
             }
             sensorMemory = sensorMemory + temp;
             env.resetSensorValue = false;
@@ -437,7 +436,7 @@ public abstract class Agent {
             Sensors encodedSensorResult = new Sensors(sensors);
             episodicMemory.add(new Episode(pathToTry.charAt(i), encodedSensorResult));
             memory = memory + pathToTry.charAt(i);
-            sensorMemory = sensorMemory + episodicMemory.get(i).sensorValue.sensorRepresentation() + pathToTry.charAt(i);
+            sensorMemory = sensorMemory + pathToTry.charAt(i) + episodicMemory.get(i).sensorValue.sensorRepresentation();
             if (sensors.GOAL_SENSOR) {
                 Successes++;
                 debugPrintln("Success after " + (i + 1) + " steps.");

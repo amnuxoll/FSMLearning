@@ -1,6 +1,8 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.transform.Templates;
 
@@ -64,6 +66,9 @@ public class AzerAgent extends Agent
     public static long overallStartTime = 0;
     public static long totalTime = 0;
 
+    /** for categorizing if a split has occured */
+    public boolean isAzerSplit = false;
+
     /**
      * SufixNode Class
      *
@@ -88,7 +93,7 @@ public class AzerAgent extends Agent
         //exactly at the goal when this node is active
         public int lastScanIndex = 0;      //The last time epmem was scanned for
         //matches to this suffix, it stopped here
-
+        public PrefixNode prefixNode;
         /**
          * indices into episodicMemory of successful/failed sequences with this
          * suffix
@@ -122,6 +127,8 @@ public class AzerAgent extends Agent
             this.tries = 0;
             this.failRate = 0.0;
             this.parentFailRate = 0.0;
+            this.prefixNode = null;
+
 
         }// ctor
 
@@ -185,16 +192,13 @@ public class AzerAgent extends Agent
     public class PrefixNode
     {
         /*--==Instance Variables==--*/
-        public int sensorValue; // if this node becomes active, start with this
+        public String sensorValue; // if this node becomes active, start with this
         public HashMap<String, SuffixNode> prefixHash;
         // permutation
 
-        public PrefixNode(int sensorVal)
+        public PrefixNode()
         {
-            this.sensorValue = sensorVal;
-
-
-
+            this.sensorValue = "*"; //initially set to wildcard
         }// ctor
 
 
@@ -212,6 +216,8 @@ public class AzerAgent extends Agent
         // Create an empty root node and split it to create an initial fringe
         // that has a node for each letter in the alphabet
         SuffixNode initNode = new SuffixNode();
+        PrefixNode initPrefixNode = new PrefixNode(); //
+        initNode.prefixNode = initPrefixNode;
         hashFringe.put("", initNode);
         this.activeNode = initNode;
 
@@ -360,6 +366,7 @@ public class AzerAgent extends Agent
         //Extract the needed lists
         ArrayList<Integer> parentList = success ? parent.successIndexList : parent.failsIndexList;
         ArrayList<ArrayList<Integer>> childLists = new ArrayList<ArrayList<Integer>>();
+
         for (int i = 0; i < alphabet.length; i++)
         {
             childLists.add( success ? children[i].successIndexList : children[i].failsIndexList );
@@ -390,6 +397,50 @@ public class AzerAgent extends Agent
     }//divyIndexes
 
     /**
+     * update sucess and fail rates for AZER nodes
+     */
+    public boolean updateAzerSuccessFail(PrefixNode[] childrenPrefix, boolean success){
+        for (int i = 0; i <childrenPrefix.length; i++){
+
+            Iterator it = childrenPrefix[i].prefixHash.entrySet().iterator();
+            //regex to find matches among prefix frontier nodes in hashfringe
+           String miniPattern = success ?  " |" : "";
+
+            while(it.hasNext()){
+                Map.Entry pair = (Map.Entry)it.next();
+                Pattern pattern = Pattern.compile(i + pair.getKey().toString() + miniPattern); //TODO does this work???
+                Matcher matcher = pattern.matcher(sensorMemory);
+                int numSuccess = 0;
+                while (matcher.find()){
+                    numSuccess++;
+                }
+                if (numSuccess == 0 & success == true) {
+                    return false;
+                }
+                // this code is ugly. make better. :)
+                int numToAdd =  numSuccess;
+                if (success == true) {
+                    childrenPrefix[i].prefixHash.get(pair.getKey()).successIndexList.clear();
+                }
+                else {
+                    childrenPrefix[i].prefixHash.get(pair.getKey()).failsIndexList.clear();
+                }
+                for (int m = 0; m < numSuccess; m++){
+                    if (success == true) {
+                        childrenPrefix[i].prefixHash.get(pair.getKey()).successIndexList.add(m);
+                    }
+                    else{
+                        childrenPrefix[i].prefixHash.get(pair.getKey()).failsIndexList.add(m);
+                    }
+                }
+                it.remove();
+            }
+
+        }
+        return true;
+    }
+
+    /**
      * splitNode
      *
      * Add new alphabet.length number of new nodes to fringe by replacing the
@@ -415,7 +466,9 @@ public class AzerAgent extends Agent
             children[i].g = activeNode.g + 1;
             children[i].indexOfLastEpisodeTried = memory.length() - 1;
             children[i].parentFailRate = activeNode.failRate;
+            children[i].prefixNode = activeNode.prefixNode;
         }// for
+
 
         //Divy the successes and failures among the children
         divyIndexes(activeNode, children, true);
@@ -435,6 +488,39 @@ public class AzerAgent extends Agent
             hashFringe.put(children[i].suffix, children[i]);
         }// for
         hashFringe.remove(activeNode.suffix);
+
+
+        //Attempt AZER Split. Stop if requirements for AZER split not met:
+
+            String parentPrefix = activeNode.prefixNode.sensorValue; //prefix node value
+            PrefixNode[] prefixChildren = new PrefixNode[2]; // 2 bc even + odd sensor
+            //creates new "trees" for each prefix
+            for (int i = 0; i<2; i++){ //2 bc that's the split size
+                prefixChildren[i].sensorValue = Integer.toString(i);
+                prefixChildren[i].prefixHash = new HashMap<String, SuffixNode>(hashFringe);
+            }
+
+
+            updateAzerSuccessFail(prefixChildren, false);
+            if (updateAzerSuccessFail(prefixChildren, true)){
+
+              hashFringe.clear();
+
+              //put all new chilren nodes in the hash fringe and set their prefix children
+              hashFringe = new HashMap<String, SuffixNode>();
+              for (int j = 0; j<2; j++) {
+                  Iterator it = prefixChildren[j].prefixHash.entrySet().iterator();
+                  while (it.hasNext()) {
+                      Map.Entry pair = (Map.Entry) it.next();
+                      hashFringe.put(pair.getKey().toString(), prefixChildren[j].prefixHash.get(pair.getKey()));
+                      hashFringe.get(pair.getKey()).prefixNode = prefixChildren[j];
+                      it.remove();
+                  }
+              }
+             }
+
+
+
 
         // //%%%REMOVE THIS!
         // if (hashFringe.size() >= 4)
@@ -498,17 +584,13 @@ public class AzerAgent extends Agent
 
     }// findBestNodeToTry
 
-    /**
-     * findWorstNode
-     *
-     * finds node with largest heuristic
-     *
-     */
-    public boolean canAzerSplit()
+
+    public boolean canAzerSplit() //TODO delete
     {
         SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray(
                 new SuffixNode[hashFringe.size()]);
 
+        //in here call the divy index method with can azersplit flag???
         for(SuffixNode node: nodes)
         {
             if(node.failRate == 1) {
@@ -517,26 +599,13 @@ public class AzerAgent extends Agent
         }
         return true;
     }
-    public boolean isAzerSplit()
-    {
-        return true;
-    }
-    public String hybridMemory()
-    {
-        String hybrid = "";
-        for(int i = 0; i < memory.length(); i++)
-        {
-            hybrid = hybrid + episodicMemory.get(i).sensorValue.sensorRepresentation() + memory.charAt(i);
-        }
-        System.out.println(hybrid);
-        return hybrid;
 
-
-    }
-
-
-
-
+    /**
+     * findWorstNode
+     *
+     * finds node with largest heuristic
+     *
+     */
     public SuffixNode findWorstNodeToTry()
     {
         SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray(
@@ -648,6 +717,7 @@ public class AzerAgent extends Agent
         {
             splitNode();
             activeNode = findBestNodeToTry();
+
 
             // Use the new active node's queue sequence if it exists
             if (activeNode.queueSeq > 1)
