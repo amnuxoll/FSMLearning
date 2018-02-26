@@ -245,7 +245,7 @@ public class AzerAgent extends Agent
             // Erase worst node in the hashFringe once we hit our Constant limit
             while (hashFringe.size() > NODE_LIST_SIZE)
             {
-                SuffixNode worst = findWorstNodeToTry();
+                SuffixNode worst = findWorstNodeToTry(); //TODO fix this one
                 hashFringe.remove(worst.suffix);
             }// if
 
@@ -259,7 +259,7 @@ public class AzerAgent extends Agent
                     trySeq();
 
                     //check to see if another node would be better now
-                    SuffixNode newBestNode = findBestNodeToTry();
+                    SuffixNode newBestNode = findBestNodeToTry(); //somehow check all trees
 
                     if (newBestNode != activeNode) {
                         activeNode.queueSeq = 1;
@@ -581,11 +581,11 @@ public class AzerAgent extends Agent
      *
      * finds node with lowest heuristic
      */
-    public SuffixNode findBestNodeToTry()
+    public SuffixNode findBestNodeToTry(HashMap<String, SuffixNode> inputFringe)
     {
 
-        SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray(
-                new SuffixNode[hashFringe.size()]);
+        SuffixNode[] nodes = (SuffixNode[]) inputFringe.values().toArray(
+                new SuffixNode[inputFringe.size()]);
         assert (nodes.length > 0);
 
         double theBEASTLIESTCombo = nodes[0].f;
@@ -738,7 +738,16 @@ public class AzerAgent extends Agent
         if (activeNode.goalFound)
         {
             splitNode();
-            activeNode = findBestNodeToTry();
+            //TODO something to decide which tree to pass after first split
+            if (activeNode.prefixNode.adoptedChildren != null) {
+                if (env.currentState % 2 == 0) {
+                    //pass in even tree
+                    activeNode = findBestNodeToTry(activeNode.prefixNode.adoptedChildren.get(1).prefixHash);
+                } else {
+                    //pass in odd tree
+                    activeNode = findBestNodeToTry(activeNode.prefixNode.adoptedChildren.get(0).prefixHash);
+                }
+            }
 
 
             // Use the new active node's queue sequence if it exists
