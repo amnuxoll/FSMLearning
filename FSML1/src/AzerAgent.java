@@ -45,6 +45,11 @@ public class AzerAgent extends Agent
     // permutation to be 'a'
 
     /**
+     * keeps track of whether the next AZER split will split on sensors or alphabet characters
+     */
+    boolean sensorNext = true;
+
+    /**
      * the next sequence to consider testing (typically generated via
      * lastPermutationIndex
      */
@@ -491,13 +496,27 @@ public class AzerAgent extends Agent
 
 
         //Attempt AZER Split. Stop if requirements for AZER split not met:
-
+            int numChildren;
+            if (sensorNext){ numChildren = 2;}
+            else{numChildren = alphabet.length;}
             String parentPrefix = activeNode.prefixNode.sensorValue; //prefix node value
-            PrefixNode[] prefixChildren = new PrefixNode[2]; // 2 bc even + odd sensor
+            PrefixNode[] prefixChildren = new PrefixNode[numChildren]; // 2 bc even + odd sensor
             //creates new "trees" for each prefix
-            for (int i = 0; i<2; i++){ //2 bc that's the split size
-                prefixChildren[i].sensorValue = Integer.toString(i);
-                prefixChildren[i].prefixHash = new HashMap<String, SuffixNode>(hashFringe);
+
+            if (sensorNext) {
+                for (int i = 0; i < 2; i++) { //2 bc that's the sensor even/odd
+                    prefixChildren[i].sensorValue = Integer.toString(i) + parentPrefix;
+                    prefixChildren[i].prefixHash = new HashMap<String, SuffixNode>(hashFringe);
+                }
+                sensorNext = false; //next split will be over alphabet chars
+            }
+            else{
+                for (int i = 0; i < alphabet.length; i++) { //split over every alphabet char
+                    prefixChildren[i].sensorValue =  String.valueOf((char)(i+96)) + parentPrefix;
+                    prefixChildren[i].prefixHash = new HashMap<String, SuffixNode>(hashFringe);
+                }
+                sensorNext = false; //next split will be over alphabet chars
+
             }
 
 
@@ -571,13 +590,6 @@ public class AzerAgent extends Agent
                 bestNode = node;
             }// if
         }// for
-        for(SuffixNode node: nodes)
-        {
-            if(node.failRate == 1)
-            {
-
-            }
-        }
 
 
         return bestNode;
