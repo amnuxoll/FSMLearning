@@ -199,11 +199,13 @@ public class AzerAgent extends Agent
         /*--==Instance Variables==--*/
         public String sensorValue; // if this node becomes active, start with this
         public HashMap<String, SuffixNode> prefixHash;
+        public ArrayList<PrefixNode> adoptedChildren; //"adopted" from a successful AZER split
         // permutation
 
         public PrefixNode()
         {
             this.sensorValue = "*"; //initially set to wildcard
+            adoptedChildren = new ArrayList<PrefixNode>();
         }// ctor
 
 
@@ -521,11 +523,19 @@ public class AzerAgent extends Agent
 
 
             updateAzerSuccessFail(prefixChildren, false);
-            if (updateAzerSuccessFail(prefixChildren, true)){
+             if (updateAzerSuccessFail(prefixChildren, true)) {
+                 //continue AZER split if conditions are not met:
+                 for (int i = 0; i < prefixChildren.length; i++) {
+                     activeNode.prefixNode.adoptedChildren.add(prefixChildren[i]);
+                 }
+              hashFringe.clear(); //empty the Marz hashFringe TODO-- make this general? put hashFringe in initSuffixNode
+             }
+             //if the split was not successful nothing actually changes
+            /*if (updateAzerSuccessFail(prefixChildren, true)){
 
               hashFringe.clear();
 
-              //put all new chilren nodes in the hash fringe and set their prefix children
+              //put all new children nodes in the hash fringe and set their prefix children
               hashFringe = new HashMap<String, SuffixNode>();
               for (int j = 0; j<2; j++) {
                   Iterator it = prefixChildren[j].prefixHash.entrySet().iterator();
@@ -536,7 +546,7 @@ public class AzerAgent extends Agent
                       it.remove();
                   }
               }
-             }
+             }*/
 
 
 
