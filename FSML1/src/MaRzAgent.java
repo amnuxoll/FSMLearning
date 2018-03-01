@@ -361,7 +361,6 @@ public class MaRzAgent extends Agent
             }
 
 			int childIdx = memory.charAt(index) - 'a';
-            System.out.println(childIdx);
             childLists.get(childIdx).add(new Integer(index));
             
 		}// for

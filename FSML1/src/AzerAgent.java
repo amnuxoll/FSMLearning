@@ -425,23 +425,28 @@ public class AzerAgent extends Agent
     /**
      * update sucess and fail rates for AZER nodes
      */
-    public boolean updateAzerSuccessFail(PrefixNode[] childrenPrefix, boolean success){
+    public int updateAzerSuccessFail(PrefixNode[] childrenPrefix, boolean success){
         for (int i = 0; i <childrenPrefix.length; i++){
 
             Iterator it = childrenPrefix[i].prefixHash.entrySet().iterator();
             //regex to find matches among prefix frontier nodes in hashfringe
-           String miniPattern = success ?  " |" : "";
+           String miniPattern = success ?  " \\|" : "";
 
             while(it.hasNext()){
                 Map.Entry pair = (Map.Entry)it.next();
-                Pattern pattern = Pattern.compile(i + pair.getKey().toString() + miniPattern); //TODO does this work???
+                String memInput = pair.getKey().toString();
+                for (char alph : alphabet){
+                    memInput = memInput.replaceAll(Character.toString(alph), Character.toString(alph)+".");
+                }
+                Pattern pattern = Pattern.compile(childrenPrefix[i].prefixValue + memInput + miniPattern); //TODO does this work???
                 Matcher matcher = pattern.matcher(sensorMemory);
                 int numSuccess = 0;
                 while (matcher.find()){
                     numSuccess++;
                 }
-                if (numSuccess == 0 && success == true) {
-                    return false;
+
+                if (numSuccess == 0 ){//&& success == true) {
+                    return 0;
                 }
                 // this code is ugly. make better. :)
                 int numToAdd =  numSuccess;
@@ -451,6 +456,7 @@ public class AzerAgent extends Agent
                 else {
                     childrenPrefix[i].prefixHash.get(pair.getKey()).failsIndexList.clear();
                 }
+
                 for (int m = 0; m < numSuccess; m++){
                     if (success == true) {
                         childrenPrefix[i].prefixHash.get(pair.getKey()).successIndexList.add(m);
@@ -459,11 +465,10 @@ public class AzerAgent extends Agent
                         childrenPrefix[i].prefixHash.get(pair.getKey()).failsIndexList.add(m);
                     }
                 }
-                it.remove();
             }
 
         }
-        return true;
+        return 1;
     }
 
     /**
@@ -541,25 +546,29 @@ public class AzerAgent extends Agent
             else{
                 for (int i = 0; i < alphabet.length; i++) { //split over every alphabet char
                     prefixChildren[i] = new PrefixNode();
+
                     prefixChildren[i].prefixValue =  String.valueOf((char)(i+96)) + parentPrefix;
                     for (Map.Entry<String, SuffixNode> entry : activeNode.prefixNode.prefixHash.entrySet()){
                         prefixChildren[i].prefixHash.put(entry.getKey(), entry.getValue());
                     }
 
                 }
-                sensorNext = false; //next split will be over alphabet chars
+                sensorNext = true; //next split will be over alphabet chars
 
             }
 
 
-            updateAzerSuccessFail(prefixChildren, false);
-             if (updateAzerSuccessFail(prefixChildren, true)) {
+
+             if (updateAzerSuccessFail(prefixChildren, false) + updateAzerSuccessFail(prefixChildren, true) == 0) {
 
                  System.out.println("AZER SPLIT HAPPENED!!!!!!!");
                  //continue AZER split if conditions are not met:
                  for (int i = 0; i < prefixChildren.length; i++) {
                      activeNode.prefixNode.adoptedChildren.put(prefixChildren[i].prefixValue, prefixChildren[i]);
                  }
+             }
+             else{ //did not do an AZER split so untoggle the sensor
+                 sensorNext = !sensorNext;
              }
              //if the split was not successful nothing actually changes
             /*if (updateAzerSuccessFail(prefixChildren, true)){
@@ -618,7 +627,6 @@ public class AzerAgent extends Agent
         SuffixNode[] nodes = (SuffixNode[]) inputFringe.values().toArray(
                 new SuffixNode[inputFringe.size()]);
         assert (nodes.length > 0);
-        System.out.println("Length of nodes array is " + Integer.toString(nodes.length));
         double theBEASTLIESTCombo = nodes[0].f;
         SuffixNode bestNode = nodes[0];
         for (SuffixNode node : nodes)
@@ -678,7 +686,7 @@ public class AzerAgent extends Agent
         do
         {
             result = tryPath(nextSeqToTry);
-            System.out.println(sensorMemory);
+            //System.out.println(sensorMemory);
 
 
             // Update the active node's success/fail lists and related based
@@ -877,7 +885,7 @@ public class AzerAgent extends Agent
         try
         {
 
-            String fname = "AIReport_MaRz_" + makeNowString() + ".csv";
+            String fname = "AIReport_AZER_" + makeNowString() + ".csv";
             FileWriter csv = new FileWriter(fname);
 
             for (int i = 1; i <= NUM_MACHINES; ++i)
