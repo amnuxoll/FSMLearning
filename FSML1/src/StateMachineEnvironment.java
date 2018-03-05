@@ -26,7 +26,7 @@ import java.util.TreeSet;
 public class StateMachineEnvironment {
 
 	// Instance variables
-	public static int NUM_STATES = 30;
+	public static int NUM_STATES = 5;
 	public static int GOAL_STATE = NUM_STATES - 1;
 	public static int ALPHABET_SIZE = 2;  //this must be in the range [2,26]
         
@@ -133,6 +133,7 @@ public class StateMachineEnvironment {
         
         
     public void generateStateMachine(){
+
         //Create the transition table for our state machine. Each state has a
         //numerical designation. We index into the array using the number of the
         //state we are transitioning from, then the numerical index of the
@@ -160,6 +161,7 @@ public class StateMachineEnvironment {
             MAX_TRANSITIONS_TO_GOAL = 1;
         pickTransitions(GOAL_STATE,(random.nextInt(MAX_TRANSITIONS_TO_GOAL) + 1));
     }
+
     
     public void pickTransitions(int initGoal, int numOfTransitions){
         

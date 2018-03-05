@@ -49,7 +49,7 @@ public abstract class Agent {
     public static boolean azerAgentMode = true; //turn on when AzerAgent is running
 
     /** Turn this on to print debugging messages */
-    public static boolean debug = false;
+    public static boolean debug = true;
     /** println for debug messages only */
     public static void debugPrintln(String s) { if (debug) System.out.println(s); }
     public static void debugPrint(String s) { if (debug) System.out.print(s); }
@@ -64,7 +64,13 @@ public abstract class Agent {
     public Agent()
     {
         //gets called when child instances are instantiated. could probably copy StateMachineAgent's(as NewAgent and NSMagent call it anyway) but didn't want to yet. so its emppty.
-        env = new StateMachineEnvironment();
+        if (debug) {
+            int[][] transitions = new int[][] {{1,0}, {2, 3}, {1,0}, {2,4}, {4,4}};
+            env = new StateMachineEnvironment(transitions,2 );
+        }
+        else{
+            env = new StateMachineEnvironment();
+        }
         alphabet = env.getAlphabet();
         episodicMemory = new ArrayList<Episode>();
         memory = "";
@@ -387,7 +393,7 @@ public abstract class Agent {
             episodicMemory.add(new Episode(pathToTry.get(i), encodedSensorResult));
             if (sensors.GOAL_SENSOR){
                 Successes++;
-                debugPrintln("Success after " + (i + 1) + " steps."); 
+                //debugPrintln("Success after " + (i + 1) + " steps.");
                 return true;
            }
         }
@@ -439,7 +445,7 @@ public abstract class Agent {
             sensorMemory = sensorMemory + pathToTry.charAt(i) + episodicMemory.get(i).sensorValue.sensorRepresentation();
             if (sensors.GOAL_SENSOR) {
                 Successes++;
-                debugPrintln("Success after " + (i + 1) + " steps.");
+                //debugPrintln("Success after " + (i + 1) + " steps.");
 
                 
                 return pathToTry.substring(0,i+1);
@@ -514,23 +520,8 @@ public abstract class Agent {
 
         return result;
     }//checkSeq
-    
-    
-    /**
-     * Takes in an agent's sensor data and encodes it into an integer
-     * @param sensors The agent's sensor data
-     * @return the integer encoding of that sensor data
-     */
-    /* //TODO phased out method -- delete??
-    protected Sensors encodeSensors(Sensors sensors) {
-        Sensors encodedSensorResult = new Sensors();
 
-        encodedSensorResult.updateSensors("GOAL_SENSOR", sensors[IS_GOAL]);
-        encodedSensorResult.updateSensors("EVEN_SENSOR", sensors[IS_EVEN]);
-        encodedSensorResult.updateSensors("NEWSTATE_SENSOR", sensors[IS_NEW_STATE]);
-        encodedSensorResult.updateSensors("ISLOOP_SENSOR", sensors[IS_LOOP]);
-        return encodedSensorResult;
-    } */
+
     
     /**
      * Returns the index of the given character in the
