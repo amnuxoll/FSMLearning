@@ -507,6 +507,8 @@ public class MaRzAgent extends Agent
 		String result = "";
 		do
 		{
+
+			System.out.println("This is the state before the goal" + env.currentState);
             result = tryPath(nextSeqToTry);
 
 			// Update the active node's success/fail lists and related based
@@ -581,6 +583,8 @@ public class MaRzAgent extends Agent
         // that sequence eventually failed.
 		if (activeNode.goalFound)
 		{
+
+			System.out.println("This is the current state" + env.currentState);
             splitNode();
             activeNode = findBestNodeToTry();
 

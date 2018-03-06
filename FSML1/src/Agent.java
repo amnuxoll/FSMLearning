@@ -433,7 +433,7 @@ public abstract class Agent {
             else {
                 temp = " | 1";
             }
-            sensorMemory = sensorMemory + temp;
+            sensorMemory = sensorMemory.substring(0, sensorMemory.length()-1) + temp;
             env.resetSensorValue = false;
         }
         // Enter each character in the path

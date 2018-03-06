@@ -433,7 +433,7 @@ public class AzerAgent extends Agent
 
             Iterator it = childrenPrefix[i].suffixHash.entrySet().iterator();
             //regex to find matches among prefix frontier nodes in hashfringe
-           String miniPattern = success ?  " \\|" : "";
+           String miniPattern = success ?  " \\|" : "[^\\s]";
 
             while(it.hasNext()){
                 Map.Entry pair = (Map.Entry)it.next();
@@ -441,10 +441,13 @@ public class AzerAgent extends Agent
                 for (char alph : alphabet){
                     memInput = memInput.replaceAll(Character.toString(alph), Character.toString(alph)+".");
                 }
-                Pattern pattern = Pattern.compile(childrenPrefix[i].prefixValue + memInput + miniPattern);
+                memInput = memInput.substring(0, memInput.length()-1);
+                Pattern pattern = Pattern.compile("(?=(" + childrenPrefix[i].prefixValue + memInput + miniPattern +"))." );
                 Matcher matcher = pattern.matcher(sensorMemory);
                 int numSuccess = 0;
-                while (matcher.find()){
+                while (matcher.find())
+                {
+                    System.out.println(matcher.group());
                     numSuccess++;
                 }
 
@@ -608,7 +611,7 @@ public class AzerAgent extends Agent
      * recursively go through each suffix node in all prefix tree to update hueristics
      */
     public void updateAllTrees(PrefixNode node){
-        if (node.adoptedChildren == null){
+        if (node.adoptedChildren.isEmpty()){
             for (Map.Entry<String, SuffixNode> suff : node.suffixHash.entrySet()) {
                 suff.getValue().updateHeuristic();
             }
@@ -642,7 +645,6 @@ public class AzerAgent extends Agent
         SuffixNode bestNode = nodes[0];
         for (SuffixNode node : nodes)
         {
-            node.updateHeuristic();
 
             if (node.f < theBEASTLIESTCombo)
             {
