@@ -21,7 +21,7 @@ public class MaRzAgent extends Agent
 	// the likeliness to jump back to another node
 	// (should be in the range (0.0 - 1.0)
 	public static double G_WEIGHT = 0.05;
-
+	int countThis = 0;
 	// max size of list of nodes
 	public static final int NODE_LIST_SIZE = 100000;
 
@@ -381,6 +381,7 @@ public class MaRzAgent extends Agent
 	 */
 	public void splitNode()
 	{
+		countThis++;
 		String parentSuffix = this.activeNode.suffix;
 		debugPrintln("NODE TO BE SPLIT: " + activeNode);
 
@@ -507,8 +508,6 @@ public class MaRzAgent extends Agent
 		String result = "";
 		do
 		{
-
-			System.out.println("This is the state before the goal" + env.currentState);
             result = tryPath(nextSeqToTry);
 
 			// Update the active node's success/fail lists and related based
@@ -583,8 +582,6 @@ public class MaRzAgent extends Agent
         // that sequence eventually failed.
 		if (activeNode.goalFound)
 		{
-
-			System.out.println("This is the current state" + env.currentState);
             splitNode();
             activeNode = findBestNodeToTry();
 

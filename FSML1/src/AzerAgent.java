@@ -51,6 +51,7 @@ public class AzerAgent extends Agent
      * keeps track of whether the next AZER split will split on sensors or alphabet characters
      */
     boolean sensorNext = true;
+    int countThis = 0;
 
     /**
      * the next sequence to consider testing (typically generated via
@@ -136,6 +137,23 @@ public class AzerAgent extends Agent
             this.failRate = 0.0;
             this.parentFailRate = 0.0;
             this.prefixNode = null;
+
+
+        }// ctor
+        //Copy Contructor
+        public SuffixNode(SuffixNode cpy)
+        {
+            this.suffix = cpy.suffix;
+            this.queueSeq = cpy.queueSeq;
+            this.f = cpy.f;
+            this.g = cpy.g;
+            this.indexOfLastEpisodeTried = 0;
+            this.successIndexList = new ArrayList<Integer>(cpy.successIndexList);
+            this.failsIndexList = new ArrayList<Integer>(cpy.failsIndexList);
+            this.tries = 0;
+            this.failRate = 0.0;
+            this.parentFailRate = 0.0;
+            this.prefixNode = cpy.prefixNode;
 
 
         }// ctor
@@ -428,7 +446,8 @@ public class AzerAgent extends Agent
     /**
      * update sucess and fail rates for AZER nodes
      */
-    public int updateAzerSuccessFail(PrefixNode[] childrenPrefix, boolean success){
+    public boolean updateAzerSuccessFail(PrefixNode[] childrenPrefix, boolean success){
+        boolean foundMatch = true;
         for (int i = 0; i <childrenPrefix.length; i++){
 
             Iterator it = childrenPrefix[i].suffixHash.entrySet().iterator();
@@ -445,9 +464,7 @@ public class AzerAgent extends Agent
                 Pattern pattern = Pattern.compile("(?=(" + childrenPrefix[i].prefixValue + memInput + miniPattern +"))." );
                 Matcher matcher = pattern.matcher(sensorMemory);
                 int numSuccess = 0;
-                while (matcher.find())
-                {
-                    System.out.println(matcher.group());
+                while (matcher.find()) {
                     numSuccess++;
                 }
 
@@ -467,14 +484,11 @@ public class AzerAgent extends Agent
                         childrenPrefix[i].suffixHash.get(pair.getKey()).failsIndexList.add(m);
                     }
                 }
-
-                if (numSuccess == 0 ){//&& success == true) {
-                    return 0;
-                }
+                foundMatch &= numSuccess != 0;
             }
 
         }
-        return 1;
+        return foundMatch;
     }
 
     /**
@@ -491,6 +505,7 @@ public class AzerAgent extends Agent
      */
     public void splitNode()
     {
+        countThis++;
         String parentSuffix = this.activeNode.suffix;
         debugPrintln(" MarZ NODE TO BE SPLIT: " + activeNode);
         debugPrintln(sensorMemory);
@@ -545,7 +560,7 @@ public class AzerAgent extends Agent
                     prefixChildren[i] = new PrefixNode();
                     prefixChildren[i].prefixValue = Integer.toString(i) + parentPrefix;
                     for (Map.Entry<String, SuffixNode> entry : activeNode.prefixNode.suffixHash.entrySet()){
-                        prefixChildren[i].suffixHash.put(entry.getKey(), entry.getValue());
+                        prefixChildren[i].suffixHash.put(entry.getKey(), new SuffixNode(entry.getValue()));
                     }
                 }
                 sensorNext = false; //next split will be over alphabet chars
@@ -556,24 +571,23 @@ public class AzerAgent extends Agent
 
                     prefixChildren[i].prefixValue =  String.valueOf((char)(i+96)) + parentPrefix;
                     for (Map.Entry<String, SuffixNode> entry : activeNode.prefixNode.suffixHash.entrySet()){
-                        prefixChildren[i].suffixHash.put(entry.getKey(), entry.getValue());
+
+                        prefixChildren[i].suffixHash.put(entry.getKey(), new SuffixNode(entry.getValue()));
                     }
 
                 }
                 sensorNext = true; //next split will be over alphabet chars
 
             }
-
-
-
-             if (updateAzerSuccessFail(prefixChildren, false) + updateAzerSuccessFail(prefixChildren, true) != 0) {
-
+            //Run though each possibility, when it is false and when it is true...store in temporary booleans.
+            boolean fail = updateAzerSuccessFail(prefixChildren, false);
+            boolean success = updateAzerSuccessFail(prefixChildren, true);
+             if ( fail || success) {
                  System.out.println("AZER SPLIT HAPPENED!!!!!!!");
                  //continue AZER split if conditions are not met:
                  for (int i = 0; i < prefixChildren.length; i++) {
                      activeNode.prefixNode.adoptedChildren.put(prefixChildren[i].prefixValue, prefixChildren[i]);
                  }
-
              }
              else{ //did not do an AZER split so untoggle the sensor
                  sensorNext = !sensorNext;
@@ -608,7 +622,7 @@ public class AzerAgent extends Agent
 
     /**
      * updateAllTrees
-     * recursively go through each suffix node in all prefix tree to update hueristics
+     * recursively go through each suffix node in all prefix tree to update heuristics
      */
     public void updateAllTrees(PrefixNode node){
         if (node.adoptedChildren.isEmpty()){
@@ -619,7 +633,6 @@ public class AzerAgent extends Agent
         }
         else{
             for (Map.Entry<String, PrefixNode> child : node.adoptedChildren.entrySet()) {
-                System.out.println("updating: " + child.getKey());
                 updateAllTrees(child.getValue());
 
             }
@@ -635,7 +648,7 @@ public class AzerAgent extends Agent
     public SuffixNode findBestNodeToTry(HashMap<String, SuffixNode> inputFringe)
     {
         //first update all heuristic, mostly for debug (?)
-        updateAllTrees(prefixRoot);
+        //updateAllTrees(prefixRoot);
 
         //now find the best node in the correct active prefix tree from input Fringe
         SuffixNode[] nodes = (SuffixNode[]) inputFringe.values().toArray(
@@ -645,7 +658,7 @@ public class AzerAgent extends Agent
         SuffixNode bestNode = nodes[0];
         for (SuffixNode node : nodes)
         {
-
+            node.updateHeuristic();
             if (node.f < theBEASTLIESTCombo)
             {
                 theBEASTLIESTCombo = node.f;

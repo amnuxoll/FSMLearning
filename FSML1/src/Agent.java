@@ -39,9 +39,9 @@ public abstract class Agent {
     
     /** Number of episodes per run */
     public static final int MAX_EPISODES = 2000000;
-    public static final int NUM_GOALS = 1000;
+    public static final int NUM_GOALS = 50;
     /** Number of state machines to test a given constant combo with */
-    public static final int NUM_MACHINES = 50;
+    public static final int NUM_MACHINES = 1;
     
     public static int informationColumns = 0; //for now before consolidation of recording data must be declared in each agent
     public static int informationRows = 1; //how many header rows there are before the data in the csv
@@ -49,7 +49,7 @@ public abstract class Agent {
     public static boolean azerAgentMode = true; //turn on when AzerAgent is running
 
     /** Turn this on to print debugging messages */
-    public static boolean debug = true;
+    public static boolean debug = false;
     /** println for debug messages only */
     public static void debugPrintln(String s) { if (debug) System.out.println(s); }
     public static void debugPrint(String s) { if (debug) System.out.print(s); }

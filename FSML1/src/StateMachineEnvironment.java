@@ -53,10 +53,10 @@ public class StateMachineEnvironment {
 	public HashSet<Integer> limitedStateNumbers = new HashSet();
 
     //this will be useful
-    private Random random = new Random();
+    private Random random = new Random(10);
 	
 	//DEBUG
-	private boolean debug = false;
+	private boolean debug = true;
 
     /**
      * StatMachineEnvironment
@@ -75,6 +75,7 @@ public class StateMachineEnvironment {
 
                     //System.out.println("Shortest Path: " + paths[0]);
                     printStateMachine();
+                    printStateMachineGraph();
                     String oldBlindpath = shortestBlindPathToGoal();
                     System.out.println("Old shortest path: " + oldBlindpath + "  length: " + oldBlindpath.length());
                     String newBlindPath = shortestPathToGoal();
@@ -101,6 +102,7 @@ public class StateMachineEnvironment {
             if(debug) {
                     System.out.println("Shortest Path: " + paths[0]);
                     printStateMachine();
+                    printStateMachineGraph();
             }
     }
 
