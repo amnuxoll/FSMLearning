@@ -294,28 +294,28 @@ public class AzerAgent extends Agent
         {
             String name = suffixNode.getName();
             if (!name.startsWith("M_Root")) {
-                SuffixNode parent = null;
-                boolean hitRoot = false;
-                do {
-                    if (suffixNode.suffix.length() <= 1)
-                        hitRoot = true;
-                    else
-                    {
-                        String parentSuffix = suffixNode.suffix.substring(1);
-                        parent = this.suffixHash.get(parentSuffix);
-                    }
-                    String vertex;
-                    if (hitRoot)
-                        vertex = this.getName() + " -> " + suffixNode.getName() + ";";
-                    else
-                        vertex = parent.getName() + " -> " + suffixNode.getName() + ";";
-                    if (!vertices.contains(vertex))
-                    {
-                        dotBuilder.append(vertex);
-                        vertices.add(vertex);
-                    }
-                    suffixNode = parent;
-                } while (!hitRoot);
+                if (suffixNode.suffix.length() <= 1) {
+                    String vertex = this.getName() + " -> " + name + ";";
+                    dotBuilder.append(vertex);
+                    vertices.add(vertex);
+                }
+                else {
+                    String parent = suffixNode.suffix.substring(1);
+                    do {
+                        String vertex = parent + "_" + this.getName() + " -> " + name + ";";
+                        if (!vertices.contains(vertex)) {
+                            dotBuilder.append(vertex);
+                            vertices.add(vertex);
+                        }
+                        name = parent;
+                        if (parent.equals("M_Root"))
+                            parent = "";
+                        else if (parent.length() == 1)
+                            parent = "M_Root";
+                        else
+                            parent = parent.substring(1);
+                    } while (!parent.equals(""));
+                }
             }
         }
 
