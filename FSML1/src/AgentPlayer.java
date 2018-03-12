@@ -29,33 +29,42 @@ public class AgentPlayer extends JFrame implements ActionListener {
     public AgentPlayer(String playfilePath) throws IOException {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Container contentPane = getContentPane();
+        JPanel container = new JPanel();
+        getContentPane().add(new JScrollPane(container));
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        contentPane.setLayout(gridbag);
+        container.setLayout(gridbag);
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
         JButton button = new JButton("Step");
         button.addActionListener(this);
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.gridwidth = 2;
+        constraints.gridwidth = 1;
         gridbag.setConstraints(button, constraints);
-        contentPane.add(button);
+        container.add(button);
+
+        button = new JButton("Play");
+        button.addActionListener(this);
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.gridwidth = 1;
+        gridbag.setConstraints(button, constraints);
+        container.add(button);
 
         this.sequenceToTryLabel = new JLabel();
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.gridwidth = 1;
         gridbag.setConstraints(this.sequenceToTryLabel, constraints);
-        contentPane.add(this.sequenceToTryLabel);
+        container.add(this.sequenceToTryLabel);
 
         this.sensorLabel = new JLabel();
         constraints.gridx = 1;
         constraints.gridy = 1;
         constraints.gridwidth = 1;
         gridbag.setConstraints(this.sensorLabel, constraints);
-        contentPane.add(this.sensorLabel);
+        container.add(this.sensorLabel);
 
         this.agentImage = new ImageIcon();
         this.agentLabel = new JLabel(this.agentImage);
@@ -63,7 +72,7 @@ public class AgentPlayer extends JFrame implements ActionListener {
         constraints.gridy = 2;
         constraints.gridwidth = 1;
         gridbag.setConstraints(agentLabel, constraints);
-        contentPane.add(agentLabel);
+        container.add(agentLabel);
 
         this.environmentImage = new ImageIcon();
         this.environmentLabel = new JLabel(this.environmentImage);
@@ -71,12 +80,13 @@ public class AgentPlayer extends JFrame implements ActionListener {
         constraints.gridy = 2;
         constraints.gridwidth = 1;
         gridbag.setConstraints(this.environmentLabel, constraints);
-        contentPane.add(this.environmentLabel);
+        container.add(this.environmentLabel);
 
         File file = new File(playfilePath);
         FileReader fileReader = new FileReader(file);
         bufferedReader = new BufferedReader(fileReader);
 
+        setSize(800, 600);
         this.pack();
     }
 
@@ -98,8 +108,11 @@ public class AgentPlayer extends JFrame implements ActionListener {
     private void playNext() throws IOException {
         String currentLine = bufferedReader.readLine();
         System.out.println(currentLine);
-        if (currentLine == null)
+        if (currentLine == null) {
+            if (playTimer.isRunning())
+                playTimer.stop();
             return;
+        }
         int separator = currentLine.indexOf(':');
         String item = currentLine.substring(0, separator);
         String content = currentLine.substring(separator + 1);
@@ -126,7 +139,6 @@ public class AgentPlayer extends JFrame implements ActionListener {
                 sequenceToTryLabel.setText(this.sequence.next());
                 break;
         }
-        this.pack();
     }
 
     private BufferedImage generateGraph(String dot) throws IOException {
@@ -135,12 +147,23 @@ public class AgentPlayer extends JFrame implements ActionListener {
         return viz.render(Format.PNG).toImage();
     }
 
+    private Timer playTimer = new Timer(250, this);
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            this.playNext();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        if (e.getActionCommand() == "Play")
+        {
+            if (playTimer.isRunning())
+                playTimer.stop();
+            else
+                playTimer.start();
+        }
+        else {
+            try {
+                this.playNext();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 

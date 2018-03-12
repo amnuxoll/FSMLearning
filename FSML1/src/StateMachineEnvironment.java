@@ -26,7 +26,7 @@ import java.util.TreeSet;
 public class StateMachineEnvironment {
 
 	// Instance variables
-	public static int NUM_STATES = 5;
+	public static int NUM_STATES = 10;
 	public static int GOAL_STATE = NUM_STATES - 1;
 	public static int ALPHABET_SIZE = 2;  //this must be in the range [2,26]
         
@@ -96,7 +96,7 @@ public class StateMachineEnvironment {
             paths = new String[NUM_STATES];
             paths[GOAL_STATE] = "";
             fillAlphabet();
-            currentState = 0;
+            lastState = currentState = 0;
             transition = transitions;
             findShortestPaths();
             
@@ -269,7 +269,7 @@ public class StateMachineEnvironment {
         dotBuilder.append("digraph finite_state_machine {");
         dotBuilder.append("node [shape = doublecircle]; Goal;");
         dotBuilder.append("node [shape = circle];     ");
-        dotBuilder.append((currentState == GOAL_STATE ? "Goal" : "S" + currentState) + " [fillcolor = blue, style = filled];");
+        dotBuilder.append((currentState == GOAL_STATE ? "Goal" : "S" + currentState) + " [fillcolor = gray, style = filled];");
 
         //for each possible source state (skipping goal state)
         for (int i = 0; i < NUM_STATES - 1; i++) {
@@ -386,7 +386,6 @@ public class StateMachineEnvironment {
 		if(newState == GOAL_STATE){
 		    resetSensorValue = true; //for Agent triggers new goal marker in sensorMemory
 			sensors.GOAL_SENSOR = true;
-			//reset();
 		}
 		if(random.nextInt(1) == 1)
         {

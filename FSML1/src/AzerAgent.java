@@ -1,6 +1,6 @@
-import java.awt.event.WindowEvent;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -212,6 +212,33 @@ public class AzerAgent extends Agent
 
         }// updateHeuristic
 
+        public String toDOT(SuffixNode activeNode)
+        {
+            DecimalFormat formatter = new DecimalFormat("#.###");
+            updateHeuristic();
+            String name = this.getName();
+            boolean isActive = this == activeNode;
+            StringBuilder dotBuilder = new StringBuilder(name);
+            dotBuilder.append(" [shape=record, label=\"{ ");
+            dotBuilder.append(name + " | f: " + formatter.format(this.f) + " | S: " + this.successIndexList.size() + " | F: " + this.failsIndexList.size());
+            dotBuilder.append(" }\"");
+            if (isActive)
+                dotBuilder.append(", fillcolor = gray, style = filled");
+            dotBuilder.append("];");
+            return dotBuilder.toString();
+        }
+
+        public String getName()
+        {
+            // Since similar MaRz trees can exist below different prefix nodes, they will get
+            // tagged with the parent prefix node.
+            String name;
+            if (this.suffix.equals(""))
+                name = "M_Root";
+            else
+                name = suffix;
+            return suffix + "_" + this.prefixNode.getName();
+        }
     }// SuffixNode Class
 
 
@@ -231,7 +258,90 @@ public class AzerAgent extends Agent
             suffixHash = new HashMap<String, SuffixNode>();
         }// ctor
 
+        public String toDOT(SuffixNode activeNode)
+        {
+            HashSet<String> vertices = new HashSet<>();
+            String name = this.getName();
+            StringBuilder dotBuilder = new StringBuilder(name + "[shape=triangle];");
+            dotBuilder.append(name + " -> " + "M_Root_" + name + ";");
+            for(SuffixNode suffixNode : this.suffixHash.values())
+            {
+                dotBuilder.append(suffixNode.toDOT(activeNode));
+                this.addVertices(suffixNode, dotBuilder, vertices);
+            }
+            for(PrefixNode prefixNode : this.adoptedChildren.values())
+            {
+                dotBuilder.append(prefixNode.toDOT(activeNode));
+                this.addVertices(prefixNode, dotBuilder, vertices);
+            }
+            return dotBuilder.toString();
+        }
 
+        public String getName()
+        {
+            // Use 'this' to uniquefy this prefix node. This allows us to recognize errors in object references
+            // as well as the MaRz trees under each Prefix node.
+            String name;
+            if (prefixValue.equals(""))
+                name = "A_Root";
+            else
+                name = prefixValue;
+            name = name + "_" + this + "";
+            return name.replaceAll("[$@]", "_");
+        }
+
+        private void addVertices(SuffixNode suffixNode, StringBuilder dotBuilder, HashSet<String> vertices)
+        {
+            String name = suffixNode.getName();
+            if (!name.startsWith("M_Root")) {
+                SuffixNode parent = null;
+                boolean hitRoot = false;
+                do {
+                    if (suffixNode.suffix.length() <= 1)
+                        hitRoot = true;
+                    else
+                    {
+                        String parentSuffix = suffixNode.suffix.substring(1);
+                        parent = this.suffixHash.get(parentSuffix);
+                    }
+                    String vertex;
+                    if (hitRoot)
+                        vertex = this.getName() + " -> " + suffixNode.getName() + ";";
+                    else
+                        vertex = parent.getName() + " -> " + suffixNode.getName() + ";";
+                    if (!vertices.contains(vertex))
+                    {
+                        dotBuilder.append(vertex);
+                        vertices.add(vertex);
+                    }
+                    suffixNode = parent;
+                } while (!hitRoot);
+            }
+        }
+
+        private void addVertices(PrefixNode prefixNode, StringBuilder dotBuilder, HashSet<String> vertices)
+        {
+            String name = prefixNode.getName();
+            if (!name.startsWith("A_Root")) {
+                PrefixNode parentNode;
+                do {
+                    if (prefixNode.prefixValue.length() == 1)
+                        parentNode = this;
+                    else
+                    {
+                        String parentPrefix = prefixNode.prefixValue.substring(1);
+                        parentNode = this.adoptedChildren.get(parentPrefix);
+                    }
+                    String vertex = parentNode.getName() + " -> " + prefixNode.getName() + ";";
+                    if (!vertices.contains(vertex))
+                    {
+                        dotBuilder.append(vertex);
+                        vertices.add(vertex);
+                    }
+                    prefixNode = parentNode;
+                } while (prefixNode != this);
+            }
+        }
     }// SuffixNode Class
 
 
@@ -911,6 +1021,20 @@ public class AzerAgent extends Agent
         lastPermutationIndex++;
         return nextPermutation(lastPermutationIndex);
     }// nextPermutation
+
+
+    /**
+     * Generates a default graph for an agent.
+     * @return a DOT encoded graph description of the internal state of the agent.
+     */
+    @Override
+    public String toDOT()
+    {
+        StringBuilder dotBuilder = new StringBuilder("digraph azer_agent { ");
+        dotBuilder.append(this.prefixRoot.toDOT(this.activeNode));
+        dotBuilder.append(" }");
+        return dotBuilder.toString();
+    }
 
     /**
      * tryGenLearningCurves

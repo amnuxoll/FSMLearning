@@ -450,9 +450,8 @@ public abstract class Agent {
         // Enter each character in the path
         for (int i = 0; i < pathToTry.length(); i++) {
             sensors = env.tick(pathToTry.charAt(i));
-            if (generatePlayFile) {
+            if (generatePlayFile)
                 playFileLogger.logEnvironmentState(sensors);
-            }
             Sensors encodedSensorResult = new Sensors(sensors);
             episodicMemory.add(new Episode(pathToTry.charAt(i), encodedSensorResult));
             memory = memory + pathToTry.charAt(i);
@@ -673,22 +672,13 @@ public abstract class Agent {
         return nowStr;
     }//makeNowString
 
+    /**
+     * Generates a default graph for an agent.
+     * @return a DOT encoded graph description of the internal state of the agent.
+     */
     public String toDOT()
     {
-        return "graph {" +
-                "    { rank=same; white}" +
-                "    { rank=same; cyan; yellow; pink}" +
-                "    { rank=same; red; green; blue}" +
-                "    { rank=same; black}" +
-                "    white -- cyan -- blue[label=" + dotRandomizer.nextInt() + "];" +
-                "    white -- yellow -- green;" +
-                "    white -- pink -- red;" +
-                "    cyan -- green -- black;" +
-                "    yellow -- red -- black;" +
-                "    pink -- blue -- black;" +
-                "}";
-    }
-
-    private Random dotRandomizer = new Random();
+        return "graph { a -- b }";
+    }// toDOT
 
 }//abstract class Agent
