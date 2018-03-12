@@ -1,3 +1,6 @@
+import org.omg.CORBA.Environment;
+
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Math.floor;
@@ -54,7 +57,9 @@ public abstract class Agent {
     public static void debugPrintln(String s) { if (debug) System.out.println(s); }
     public static void debugPrint(String s) { if (debug) System.out.print(s); }
 
-    
+    private boolean generatePlayFile = true;
+    private PlayFileLogger playFileLogger;
+
     /**
      * ctor
      *
@@ -75,6 +80,8 @@ public abstract class Agent {
         episodicMemory = new ArrayList<Episode>();
         memory = "";
         sensorMemory = "1";
+        if (generatePlayFile)
+            playFileLogger = new PlayFileLogger(this);
     }
     
     /**
@@ -436,9 +443,16 @@ public abstract class Agent {
             sensorMemory = sensorMemory.substring(0, sensorMemory.length()-1) + temp;
             env.resetSensorValue = false;
         }
+
+        if (generatePlayFile)
+            playFileLogger.logNewSequenceAttempt(pathToTry);
+
         // Enter each character in the path
         for (int i = 0; i < pathToTry.length(); i++) {
             sensors = env.tick(pathToTry.charAt(i));
+            if (generatePlayFile) {
+                playFileLogger.logEnvironmentState(sensors);
+            }
             Sensors encodedSensorResult = new Sensors(sensors);
             episodicMemory.add(new Episode(pathToTry.charAt(i), encodedSensorResult));
             memory = memory + pathToTry.charAt(i);
@@ -659,6 +673,22 @@ public abstract class Agent {
         return nowStr;
     }//makeNowString
 
-    
+    public String toDOT()
+    {
+        return "graph {" +
+                "    { rank=same; white}" +
+                "    { rank=same; cyan; yellow; pink}" +
+                "    { rank=same; red; green; blue}" +
+                "    { rank=same; black}" +
+                "    white -- cyan -- blue[label=" + dotRandomizer.nextInt() + "];" +
+                "    white -- yellow -- green;" +
+                "    white -- pink -- red;" +
+                "    cyan -- green -- black;" +
+                "    yellow -- red -- black;" +
+                "    pink -- blue -- black;" +
+                "}";
+    }
+
+    private Random dotRandomizer = new Random();
 
 }//abstract class Agent

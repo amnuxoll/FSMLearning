@@ -49,6 +49,7 @@ public class StateMachineEnvironment {
 	private char[] alphabet;
 	private String[] paths;  //the shortest path from each state to goal
 	public int currentState;
+	public int lastState;
 	public HashSet<Integer> loops = new HashSet();
 	public HashSet<Integer> limitedStateNumbers = new HashSet();
 
@@ -67,7 +68,7 @@ public class StateMachineEnvironment {
             paths = new String[NUM_STATES];
             paths[GOAL_STATE] = "";
             fillAlphabet();
-            currentState = 0;
+            lastState = currentState = 0;
             generateStateMachine();
             findShortestPaths();
             
@@ -261,7 +262,53 @@ public class StateMachineEnvironment {
 
         System.out.println("}");
     }//printStateMachineGraph
-	
+
+    public String toDOT()
+    {
+        StringBuilder dotBuilder = new StringBuilder();
+        dotBuilder.append("digraph finite_state_machine {");
+        dotBuilder.append("node [shape = doublecircle]; Goal;");
+        dotBuilder.append("node [shape = circle];     ");
+        dotBuilder.append((currentState == GOAL_STATE ? "Goal" : "S" + currentState) + " [fillcolor = blue, style = filled];");
+
+        //for each possible source state (skipping goal state)
+        for (int i = 0; i < NUM_STATES - 1; i++) {
+            String src = "S" + i;
+
+            //for each possible destination state
+            for (int j = 0; j < NUM_STATES; j++) {
+                String dest = "S" + j;
+                String actions = "";
+
+                //find all actions that lead from source to dest
+                for (int k = 0; k < alphabet.length; k++) {
+                    if (transition[i][k] == j)
+                    {
+                        actions = actions + alphabet[k] + ",";
+                    }
+                }
+
+                //if no actions found, skip
+                if (actions.length() == 0) continue;
+
+                //remove the trailing command on the actions list
+                actions = actions.substring(0,actions.length() - 1);
+
+                //if the destination is the goal, call it such
+                if (j == GOAL_STATE)
+                {
+                    dest = "Goal";
+                }
+                String transition = "";
+                if (i == lastState && j == currentState)
+                    transition = ", color = red";
+                dotBuilder.append("    " + src + " -> " + dest + " [ label = \"" + actions + "\"" + transition + " ];");
+            }//for
+        }//for
+
+        dotBuilder.append("}");
+        return dotBuilder.toString();
+    }
 	/**
 	 * Resets the current state back to a state not the goal
 	 */
@@ -278,7 +325,7 @@ public class StateMachineEnvironment {
                 limitedStateNumbers.add(random.nextInt(20));
             }
         }
-		currentState = randoState;
+		lastState = currentState = randoState;
         loops.add(currentState);
 	}
 	
@@ -292,14 +339,17 @@ public class StateMachineEnvironment {
 	 * 		The agent's updated sensors
 	 */
 	public Sensors tick(char move) {
+	    if (currentState == GOAL_STATE)
+	        reset();
 		// An array of booleans to keep track of the agents
 		// two sensors. The first represents if he is in a new
 		// state and the second represents if he is at the goal
+        lastState = currentState;
 
 		Sensors  sensors = new Sensors();
 		int newState = transition[currentState][findAlphabetIndex(move)];
-		
-		// If the attempted letter brings us to a new state
+
+        // If the attempted letter brings us to a new state
 		// update the current state and the new state sensor
 		if(newState != currentState){
 		    if(loops.contains(newState)){
@@ -312,7 +362,6 @@ public class StateMachineEnvironment {
             else{
 		        loops.add(newState);
             }
-
 			currentState = newState;
 			sensors.NEWSTATE_SENSOR = true;
 		}
@@ -337,7 +386,7 @@ public class StateMachineEnvironment {
 		if(newState == GOAL_STATE){
 		    resetSensorValue = true; //for Agent triggers new goal marker in sensorMemory
 			sensors.GOAL_SENSOR = true;
-			reset();
+			//reset();
 		}
 		if(random.nextInt(1) == 1)
         {

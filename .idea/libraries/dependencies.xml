@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="dependencies">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/FSML1/dependencies" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/FSML1/dependencies" recursive="false" />
+  </library>
+</component>
