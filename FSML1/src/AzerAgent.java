@@ -297,20 +297,24 @@ public class AzerAgent extends Agent
                 String parent = name;
                 do {
                     String startVertex = null;
+                    boolean setLabel = false;
                     if (parent.startsWith("D_S")) {
                         parent = this.getId();
                         startVertex = parent;
                     } else if (parent.length() == 1) {
                         parent = "D_S";
                         startVertex = parent + "_" + this.getId();
+                        setLabel = true;
                     } else {
                         parent = parent.substring(1);
                         startVertex = parent + "_" + this.getId();
+                        setLabel = true;
                     }
                     String vertex = startVertex + " -> " + name + "_" + this.getId() + ";";
                     if (!vertices.contains(vertex)) {
                         dotBuilder.append(vertex);
-                        dotBuilder.append(startVertex + " [label=" + name + "];");
+                        if (setLabel)
+                            dotBuilder.append(startVertex + " [label=" + parent + "];");
                         vertices.add(vertex);
                     }
                     name = parent;
