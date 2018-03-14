@@ -86,7 +86,7 @@
 
 //             MimeBodyPart attachmentPart = new MimeBodyPart();
 //             attachmentPart.setDataHandler(new DataHandler(fileDataSource));
-//             attachmentPart.setFileName(fileDataSource.getName());
+//             attachmentPart.setFileName(fileDataSource.getId());
 
 //             //
 //             // Create Multipart E-Mail.

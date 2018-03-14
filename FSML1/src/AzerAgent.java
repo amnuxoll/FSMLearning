@@ -5,8 +5,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.xml.transform.Templates;
-
 /**
  * AzerAgent Class
  *
@@ -216,11 +214,11 @@ public class AzerAgent extends Agent
         {
             DecimalFormat formatter = new DecimalFormat("#.###");
             updateHeuristic();
-            String name = this.getName();
+            String id = this.getId();
             boolean isActive = this == activeNode;
-            StringBuilder dotBuilder = new StringBuilder(name);
+            StringBuilder dotBuilder = new StringBuilder(id);
             dotBuilder.append(" [shape=record, label=\"{ ");
-            dotBuilder.append(name + " | f: " + formatter.format(this.f) + " | S: " + this.successIndexList.size() + " | F: " + this.failsIndexList.size());
+            dotBuilder.append(this.getLabel() + " | f: " + formatter.format(this.f) + " | S: " + this.successIndexList.size() + " | F: " + this.failsIndexList.size());
             dotBuilder.append(" }\"");
             if (isActive)
                 dotBuilder.append(", fillcolor = gray, style = filled");
@@ -228,16 +226,18 @@ public class AzerAgent extends Agent
             return dotBuilder.toString();
         }
 
-        public String getName()
+        private String getLabel()
+        {
+            if (this.suffix.equals(""))
+                return "D_S";
+            return suffix;
+        }
+
+        public String getId()
         {
             // Since similar MaRz trees can exist below different prefix nodes, they will get
             // tagged with the parent prefix node.
-            String name;
-            if (this.suffix.equals(""))
-                name = "M_Root";
-            else
-                name = suffix;
-            return suffix + "_" + this.prefixNode.getName();
+            return this.getLabel() + "_" + this.prefixNode.getId();
         }
     }// SuffixNode Class
 
@@ -261,9 +261,8 @@ public class AzerAgent extends Agent
         public String toDOT(SuffixNode activeNode)
         {
             HashSet<String> vertices = new HashSet<>();
-            String name = this.getName();
-            StringBuilder dotBuilder = new StringBuilder(name + "[shape=triangle];");
-            dotBuilder.append(name + " -> " + "M_Root_" + name + ";");
+            String id = this.getId();
+            StringBuilder dotBuilder = new StringBuilder(id + "[label=" + this.getLabel() + ",shape=triangle];");
             for(SuffixNode suffixNode : this.suffixHash.values())
             {
                 dotBuilder.append(suffixNode.toDOT(activeNode));
@@ -277,52 +276,52 @@ public class AzerAgent extends Agent
             return dotBuilder.toString();
         }
 
-        public String getName()
+        private String getLabel()
+        {
+            if (prefixValue.equals(""))
+                return "D_P";
+            return prefixValue;
+        }
+
+        public String getId()
         {
             // Use 'this' to uniquefy this prefix node. This allows us to recognize errors in object references
             // as well as the MaRz trees under each Prefix node.
-            String name;
-            if (prefixValue.equals(""))
-                name = "A_Root";
-            else
-                name = prefixValue;
-            name = name + "_" + this + "";
+            String name = this.getLabel() + "_" + this + "";
             return name.replaceAll("[$@]", "_");
         }
 
-        private void addVertices(SuffixNode suffixNode, StringBuilder dotBuilder, HashSet<String> vertices)
-        {
-            String name = suffixNode.getName();
-            if (!name.startsWith("M_Root")) {
-                if (suffixNode.suffix.length() <= 1) {
-                    String vertex = this.getName() + " -> " + name + ";";
-                    dotBuilder.append(vertex);
-                    vertices.add(vertex);
-                }
-                else {
-                    String parent = suffixNode.suffix.substring(1);
-                    do {
-                        String vertex = parent + "_" + this.getName() + " -> " + name + ";";
-                        if (!vertices.contains(vertex)) {
-                            dotBuilder.append(vertex);
-                            vertices.add(vertex);
-                        }
-                        name = parent;
-                        if (parent.equals("M_Root"))
-                            parent = "";
-                        else if (parent.length() == 1)
-                            parent = "M_Root";
-                        else
-                            parent = parent.substring(1);
-                    } while (!parent.equals(""));
-                }
+        private void addVertices(SuffixNode suffixNode, StringBuilder dotBuilder, HashSet<String> vertices) {
+            String name = suffixNode.getLabel();
+            if (!name.startsWith("D_S")) {
+                String parent = name;
+                do {
+                    String startVertex = null;
+                    if (parent.startsWith("D_S")) {
+                        parent = this.getId();
+                        startVertex = parent;
+                    } else if (parent.length() == 1) {
+                        parent = "D_S";
+                        startVertex = parent + "_" + this.getId();
+                    } else {
+                        parent = parent.substring(1);
+                        startVertex = parent + "_" + this.getId();
+                    }
+                    String vertex = startVertex + " -> " + name + "_" + this.getId() + ";";
+                    if (!vertices.contains(vertex)) {
+                        dotBuilder.append(vertex);
+                        dotBuilder.append(startVertex + " [label=" + name + "];");
+                        vertices.add(vertex);
+                    }
+                    name = parent;
+                } while (!parent.equals(this.getId()));
             }
         }
 
         private void addVertices(PrefixNode prefixNode, StringBuilder dotBuilder, HashSet<String> vertices)
         {
-            String name = prefixNode.getName();
-            if (!name.startsWith("A_Root")) {
+            String name = prefixNode.getId();
+            if (!name.startsWith("D_P")) {
                 PrefixNode parentNode;
                 do {
                     if (prefixNode.prefixValue.length() == 1)
@@ -332,7 +331,7 @@ public class AzerAgent extends Agent
                         String parentPrefix = prefixNode.prefixValue.substring(1);
                         parentNode = this.adoptedChildren.get(parentPrefix);
                     }
-                    String vertex = parentNode.getName() + " -> " + prefixNode.getName() + ";";
+                    String vertex = parentNode.getId() + " -> " + prefixNode.getId() + ";";
                     if (!vertices.contains(vertex))
                     {
                         dotBuilder.append(vertex);

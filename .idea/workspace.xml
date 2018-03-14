@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7bfe531-f259-4371-8dac-35dcac8ab616" name="Default" comment="Fixed some off-by-one errors in the agent CSV output around averages.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/FSML1/src/AzerAgent.java" afterPath="$PROJECT_DIR$/FSML1/src/AzerAgent.java" />
+      <change beforePath="$PROJECT_DIR$/FSML1/src/SendAttachmentInEmail.java" afterPath="$PROJECT_DIR$/FSML1/src/SendAttachmentInEmail.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,115 +15,97 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="AzerAgent.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/FSML1/src/AzerAgent.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1">
-                  <caret line="296" column="37" lean-forward="false" selection-start-line="296" selection-start-column="37" selection-end-line="296" selection-end-column="37" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="docComment;field#lastPermutationIndex#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="docComment;field#sensorNext#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="docComment;field#nextSeqToTry#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="docComment;field#timeOfLastStatus#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="docComment;field#lastSuccessfulSequence#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="docComment;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="docComment;field#indexOfLastEpisodeTried#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="docComment;method#SuffixNode#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="method#SuffixNode#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="method#SuffixNode#1;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="docComment;method#toString#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="method#toString#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
-                    <element signature="docComment;method#updateHeuristic#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="MaRzAgent.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/FSML1/src/MaRzAgent.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-115">
-                  <caret line="706" column="7" lean-forward="false" selection-start-line="706" selection-start-column="7" selection-end-line="706" selection-end-column="7" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="PlayFileLogger.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/FSML1/src/PlayFileLogger.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="171">
-                  <caret line="15" column="16" lean-forward="false" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#245#246#0" expanded="true" />
-                    <element signature="e#284#285#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="StateMachineEnvironment.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/FSML1/src/StateMachineEnvironment.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-3905">
-                  <caret line="28" column="37" lean-forward="false" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
-                  <folding>
-                    <element signature="e#27191#27192#0" expanded="true" />
-                    <element signature="e#27222#27223#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Agent.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/FSML1/src/Agent.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="10963">
-                  <caret line="673" column="0" lean-forward="true" selection-start-line="673" selection-start-column="0" selection-end-line="677" selection-end-column="7" />
-                  <folding>
-                    <element signature="e#22716#22717#0" expanded="true" />
-                    <element signature="e#22757#22758#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="AgentPlayer.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/FSML1/src/AgentPlayer.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="323">
-                  <caret line="149" column="51" lean-forward="true" selection-start-line="149" selection-start-column="51" selection-end-line="149" selection-end-column="51" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#5916#5917#0" expanded="true" />
-                    <element signature="e#5973#5974#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="MaRzAgent.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/FSML1/src/MaRzAgent.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="72">
-                  <caret line="723" column="0" lean-forward="false" selection-start-line="723" selection-start-column="0" selection-end-line="746" selection-end-column="9" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="AzerAgent.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/FSML1/src/AzerAgent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="598">
+              <caret line="267" column="47" lean-forward="false" selection-start-line="267" selection-start-column="47" selection-end-line="267" selection-end-column="47" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="docComment;field#lastPermutationIndex#0;class#AzerAgent#0" expanded="false" />
+                <element signature="docComment;field#sensorNext#0;class#AzerAgent#0" expanded="false" />
+                <element signature="docComment;field#nextSeqToTry#0;class#AzerAgent#0" expanded="false" />
+                <element signature="docComment;field#timeOfLastStatus#0;class#AzerAgent#0" expanded="false" />
+                <element signature="docComment;field#lastSuccessfulSequence#0;class#AzerAgent#0" expanded="false" />
+                <element signature="docComment;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
+                <element signature="docComment;field#indexOfLastEpisodeTried#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
+                <element signature="docComment;method#SuffixNode#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
+                <element signature="method#SuffixNode#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
+                <element signature="method#SuffixNode#1;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
+                <element signature="docComment;method#toString#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
+                <element signature="method#toString#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
+                <element signature="docComment;method#updateHeuristic#0;class#SuffixNode#0;class#AzerAgent#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MaRzAgent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FSML1/src/MaRzAgent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="11747">
+              <caret line="706" column="7" lean-forward="false" selection-start-line="706" selection-start-column="7" selection-end-line="706" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlayFileLogger.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FSML1/src/PlayFileLogger.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="171">
+              <caret line="15" column="16" lean-forward="false" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#245#246#0" expanded="true" />
+                <element signature="e#284#285#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StateMachineEnvironment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FSML1/src/StateMachineEnvironment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="28" column="37" lean-forward="false" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
+              <folding>
+                <element signature="e#27191#27192#0" expanded="true" />
+                <element signature="e#27222#27223#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Agent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FSML1/src/Agent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="10963">
+              <caret line="673" column="0" lean-forward="false" selection-start-line="673" selection-start-column="0" selection-end-line="677" selection-end-column="7" />
+              <folding>
+                <element signature="e#22716#22717#0" expanded="true" />
+                <element signature="e#22757#22758#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AgentPlayer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FSML1/src/AgentPlayer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="149" column="51" lean-forward="false" selection-start-line="149" selection-start-column="51" selection-end-line="149" selection-end-column="51" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#5916#5917#0" expanded="true" />
+                <element signature="e#5973#5974#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -140,9 +124,10 @@
       <find>tick</find>
       <find>main</find>
       <find>tryse</find>
-      <find>todot</find>
       <find>trypa</find>
       <find>trygen</find>
+      <find>todot</find>
+      <find>-&gt;</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -451,7 +436,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39872068" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39809927" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -514,14 +499,14 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/FSML1/src/AzerAgent.java</url>
-          <line>91</line>
+          <line>89</line>
           <properties />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <condition expression="activeNode.prefixNode.suffixHash.size() &gt; 2" language="JAVA" />
           <url>file://$PROJECT_DIR$/FSML1/src/AzerAgent.java</url>
-          <line>833</line>
+          <line>832</line>
           <properties />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
@@ -541,12 +526,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/FSML1/src/AzerAgent.java</url>
-          <line>273</line>
+          <line>272</line>
           <properties />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/FSML1/src/AzerAgent.java</url>
+          <line>296</line>
+          <properties />
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="23" />
+      <option name="time" value="26" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -673,7 +664,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#4041#0" expanded="false" />
+            <element signature="e#0#4039#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -759,14 +750,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_161/src.zip!/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="1962" column="0" lean-forward="false" selection-start-line="1962" selection-start-column="0" selection-end-line="1962" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/FSML1/dependencies/graphviz-java-0.2.3.jar!/guru/nidi/graphviz/parse/Parser.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -811,22 +794,11 @@
     <entry file="file://$PROJECT_DIR$/FSML1/src/AgentPlayer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
-          <caret line="149" column="51" lean-forward="true" selection-start-line="149" selection-start-column="51" selection-end-line="149" selection-end-column="51" />
+          <caret line="149" column="51" lean-forward="false" selection-start-line="149" selection-start-column="51" selection-end-line="149" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#5916#5917#0" expanded="true" />
             <element signature="e#5973#5974#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FSML1/src/StateMachineEnvironment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3905">
-          <caret line="28" column="37" lean-forward="false" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
-          <folding>
-            <element signature="e#27191#27192#0" expanded="true" />
-            <element signature="e#27222#27223#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -842,7 +814,7 @@
     <entry file="file://$PROJECT_DIR$/FSML1/src/Agent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10963">
-          <caret line="673" column="0" lean-forward="true" selection-start-line="673" selection-start-column="0" selection-end-line="677" selection-end-column="7" />
+          <caret line="673" column="0" lean-forward="false" selection-start-line="673" selection-start-column="0" selection-end-line="677" selection-end-column="7" />
           <folding>
             <element signature="e#22716#22717#0" expanded="true" />
             <element signature="e#22757#22758#0" expanded="true" />
@@ -870,18 +842,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_161/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="1930" column="0" lean-forward="false" selection-start-line="1930" selection-start-column="0" selection-end-line="1930" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/FSML1/src/MaRzAgent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-115">
+        <state relative-caret-position="11747">
           <caret line="706" column="7" lean-forward="false" selection-start-line="706" selection-start-column="7" selection-end-line="706" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/FSML1/src/StateMachineEnvironment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="28" column="37" lean-forward="false" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
+          <folding>
+            <element signature="e#27191#27192#0" expanded="true" />
+            <element signature="e#27222#27223#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/FSML1/src/AzerAgent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1">
-          <caret line="296" column="37" lean-forward="false" selection-start-line="296" selection-start-column="37" selection-end-line="296" selection-end-column="37" />
+        <state relative-caret-position="598">
+          <caret line="267" column="47" lean-forward="false" selection-start-line="267" selection-start-column="47" selection-end-line="267" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;field#lastPermutationIndex#0;class#AzerAgent#0" expanded="false" />
