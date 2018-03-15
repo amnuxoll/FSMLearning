@@ -174,7 +174,6 @@ public class AzerAgent extends Agent
             int failedTries = failsIndexList.size();
             int succTries = successIndexList.size();
             int tries = failedTries + successIndexList.size();
-
             updateHeuristic();
             double truncatedG = (int)(g * G_WEIGHT * 100.0) / 100.0;  //trim to 2 decimal places
             output = output + ":" + truncatedG + "+" + (failedTries) + "/" + (failedTries + succTries);
@@ -674,7 +673,9 @@ public class AzerAgent extends Agent
                     prefixChildren[i] = new PrefixNode();
                     prefixChildren[i].prefixValue = Integer.toString(i) + parentPrefix;
                     for (Map.Entry<String, SuffixNode> entry : activeNode.prefixNode.suffixHash.entrySet()){
-                        prefixChildren[i].suffixHash.put(entry.getKey(), new SuffixNode(entry.getValue()));
+                        SuffixNode newNode = new SuffixNode(entry.getValue());
+                        prefixChildren[i].suffixHash.put(entry.getKey(), newNode);
+                        newNode.prefixNode = prefixChildren[i];
                     }
                 }
                 sensorNext = false; //next split will be over alphabet chars
@@ -702,6 +703,7 @@ public class AzerAgent extends Agent
                  for (int i = 0; i < prefixChildren.length; i++) {
                      activeNode.prefixNode.adoptedChildren.put(prefixChildren[i].prefixValue, prefixChildren[i]);
                  }
+                // activeNode.prefixNode.suffixHash.clear();
              }
              else{ //did not do an AZER split so untoggle the sensor
                  sensorNext = !sensorNext;
