@@ -19,12 +19,14 @@ public class AgentPlayer extends JFrame implements ActionListener {
     private ImageIcon agentImage;
     private JLabel sequenceToTryLabel;
     private JLabel sensorLabel;
+    private JLabel messageLabel;
 
-    private boolean isBorderOnAgent;
     private Sequence sequence;
     private int currentActionIndex = 0;
 
     private BufferedReader bufferedReader;
+
+    private BorderTarget currentBorder;
 
     public AgentPlayer(String playfilePath) throws IOException {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,16 +54,23 @@ public class AgentPlayer extends JFrame implements ActionListener {
         gridbag.setConstraints(button, constraints);
         container.add(button);
 
-        this.sequenceToTryLabel = new JLabel();
+        this.messageLabel = new JLabel();
         constraints.gridx = 0;
         constraints.gridy = 1;
+        constraints.gridwidth = 2;
+        gridbag.setConstraints(this.messageLabel, constraints);
+        container.add(this.messageLabel);
+
+        this.sequenceToTryLabel = new JLabel();
+        constraints.gridx = 0;
+        constraints.gridy = 2;
         constraints.gridwidth = 1;
         gridbag.setConstraints(this.sequenceToTryLabel, constraints);
         container.add(this.sequenceToTryLabel);
 
         this.sensorLabel = new JLabel();
         constraints.gridx = 1;
-        constraints.gridy = 1;
+        constraints.gridy = 2;
         constraints.gridwidth = 1;
         gridbag.setConstraints(this.sensorLabel, constraints);
         container.add(this.sensorLabel);
@@ -69,7 +78,7 @@ public class AgentPlayer extends JFrame implements ActionListener {
         this.agentImage = new ImageIcon();
         this.agentLabel = new JLabel(this.agentImage);
         constraints.gridx = 0;
-        constraints.gridy = 2;
+        constraints.gridy = 3;
         constraints.gridwidth = 1;
         gridbag.setConstraints(agentLabel, constraints);
         container.add(agentLabel);
@@ -77,7 +86,7 @@ public class AgentPlayer extends JFrame implements ActionListener {
         this.environmentImage = new ImageIcon();
         this.environmentLabel = new JLabel(this.environmentImage);
         constraints.gridx = 1;
-        constraints.gridy = 2;
+        constraints.gridy = 3;
         constraints.gridwidth = 1;
         gridbag.setConstraints(this.environmentLabel, constraints);
         container.add(this.environmentLabel);
@@ -92,16 +101,22 @@ public class AgentPlayer extends JFrame implements ActionListener {
 
     private void updateBorder()
     {
-        if (this.isBorderOnAgent)
-        {
-            this.agentLabel.setBorder(BorderFactory.createLineBorder(Color.red));
-            this.environmentLabel.setBorder(null);
-        }
-        else
-        {
-            this.agentLabel.setBorder(null);
-            this.environmentLabel.setBorder(BorderFactory.createLineBorder(Color.red));
-
+        switch (this.currentBorder) {
+            case Agent:
+                this.agentLabel.setBorder(BorderFactory.createLineBorder(Color.red));
+                this.environmentLabel.setBorder(null);
+                this.messageLabel.setBorder(null);
+                break;
+            case Environment:
+                this.agentLabel.setBorder(null);
+                this.environmentLabel.setBorder(BorderFactory.createLineBorder(Color.red));
+                this.messageLabel.setBorder(null);
+                break;
+            case Message:
+                this.agentLabel.setBorder(null);
+                this.environmentLabel.setBorder(null);
+                this.messageLabel.setBorder(BorderFactory.createLineBorder(Color.red));
+                break;
         }
     }
 
@@ -119,7 +134,7 @@ public class AgentPlayer extends JFrame implements ActionListener {
         switch (item)
         {
             case "AGENT":
-                this.isBorderOnAgent = true;
+                this.currentBorder = BorderTarget.Agent;
                 this.updateBorder();
                 agentImage.setImage(generateGraph(content));
                 this.playNext();
@@ -129,7 +144,7 @@ public class AgentPlayer extends JFrame implements ActionListener {
                 sequenceToTryLabel.setText(this.sequence.toString());
                 break;
             case "ENVIRONMENT":
-                this.isBorderOnAgent = false;
+                this.currentBorder = BorderTarget.Environment;
                 this.updateBorder();
                 environmentImage.setImage(generateGraph(content));
                 this.playNext();
@@ -137,6 +152,12 @@ public class AgentPlayer extends JFrame implements ActionListener {
             case "SENSORS":
                 sensorLabel.setText(content);
                 sequenceToTryLabel.setText(this.sequence.next());
+                break;
+            case "MESSAGE":
+                this.currentBorder = BorderTarget.Message;
+                this.messageLabel.setText(content);
+                this.updateBorder();
+                this.playNext();
                 break;
         }
     }
@@ -147,7 +168,7 @@ public class AgentPlayer extends JFrame implements ActionListener {
         return viz.render(Format.PNG).toImage();
     }
 
-    private Timer playTimer = new Timer(250, this);
+    private Timer playTimer = new Timer(100, this);
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -198,5 +219,10 @@ public class AgentPlayer extends JFrame implements ActionListener {
             builder.insert(this.currentIndex, "    ");
             return builder.toString();
         }
+    }
+    private enum BorderTarget {
+        Agent,
+        Environment,
+        Message,
     }
 }

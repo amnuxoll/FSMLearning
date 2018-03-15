@@ -75,7 +75,8 @@ public class AzerAgent extends Agent
     public static long totalTime = 0;
 
     /** for categorizing if a split has occured */
-    public boolean isAzerSplit = false;
+    public int isAzerSplit = 0;
+
 
     /**
      * SufixNode Class
@@ -270,7 +271,8 @@ public class AzerAgent extends Agent
             for(PrefixNode prefixNode : this.adoptedChildren.values())
             {
                 dotBuilder.append(prefixNode.toDOT(activeNode));
-                this.addVertices(prefixNode, dotBuilder, vertices);
+                dotBuilder.append(this.getId() + " -> " + prefixNode.getId() + ";");
+                //this.addVertices(prefixNode, dotBuilder, vertices);
             }
             return dotBuilder.toString();
         }
@@ -320,28 +322,41 @@ public class AzerAgent extends Agent
                 } while (!parent.equals(this.getId()));
             }
         }
-
         private void addVertices(PrefixNode prefixNode, StringBuilder dotBuilder, HashSet<String> vertices)
         {
             String name = prefixNode.getId();
             if (!name.startsWith("D_P")) {
                 PrefixNode parentNode;
-                do {
-                    if (prefixNode.prefixValue.length() == 1)
-                        parentNode = this;
-                    else
-                    {
-                        String parentPrefix = prefixNode.prefixValue.substring(1);
-                        parentNode = this.adoptedChildren.get(parentPrefix);
-                    }
+
+                String parentPrefix = prefixNode.prefixValue.substring(1);
+                while(this.adoptedChildren.containsKey(parentPrefix))
+                {
+                    parentNode = this.adoptedChildren.get(parentPrefix);
                     String vertex = parentNode.getId() + " -> " + prefixNode.getId() + ";";
                     if (!vertices.contains(vertex))
                     {
                         dotBuilder.append(vertex);
                         vertices.add(vertex);
                     }
-                    prefixNode = parentNode;
-                } while (prefixNode != this);
+                    parentPrefix = parentPrefix.substring(1);
+                }
+
+//                do {
+//                    if (prefixNode.prefixValue.length() == 1)
+//                        parentNode = this;
+//                    else
+//                    {
+//                        String parentPrefix = prefixNode.prefixValue.substring(1);
+//                        parentNode = this.adoptedChildren.get(parentPrefix);
+//                    }
+//                    String vertex = parentNode.getId() + " -> " + prefixNode.getId() + ";";
+//                    if (!vertices.contains(vertex))
+//                    {
+//                        dotBuilder.append(vertex);
+//                        vertices.add(vertex);
+//                    }
+//                    prefixNode = parentNode;
+//                } while (prefixNode != this);
             }
         }
     }// SuffixNode Class
@@ -683,11 +698,11 @@ public class AzerAgent extends Agent
             else{
                 for (int i = 0; i < alphabet.length; i++) { //split over every alphabet char
                     prefixChildren[i] = new PrefixNode();
-
-                    prefixChildren[i].prefixValue =  String.valueOf((char)(i+96)) + parentPrefix;
+                    prefixChildren[i].prefixValue =  String.valueOf((char)(i+97)) + parentPrefix;
                     for (Map.Entry<String, SuffixNode> entry : activeNode.prefixNode.suffixHash.entrySet()){
-
-                        prefixChildren[i].suffixHash.put(entry.getKey(), new SuffixNode(entry.getValue()));
+                        SuffixNode newNode = new SuffixNode(entry.getValue());
+                        prefixChildren[i].suffixHash.put(entry.getKey(), newNode);
+                        newNode.prefixNode = prefixChildren[i];
                     }
 
                 }
@@ -699,11 +714,13 @@ public class AzerAgent extends Agent
             boolean success = updateAzerSuccessFail(prefixChildren, true);
              if ( fail || success) {
                  System.out.println("AZER SPLIT HAPPENED!!!!!!!");
+                 super.playFileLogger.logMessage("AZER SPLIT HAPPENED!!!!!!!");
+                 isAzerSplit++;
                  //continue AZER split if conditions are not met:
                  for (int i = 0; i < prefixChildren.length; i++) {
                      activeNode.prefixNode.adoptedChildren.put(prefixChildren[i].prefixValue, prefixChildren[i]);
                  }
-                // activeNode.prefixNode.suffixHash.clear();
+                 activeNode.prefixNode.suffixHash.clear();
              }
              else{ //did not do an AZER split so untoggle the sensor
                  sensorNext = !sensorNext;

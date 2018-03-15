@@ -25,6 +25,11 @@ public class PlayFileLogger {
         this.writeToLog("SENSORS: " + sensors.sensorRepresentation());
     }
 
+    public void logMessage(String message)
+    {
+        this.writeToLog("MESSAGE: " + message);
+    }
+
     private void writeToLog(String itemToWrite)
     {
         BufferedWriter bw = null;
