@@ -46,10 +46,6 @@ public class AzerAgent extends Agent
     int lastPermutationIndex = 1;// set to 1 because we hard coded the first
     // permutation to be 'a'
 
-    /**
-     * keeps track of whether the next AZER split will split on sensors or alphabet characters
-     */
-    boolean sensorNext = true;
     int countThis = 0;
 
     /**
@@ -230,7 +226,7 @@ public class AzerAgent extends Agent
         {
             if (this.suffix.equals(""))
                 return "D_S";
-            return suffix;
+            return "S" + suffix;
         }
 
         public String getId()
@@ -281,7 +277,7 @@ public class AzerAgent extends Agent
         {
             if (prefixValue.equals(""))
                 return "D_P";
-            return prefixValue;
+            return "A" + prefixValue;
         }
 
         public String getId()
@@ -672,6 +668,13 @@ public class AzerAgent extends Agent
 
 
         //Attempt AZER Split. Stop if requirements for AZER split not met:
+        //determine if the active node should next split on sensor or char
+        boolean sensorNext = true;
+           if ( !activeNode.prefixNode.prefixValue.equals("") &&
+            Character.isDigit(activeNode.prefixNode.prefixValue.charAt(0))){
+           sensorNext = false;
+           }
+
             int numChildren;
             if (sensorNext){ numChildren = 2;}
             else{numChildren = alphabet.length;}
@@ -693,7 +696,6 @@ public class AzerAgent extends Agent
                         newNode.prefixNode = prefixChildren[i];
                     }
                 }
-                sensorNext = false; //next split will be over alphabet chars
             }
             else{
                 for (int i = 0; i < alphabet.length; i++) { //split over every alphabet char
@@ -706,7 +708,6 @@ public class AzerAgent extends Agent
                     }
 
                 }
-                sensorNext = true; //next split will be over alphabet chars
 
             }
             //Run though each possibility, when it is false and when it is true...store in temporary booleans.
@@ -721,9 +722,6 @@ public class AzerAgent extends Agent
                      activeNode.prefixNode.adoptedChildren.put(prefixChildren[i].prefixValue, prefixChildren[i]);
                  }
                  activeNode.prefixNode.suffixHash.clear();
-             }
-             else{ //did not do an AZER split so untoggle the sensor
-                 sensorNext = !sensorNext;
              }
 
 

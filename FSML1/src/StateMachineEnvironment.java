@@ -26,7 +26,7 @@ import java.util.TreeSet;
 public class StateMachineEnvironment {
 
 	// Instance variables
-	public static int NUM_STATES = 30;
+	public static int NUM_STATES = 15;
 	public static int GOAL_STATE = NUM_STATES - 1;
 	public static int ALPHABET_SIZE = 2;  //this must be in the range [2,26]
         

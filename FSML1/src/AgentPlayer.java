@@ -120,14 +120,16 @@ public class AgentPlayer extends JFrame implements ActionListener {
         }
     }
 
-    private void playNext() throws IOException {
+    private void playNext(boolean doSkip) throws IOException {
         String currentLine = bufferedReader.readLine();
+
         System.out.println(currentLine);
         if (currentLine == null) {
             if (playTimer.isRunning())
                 playTimer.stop();
             return;
         }
+
         int separator = currentLine.indexOf(':');
         String item = currentLine.substring(0, separator);
         String content = currentLine.substring(separator + 1);
@@ -137,17 +139,27 @@ public class AgentPlayer extends JFrame implements ActionListener {
                 this.currentBorder = BorderTarget.Agent;
                 this.updateBorder();
                 agentImage.setImage(generateGraph(content));
-                this.playNext();
+                this.playNext(doSkip);
                 break;
             case "SEQUENCE":
                 this.sequence = new Sequence(content);
                 sequenceToTryLabel.setText(this.sequence.toString());
                 break;
             case "ENVIRONMENT":
+                if (doSkip)
+                {
+                    while (currentLine != null && !currentLine.contains("Goal [fillcolor = gray, style = filled];"))
+                    {
+                        currentLine = bufferedReader.readLine();
+                        System.out.println(currentLine);
+                    }
+                    separator = currentLine.indexOf(':');
+                    content = currentLine.substring(separator + 1);
+                }
                 this.currentBorder = BorderTarget.Environment;
                 this.updateBorder();
                 environmentImage.setImage(generateGraph(content));
-                this.playNext();
+                this.playNext(doSkip);
                 break;
             case "SENSORS":
                 sensorLabel.setText(content);
@@ -157,7 +169,7 @@ public class AgentPlayer extends JFrame implements ActionListener {
                 this.currentBorder = BorderTarget.Message;
                 this.messageLabel.setText(content);
                 this.updateBorder();
-                this.playNext();
+                this.playNext(doSkip);
                 break;
         }
     }
@@ -181,7 +193,7 @@ public class AgentPlayer extends JFrame implements ActionListener {
         }
         else {
             try {
-                this.playNext();
+                this.playNext(true);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
