@@ -44,7 +44,7 @@ public abstract class Agent {
     public static final int MAX_EPISODES = 2000000;
     public static final int NUM_GOALS = 50;
     /** Number of state machines to test a given constant combo with */
-    public static final int NUM_MACHINES = 1 ;
+    public static final int NUM_MACHINES = 1;
     
     public static int informationColumns = 0; //for now before consolidation of recording data must be declared in each agent
     public static int informationRows = 1; //how many header rows there are before the data in the csv

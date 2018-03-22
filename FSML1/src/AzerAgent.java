@@ -388,7 +388,7 @@ public class AzerAgent extends Agent
         {
 
             // Erase worst node in the hashFringe once we hit our Constant limit
-            //TODO -- we have a way too big constant limit now :)
+            //TODO -- we have a way too big constant limit now
             while (activeNode.prefixNode.suffixHash.size() > NODE_LIST_SIZE)
             {
                 System.out.println("limit size is becoming an issue fix");
@@ -420,7 +420,7 @@ public class AzerAgent extends Agent
                         else{
                             System.out.println("UH OH!.............. mem too small for AZER node :( ");
                         }
-                        index--;
+                        index-=2;
                         findPrefix = sensorMemory.charAt(index) + findPrefix; //get the next character to the left in the sensor memory
                     }
                     SuffixNode newBestNode = findBestNodeToTry(iterNode.suffixHash); //find the best value in the correct marz tree
@@ -581,11 +581,28 @@ public class AzerAgent extends Agent
             while(it.hasNext()){
                 Map.Entry pair = (Map.Entry)it.next();
                 String memInput = pair.getKey().toString();
-                for (char alph : alphabet){
+                /*for (char alph : alphabet){
                     memInput = memInput.replaceAll(Character.toString(alph), Character.toString(alph)+".");
+                }*/
+               /* if (memInput.length() < childrenPrefix[i].prefixValue.length()){ //TESTING
+                    return false; //return out if marz nodes are not long enough
+                }*/
+                char[] marzNode = new StringBuilder(memInput).reverse().toString().toCharArray();
+                char[] azerNode = new StringBuilder(childrenPrefix[i].prefixValue).reverse().toString().toCharArray();
+                String azerSearchVal = "";
+                for (int j = 0; j < Math.max(memInput.length(), azerNode.length); j ++){
+                    String azVal = ".";
+                    if (j < azerNode.length){
+                        azVal = Character.toString(azerNode[j]);
+                    }
+                    String maVal = ".";
+                    if (j < marzNode.length){
+                        maVal = Character.toString(marzNode[j]);
+                    }
+                    azerSearchVal = azVal  + maVal + azerSearchVal;
                 }
-                memInput = memInput.substring(0, memInput.length()-1);
-                Pattern pattern = Pattern.compile("(?=(" + childrenPrefix[i].prefixValue + memInput + miniPattern +"))." );
+
+                Pattern pattern = Pattern.compile("(?=(" + azerSearchVal+ miniPattern +"))." );
                 Matcher matcher = pattern.matcher(sensorMemory);
                 int numSuccess = 0;
                 while (matcher.find()) {
@@ -670,10 +687,10 @@ public class AzerAgent extends Agent
         //Attempt AZER Split. Stop if requirements for AZER split not met:
         //determine if the active node should next split on sensor or char
         boolean sensorNext = true;
-           if ( !activeNode.prefixNode.prefixValue.equals("") &&
+           /*if ( !activeNode.prefixNode.prefixValue.equals("") &&
             Character.isDigit(activeNode.prefixNode.prefixValue.charAt(0))){
            sensorNext = false;
-           }
+           }*/
 
             int numChildren;
             if (sensorNext){ numChildren = 2;}
@@ -930,7 +947,7 @@ public class AzerAgent extends Agent
               else{
                   System.out.println("UH OH!.............. mem too small for AZER node :( ");
               }
-              index--;
+              index-=2;
               findPrefix = sensorMemory.charAt(index) + findPrefix; //get the next character to the left in the sensor memory
             }
             activeNode = findBestNodeToTry(iterNode.suffixHash); //find the best value in the correct marz tree
