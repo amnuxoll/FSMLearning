@@ -31,7 +31,7 @@ public class AzerAgent extends Agent
     /*---==== MEMBER VARIABLES ===---*/
 
     /** hash table of all nodes on the fringe of our search */
-   // HashMap<String, SuffixNode> hashFringe; -- phased out, now in initPrefix Node
+    // HashMap<String, SuffixNode> hashFringe; -- phased out, now in initPrefix Node
 
     /** this is the node we're currently using to search with */
     SuffixNode activeNode = null;
@@ -388,7 +388,7 @@ public class AzerAgent extends Agent
         {
 
             // Erase worst node in the hashFringe once we hit our Constant limit
-            //TODO -- we have a way too big constant limit now
+            //TODO -- we have a way too big constant limit now :)
             while (activeNode.prefixNode.suffixHash.size() > NODE_LIST_SIZE)
             {
                 System.out.println("limit size is becoming an issue fix");
@@ -420,7 +420,7 @@ public class AzerAgent extends Agent
                         else{
                             System.out.println("UH OH!.............. mem too small for AZER node :( ");
                         }
-                        index-=2;
+                        index--;
                         findPrefix = sensorMemory.charAt(index) + findPrefix; //get the next character to the left in the sensor memory
                     }
                     SuffixNode newBestNode = findBestNodeToTry(iterNode.suffixHash); //find the best value in the correct marz tree
@@ -576,33 +576,16 @@ public class AzerAgent extends Agent
 
             Iterator it = childrenPrefix[i].suffixHash.entrySet().iterator();
             //regex to find matches among prefix frontier nodes in hashfringe
-           String miniPattern = success ?  " \\|" : "[^\\s]";
+            String miniPattern = success ?  " \\|" : "[^\\s]";
 
             while(it.hasNext()){
                 Map.Entry pair = (Map.Entry)it.next();
                 String memInput = pair.getKey().toString();
-                /*for (char alph : alphabet){
+                for (char alph : alphabet){
                     memInput = memInput.replaceAll(Character.toString(alph), Character.toString(alph)+".");
-                }*/
-               /* if (memInput.length() < childrenPrefix[i].prefixValue.length()){ //TESTING
-                    return false; //return out if marz nodes are not long enough
-                }*/
-                char[] marzNode = new StringBuilder(memInput).reverse().toString().toCharArray();
-                char[] azerNode = new StringBuilder(childrenPrefix[i].prefixValue).reverse().toString().toCharArray();
-                String azerSearchVal = "";
-                for (int j = 0; j < Math.max(memInput.length(), azerNode.length); j ++){
-                    String azVal = ".";
-                    if (j < azerNode.length){
-                        azVal = Character.toString(azerNode[j]);
-                    }
-                    String maVal = ".";
-                    if (j < marzNode.length){
-                        maVal = Character.toString(marzNode[j]);
-                    }
-                    azerSearchVal = azVal  + maVal + azerSearchVal;
                 }
-
-                Pattern pattern = Pattern.compile("(?=(" + azerSearchVal+ miniPattern +"))." );
+                memInput = memInput.substring(0, memInput.length()-1);
+                Pattern pattern = Pattern.compile("(?=(" + childrenPrefix[i].prefixValue + memInput + miniPattern +"))." );
                 Matcher matcher = pattern.matcher(sensorMemory);
                 int numSuccess = 0;
                 while (matcher.find()) {
@@ -674,7 +657,7 @@ public class AzerAgent extends Agent
             //if the child's suffix has never been tried, then it's too soon:
             //abort this split!
             if (children[i].failsIndexList.size() == 0) return;
-        }//for        
+        }//for
 
         //Ready to commit:  add the children to the fringe and remove the parent
         for (int i = 0; i < alphabet.length; i++)
@@ -687,59 +670,59 @@ public class AzerAgent extends Agent
         //Attempt AZER Split. Stop if requirements for AZER split not met:
         //determine if the active node should next split on sensor or char
         boolean sensorNext = true;
-           /*if ( !activeNode.prefixNode.prefixValue.equals("") &&
-            Character.isDigit(activeNode.prefixNode.prefixValue.charAt(0))){
-           sensorNext = false;
-           }*/
+        if ( !activeNode.prefixNode.prefixValue.equals("") &&
+                Character.isDigit(activeNode.prefixNode.prefixValue.charAt(0))){
+            sensorNext = false;
+        }
 
-            int numChildren;
-            if (sensorNext){ numChildren = 2;}
-            else{numChildren = alphabet.length;}
-            String parentPrefix = "";
-            if (!activeNode.prefixNode.prefixValue.equals("")){ //initial prefix node has no parent
-                parentPrefix = activeNode.prefixNode.prefixValue; //prefix node value
-            }
+        int numChildren;
+        if (sensorNext){ numChildren = 2;}
+        else{numChildren = alphabet.length;}
+        String parentPrefix = "";
+        if (!activeNode.prefixNode.prefixValue.equals("")){ //initial prefix node has no parent
+            parentPrefix = activeNode.prefixNode.prefixValue; //prefix node value
+        }
 
-            PrefixNode[] prefixChildren = new PrefixNode[numChildren]; // 2 bc even + odd sensor
-            //creates new "trees" for each prefix
+        PrefixNode[] prefixChildren = new PrefixNode[numChildren]; // 2 bc even + odd sensor
+        //creates new "trees" for each prefix
 
-            if (sensorNext) {
-                for (int i = 0; i < 2; i++) { //2 bc that's the sensor even/odd
-                    prefixChildren[i] = new PrefixNode();
-                    prefixChildren[i].prefixValue = Integer.toString(i) + parentPrefix;
-                    for (Map.Entry<String, SuffixNode> entry : activeNode.prefixNode.suffixHash.entrySet()){
-                        SuffixNode newNode = new SuffixNode(entry.getValue());
-                        prefixChildren[i].suffixHash.put(entry.getKey(), newNode);
-                        newNode.prefixNode = prefixChildren[i];
-                    }
+        if (sensorNext) {
+            for (int i = 0; i < 2; i++) { //2 bc that's the sensor even/odd
+                prefixChildren[i] = new PrefixNode();
+                prefixChildren[i].prefixValue = Integer.toString(i) + parentPrefix;
+                for (Map.Entry<String, SuffixNode> entry : activeNode.prefixNode.suffixHash.entrySet()){
+                    SuffixNode newNode = new SuffixNode(entry.getValue());
+                    prefixChildren[i].suffixHash.put(entry.getKey(), newNode);
+                    newNode.prefixNode = prefixChildren[i];
                 }
             }
-            else{
-                for (int i = 0; i < alphabet.length; i++) { //split over every alphabet char
-                    prefixChildren[i] = new PrefixNode();
-                    prefixChildren[i].prefixValue =  String.valueOf((char)(i+97)) + parentPrefix;
-                    for (Map.Entry<String, SuffixNode> entry : activeNode.prefixNode.suffixHash.entrySet()){
-                        SuffixNode newNode = new SuffixNode(entry.getValue());
-                        prefixChildren[i].suffixHash.put(entry.getKey(), newNode);
-                        newNode.prefixNode = prefixChildren[i];
-                    }
-
+        }
+        else{
+            for (int i = 0; i < alphabet.length; i++) { //split over every alphabet char
+                prefixChildren[i] = new PrefixNode();
+                prefixChildren[i].prefixValue =  String.valueOf((char)(i+97)) + parentPrefix;
+                for (Map.Entry<String, SuffixNode> entry : activeNode.prefixNode.suffixHash.entrySet()){
+                    SuffixNode newNode = new SuffixNode(entry.getValue());
+                    prefixChildren[i].suffixHash.put(entry.getKey(), newNode);
+                    newNode.prefixNode = prefixChildren[i];
                 }
 
             }
-            //Run though each possibility, when it is false and when it is true...store in temporary booleans.
-            boolean fail = updateAzerSuccessFail(prefixChildren, false);
-            boolean success = updateAzerSuccessFail(prefixChildren, true);
-             if ( fail || success) {
-                 System.out.println("AZER SPLIT HAPPENED!!!!!!!");
-                 super.playFileLogger.logMessage("AZER SPLIT HAPPENED!!!!!!!");
-                 isAzerSplit++;
-                 //continue AZER split if conditions are not met:
-                 for (int i = 0; i < prefixChildren.length; i++) {
-                     activeNode.prefixNode.adoptedChildren.put(prefixChildren[i].prefixValue, prefixChildren[i]);
-                 }
-                 activeNode.prefixNode.suffixHash.clear();
-             }
+
+        }
+        //Run though each possibility, when it is false and when it is true...store in temporary booleans.
+        boolean fail = updateAzerSuccessFail(prefixChildren, false);
+        boolean success = updateAzerSuccessFail(prefixChildren, true);
+        if ( fail || success) {
+            System.out.println("AZER SPLIT HAPPENED!!!!!!!");
+            super.playFileLogger.logMessage("AZER SPLIT HAPPENED!!!!!!!");
+            isAzerSplit++;
+            //continue AZER split if conditions are not met:
+            for (int i = 0; i < prefixChildren.length; i++) {
+                activeNode.prefixNode.adoptedChildren.put(prefixChildren[i].prefixValue, prefixChildren[i]);
+            }
+            activeNode.prefixNode.suffixHash.clear();
+        }
 
 
 
@@ -941,14 +924,14 @@ public class AzerAgent extends Agent
             String findPrefix = Character.toString(sensorMemory.charAt(index));
             PrefixNode iterNode =  prefixRoot;
             while (!(iterNode.adoptedChildren.isEmpty())) {
-              if (iterNode.adoptedChildren.containsKey(findPrefix)) {
-                  iterNode = iterNode.adoptedChildren.get(findPrefix);
-              }
-              else{
-                  System.out.println("UH OH!.............. mem too small for AZER node :( ");
-              }
-              index-=2;
-              findPrefix = sensorMemory.charAt(index) + findPrefix; //get the next character to the left in the sensor memory
+                if (iterNode.adoptedChildren.containsKey(findPrefix)) {
+                    iterNode = iterNode.adoptedChildren.get(findPrefix);
+                }
+                else{
+                    System.out.println("UH OH!.............. mem too small for AZER node :( ");
+                }
+                index--;
+                findPrefix = sensorMemory.charAt(index) + findPrefix; //get the next character to the left in the sensor memory
             }
             activeNode = findBestNodeToTry(iterNode.suffixHash); //find the best value in the correct marz tree
 

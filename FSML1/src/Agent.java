@@ -27,6 +27,7 @@ public abstract class Agent {
     protected String memory;
     protected String sensorMemory;
     protected int Successes = 0;
+    protected int currIndex = 0;
 
 
     //This will be useful
@@ -36,16 +37,16 @@ public abstract class Agent {
     public static final int IS_GOAL = 1;
     //filename to store experimental results
     public static  String OUTPUT_FILE = "AIReport.csv";
-    
+
     double DUPLICATE_FORGIVENESS = .25; //25% chance a duplicate is permitted (S.W.A.G.)
-    
-    
+
+
     /** Number of episodes per run */
     public static final int MAX_EPISODES = 2000000;
     public static final int NUM_GOALS = 50;
     /** Number of state machines to test a given constant combo with */
-    public static final int NUM_MACHINES = 1;
-    
+    public static final int NUM_MACHINES = 1 ;
+
     public static int informationColumns = 0; //for now before consolidation of recording data must be declared in each agent
     public static int informationRows = 1; //how many header rows there are before the data in the csv
 
@@ -83,13 +84,13 @@ public abstract class Agent {
         if (generatePlayFile)
             playFileLogger = new PlayFileLogger(this);
     }
-    
+
     /**
      * method the Agents ******SHOULD****** be using to return only Boolean, not array.
      * GoolRose Agent uses
-     * 
+     *
      * @param charToMove the input command
-     * @return 
+     * @return
      */
     public boolean move(char charToMove)
     {
@@ -99,10 +100,10 @@ public abstract class Agent {
             memory = memory +"|";
         return result;
     }
-    
+
     /**
-     * also ****UNUSED**** by agents so far 
-     * @return 
+     * also ****UNUSED**** by agents so far
+     * @return
      */
     public char randomMove()
     {
@@ -110,18 +111,18 @@ public abstract class Agent {
         char x = "abcdefghijklmnopqrstuvwxyz".charAt(randomPos);
         return x;
     }
-    
-     /**
-     * also ****UNUSED**** by agents so far 
+
+    /**
+     * also ****UNUSED**** by agents so far
      * @return Episode
      */
     public Episode lastEpisode()
     {
         return episodicMemory.get(episodicMemory.size() - 1);
     }
-    
+
     /**
-     * also ****UNUSED**** by agents so far 
+     * also ****UNUSED**** by agents so far
      * @return String of entire Memory. allows for use of string operations and printing memory. Testted in NSMAgent.
      */
     public String memoryToString()
@@ -164,15 +165,15 @@ public abstract class Agent {
 
         return result;
     }//extractSubstringFromEpMem
-    
+
     /**
      * recordAverage
-     * 
-     * Called after recording all data for all the runs and adds the "=average(b1:b25)" 
+     *
+     * Called after recording all data for all the runs and adds the "=average(b1:b25)"
      * row at the bottom. numbers/rows change dynamically
-     * 
+     *
      * only works for non-columnify recording of data
-     * 
+     *
      * @param csv needs to write the output file so needs to take that file in
      */
     public static void recordAverage(FileWriter csv) {
@@ -196,17 +197,17 @@ public abstract class Agent {
             System.out.println("Could not write to given csv file.");
             System.exit(-1);
         }
-                
-	}//recordAverage
-    
+
+    }//recordAverage
+
     /**
      * recordColumnAverage
-     * 
-     * Called after recording all data for all the runs and adds the "=average(b1:b25)" 
+     *
+     * Called after recording all data for all the runs and adds the "=average(b1:b25)"
      * row at the bottom. numbers/rows change dynamically
-     * 
+     *
      * only works for non-columnify recording of data
-     * 
+     *
      * @param csv needs to write the output file so needs to take that file in
      */
     public static void recordColumnAverage(FileWriter csv) {
@@ -228,14 +229,14 @@ public abstract class Agent {
             System.out.println("Could not write to given csv file.");
             System.exit(-1);
         }
-                
-	}//recordAverage
-    
+
+    }//recordAverage
+
     /**
      * recordBaseline
-     * 
+     *
      * only works for columnify version of recording data
-     * 
+     *
      * @param csv needs to write the output file so needs to take that file in
      */
     public static void recordBaseline(FileWriter csv, double baseline) {
@@ -257,16 +258,16 @@ public abstract class Agent {
             System.out.println("Could not write to given csv file.");
             System.exit(-1);
         }
-                
-	}//recordBaseline
-    
-     /**
+
+    }//recordBaseline
+
+    /**
      * getColumnString
-     * 
-     * Helper method for recordAverage. turns integers for columns into 
+     *
+     * Helper method for recordAverage. turns integers for columns into
      * Microsoft Excel's string based column system.
-     * 
-     * @param n takes an int of what column number it is on 
+     *
+     * @param n takes an int of what column number it is on
      * @return String that represents the column char(or string in case of AA, AB, ...)
      */
     public static String getColumnString(int n) {
@@ -278,23 +279,23 @@ public abstract class Agent {
         }
         return new String(buf);
     }
-   
+
     /**
      * exploreEnvironment
-     * 
+     *
      * abstract method all agents should override. main method used for agents to navigate
      */
     public abstract void exploreEnvironment();
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 /////////////////////////////////////unchanged inherited Methods from Old Code/////////////////////////////////////
-    
-    
-        /**
+
+
+    /**
      * findLastGoal
      *
      * Searches backwards through the list of move-result pairs from the given index
@@ -309,34 +310,34 @@ public abstract class Agent {
         }
         return -1;
     }
-    
+
     /**
-    * A helper method which determines a given letter's
-    * location in the alphabet
-    * 
-    * @param letter
-    * 		The letter who's index we wish to find
-    * @return
-    * 		The index of the given letter (or -1 if the letter was not found)
-    */
+     * A helper method which determines a given letter's
+     * location in the alphabet
+     *
+     * @param letter
+     * 		The letter who's index we wish to find
+     * @return
+     * 		The index of the given letter (or -1 if the letter was not found)
+     */
     protected int findAlphabetIndex(char letter) {
-       // Iterate the through the alphabet to find the index of letter
-       for(int i = 0; i < alphabet.length; i++){
-           if(alphabet[i] == letter)
-               return i;
+        // Iterate the through the alphabet to find the index of letter
+        for(int i = 0; i < alphabet.length; i++){
+            if(alphabet[i] == letter)
+                return i;
         }
 
         // Error if letter is not found
         return -1;
     }
-   
+
     /**
      * generateSemiRandomAction
      *
      * Generates a semi random action for the Agent to take There is a
      * disposition against making the same move again since prior research has
      * shown duplicate commands are rarely successful
-     * 
+     *
      * @return A random action for the Agent to take
      */
     public char generateSemiRandomAction() {
@@ -359,8 +360,8 @@ public abstract class Agent {
         } while (possibleCmd == lastCommand); //same cmd, redo loop
         return possibleCmd;
     }
-    
-     /**
+
+    /**
      * stringToPath
      *
      * Takes a string of chars and converts them into a path
@@ -387,7 +388,7 @@ public abstract class Agent {
      * TODO:  This is a deprecated version and should be phased out
      *
      * @param pathToTry; An ArrayList of Characters representing the path to try
-     * 
+     *
      * @return A boolean which is true if the path was reached the goal and
      * false if it did not
      */
@@ -402,14 +403,14 @@ public abstract class Agent {
                 Successes++;
                 //debugPrintln("Success after " + (i + 1) + " steps.");
                 return true;
-           }
+            }
         }
         // If we make it through the entire loop, the path was unsuccessful
         return false;
     }//tryPath
 
 
-    
+
     /**
      * tryPath
      *
@@ -423,22 +424,22 @@ public abstract class Agent {
      * I think it's best as is.]
      *
      * @param pathToTry; a string representing the path to try
-     * 
+     *
      * @return the amount of the given path that was actually tried or the code
      * "FAIL" if the entire path was tried without reaching the goal
      */
     public String tryPath(String pathToTry) {
         Sensors sensors;
         String temp;
-       if(env.resetSensorValue) //trying to get the first value
+        if(env.resetSensorValue) //trying to get the first value
         {
             if(env.currentState%2 == 0)
             {
-                temp = " | 0";
+                temp = " | 1";
 
             }
             else {
-                temp = " | 1";
+                temp = " | 0";
             }
             sensorMemory = sensorMemory.substring(0, sensorMemory.length()-1) + temp;
             env.resetSensorValue = false;
@@ -455,12 +456,13 @@ public abstract class Agent {
             Sensors encodedSensorResult = new Sensors(sensors);
             episodicMemory.add(new Episode(pathToTry.charAt(i), encodedSensorResult));
             memory = memory + pathToTry.charAt(i);
-            sensorMemory = sensorMemory + pathToTry.charAt(i) + episodicMemory.get(i).sensorValue.sensorRepresentation();
+            sensorMemory = sensorMemory + pathToTry.charAt(i) + episodicMemory.get(currIndex).sensorValue.sensorRepresentation();
+            currIndex++;
             if (sensors.GOAL_SENSOR) {
                 Successes++;
                 //debugPrintln("Success after " + (i + 1) + " steps.");
 
-                
+
                 return pathToTry.substring(0,i+1);
             }
         }
@@ -474,7 +476,7 @@ public abstract class Agent {
      * checks to see if a given sequence has already been tried
      *
      * @param pathToTry; a string representing the path to try
-     * 
+     *
      * @return the amount of the given path that was actually tried or the code
      * "FAIL" if the entire path was tried without reaching the goal
      */
@@ -517,7 +519,7 @@ public abstract class Agent {
                     //increment to match next char on next iteration
                     pathIndex++;
                 }
-                
+
                 //If we've matched the entire path with no goal that's a fail
                 if (pathIndex == pathToTry.length())
                 {
@@ -535,7 +537,7 @@ public abstract class Agent {
     }//checkSeq
 
 
-    
+
     /**
      * Returns the index of the given character in the
      *
@@ -551,7 +553,7 @@ public abstract class Agent {
         }
         return -1;
     }
-    
+
     /**
      * matchedMemoryStringLength
      *
@@ -588,7 +590,7 @@ public abstract class Agent {
 
         return length;
     }//matchedMemoryStringLength
-    
+
     /**
      * fillPermutations
      *
@@ -603,7 +605,7 @@ public abstract class Agent {
         int n = set.length;
         buildPermutations(set, "", n, k, permutations);
     }
-    
+
     /**
      * buildPermutations
      *
@@ -632,7 +634,7 @@ public abstract class Agent {
             buildPermutations(set, newPrefix, n, k - 1, permutations);
         }
     }//buildPermutations
-    
+
     /**
      * findLastGoal
      *
