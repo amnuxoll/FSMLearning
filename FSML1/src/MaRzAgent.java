@@ -87,7 +87,7 @@ public class MaRzAgent extends Agent
                                            //exactly at the goal when this node is active
         public int lastScanIndex = 0;      //The last time epmem was scanned for
                                            //matches to this suffix, it stopped here
-        
+
 		/**
 		 * indices into episodicMemory of successful/failed sequences with this
 		 * suffix

@@ -26,7 +26,7 @@ import java.util.TreeSet;
 public class StateMachineEnvironment {
 
 	// Instance variables
-	public static int NUM_STATES = 30;
+	public static int NUM_STATES = 10;
 	public static int GOAL_STATE = NUM_STATES - 1;
 	public static int ALPHABET_SIZE = 2;  //this must be in the range [2,26]
         
@@ -54,7 +54,7 @@ public class StateMachineEnvironment {
 	public HashSet<Integer> limitedStateNumbers = new HashSet();
 
     //this will be useful
-    private Random random = new Random(10);
+    private Random random = new Random();
 	
 	//DEBUG
 	private boolean debug = false;
@@ -313,7 +313,7 @@ public class StateMachineEnvironment {
 	 * Resets the current state back to a state not the goal
 	 */
 	private void reset() {
-        Random randoSquew = new Random();
+        Random randoSquew = new Random(System.currentTimeMillis());
         int randoState = randoSquew.nextInt(NUM_STATES - 1);
         loops.clear();
         limitedStateNumbers.clear();
