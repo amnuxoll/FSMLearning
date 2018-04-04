@@ -58,7 +58,7 @@ public abstract class Agent {
     public static void debugPrintln(String s) { if (debug) System.out.println(s); }
     public static void debugPrint(String s) { if (debug) System.out.print(s); }
 
-    private boolean generatePlayFile = true;
+    protected boolean generatePlayFile = true;
     protected PlayFileLogger playFileLogger;
 
     /**

@@ -715,7 +715,8 @@ public class AzerAgent extends Agent
         boolean success = updateAzerSuccessFail(prefixChildren, true);
         if ( fail || success) {
             System.out.println("AZER SPLIT HAPPENED!!!!!!!");
-            super.playFileLogger.logMessage("AZER SPLIT HAPPENED!!!!!!!");
+            if (super.generatePlayFile)
+                super.playFileLogger.logMessage("AZER SPLIT HAPPENED!!!!!!!");
             isAzerSplit++;
             //continue AZER split if conditions are not met:
             for (int i = 0; i < prefixChildren.length; i++) {
