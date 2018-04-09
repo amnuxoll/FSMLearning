@@ -714,14 +714,26 @@ public class AzerAgent extends Agent
         boolean fail = updateAzerSuccessFail(prefixChildren, false);
         boolean success = updateAzerSuccessFail(prefixChildren, true);
         if ( fail || success) {
-            System.out.println("AZER SPLIT HAPPENED!!!!!!!");
-            super.playFileLogger.logMessage("AZER SPLIT HAPPENED!!!!!!!");
-            isAzerSplit++;
-            //continue AZER split if conditions are not met:
+            updateAllTrees(prefixRoot);
+            SuffixNode oldBestNode= findBestNodeToTry(activeNode.prefixNode.suffixHash);
+            boolean proceed =true;
             for (int i = 0; i < prefixChildren.length; i++) {
-                activeNode.prefixNode.adoptedChildren.put(prefixChildren[i].prefixValue, prefixChildren[i]);
+                SuffixNode potentialNewBestNode = findBestNodeToTry(prefixChildren[i].suffixHash);
+                if (oldBestNode.f < potentialNewBestNode.f){
+                    proceed = false;
+                }
             }
-            activeNode.prefixNode.suffixHash.clear();
+            if (proceed) { //only split if it makes a difference
+
+                System.out.println("AZER SPLIT HAPPENED!!!!!!!");
+                super.playFileLogger.logMessage("AZER SPLIT HAPPENED!!!!!!!");
+                isAzerSplit++;
+                //continue AZER split if conditions are not met:
+                for (int i = 0; i < prefixChildren.length; i++) {
+                    activeNode.prefixNode.adoptedChildren.put(prefixChildren[i].prefixValue, prefixChildren[i]);
+                }
+                activeNode.prefixNode.suffixHash.clear();
+            }
         }
 
 
