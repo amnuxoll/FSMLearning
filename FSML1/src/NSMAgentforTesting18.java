@@ -1,3 +1,4 @@
+/*
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -5,6 +6,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Collections;
 
+*/
 /**
  * class NSMAgent
  *
@@ -14,36 +16,44 @@ import java.util.Collections;
  * @author: Andrew Nuxoll (with many thanks to Zach Faltersack for his original
  * implementation in C)
  *
- */
+ *//*
+
 public class NSMAgentforTesting18 extends Agent {
 
 
-    /**
+    */
+/**
      * ************************************************************************************
      * INNER CLASSES
      * ************************************************************************************
-     */
-    /**
+     *//*
+
+    */
+/**
      * class QEpisode
      *
      * This class extends Episode to have a q-value and a reward
-     */
+     *//*
+
     public static class QEpisode extends Episode {
         public double qValue = 0.0;
         public double reward = 0.0;
 
         public QEpisode(char cmd, Sensors sensor) {
-            super(cmd, sensor);
+
+            super(cmd, sensor, );
         }
     }//class QEpisode
 
-    /**
+    */
+/**
      * class NBor
      *
      * describes a "neighbor", specifically a sequence that matches the current
      * sequence ending with the last episode (which represents the present
      * moment) presuming that a specific action will be taken next.
-     */
+     *//*
+
     public static class NBor implements Comparable<NBor> {
         public int end;  // index of the last episode of the sequence
         public int begin; // index of the first episode of the sequence
@@ -55,13 +65,16 @@ public class NSMAgentforTesting18 extends Agent {
             this.len = initLen;
         }
 
-        /** this allows a collection of NBors to be sorted on length */
+        */
+/** this allows a collection of NBors to be sorted on length *//*
+
         public int compareTo(NBor other) {
             return this.len - other.len;
         }
     }//class NBor
 
-    /**
+    */
+/**
      * class NHood
      *
      * is a public container class for defining a "neighborhood" in episodic
@@ -69,7 +82,8 @@ public class NSMAgentforTesting18 extends Agent {
      * match to the current sequene ending with the last episode (which
      * represents the present moment) presuming that a specific action will be
      * taken next.
-     */
+     *//*
+
     public static class NHood {
         public final int K_NEAREST = 8;  //max allowed size of neighborhood
 
@@ -82,9 +96,11 @@ public class NSMAgentforTesting18 extends Agent {
             nbors = new ArrayList<NBor>();
         }
 
-        /** adds a new neighbor to the neighborhood.
+        */
+/** adds a new neighbor to the neighborhood.
          * CAVEAT:  Caller is responsible for checking the neighbor is long
-         * enough to belong. */
+         * enough to belong. *//*
+
         public void addNBor(NBor newGuy) {
             //if the nhood is full, drop the shortest neighbor to make room
             while(nbors.size() >= K_NEAREST) {
@@ -100,11 +116,13 @@ public class NSMAgentforTesting18 extends Agent {
 
     }//class NHood
 
-    /**
+    */
+/**
      * ************************************************************************************
      * VARIABLES
      * ************************************************************************************
-     */
+     *//*
+
     // Defines for Q-Learning algorithm
     public static double DISCOUNT         =  0.8;
     public static double LEARNING_RATE    =  0.85;
@@ -119,17 +137,21 @@ public class NSMAgentforTesting18 extends Agent {
     protected NHood[] nhoods;
     protected double randChance = INIT_RAND_CHANCE;  //how frequently the agent
     //make a random move
-    /**
+    */
+/**
      * ************************************************************************************
      * METHODS
      * ************************************************************************************
-     */
+     *//*
 
 
 
-    /**
+
+    */
+/**
      * The constructor for the agent simply initializes it's instance variables
-     */
+     *//*
+
     public NSMAgentforTesting18() {
         informationColumns = 2;
 
@@ -137,13 +159,15 @@ public class NSMAgentforTesting18 extends Agent {
         episodicMemory.clear();
     }//NSMAgent ctor
 
-    /**
+    */
+/**
      * populateNHoods
      *
      * creates a neighborhood of k-nearest NBors for each action.  The NHoods
      * must be regenerated each time that that a new episode is added to the
      * store.
-     */
+     *//*
+
     public void populateNHoods() {
         QEpisode ep = (QEpisode)episodicMemory.get(episodicMemory.size() - 1);
 
@@ -168,12 +192,14 @@ public class NSMAgentforTesting18 extends Agent {
         }//for
     }//populateNHoods
 
-    /**
+    */
+/**
      * calculates a neighborhood's total Q value.  This is the average of the
      * expected future discounted rewards of all the neighbors in the
      * neighborhood
      *
-     */
+     *//*
+
     double calculateQValue(NHood nhood)
     {
         //Don't calculate for empty neighborhoods
@@ -191,7 +217,8 @@ public class NSMAgentforTesting18 extends Agent {
         return (total / (double)nhood.nbors.size());
     }//calculateQValue
 
-    /**
+    */
+/**
      * setNewLittleQ
      *
      * This functions takes an episode and the current utility and updates the episode's
@@ -200,7 +227,8 @@ public class NSMAgentforTesting18 extends Agent {
      * @param ep A pointer to an episode to update
      * @param utility A double that contains the current state's utility used to update
      *              the episodes that voted for the most recent action
-     */
+     *//*
+
     public void setNewLittleQ(QEpisode ep, double utility)
     {
         // Set the new q value for the episode
@@ -209,7 +237,8 @@ public class NSMAgentforTesting18 extends Agent {
                 + LEARNING_RATE * (ep.reward + DISCOUNT * utility);
     }//setNewLittleQ
 
-    /**
+    */
+/**
      * updateAllLittleQ
      *
      * This function will update the expected future discounted rewards for the
@@ -219,7 +248,8 @@ public class NSMAgentforTesting18 extends Agent {
      * and update the neighborhood relevant to the executed action.
      *
      * @arg ep A pointer to the episode containing the most recently executed action
-     */
+     *//*
+
     public void updateAllLittleQ(QEpisode ep)
     {
         // Recalculate the Q value of the neighborhood associated with the
@@ -255,12 +285,14 @@ public class NSMAgentforTesting18 extends Agent {
     //Used to print steps to success for each goal at the console for teh HOO-maans
     int lastSuccess = 0;
 
-    /**
+    */
+/**
      * exploreEnvironment
      *
      * Main Driver Method of Program
      *
-     */
+     *//*
+
     @Override
     public void exploreEnvironment() {
         Sensors prevSensors = new Sensors(); //what was sensed last time
@@ -323,14 +355,16 @@ public class NSMAgentforTesting18 extends Agent {
         }//while
     }//exploreEnvironment
 
-    /**
+    */
+/**
      * recordLearningCurve
      *
      * examine's the agents memory and prints out how many steps the agent took
      * to reach the goal each time
      *
      * @param csv         an open file to write to
-     */
+     *//*
+
     protected void recordLearningCurve(FileWriter csv) {
         try {
             csv.append("" + episodicMemory.size() + ",");
@@ -355,10 +389,12 @@ public class NSMAgentforTesting18 extends Agent {
 
     }//recordLearningCurve
 
-    /**
+    */
+/**
      * main
      *
-     */
+     *//*
+
     public static void main(String [ ] args) {
 
         try{
@@ -437,3 +473,4 @@ public class NSMAgentforTesting18 extends Agent {
     }
 
 }//class NSMAgent
+*/

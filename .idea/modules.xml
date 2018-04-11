@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FSML1/FSML1.iml" filepath="$PROJECT_DIR$/FSML1/FSML1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FSMLearning.iml" filepath="$PROJECT_DIR$/FSMLearning.iml" />
     </modules>
   </component>
 </project>

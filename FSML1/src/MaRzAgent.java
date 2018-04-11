@@ -77,7 +77,7 @@ public class MaRzAgent extends Agent
 		/*--==Instance Variables==--*/
 		public String suffix;
 		public int queueSeq; // if this node becomes active, start with this
-								// permutation
+        // permutation
 		public double f; // the current overall potential of this suffix (f = g + h)
 		public int g; // distance from root (ala A* search)
 		public int tries; // number of times a sequence with this suffix has been tried
@@ -520,45 +520,56 @@ public class MaRzAgent extends Agent
 
 	}// findWorstNodeToTry
 
-	/**
-	 * trySeq
-	 * 
-	 * Tries nextSeqToTry until it fails Splits node when MIN_TRIES is reached
-	 */
-	public void trySeq()
-	{
 
-		// Try the sequence until it fails
-		String result = "";
-		do
-		{
+
+
+
+
+    /**
+     * trySeq
+     *
+     * Tries nextSeqToTry until it fails Splits node when MIN_TRIES is reached
+     */
+    public void trySeq()
+    {
+
+        // Try the sequence until it fails
+        String result = "";
+        do
+        {
             result = tryPath(nextSeqToTry);
 
-			// Update the active node's success/fail lists and related based
-			// upon whether we reached the goal or not. Reaching the goal
-			// before the suffix is reached is treated as neither a fail nor
-			// success for heuristic purposes. However, it is still an overall
-			// success so the path will be repeated in this loop.
-			if (result.equals("FAIL"))
-			{
-				activeNode.failsIndexList.add(new Integer(this.memory.length()
-						- activeNode.suffix.length()));
-			}// if
-            
-			else // possible success
-			{
-				int unusedLen = nextSeqToTry.length() - result.length();
-                lastSuccessfulSequence = nextSeqToTry;
+            // Update the active node's success/fail lists and related based
+            // upon whether we reached the goal or not. Reaching the goal
+            // before the suffix is reached is treated as neither a fail nor
+            // success for heuristic purposes. However, it is still an overall
+            // success so the path will be repeated in this loop.
+            if (result.equals("FAIL"))
+            {
 
+                activeNode.failsIndexList.add(new Integer(this.memory.length()
+                        - activeNode.suffix.length()));
+            }// if
+
+            else // possible success
+            {
+                int unusedLen = nextSeqToTry.length() - result.length();
+                lastSuccessfulSequence = nextSeqToTry;
+                activeNode.successIndexList
+                        .add(new Integer(this.memory.length() + unusedLen
+                                - nextSeqToTry.length()));
+
+                activeNode.goalFound = true;
                 //if the last step of the sequence hits the goal that's a success
+                /*
                 if (unusedLen == 0)
-				{
-					activeNode.successIndexList
-							.add(new Integer(this.memory.length() + unusedLen
-                                             - activeNode.suffix.length()));
+                {
+                    activeNode.successIndexList
+                            .add(new Integer(this.memory.length() + unusedLen
+                                    - activeNode.suffix.length()));
 
                     activeNode.goalFound = true;
-				}// if
+                }// if
                 else  //found the goal before sequence finished
                 {
                     //For the activeNode, this is neither a success nor a
@@ -590,16 +601,18 @@ public class MaRzAgent extends Agent
                         //     }
                         //     index--;
                         // }
-                        
+
                     }//if  (another node can take credit for this success)
 
                 }//else (reached goal too soon)
+                */
 
-			}// else (possible success)
+            }// else (possible success)
 
-			activeNode.tries++;
+            activeNode.tries++;
 
-		} while (!result.equals("FAIL") && memory.length() < MAX_EPISODES
+
+        } while (!result.equals("FAIL") && memory.length() < MAX_EPISODES
 				&& Successes <= NUM_GOALS);
 
         // The active node is split once it's found a successful sequence but

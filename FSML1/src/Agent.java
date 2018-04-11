@@ -45,7 +45,7 @@ public abstract class Agent {
     public static final int MAX_EPISODES = 2000000;
     public static final int NUM_GOALS = 1000;
     /** Number of state machines to test a given constant combo with */
-    public static final int NUM_MACHINES = 50 ;
+    public static final int NUM_MACHINES = 30 ;
 
     public static int informationColumns = 0; //for now before consolidation of recording data must be declared in each agent
     public static int informationRows = 1; //how many header rows there are before the data in the csv
@@ -398,7 +398,7 @@ public abstract class Agent {
         for (int i = 0; i < pathToTry.size(); i++) {
             sensors = env.tick(pathToTry.get(i));
             Sensors encodedSensorResult = new Sensors(sensors);//encodeSensors(sensors);
-            episodicMemory.add(new Episode(pathToTry.get(i), encodedSensorResult));
+            episodicMemory.add(new Episode(pathToTry.get(i), encodedSensorResult, env.currentState));
             if (sensors.GOAL_SENSOR){
                 Successes++;
                 //debugPrintln("Success after " + (i + 1) + " steps.");
@@ -454,7 +454,7 @@ public abstract class Agent {
             if (generatePlayFile)
                 playFileLogger.logEnvironmentState(sensors);
             Sensors encodedSensorResult = new Sensors(sensors);
-            episodicMemory.add(new Episode(pathToTry.charAt(i), encodedSensorResult));
+            episodicMemory.add(new Episode(pathToTry.charAt(i), encodedSensorResult, env.currentState));
             memory = memory + pathToTry.charAt(i);
             sensorMemory = sensorMemory + pathToTry.charAt(i) + episodicMemory.get(currIndex).sensorValue.sensorRepresentation();
             currIndex++;
