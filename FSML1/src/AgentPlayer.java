@@ -3,7 +3,10 @@ import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,7 +22,11 @@ public class AgentPlayer extends JFrame implements ActionListener {
     private ImageIcon agentImage;
     private JLabel sequenceToTryLabel;
     private JLabel sensorLabel;
-    private JLabel messageLabel;
+    private JTextPane messageLabel;
+    private JButton playButton;
+    private JCheckBox skipToGoalCheckbox;
+    private BufferedImage currentAgentImage;
+    private BufferedImage currentEnvironmentImage;
 
     private Sequence sequence;
     private int currentActionIndex = 0;
@@ -31,65 +38,54 @@ public class AgentPlayer extends JFrame implements ActionListener {
     public AgentPlayer(String playfilePath) throws IOException {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel container = new JPanel();
-        getContentPane().add(new JScrollPane(container));
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();
-        container.setLayout(gridbag);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        Container pane = getContentPane();
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+        pane.add(buttonPanel, BorderLayout.PAGE_START);
+
+        JButton exportImageButton = new JButton("Save Agent Image");
+        exportImageButton.addActionListener(this);
+        buttonPanel.add(exportImageButton);
+
+        exportImageButton = new JButton("Save Environment Image");
+        exportImageButton.addActionListener(this);
+        buttonPanel.add(exportImageButton);
 
         JButton button = new JButton("Step");
         button.addActionListener(this);
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.gridwidth = 1;
-        gridbag.setConstraints(button, constraints);
-        container.add(button);
+        buttonPanel.add(button);
 
-        button = new JButton("Play");
-        button.addActionListener(this);
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        constraints.gridwidth = 1;
-        gridbag.setConstraints(button, constraints);
-        container.add(button);
+        this.playButton = new JButton("Play");
+        this.playButton.addActionListener(this);
+        buttonPanel.add(this.playButton);
 
-        this.messageLabel = new JLabel();
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.gridwidth = 2;
-        gridbag.setConstraints(this.messageLabel, constraints);
-        container.add(this.messageLabel);
+        this.skipToGoalCheckbox = new JCheckBox("Skip to goal");
+        buttonPanel.add(this.skipToGoalCheckbox);
 
-        this.sequenceToTryLabel = new JLabel();
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        constraints.gridwidth = 1;
-        gridbag.setConstraints(this.sequenceToTryLabel, constraints);
-        container.add(this.sequenceToTryLabel);
-
-        this.sensorLabel = new JLabel();
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        constraints.gridwidth = 1;
-        gridbag.setConstraints(this.sensorLabel, constraints);
-        container.add(this.sensorLabel);
+        this.messageLabel = new JTextPane();
+        JScrollPane scrollPane = new JScrollPane(this.messageLabel);
+        pane.add(scrollPane, BorderLayout.LINE_START);
 
         this.agentImage = new ImageIcon();
         this.agentLabel = new JLabel(this.agentImage);
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        constraints.gridwidth = 1;
-        gridbag.setConstraints(agentLabel, constraints);
-        container.add(agentLabel);
+        scrollPane = new JScrollPane(this.agentLabel);
+        pane.add(scrollPane, BorderLayout.CENTER);
 
         this.environmentImage = new ImageIcon();
         this.environmentLabel = new JLabel(this.environmentImage);
-        constraints.gridx = 1;
-        constraints.gridy = 3;
-        constraints.gridwidth = 1;
-        gridbag.setConstraints(this.environmentLabel, constraints);
-        container.add(this.environmentLabel);
+        scrollPane = new JScrollPane(this.environmentLabel);
+        pane.add(scrollPane, BorderLayout.LINE_END);
+
+        JPanel dataPanel = new JPanel();
+        dataPanel.setLayout(new FlowLayout());
+        pane.add(dataPanel, BorderLayout.PAGE_END);
+
+        this.sequenceToTryLabel = new JLabel();
+        dataPanel.add(this.sequenceToTryLabel);
+
+        this.sensorLabel = new JLabel();
+        dataPanel.add(this.sensorLabel);
 
         File file = new File(playfilePath);
         FileReader fileReader = new FileReader(file);
@@ -138,7 +134,8 @@ public class AgentPlayer extends JFrame implements ActionListener {
             case "AGENT":
                 this.currentBorder = BorderTarget.Agent;
                 this.updateBorder();
-                agentImage.setImage(generateGraph(content));
+                this.currentAgentImage = generateGraph(content);
+                agentImage.setImage(this.currentAgentImage);
                 this.playNext(doSkip);
                 break;
             case "SEQUENCE":
@@ -158,7 +155,8 @@ public class AgentPlayer extends JFrame implements ActionListener {
                 }
                 this.currentBorder = BorderTarget.Environment;
                 this.updateBorder();
-                environmentImage.setImage(generateGraph(content));
+                this.currentEnvironmentImage = generateGraph(content);
+                environmentImage.setImage(this.currentEnvironmentImage);
                 this.playNext(doSkip);
                 break;
             case "SENSORS":
@@ -167,7 +165,7 @@ public class AgentPlayer extends JFrame implements ActionListener {
                 break;
             case "MESSAGE":
                 this.currentBorder = BorderTarget.Message;
-                this.messageLabel.setText(content);
+                this.messageLabel.setText(this.messageLabel.getText() + "\n" + content);
                 this.updateBorder();
                 this.playNext(doSkip);
                 break;
@@ -186,14 +184,44 @@ public class AgentPlayer extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == "Play")
         {
-            if (playTimer.isRunning())
-                playTimer.stop();
-            else
-                playTimer.start();
+            this.playTimer.start();
+            this.playButton.setText("Stop");
+        }
+        else if (e.getActionCommand() == "Stop")
+        {
+            this.playTimer.stop();
+            this.playButton.setText("Play");
+        }
+        else if (e.getActionCommand() == "Save Agent Image")
+        {
+           this.saveImage(this.currentAgentImage);
+        }
+        else if (e.getActionCommand() == "Save Environment Image")
+        {
+            this.saveImage(this.currentEnvironmentImage);
         }
         else {
             try {
-                this.playNext(true);
+                this.playNext(this.skipToGoalCheckbox.isSelected());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    private void saveImage(BufferedImage image)
+    {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("PNG", "png"));
+        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
+        {
+            File file = fileChooser.getSelectedFile();
+            String fileName = file.getName();
+            if (!fileName.toUpperCase().endsWith("PNG")) {
+                file = new File(file.getParent() + "\\" + fileName + ".png");
+            }
+            try {
+                ImageIO.write(image, "png", file);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
