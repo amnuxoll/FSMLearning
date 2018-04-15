@@ -25,8 +25,6 @@ public class AdjustSuffixAzer extends Agent
     // the likeliness to jump back to another node
     // (should be in the range (0.0 - 1.0)
     public static double G_WEIGHT = 0.05;
-    public int marzCount = 0;
-    public int adjustCount = 0;
 
     // max size of list of nodes
     public static final int NODE_LIST_SIZE = 100000;
@@ -76,8 +74,13 @@ public class AdjustSuffixAzer extends Agent
     /** for categorizing if a split has occured */
     public int isAzerSplit = 0;
 
+    public int marzCount = 0;
+    public int adjustCount = 0;
+
+
     /*for adjusting suffix based on new thing*/
     String queuedLastSeq = "";
+    String newSuffixVal = "";
 
     /**
      * SufixNode Class
@@ -811,6 +814,74 @@ public class AdjustSuffixAzer extends Agent
             }// if
         }// for
 
+        //AdjustSuffix -- check for possible candidate
+
+        String candidateSuffix = matchMemSeq(); //returns potential sequence to try
+        SuffixNode candidateNode = null;
+        if (!(candidateSuffix.equals(""))){
+            //find the suffix node which matches or  ends with candidateSuffix
+            Set<String> keys = prefixRoot.suffixHash.keySet();
+            List<String> list = new ArrayList<>(keys);
+            Collections.sort(list, (o1, o2) -> o1.length() < o2.length() ? 1 : o1.length() > o2.length() ? -1 : 0);
+            String addToSuccess = "";
+            for(String nodeName: list) {
+                if (nextSeqToTry.endsWith(nodeName)) {
+                    addToSuccess = nodeName;
+                    break;
+                }
+            }
+            if(!addToSuccess.equals("")) {
+                candidateNode= prefixRoot.suffixHash.get(addToSuccess);
+            }
+            //continue back in the sequence until a match is found
+            else
+            {
+                for(int i = sensorMemory.length()-1; i >= 0; i--)
+                {
+                    if(Character.toString(sensorMemory.charAt(i)).equals("|")){
+                        String name = nextSeqToTry;
+
+                        for(int j = i-2; j >=0;j--)
+                        {
+                            name = sensorMemory.charAt(i) + name;
+                            if(prefixRoot.suffixHash.containsKey(name))
+                            {
+                                candidateNode = prefixRoot.suffixHash.get(name);
+                                break;
+                            }
+
+                        }
+                    }
+                    break;
+
+                }
+
+            }
+            if (candidateNode!= null){
+                //recalculating memSinceGoal to get the length
+                int index = sensorMemory.length();
+                String memSinceGoal = "";
+                while(true) {
+                    if (index <= 0) {
+                        break;
+                    }
+                    index--;
+                    if (!(sensorMemory.charAt(index) == ' ')) {
+                        memSinceGoal = Character.toString(sensorMemory.charAt(index)) + memSinceGoal;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                double F_Weight = 1.4; //modify this to change weight on node
+               double candidatef = memSinceGoal.length()*G_WEIGHT + candidateSuffix.length()*G_WEIGHT;
+                System.out.println("Candidate f: " + candidatef + " active f: " + (activeNode.g*G_WEIGHT + F_Weight*activeNode.failRate));
+                if (candidatef < (activeNode.g*G_WEIGHT + F_Weight*activeNode.failRate)) {
+                    bestNode = candidateNode;
+                    newSuffixVal = candidateSuffix; //save the actual sequence to try in global val
+                }
+            }
+        }
 
         return bestNode;
 
@@ -818,9 +889,8 @@ public class AdjustSuffixAzer extends Agent
     }// findBestNodeToTry
 
     /**
-     *matchMemSeq - returns a suffix node IF:
+     *matchMemSeq - returns a string sequence IF:
      *  1. the current sensor mem since last goal matches somewhere previously in mem
-     *  2. the memory AFTER the match is equivalent to some exisitng suffix node
      */
 
     public String matchMemSeq(){
@@ -877,11 +947,6 @@ public class AdjustSuffixAzer extends Agent
             }
 
         }
-        //regex to find matches among prefix frontier nodes in hashfringe
-
-        if(returnString.length() > 20) {
-            return "";
-        }
         return returnString;
     }
 
@@ -926,60 +991,17 @@ public class AdjustSuffixAzer extends Agent
         String result = "";
         do {
 
-            String mms = matchMemSeq();
-            if (!mms.equals("")) {
+            //if there is a suffixVal worth trying, try it instead of nextSeqToTry
+            if (!(newSuffixVal.equals(""))) {
+                result = tryPath(newSuffixVal);
                 adjustCount++;
-                queuedLastSeq = nextSeqToTry;
-                Set<String> keys = prefixRoot.suffixHash.keySet();
-                List<String> list = new ArrayList<>(keys);
-                Collections.sort(list, (o1, o2) -> o1.length() < o2.length() ? 1 : o1.length() > o2.length() ? -1 : 0);
-                String addToSuccess = "";
-                for(String nodeName: list)
-                {
-                    if(nextSeqToTry.endsWith(nodeName))
-                    {
-                        addToSuccess = nodeName;
-                        break;
-                    }
-                }
-                if(!addToSuccess.equals("")) {
-                    activeNode = prefixRoot.suffixHash.get(addToSuccess);
-                }
-                else
-                {
-                    for(int i = sensorMemory.length()-1; i >= 0; i--)
-                    {
-                        if(Character.toString(sensorMemory.charAt(i)).equals("|")){
-                            String name = nextSeqToTry;
-
-                            for(int j = i-2; j >=0;j--)
-                            {
-                                name = sensorMemory.charAt(i) + name;
-                                if(prefixRoot.suffixHash.containsKey(name))
-                                {
-                                    activeNode = prefixRoot.suffixHash.get(name);
-                                    break;
-                                }
-
-                            }
-                        }
-                        break;
-
-                    }
-
-                }
-                tryPath(mms);
-                nextSeqToTry = mms;
-            } else {
-                if (!queuedLastSeq.equals("")) {
-                    nextSeqToTry = queuedLastSeq;
-                }
-                marzCount++;
-                queuedLastSeq = "";
-                result = tryPath(nextSeqToTry);
+                newSuffixVal = "";
             }
-            //System.out.println(sensorMemory);
-
+            //default
+            else {
+                result = tryPath(nextSeqToTry);
+                marzCount++;
+            }
 
             // Update the active node's success/fail lists and related based
             // upon whether we reached the goal or not. Reaching the goal
