@@ -695,13 +695,9 @@ public class AdjustSuffixMarz extends Agent
             {
                 int unusedLen = nextSeqToTry.length() - result.length();
                 lastSuccessfulSequence = nextSeqToTry;
-                activeNode.successIndexList
-                        .add(new Integer(this.memory.length() + unusedLen
-                                - nextSeqToTry.length()));
 
-                activeNode.goalFound = true;
                 //if the last step of the sequence hits the goal that's a success
-                /*
+
                 if (unusedLen == 0)
                 {
                     activeNode.successIndexList
@@ -745,7 +741,7 @@ public class AdjustSuffixMarz extends Agent
                     }//if  (another node can take credit for this success)
 
                 }//else (reached goal too soon)
-                */
+
 
             }// else (possible success)
 
