@@ -799,7 +799,7 @@ public class AdjustSuffixAzer extends Agent
     public SuffixNode findBestNodeToTry(HashMap<String, SuffixNode> inputFringe)
     {
         //first update all heuristic, mostly for debug (?)
-        updateAllTrees(prefixRoot);
+        //updateAllTrees(prefixRoot);
         //now find the best node in the correct active prefix tree from input Fringe
         SuffixNode[] nodes = (SuffixNode[]) inputFringe.values().toArray(
                 new SuffixNode[inputFringe.size()]);
@@ -873,10 +873,10 @@ public class AdjustSuffixAzer extends Agent
                         break;
                     }
                 }
-                double F_Weight = 1.4; //modify this to change weight on node
-               double candidatef = memSinceGoal.length()*G_WEIGHT + candidateSuffix.length()*G_WEIGHT;
-                System.out.println("Candidate f: " + candidatef + " active f: " + (activeNode.g*G_WEIGHT + F_Weight*activeNode.failRate));
-                if (candidatef < (activeNode.g*G_WEIGHT + F_Weight*activeNode.failRate)) {
+               double F_Weight = .2; //modify this to change weight on node
+               double candidatef = (double)candidateSuffix.length() /((double)memSinceGoal.length()/2 + (double)candidateSuffix.length());
+                System.out.println("Candidate f: " + candidatef + " active f: " + (activeNode.failRate));
+                if (candidatef < (activeNode.failRate)) {
                     bestNode = candidateNode;
                     newSuffixVal = candidateSuffix; //save the actual sequence to try in global val
                 }

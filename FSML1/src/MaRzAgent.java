@@ -489,6 +489,8 @@ public class MaRzAgent extends Agent
 			}// if
 		}// for
 
+		//TODO here -- !! what about the nstt
+
 		return bestNode;
 
 	}// findBestNodeToTry

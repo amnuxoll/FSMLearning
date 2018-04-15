@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="487d7776-072e-4544-a15f-7969730299d0" name="Default" comment="Back to the original design for Azer -- fixed some VERY IMPORTANT issues with where states are indexed and added to memory">
-      <change beforePath="" afterPath="$PROJECT_DIR$/FSML1/src/AdjustSuffixAzer.java" />
+    <list default="true" id="487d7776-072e-4544-a15f-7969730299d0" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/FSML1/src/AdjustSuffixMarz.java" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/FSML1/src/#AzerSplitSensorOnlyAgent.java#" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/FSML1/src/AdjustSuffixAzer.java" afterPath="$PROJECT_DIR$/FSML1/src/AdjustSuffixAzer.java" />
       <change beforePath="$PROJECT_DIR$/FSML1/src/Agent.java" afterPath="$PROJECT_DIR$/FSML1/src/Agent.java" />
-      <change beforePath="$PROJECT_DIR$/FSML1/src/Episode.java" afterPath="$PROJECT_DIR$/FSML1/src/Episode.java" />
       <change beforePath="$PROJECT_DIR$/FSML1/src/MaRzAgent.java" afterPath="$PROJECT_DIR$/FSML1/src/MaRzAgent.java" />
-      <change beforePath="$PROJECT_DIR$/FSML1/src/NSMAgent.java" afterPath="$PROJECT_DIR$/FSML1/src/NSMAgent.java" />
-      <change beforePath="$PROJECT_DIR$/FSML1/src/NSMAgentforTesting18.java" afterPath="$PROJECT_DIR$/FSML1/src/NSMAgentforTesting18.java" />
       <change beforePath="$PROJECT_DIR$/FSML1/src/StateMachineEnvironment.java" afterPath="$PROJECT_DIR$/FSML1/src/StateMachineEnvironment.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -22,12 +20,44 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file leaf-file-name="AzerAgent.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FSML1/src/AzerAgent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9792">
-              <caret line="581" column="54" lean-forward="false" selection-start-line="581" selection-start-column="16" selection-end-line="581" selection-end-column="54" />
+            <state relative-caret-position="0">
+              <caret line="810" column="0" lean-forward="false" selection-start-line="810" selection-start-column="0" selection-end-line="810" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AdjustSuffixAzer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FSML1/src/AdjustSuffixAzer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="993" column="61" lean-forward="true" selection-start-line="993" selection-start-column="61" selection-end-line="993" selection-end-column="61" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Agent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FSML1/src/Agent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="82" column="15" lean-forward="false" selection-start-line="82" selection-start-column="8" selection-end-line="82" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StateMachineEnvironment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/FSML1/src/StateMachineEnvironment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="30" column="39" lean-forward="false" selection-start-line="30" selection-start-column="39" selection-end-line="30" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -36,41 +66,19 @@
       <file leaf-file-name="MaRzAgent.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FSML1/src/MaRzAgent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9418">
-              <caret line="559" column="33" lean-forward="false" selection-start-line="559" selection-start-column="33" selection-end-line="559" selection-end-column="33" />
+            <state relative-caret-position="63">
+              <caret line="464" column="17" lean-forward="true" selection-start-line="464" selection-start-column="17" selection-end-line="464" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Agent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FSML1/src/Agent.java">
+      <file leaf-file-name="AdjustSuffixMarz.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/FSML1/src/AdjustSuffixMarz.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="47" column="45" lean-forward="false" selection-start-line="47" selection-start-column="45" selection-end-line="47" selection-end-column="45" />
+            <state relative-caret-position="147">
+              <caret line="600" column="29" lean-forward="true" selection-start-line="600" selection-start-column="29" selection-end-line="600" selection-end-column="29" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AzerAgentSplitsOnly.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FSML1/src/AzerAgentSplitsOnly.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AdjustSuffixAzer.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/FSML1/src/AdjustSuffixAzer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="878" column="9" lean-forward="false" selection-start-line="878" selection-start-column="9" selection-end-line="878" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -86,36 +94,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>resetSensorValue</find>
-      <find>EVEN_SENSOR</find>
-      <find>sensorMemory</find>
-      <find>tryPath</find>
-      <find>SuffixNode</find>
-      <find>SuffixNOde</find>
-      <find>splitNode</find>
-      <find>|</find>
-      <find>reset</find>
-      <find>updateazer</find>
-      <find>foundMatch</find>
-      <find>max</find>
-      <find>thisIndex</find>
-      <find>random</find>
-      <find>FAIL</find>
-      <find>println</find>
-      <find>sensors.</find>
-      <find>MAX_TRANSITIONS_TO_GOAL</find>
-      <find>nextSeqToTry</find>
       <find>Episode</find>
       <find>AdjustSuffixAzer</find>
       <find>Azeragent</find>
       <find>trygenl</find>
       <find>updateAzerSuccessFail</find>
       <find>trygen</find>
-      <find>trySeq</find>
       <find>nextPermutation</find>
       <find>activeNode</find>
+      <find>G_Weight</find>
       <find>exploreEnvironment</find>
+      <find>bestNodeToTry</find>
+      <find>exploreE</find>
+      <find>mms</find>
+      <find>g_Weight</find>
+      <find>updateHeuristic</find>
+      <find>g</find>
+      <find>candidate</find>
+      <find>matchMemSeq</find>
       <find>tryseq</find>
+      <find>findBestNodeToTry</find>
+      <find>updateHeu</find>
+      <find>splitNode()</find>
+      <find>sensorM</find>
+      <find>MarzAgent</find>
+      <find>matchMem</find>
+      <find>findBEst</find>
+      <find>findBest</find>
+      <find>trySeq</find>
+      <find>queuedLast</find>
+      <find>findBestNodeTOTry</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -137,21 +145,22 @@
         <option value="$PROJECT_DIR$/FSML1/src/AgentPlayer.java" />
         <option value="$PROJECT_DIR$/FSML1/src/Episode.java" />
         <option value="$PROJECT_DIR$/FSML1/src/NSMAgentforTesting18.java" />
-        <option value="$PROJECT_DIR$/FSML1/src/AzerAgent.java" />
         <option value="$PROJECT_DIR$/FSML1/src/NSMAgent.java" />
+        <option value="$PROJECT_DIR$/FSML1/src/#AzerSplitSensorOnlyAgent.java#" />
         <option value="$PROJECT_DIR$/FSML1/src/MaRzAgent.java" />
+        <option value="$PROJECT_DIR$/FSML1/src/AzerAgent.java" />
         <option value="$PROJECT_DIR$/FSML1/src/StateMachineEnvironment.java" />
         <option value="$PROJECT_DIR$/FSML1/src/Agent.java" />
-        <option value="$PROJECT_DIR$/FSML1/src/#AzerSplitSensorOnlyAgent.java#" />
         <option value="$PROJECT_DIR$/FSML1/src/AdjustSuffixAzer.java" />
+        <option value="$PROJECT_DIR$/FSML1/src/AdjustSuffixMarz.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="9" />
-    <option name="y" value="8" />
-    <option name="width" value="565" />
-    <option name="height" value="688" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="1072" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -170,15 +179,23 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
               <item name="FSML1" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
               <item name="FSML1" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -187,8 +204,6 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -201,117 +216,6 @@
       <recent name="C:\Source\FSMLearning\FSML1\dependencies" />
       <recent name="C:\Source\FSMLearning\FSML1\src" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
-    <UpdatedFiles>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Updated from server" />
-        <option name="myStatusName" value="Changed on server" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="CHANGED_ON_SERVER" />
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated" />
-          <option name="myStatusName" value="Changed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/FSML1/src/AgentPlayer.java</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created" />
-          <option name="myStatusName" value="Created" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Deleted" />
-          <option name="myStatusName" value="Deleted" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="true" />
-          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Restored" />
-          <option name="myStatusName" value="Will be restored" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="RESTORED" />
-        </FILE-GROUP>
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Modified" />
-        <option name="myStatusName" value="Modified" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MODIFIED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Skipped" />
-        <option name="myStatusName" value="Skipped" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SKIPPED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with conflicts" />
-        <option name="myStatusName" value="Will be merged with conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_CONFLICTS" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with tree conflicts" />
-        <option name="myStatusName" value="Merged with tree conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with property conflicts" />
-        <option name="myStatusName" value="Will be merged with property conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged" />
-        <option name="myStatusName" value="Will be merged" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Not in repository" />
-        <option name="myStatusName" value="Not in repository" />
-        <option name="mySupportsDeletion" value="true" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="UNKNOWN" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally added" />
-        <option name="myStatusName" value="Locally added" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_ADDED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally removed" />
-        <option name="myStatusName" value="Locally removed" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_REMOVED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Switched" />
-        <option name="myStatusName" value="Switched" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SWITCHED" />
-      </FILE-GROUP>
-    </UpdatedFiles>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -543,32 +447,40 @@
       <option name="project" value="LOCAL" />
       <updated>1522105589554</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="adjust Azer updates -- trying full sequence and reassigning best node">
+      <created>1523809094520</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1523809094520</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3280507" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32707182" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25832012" sideWeight="0.5058565" order="15" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19558011" sideWeight="0.4941435" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946146" sideWeight="0.49710983" order="16" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32012677" sideWeight="0.4941435" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20131771" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20104167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46519336" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18383518" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -650,11 +562,20 @@
     <MESSAGE value="2 successful azer splits! not 3!" />
     <MESSAGE value="AZER completly working (we think)!" />
     <MESSAGE value="Back to the original design for Azer -- fixed some VERY IMPORTANT issues with where states are indexed and added to memory" />
-    <option name="LAST_COMMIT_MESSAGE" value="Back to the original design for Azer -- fixed some VERY IMPORTANT issues with where states are indexed and added to memory" />
+    <MESSAGE value="adjust Azer updates -- trying full sequence and reassigning best node" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjust Azer updates -- trying full sequence and reassigning best node" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="75" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/FSML1/src/AdjustSuffixAzer.java</url>
+          <line>875</line>
+          <properties />
+          <option name="timeStamp" value="75" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="76" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -763,14 +684,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/FSML1/src/GoalSensorOnlyNSMAgent.java" />
-    <entry file="file://$PROJECT_DIR$/FSML1/.project">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FSML1/FSML1.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -867,7 +780,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4296">
           <caret line="77" column="9" lean-forward="false" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -909,7 +824,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9333">
           <caret line="558" column="18" lean-forward="false" selection-start-line="558" selection-start-column="18" selection-end-line="558" selection-end-column="18" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1002,13 +919,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FSML1/src/AgentPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="36" column="66" lean-forward="true" selection-start-line="36" selection-start-column="66" selection-end-line="36" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FSML1/src/Sensors.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2686">
@@ -1043,61 +953,90 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FSML1/src/StateMachineEnvironment.java">
+    <entry file="file://$PROJECT_DIR$/FSML1/src/#AzerSplitSensorOnlyAgent.java#" />
+    <entry file="file://$PROJECT_DIR$/FSML1/src/AgentPlayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="30" column="39" lean-forward="false" selection-start-line="30" selection-start-column="39" selection-end-line="30" selection-end-column="39" />
-          <folding />
+        <state relative-caret-position="21">
+          <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#8598#8599#0" expanded="false" />
+            <element signature="e#8655#8656#0" expanded="false" />
+            <marker date="1523491666685" expanded="true" signature="8077:8187" ph="{...}" />
+            <marker date="1523491666685" expanded="true" signature="8236:8440" ph="{...}" />
+            <marker date="1523491666685" expanded="true" signature="8469:9004" ph="{...}" />
+            <marker date="1523491666685" expanded="true" signature="8695:8770" ph="{...}" />
+            <marker date="1523491666685" expanded="true" signature="8823:8998" ph="{...}" />
+            <marker date="1523491666685" expanded="true" signature="9035:9095" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FSML1/src/AzerAgentSplitsOnly.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+        <state relative-caret-position="269">
+          <caret line="511" column="25" lean-forward="false" selection-start-line="511" selection-start-column="24" selection-end-line="511" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FSML1/src/#AzerSplitSensorOnlyAgent.java#">
+    <entry file="file://$PROJECT_DIR$/src/DecarbonatedAgentTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="2" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1235" selection-end-column="13" />
-          <folding />
+        <state relative-caret-position="126">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FSML1/src/Agent.java">
+    <entry file="file://$PROJECT_DIR$/FSML1/src/StateMachineEnvironment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="47" column="45" lean-forward="false" selection-start-line="47" selection-start-column="45" selection-end-line="47" selection-end-column="45" />
+        <state relative-caret-position="189">
+          <caret line="30" column="39" lean-forward="false" selection-start-line="30" selection-start-column="39" selection-end-line="30" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FSML1/src/AzerAgent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9792">
-          <caret line="581" column="54" lean-forward="false" selection-start-line="581" selection-start-column="16" selection-end-line="581" selection-end-column="54" />
+        <state relative-caret-position="0">
+          <caret line="810" column="0" lean-forward="false" selection-start-line="810" selection-start-column="0" selection-end-line="810" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FSML1/src/Agent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="82" column="15" lean-forward="false" selection-start-line="82" selection-start-column="8" selection-end-line="82" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FSML1/src/MaRzAgent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9418">
-          <caret line="559" column="33" lean-forward="false" selection-start-line="559" selection-start-column="33" selection-end-line="559" selection-end-column="33" />
+        <state relative-caret-position="63">
+          <caret line="464" column="17" lean-forward="true" selection-start-line="464" selection-start-column="17" selection-end-line="464" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FSML1/src/AdjustSuffixAzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="878" column="9" lean-forward="false" selection-start-line="878" selection-start-column="9" selection-end-line="878" selection-end-column="9" />
+        <state relative-caret-position="252">
+          <caret line="993" column="61" lean-forward="true" selection-start-line="993" selection-start-column="61" selection-end-line="993" selection-end-column="61" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FSML1/src/AdjustSuffixMarz.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="600" column="29" lean-forward="true" selection-start-line="600" selection-start-column="29" selection-end-line="600" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>

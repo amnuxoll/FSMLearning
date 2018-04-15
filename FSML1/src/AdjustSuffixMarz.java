@@ -5,18 +5,18 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.transform.Templates;
+
 /**
- * AzerAgent Class
+ * MaRzAgent Class
  *
- * @author Andrew Ripple
- * @author Zach F.
- * @author Emily Peterson
- * @author Regan
+ * @author Christian Rodriguez
+ * @author Giselle Marston
  * @author Andrew Nuxoll
- * @version Spring 2018
+ * @version 3.0
  *
  */
-public class AzerAgentSebsir extends Agent
+public class AdjustSuffixMarz extends Agent
 {
 
     /*---====CONSTANTS====---*/
@@ -24,20 +24,17 @@ public class AzerAgentSebsir extends Agent
     // the likeliness to jump back to another node
     // (should be in the range (0.0 - 1.0)
     public static double G_WEIGHT = 0.05;
-
+    int countThis = 0;
     // max size of list of nodes
     public static final int NODE_LIST_SIZE = 100000;
 
     /*---==== MEMBER VARIABLES ===---*/
 
     /** hash table of all nodes on the fringe of our search */
-   // HashMap<String, SuffixNode> hashFringe; -- phased out, now in initPrefix Node
+    HashMap<String, SuffixNode> hashFringe;
 
     /** this is the node we're currently using to search with */
     SuffixNode activeNode = null;
-
-    /** this is the root of the prefix "tree"*/
-    PrefixNode prefixRoot = null;
 
     /**
      * each permutation has a number associated with it. This is used to track
@@ -45,8 +42,6 @@ public class AzerAgentSebsir extends Agent
      */
     int lastPermutationIndex = 1;// set to 1 because we hard coded the first
     // permutation to be 'a'
-
-    int countThis = 0;
 
     /**
      * the next sequence to consider testing (typically generated via
@@ -66,13 +61,14 @@ public class AzerAgentSebsir extends Agent
      */
     String lastSuccessfulSequence = "";
 
+    /**
+     * holds the sequence to try based on matched memory (adjusted suffix)
+     */
+    String newSuffixVal = "";
+
     /** for profiling: log total time spent in various code */
     public static long overallStartTime = 0;
     public static long totalTime = 0;
-
-    /** for categorizing if a split has occured */
-    public int isAzerSplit = 0;
-
 
     /**
      * SufixNode Class
@@ -98,7 +94,7 @@ public class AzerAgentSebsir extends Agent
         //exactly at the goal when this node is active
         public int lastScanIndex = 0;      //The last time epmem was scanned for
         //matches to this suffix, it stopped here
-        public PrefixNode prefixNode;
+
         /**
          * indices into episodicMemory of successful/failed sequences with this
          * suffix
@@ -132,25 +128,6 @@ public class AzerAgentSebsir extends Agent
             this.tries = 0;
             this.failRate = 0.0;
             this.parentFailRate = 0.0;
-            this.prefixNode = null;
-
-
-        }// ctor
-        //Copy Contructor
-        public SuffixNode(SuffixNode cpy)
-        {
-            this.suffix = cpy.suffix;
-            this.queueSeq = cpy.queueSeq;
-            this.f = cpy.f;
-            this.g = cpy.g;
-            this.indexOfLastEpisodeTried = 0;
-            this.successIndexList = new ArrayList<Integer>(cpy.successIndexList);
-            this.failsIndexList = new ArrayList<Integer>(cpy.failsIndexList);
-            this.tries = 0;
-            this.failRate = 0.0;
-            this.parentFailRate = 0.0;
-            this.prefixNode = cpy.prefixNode;
-
 
         }// ctor
 
@@ -171,6 +148,7 @@ public class AzerAgentSebsir extends Agent
             int failedTries = failsIndexList.size();
             int succTries = successIndexList.size();
             int tries = failedTries + successIndexList.size();
+
             updateHeuristic();
             double truncatedG = (int)(g * G_WEIGHT * 100.0) / 100.0;  //trim to 2 decimal places
             output = output + ":" + truncatedG + "+" + (failedTries) + "/" + (failedTries + succTries);
@@ -210,11 +188,11 @@ public class AzerAgentSebsir extends Agent
         {
             DecimalFormat formatter = new DecimalFormat("#.###");
             updateHeuristic();
-            String id = this.getId();
+            String name = this.getName();
             boolean isActive = this == activeNode;
-            StringBuilder dotBuilder = new StringBuilder(id);
+            StringBuilder dotBuilder = new StringBuilder(name);
             dotBuilder.append(" [shape=record, label=\"{ ");
-            dotBuilder.append(this.getLabel() + " | f: " + formatter.format(this.f) + " | S: " + this.successIndexList.size() + " | F: " + this.failsIndexList.size());
+            dotBuilder.append(name + " | f: " + formatter.format(this.f) + " | S: " + this.successIndexList.size() + " | F: " + this.failsIndexList.size());
             dotBuilder.append(" }\"");
             if (isActive)
                 dotBuilder.append(", fillcolor = gray, style = filled");
@@ -222,155 +200,27 @@ public class AzerAgentSebsir extends Agent
             return dotBuilder.toString();
         }
 
-        private String getLabel()
+        public String getName()
         {
             if (this.suffix.equals(""))
-                return "D_S";
-            return "S" + suffix;
+                return "Root";
+            return suffix;
         }
 
-        public String getId()
-        {
-            // Since similar MaRz trees can exist below different prefix nodes, they will get
-            // tagged with the parent prefix node.
-            return this.getLabel() + "_" + this.prefixNode.getId();
-        }
     }// SuffixNode Class
 
-
-
-    public class PrefixNode
+    /**
+     * AdjustSuffixMarz
+     *
+     */
+    public AdjustSuffixMarz()
     {
-        /*--==Instance Variables==--*/
-        public String prefixValue; // if this node becomes active, start with this
-        public HashMap<String, SuffixNode> suffixHash; //these are suffix nodes TODO -- bad name
-        public HashMap<String, PrefixNode> adoptedChildren; //"adopted" from a successful AZER split
-        // permutation
+        hashFringe = new HashMap<String, AdjustSuffixMarz.SuffixNode>();
 
-        public PrefixNode()
-        {
-            this.prefixValue = ""; //initially set to wildcard
-            adoptedChildren = new HashMap<String,PrefixNode>();
-            suffixHash = new HashMap<String, SuffixNode>();
-        }// ctor
-
-        public String toDOT(SuffixNode activeNode)
-        {
-            HashSet<String> vertices = new HashSet<>();
-            String id = this.getId();
-            StringBuilder dotBuilder = new StringBuilder(id + "[label=" + this.getLabel() + ",shape=triangle];");
-            for(SuffixNode suffixNode : this.suffixHash.values())
-            {
-                dotBuilder.append(suffixNode.toDOT(activeNode));
-                this.addVertices(suffixNode, dotBuilder, vertices);
-            }
-            for(PrefixNode prefixNode : this.adoptedChildren.values())
-            {
-                dotBuilder.append(prefixNode.toDOT(activeNode));
-                dotBuilder.append(this.getId() + " -> " + prefixNode.getId() + ";");
-                //this.addVertices(prefixNode, dotBuilder, vertices);
-            }
-            return dotBuilder.toString();
-        }
-
-        private String getLabel()
-        {
-            if (prefixValue.equals(""))
-                return "D_P";
-            return "A" + prefixValue;
-        }
-
-        public String getId()
-        {
-            // Use 'this' to uniquefy this prefix node. This allows us to recognize errors in object references
-            // as well as the MaRz trees under each Prefix node.
-            String name = this.getLabel() + "_" + this + "";
-            return name.replaceAll("[$@]", "_");
-        }
-
-        private void addVertices(SuffixNode suffixNode, StringBuilder dotBuilder, HashSet<String> vertices) {
-            String name = suffixNode.getLabel();
-            if (!name.startsWith("D_S")) {
-                String parent = name;
-                do {
-                    String startVertex = null;
-                    boolean setLabel = false;
-                    if (parent.startsWith("D_S")) {
-                        parent = this.getId();
-                        startVertex = parent;
-                    } else if (parent.length() == 1) {
-                        parent = "D_S";
-                        startVertex = parent + "_" + this.getId();
-                        setLabel = true;
-                    } else {
-                        parent = parent.substring(1);
-                        startVertex = parent + "_" + this.getId();
-                        setLabel = true;
-                    }
-                    String vertex = startVertex + " -> " + name + "_" + this.getId() + ";";
-                    if (!vertices.contains(vertex)) {
-                        dotBuilder.append(vertex);
-                        if (setLabel)
-                            dotBuilder.append(startVertex + " [label=" + parent + "];");
-                        vertices.add(vertex);
-                    }
-                    name = parent;
-                } while (!parent.equals(this.getId()));
-            }
-        }
-        private void addVertices(PrefixNode prefixNode, StringBuilder dotBuilder, HashSet<String> vertices)
-        {
-            String name = prefixNode.getId();
-            if (!name.startsWith("D_P")) {
-                PrefixNode parentNode;
-
-                String parentPrefix = prefixNode.prefixValue.substring(1);
-                while(this.adoptedChildren.containsKey(parentPrefix))
-                {
-                    parentNode = this.adoptedChildren.get(parentPrefix);
-                    String vertex = parentNode.getId() + " -> " + prefixNode.getId() + ";";
-                    if (!vertices.contains(vertex))
-                    {
-                        dotBuilder.append(vertex);
-                        vertices.add(vertex);
-                    }
-                    parentPrefix = parentPrefix.substring(1);
-                }
-
-//                do {
-//                    if (prefixNode.prefixValue.length() == 1)
-//                        parentNode = this;
-//                    else
-//                    {
-//                        String parentPrefix = prefixNode.prefixValue.substring(1);
-//                        parentNode = this.adoptedChildren.get(parentPrefix);
-//                    }
-//                    String vertex = parentNode.getId() + " -> " + prefixNode.getId() + ";";
-//                    if (!vertices.contains(vertex))
-//                    {
-//                        dotBuilder.append(vertex);
-//                        vertices.add(vertex);
-//                    }
-//                    prefixNode = parentNode;
-//                } while (prefixNode != this);
-            }
-        }
-    }// SuffixNode Class
-
-
-
-
-
-
-    public AzerAgent()
-    {
         // Create an empty root node and split it to create an initial fringe
         // that has a node for each letter in the alphabet
         SuffixNode initNode = new SuffixNode();
-        PrefixNode initPrefixNode = new PrefixNode();
-        initNode.prefixNode = initPrefixNode; //give the init suffix node it's parent
-        prefixRoot = initPrefixNode; //the root of the tree for searching
-        initPrefixNode.suffixHash.put("", initNode);
+        hashFringe.put("", initNode);
         this.activeNode = initNode;
 
     }// ctor
@@ -388,42 +238,23 @@ public class AzerAgentSebsir extends Agent
         {
 
             // Erase worst node in the hashFringe once we hit our Constant limit
-            //TODO -- we have a way too big constant limit now
-            while (activeNode.prefixNode.suffixHash.size() > NODE_LIST_SIZE)
+            while (hashFringe.size() > NODE_LIST_SIZE)
             {
-                System.out.println("limit size is becoming an issue fix");
-                SuffixNode worst = findWorstNodeToTry(activeNode.prefixNode.suffixHash); //TODO replace this with a method that looks at all the trees!
-                activeNode.prefixNode.suffixHash.remove(worst.suffix);
+                SuffixNode worst = findWorstNodeToTry();
+                hashFringe.remove(worst.suffix);
             }// if
 
             //If the next sequence matches the active node, try it
             if (nextSeqToTry.endsWith(activeNode.suffix))
             {
-
                 debugPrintln("Trying Sequence: " + nextSeqToTry);
-                debugPrintln("Current State: " + env.currentState);
-                debugPrintln("Memory is:  " + sensorMemory);
 
                 if (Successes <= NUM_GOALS)
                 {
                     trySeq();
 
-                    //AZER Check for best node --------------
                     //check to see if another node would be better now
-                    int index = sensorMemory.length()-1;
-                    String findPrefix = Character.toString(sensorMemory.charAt(index));
-                    PrefixNode iterNode =  prefixRoot;
-                    while (!(iterNode.adoptedChildren.isEmpty())) {
-                        if (iterNode.adoptedChildren.containsKey(findPrefix)) {
-                            iterNode = iterNode.adoptedChildren.get(findPrefix);
-                        }
-                        else{
-                            System.out.println("UH OH!.............. mem too small for AZER node :( ");
-                        }
-                        index-=2;
-                        findPrefix = sensorMemory.charAt(index) + findPrefix; //get the next character to the left in the sensor memory
-                    }
-                    SuffixNode newBestNode = findBestNodeToTry(iterNode.suffixHash); //find the best value in the correct marz tree
+                    SuffixNode newBestNode = findBestNodeToTry();
 
                     if (newBestNode != activeNode) {
                         activeNode.queueSeq = 1;
@@ -470,7 +301,7 @@ public class AzerAgentSebsir extends Agent
     public SuffixNode findNodeForPath(String path) {
         int charIndex = path.length() - 1;
         String key = "";
-        while (! activeNode.prefixNode.suffixHash.containsKey(key))
+        while (! hashFringe.containsKey(key))
         {
             if (charIndex == -1)
             {
@@ -484,7 +315,7 @@ public class AzerAgentSebsir extends Agent
         }// while
 
         //If this non-active node doesn't have a queueSeq yet, set it
-        return activeNode.prefixNode.suffixHash.get(key);
+        return hashFringe.get(key);
 
     }//findNodeForPath
 
@@ -502,7 +333,7 @@ public class AzerAgentSebsir extends Agent
      */
     public SuffixNode findNodeForIndex(int index) {
         String key = "";
-        while (! activeNode.prefixNode.suffixHash.containsKey(key))
+        while (! hashFringe.containsKey(key))
         {
             Episode ep = episodicMemory.get(index);
 
@@ -517,7 +348,7 @@ public class AzerAgentSebsir extends Agent
         }// while
 
         //If this non-active node doesn't have a queueSeq yet, set it
-        return activeNode.prefixNode.suffixHash.get(key);
+        return hashFringe.get(key);
 
     }//findNodeForIndex
 
@@ -537,11 +368,11 @@ public class AzerAgentSebsir extends Agent
         //Extract the needed lists
         ArrayList<Integer> parentList = success ? parent.successIndexList : parent.failsIndexList;
         ArrayList<ArrayList<Integer>> childLists = new ArrayList<ArrayList<Integer>>();
-
         for (int i = 0; i < alphabet.length; i++)
         {
             childLists.add( success ? children[i].successIndexList : children[i].failsIndexList );
         }
+
 
         //divy
         for (Integer indexObj : parentList)
@@ -568,71 +399,6 @@ public class AzerAgentSebsir extends Agent
     }//divyIndexes
 
     /**
-     * update sucess and fail rates for AZER nodes
-     */
-    public boolean updateAzerSuccessFail(PrefixNode[] childrenPrefix, boolean success){
-        boolean foundMatch = true;
-        for (int i = 0; i <childrenPrefix.length; i++){
-
-            Iterator it = childrenPrefix[i].suffixHash.entrySet().iterator();
-            //regex to find matches among prefix frontier nodes in hashfringe
-           String miniPattern = success ?  " \\|" : "[^\\s]";
-
-            while(it.hasNext()){
-                Map.Entry pair = (Map.Entry)it.next();
-                String memInput = pair.getKey().toString();
-                /*for (char alph : alphabet){
-                    memInput = memInput.replaceAll(Character.toString(alph), Character.toString(alph)+".");
-                }*/
-               /* if (memInput.length() < childrenPrefix[i].prefixValue.length()){ //TESTING
-                    return false; //return out if marz nodes are not long enough
-                }*/
-                char[] marzNode = new StringBuilder(memInput).reverse().toString().toCharArray();
-                char[] azerNode = new StringBuilder(childrenPrefix[i].prefixValue).reverse().toString().toCharArray();
-                String azerSearchVal = "";
-                for (int j = 0; j < Math.max(memInput.length(), azerNode.length); j ++){
-                    String azVal = ".";
-                    if (j < azerNode.length){
-                        azVal = Character.toString(azerNode[j]);
-                    }
-                    String maVal = ".";
-                    if (j < marzNode.length){
-                        maVal = Character.toString(marzNode[j]);
-                    }
-                    azerSearchVal = azVal  + maVal + azerSearchVal;
-                }
-
-                Pattern pattern = Pattern.compile("(?=(" + azerSearchVal+ miniPattern +"))." );
-                Matcher matcher = pattern.matcher(sensorMemory);
-                int numSuccess = 0;
-                while (matcher.find()) {
-                    numSuccess++;
-                }
-
-                // this code is ugly. make better. :)
-                if (success == true) {
-                    childrenPrefix[i].suffixHash.get(pair.getKey()).successIndexList.clear();
-                }
-                else {
-                    childrenPrefix[i].suffixHash.get(pair.getKey()).failsIndexList.clear();
-                }
-
-                for (int m = 0; m < numSuccess; m++){
-                    if (success == true) {
-                        childrenPrefix[i].suffixHash.get(pair.getKey()).successIndexList.add(m);
-                    }
-                    else{
-                        childrenPrefix[i].suffixHash.get(pair.getKey()).failsIndexList.add(m);
-                    }
-                }
-                foundMatch &= numSuccess != 0;
-            }
-
-        }
-        return foundMatch;
-    }
-
-    /**
      * splitNode
      *
      * Add new alphabet.length number of new nodes to fringe by replacing the
@@ -648,8 +414,7 @@ public class AzerAgentSebsir extends Agent
     {
         countThis++;
         String parentSuffix = this.activeNode.suffix;
-        debugPrintln(" MarZ NODE TO BE SPLIT: " + activeNode);
-        debugPrintln(sensorMemory);
+        debugPrintln("NODE TO BE SPLIT: " + activeNode);
 
         // Create the initial child nodes
         SuffixNode[] children = new SuffixNode[alphabet.length];
@@ -660,9 +425,7 @@ public class AzerAgentSebsir extends Agent
             children[i].g = activeNode.g + 1;
             children[i].indexOfLastEpisodeTried = memory.length() - 1;
             children[i].parentFailRate = activeNode.failRate;
-            children[i].prefixNode = activeNode.prefixNode;
         }// for
-
 
         //Divy the successes and failures among the children
         divyIndexes(activeNode, children, true);
@@ -674,74 +437,14 @@ public class AzerAgentSebsir extends Agent
             //if the child's suffix has never been tried, then it's too soon:
             //abort this split!
             if (children[i].failsIndexList.size() == 0) return;
-        }//for        
+        }//for
 
         //Ready to commit:  add the children to the fringe and remove the parent
         for (int i = 0; i < alphabet.length; i++)
         {
-            activeNode.prefixNode.suffixHash.put(children[i].suffix, children[i]);
+            hashFringe.put(children[i].suffix, children[i]);
         }// for
-        activeNode.prefixNode.suffixHash.remove(activeNode.suffix);
-
-
-        //Attempt AZER Split. Stop if requirements for AZER split not met:
-        //determine if the active node should next split on sensor or char
-        boolean sensorNext = true;
-           /*if ( !activeNode.prefixNode.prefixValue.equals("") &&
-            Character.isDigit(activeNode.prefixNode.prefixValue.charAt(0))){
-           sensorNext = false;
-           }*/
-
-            int numChildren;
-            if (sensorNext){ numChildren = 2;}
-            else{numChildren = alphabet.length;}
-            String parentPrefix = "";
-            if (!activeNode.prefixNode.prefixValue.equals("")){ //initial prefix node has no parent
-                parentPrefix = activeNode.prefixNode.prefixValue; //prefix node value
-            }
-
-            PrefixNode[] prefixChildren = new PrefixNode[numChildren]; // 2 bc even + odd sensor
-            //creates new "trees" for each prefix
-
-            if (sensorNext) {
-                for (int i = 0; i < 2; i++) { //2 bc that's the sensor even/odd
-                    prefixChildren[i] = new PrefixNode();
-                    prefixChildren[i].prefixValue = Integer.toString(i) + parentPrefix;
-                    for (Map.Entry<String, SuffixNode> entry : activeNode.prefixNode.suffixHash.entrySet()){
-                        SuffixNode newNode = new SuffixNode(entry.getValue());
-                        prefixChildren[i].suffixHash.put(entry.getKey(), newNode);
-                        newNode.prefixNode = prefixChildren[i];
-                    }
-                }
-            }
-            else{
-                for (int i = 0; i < alphabet.length; i++) { //split over every alphabet char
-                    prefixChildren[i] = new PrefixNode();
-                    prefixChildren[i].prefixValue =  String.valueOf((char)(i+97)) + parentPrefix;
-                    for (Map.Entry<String, SuffixNode> entry : activeNode.prefixNode.suffixHash.entrySet()){
-                        SuffixNode newNode = new SuffixNode(entry.getValue());
-                        prefixChildren[i].suffixHash.put(entry.getKey(), newNode);
-                        newNode.prefixNode = prefixChildren[i];
-                    }
-
-                }
-
-            }
-            //Run though each possibility, when it is false and when it is true...store in temporary booleans.
-            boolean fail = updateAzerSuccessFail(prefixChildren, false);
-            boolean success = updateAzerSuccessFail(prefixChildren, true);
-             if ( fail || success) {
-                 System.out.println("AZER SPLIT HAPPENED!!!!!!!");
-                 super.playFileLogger.logMessage("AZER SPLIT HAPPENED!!!!!!!");
-                 isAzerSplit++;
-                 //continue AZER split if conditions are not met:
-                 for (int i = 0; i < prefixChildren.length; i++) {
-                     activeNode.prefixNode.adoptedChildren.put(prefixChildren[i].prefixValue, prefixChildren[i]);
-                 }
-                 activeNode.prefixNode.suffixHash.clear();
-             }
-
-
+        hashFringe.remove(activeNode.suffix);
 
         // //%%%REMOVE THIS!
         // if (hashFringe.size() >= 4)
@@ -769,56 +472,157 @@ public class AzerAgentSebsir extends Agent
     }// splitNode
 
     /**
-     * updateAllTrees
-     * recursively go through each suffix node in all prefix tree to update heuristics
+     *matchMemSeq - returns a string sequence IF:
+     *  1. the current sensor mem since last goal matches somewhere previously in mem
      */
-    public void updateAllTrees(PrefixNode node){
-        if (node.adoptedChildren.isEmpty()){
-            for (Map.Entry<String, SuffixNode> suff : node.suffixHash.entrySet()) {
-                suff.getValue().updateHeuristic();
-            }
-            return;
-        }
-        else{
-            for (Map.Entry<String, PrefixNode> child : node.adoptedChildren.entrySet()) {
-                updateAllTrees(child.getValue());
 
+    public String matchMemSeq(){
+        int index = sensorMemory.length();
+
+        String memSinceGoal = "";
+        while(true) {
+            if (index <= 0) {
+                break;
+            }
+            index--;
+            if (!(sensorMemory.charAt(index) == ' ')) {
+                memSinceGoal = Character.toString(sensorMemory.charAt(index)) + memSinceGoal;
+            }
+            else{
+                break;
             }
         }
+
+
+        //regex to find matches among prefix frontier nodes in hashfringe
+
+        Pattern pattern = Pattern.compile("(?=(" + memSinceGoal +"))." );
+        Matcher matcher = pattern.matcher(sensorMemory);
+        ArrayList<String> candidateNodes = new ArrayList<String>();
+        while (matcher.find()) {
+            int currentIndex = matcher.start() + memSinceGoal.length();
+            String candidateSuffix = "";
+            if(sensorMemory.substring(currentIndex).equals(" ")){
+                continue;
+            }
+            while (currentIndex < sensorMemory.length()){
+                if (sensorMemory.charAt(currentIndex) == '|') {
+                    //if (prefixRoot.suffixHash.containsKey(candidateSuffix)){
+                    //candidateNodes.add(prefixRoot.suffixHash.get(candidateSuffix));
+                    candidateNodes.add(candidateSuffix);
+                    //}
+                    break;
+                }
+                candidateSuffix = candidateSuffix + Character.toString(sensorMemory.charAt(currentIndex));
+                currentIndex+=2;
+            }
+
+        }
+        String returnString = "";
+        for (String i : candidateNodes){
+            if (!(returnString.equals(""))) {
+                if (i.length() < returnString.length()) {
+                    returnString = i;
+                }
+            }
+            else{
+                returnString = i;
+            }
+
+        }
+        return returnString;
     }
-
 
     /**
      * findBestNodeToTry
      *
      * finds node with lowest heuristic
      */
-    public SuffixNode findBestNodeToTry(HashMap<String, SuffixNode> inputFringe)
+    public SuffixNode findBestNodeToTry()
     {
-        //first update all heuristic, mostly for debug (?)
-        //updateAllTrees(prefixRoot);
 
-        //now find the best node in the correct active prefix tree from input Fringe
-        SuffixNode[] nodes = (SuffixNode[]) inputFringe.values().toArray(
-                new SuffixNode[inputFringe.size()]);
+        SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray(
+                new SuffixNode[hashFringe.size()]);
         assert (nodes.length > 0);
         double theBEASTLIESTCombo = nodes[0].f;
         SuffixNode bestNode = nodes[0];
-        for (SuffixNode node : nodes)
-        {
+        for (SuffixNode node : nodes) {
             node.updateHeuristic();
-            if (node.f < theBEASTLIESTCombo)
-            {
+            if (node.f < theBEASTLIESTCombo) {
                 theBEASTLIESTCombo = node.f;
                 bestNode = node;
             }// if
         }// for
 
+        //AdjustSuffix -- check for possible candidate
+
+        String candidateSuffix = matchMemSeq(); //returns potential sequence to try
+        SuffixNode candidateNode = null;
+        if (!(candidateSuffix.equals(""))){
+            //find the suffix node which matches or  ends with candidateSuffix
+            Set<String> keys = hashFringe.keySet();
+            List<String> list = new ArrayList<>(keys);
+            Collections.sort(list, (o1, o2) -> o1.length() < o2.length() ? 1 : o1.length() > o2.length() ? -1 : 0);
+            String addToSuccess = "";
+            for(String nodeName: list) {
+                if (nextSeqToTry.endsWith(nodeName)) {
+                    addToSuccess = nodeName;
+                    break;
+                }
+            }
+            if(!addToSuccess.equals("")) {
+                candidateNode= hashFringe.get(addToSuccess);
+            }
+            //continue back in the sequence until a match is found
+            else
+            {
+                for(int i = sensorMemory.length()-1; i >= 0; i--)
+                {
+                    if(Character.toString(sensorMemory.charAt(i)).equals("|")){
+                        String name = nextSeqToTry;
+
+                        for(int j = i-2; j >=0;j--)
+                        {
+                            name = sensorMemory.charAt(i) + name;
+                            if(hashFringe.containsKey(name))
+                            {
+                                candidateNode = hashFringe.get(name);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+            if (candidateNode!= null){
+                //recalculating memSinceGoal to get the length
+                int index = sensorMemory.length();
+                String memSinceGoal = "";
+                while(true) {
+                    if (index <= 0) {
+                        break;
+                    }
+                    index--;
+                    if (!(sensorMemory.charAt(index) == ' ')) {
+                        memSinceGoal = Character.toString(sensorMemory.charAt(index)) + memSinceGoal;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                double F_Weight = .2; //modify this to change weight on node
+                double candidatef = (double)candidateSuffix.length() /((double)memSinceGoal.length()/2 + (double)candidateSuffix.length());
+                System.out.println("Candidate f: " + candidatef + " active f: " + (activeNode.failRate));
+                if (candidatef < (activeNode.failRate)) {
+                    bestNode = candidateNode;
+                    newSuffixVal = candidateSuffix; //save the actual sequence to try in global val
+                }
+            }
+        }
 
         return bestNode;
 
     }// findBestNodeToTry
-
 
     /**
      * findWorstNode
@@ -826,7 +630,7 @@ public class AzerAgentSebsir extends Agent
      * finds node with largest heuristic
      *
      */
-    public SuffixNode findWorstNodeToTry(HashMap<String, SuffixNode> hashFringe)
+    public SuffixNode findWorstNodeToTry()
     {
         SuffixNode[] nodes = (SuffixNode[]) hashFringe.values().toArray(
                 new SuffixNode[hashFringe.size()]);
@@ -847,6 +651,11 @@ public class AzerAgentSebsir extends Agent
 
     }// findWorstNodeToTry
 
+
+
+
+
+
     /**
      * trySeq
      *
@@ -859,8 +668,15 @@ public class AzerAgentSebsir extends Agent
         String result = "";
         do
         {
-            result = tryPath(nextSeqToTry);
-            //System.out.println(sensorMemory);
+            //if there is a suffixVal worth trying, try it instead of nextSeqToTry
+            if (!(newSuffixVal.equals(""))) {
+                result = tryPath(newSuffixVal);
+                newSuffixVal = "";
+            }
+            //default
+            else {
+                result = tryPath(nextSeqToTry);
+            }
 
 
             // Update the active node's success/fail lists and related based
@@ -870,6 +686,7 @@ public class AzerAgentSebsir extends Agent
             // success so the path will be repeated in this loop.
             if (result.equals("FAIL"))
             {
+
                 activeNode.failsIndexList.add(new Integer(this.memory.length()
                         - activeNode.suffix.length()));
             }// if
@@ -878,8 +695,13 @@ public class AzerAgentSebsir extends Agent
             {
                 int unusedLen = nextSeqToTry.length() - result.length();
                 lastSuccessfulSequence = nextSeqToTry;
+                activeNode.successIndexList
+                        .add(new Integer(this.memory.length() + unusedLen
+                                - nextSeqToTry.length()));
 
+                activeNode.goalFound = true;
                 //if the last step of the sequence hits the goal that's a success
+                /*
                 if (unusedLen == 0)
                 {
                     activeNode.successIndexList
@@ -923,10 +745,12 @@ public class AzerAgentSebsir extends Agent
                     }//if  (another node can take credit for this success)
 
                 }//else (reached goal too soon)
+                */
 
             }// else (possible success)
 
             activeNode.tries++;
+
 
         } while (!result.equals("FAIL") && memory.length() < MAX_EPISODES
                 && Successes <= NUM_GOALS);
@@ -936,37 +760,7 @@ public class AzerAgentSebsir extends Agent
         if (activeNode.goalFound)
         {
             splitNode();
-            //Finds the prefix node which matches the memory
-            int index = sensorMemory.length() -1;
-            String findPrefix = Character.toString(sensorMemory.charAt(index));
-            PrefixNode iterNode =  prefixRoot;
-            while (!(iterNode.adoptedChildren.isEmpty())) {
-              if (iterNode.adoptedChildren.containsKey(findPrefix)) {
-                  iterNode = iterNode.adoptedChildren.get(findPrefix);
-              }
-              else{
-                  System.out.println("UH OH!.............. mem too small for AZER node :( ");
-              }
-              index-=2;
-              findPrefix = sensorMemory.charAt(index) + findPrefix; //get the next character to the left in the sensor memory
-            }
-            activeNode = findBestNodeToTry(iterNode.suffixHash); //find the best value in the correct marz tree
-
-            //print AZER tree on debug
-            if (debug){
-
-                debugPrintln("Memory is:  " + sensorMemory);
-                PrefixNode ptr = prefixRoot;
-                if (ptr.adoptedChildren != null) {
-                    for (Map.Entry<String, PrefixNode> child : ptr.adoptedChildren.entrySet()) {
-                        System.out.println(child.getValue().prefixValue);
-                        for (Map.Entry<String, SuffixNode> entry : child.getValue().suffixHash.entrySet()) {
-                            System.out.println(entry.getKey() + " : failrate = " + entry.getValue().failRate);
-                        }
-                    }
-                }
-
-            }
+            activeNode = findBestNodeToTry();
 
             // Use the new active node's queue sequence if it exists
             if (activeNode.queueSeq > 1)
@@ -1067,10 +861,43 @@ public class AzerAgentSebsir extends Agent
     @Override
     public String toDOT()
     {
-        StringBuilder dotBuilder = new StringBuilder("digraph azer_agent { ");
-        dotBuilder.append(this.prefixRoot.toDOT(this.activeNode));
+        StringBuilder dotBuilder = new StringBuilder("digraph marz_agent { ");
+        HashSet<String> vertices = new HashSet<>();
+        for(SuffixNode suffixNode : this.hashFringe.values())
+        {
+            dotBuilder.append(suffixNode.toDOT(activeNode));
+            this.addVertices(suffixNode.getName(), dotBuilder, vertices);
+        }
         dotBuilder.append(" }");
         return dotBuilder.toString();
+    }
+
+    private void addVertices(String name, StringBuilder dotBuilder, HashSet<String> vertices)
+    {
+        if (!name.equals("Root")) {
+            if (name.length() == 1) {
+                String vertex = "Root -> " + name + ";";
+                dotBuilder.append(vertex);
+                vertices.add(vertex);
+            }
+            else {
+                String parent = name.substring(1);
+                do {
+                    String vertex = parent + " -> " + name + ";";
+                    if (!vertices.contains(vertex)) {
+                        dotBuilder.append(vertex);
+                        vertices.add(vertex);
+                    }
+                    name = parent;
+                    if (parent.equals("Root"))
+                        parent = "";
+                    else if (parent.length() == 1)
+                        parent = "Root";
+                    else
+                        parent = parent.substring(1);
+                } while (!parent.equals(""));
+            }
+        }
     }
 
     /**
@@ -1087,7 +914,7 @@ public class AzerAgentSebsir extends Agent
         try
         {
 
-            String fname = "AIReport_AZER_" + makeNowString() + ".csv";
+            String fname = "AIReport_MaRz_" + makeNowString() + ".csv";
             FileWriter csv = new FileWriter(fname);
 
             for (int i = 1; i <= NUM_MACHINES; ++i)
@@ -1095,7 +922,7 @@ public class AzerAgentSebsir extends Agent
 
                 System.out.println("Starting on Machine " + i + " of "
                         + NUM_MACHINES);
-                AzerAgent gilligan = new AzerAgent();
+                AdjustSuffixMarz gilligan = new AdjustSuffixMarz();
 
                 if (Agent.debug)
                     gilligan.env.printStateMachineGraph();
@@ -1104,7 +931,6 @@ public class AzerAgentSebsir extends Agent
                 System.out.println("Average Solution Length (Cheating): "
                         + gilligan.env.avgStepsToGoalWithPath(gilligan.env
                         .shortestBlindPathToGoal()));
-
 
                 String path = gilligan.env.shortestPathToGoal(); // will's
                 sumOfAvgSteps += gilligan.env.avgStepsToGoalWithPath(path);
@@ -1166,11 +992,11 @@ public class AzerAgentSebsir extends Agent
 
     }// recordLearningCurve
 
-
     public static void main(String[] args)
     {
+
         // TBD: REMOVE - PROFILING
-        AzerAgent.overallStartTime = System.currentTimeMillis();
+        AdjustSuffixMarz.overallStartTime = System.currentTimeMillis();
 
         Date date = new Date();
         System.out.println("Start: " + date.toString());
@@ -1223,14 +1049,14 @@ public class AzerAgentSebsir extends Agent
 
         // TBD: REMOVE - PROFILING
         long overallTotalTime = System.currentTimeMillis()
-                - AzerAgent.overallStartTime;
+                - AdjustSuffixMarz.overallStartTime;
         System.out.println("TOTAL TIME SPENT: " + overallTotalTime + " ms");
-        double percent = 100.0 * (double) AzerAgent.totalTime
+        double percent = 100.0 * (double) AdjustSuffixMarz.totalTime
                 / (double) overallTotalTime;
-        System.out.println("Portion spent: " + AzerAgent.totalTime + " ms = "
+        System.out.println("Portion spent: " + AdjustSuffixMarz.totalTime + " ms = "
                 + percent + "%");
 
         System.exit(0);
     }// main
 
-}// AzerAgent
+}// AdjustSuffixMarz
