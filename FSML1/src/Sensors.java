@@ -37,12 +37,13 @@ public class Sensors {
     public Sensors( Sensors cpySensor){
         this.GOAL_SENSOR = cpySensor.GOAL_SENSOR;
         this.EVEN_SENSOR = cpySensor.EVEN_SENSOR;
-        this.NEWSTATE_SENSOR = cpySensor.NEWSTATE_SENSOR;
+        /*this.NEWSTATE_SENSOR = cpySensor.NEWSTATE_SENSOR;
         this.ISLOOP_SENSOR = cpySensor.ISLOOP_SENSOR;
         this.ISNOISE_SENSOR = cpySensor.ISNOISE_SENSOR;
         this.STATENUM_SENSOR = cpySensor.STATENUM_SENSOR;
         this.LIMITEDSTATENUM_SENSOR = cpySensor.LIMITEDSTATENUM_SENSOR;
         this.MODBUCKETS_SENSOR = cpySensor.MODBUCKETS_SENSOR;
+        */
     }
 
     /**

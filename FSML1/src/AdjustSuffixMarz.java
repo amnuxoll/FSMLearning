@@ -666,12 +666,16 @@ public class AdjustSuffixMarz extends Agent
 
         // Try the sequence until it fails
         String result = "";
+        String oldSeqToTry = "";
+        int suffixLength = 0;
         do
         {
             //if there is a suffixVal worth trying, try it instead of nextSeqToTry
             if (!(newSuffixVal.equals(""))) {
+                oldSeqToTry = nextSeqToTry;
                 result = tryPath(newSuffixVal);
-                newSuffixVal = "";
+                suffixLength = newSuffixVal.length();
+
             }
             //default
             else {
@@ -686,7 +690,8 @@ public class AdjustSuffixMarz extends Agent
             // success so the path will be repeated in this loop.
             if (result.equals("FAIL"))
             {
-
+                oldSeqToTry = "";
+                newSuffixVal = "";
                 activeNode.failsIndexList.add(new Integer(this.memory.length()
                         - activeNode.suffix.length()));
             }// if
@@ -694,8 +699,13 @@ public class AdjustSuffixMarz extends Agent
             else // possible success
             {
                 int unusedLen = nextSeqToTry.length() - result.length();
-                lastSuccessfulSequence = nextSeqToTry;
+                if(!oldSeqToTry.equals(""))
+                {
+                    unusedLen = suffixLength - result.length();
+                    oldSeqToTry = "";
+                }
 
+                lastSuccessfulSequence = nextSeqToTry;
                 //if the last step of the sequence hits the goal that's a success
 
                 if (unusedLen == 0)
@@ -741,7 +751,6 @@ public class AdjustSuffixMarz extends Agent
                     }//if  (another node can take credit for this success)
 
                 }//else (reached goal too soon)
-
 
             }// else (possible success)
 
