@@ -1,4 +1,4 @@
-import javafx.util.Pair;
+
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.sound.midi.Sequence;
 import javax.xml.transform.Templates;
 
 /**
@@ -211,6 +212,35 @@ public class AdjustSuffixMarz extends Agent
         }
 
     }// SuffixNode Class
+
+
+    public class SequenceSensorPair
+    {
+        String characterString = "";
+        String sensorString = "";
+
+
+        public SequenceSensorPair(String chars, String sensors)
+        {
+            characterString = chars;
+            sensorString = sensors;
+
+        }
+        public String getCharacterString()
+        {
+
+            return characterString;
+        }
+        public String getSensorString()
+        {
+            return sensorString;
+        }
+
+    }
+
+
+
+
 
     /**
      * AdjustSuffixMarz
@@ -479,7 +509,7 @@ public class AdjustSuffixMarz extends Agent
      *  1. the current sensor mem since last goal matches somewhere previously in mem
      */
 
-    public Pair<String, String> matchMemSeq(){
+    public SequenceSensorPair matchMemSeq(){
         int index = sensorMemory.length();
 
         String memSinceGoal = "";
@@ -501,7 +531,7 @@ public class AdjustSuffixMarz extends Agent
 
         Pattern pattern = Pattern.compile("(?=(" + memSinceGoal +"))." );
         Matcher matcher = pattern.matcher(sensorMemory);
-        ArrayList<Pair<String,String>> candidateSequences = new ArrayList<Pair<String, String>>();
+        ArrayList<SequenceSensorPair> candidateSequences = new ArrayList<SequenceSensorPair>();
         while (matcher.find()) {
             int currentIndex = matcher.start() + memSinceGoal.length();
             String candidateSuffix = "";
@@ -513,7 +543,7 @@ public class AdjustSuffixMarz extends Agent
                 if (sensorMemory.charAt(currentIndex) == '|') {
                     //if (prefixRoot.suffixHash.containsKey(candidateSuffix)){
                     //candidateNodes.add(prefixRoot.suffixHash.get(candidateSuffix));
-                    candidateSequences.add(new Pair(candidateSuffix, candidateSuffixSensors));
+                    candidateSequences.add(new SequenceSensorPair(candidateSuffix, candidateSuffixSensors));
                     //}
                     break;
                 }
@@ -524,10 +554,10 @@ public class AdjustSuffixMarz extends Agent
             }
 
         }
-        Pair<String,String> returnString = null;
-        for (Pair <String, String> i : candidateSequences){
+        SequenceSensorPair returnString = null;
+        for (SequenceSensorPair i : candidateSequences){
             if (returnString != null) {
-                if (i.getKey().length() < returnString.getKey().length()) {
+                if (i.getCharacterString().length() < returnString.getCharacterString().length()) {
                     returnString = i;
                 }
             }
@@ -561,10 +591,10 @@ public class AdjustSuffixMarz extends Agent
         }// for
 
         //AdjustSuffix -- check for possible candidate
-        Pair<String, String> memCandidate = matchMemSeq();//returns potential sequence to try
+        SequenceSensorPair memCandidate = matchMemSeq();//returns potential sequence to try
         SuffixNode candidateNode = null;
         if (memCandidate != null){
-            String candidateSuffix = memCandidate.getKey();
+            String candidateSuffix = memCandidate.getCharacterString();
             //find the suffix node which matches or  ends with candidateSuffix
             Set<String> keys = hashFringe.keySet();
             List<String> list = new ArrayList<>(keys);
@@ -622,7 +652,7 @@ public class AdjustSuffixMarz extends Agent
                 if (F_Weight*candidatef < (activeNode.failRate)) {
                     bestNode = candidateNode;
                     newSuffixVal = candidateSuffix; //save the actual sequence to try in global val
-                    newSuffixValSensors = memCandidate.getValue();
+                    newSuffixValSensors = memCandidate.getSensorString();
                 }
             }
         }
