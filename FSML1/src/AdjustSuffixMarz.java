@@ -1,3 +1,5 @@
+import javafx.util.Pair;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -65,6 +67,7 @@ public class AdjustSuffixMarz extends Agent
      * holds the sequence to try based on matched memory (adjusted suffix)
      */
     String newSuffixVal = "";
+    String newSuffixValSensors = "";
 
     /** for profiling: log total time spent in various code */
     public static long overallStartTime = 0;
@@ -476,7 +479,7 @@ public class AdjustSuffixMarz extends Agent
      *  1. the current sensor mem since last goal matches somewhere previously in mem
      */
 
-    public String matchMemSeq(){
+    public Pair<String, String> matchMemSeq(){
         int index = sensorMemory.length();
 
         String memSinceGoal = "";
@@ -498,10 +501,11 @@ public class AdjustSuffixMarz extends Agent
 
         Pattern pattern = Pattern.compile("(?=(" + memSinceGoal +"))." );
         Matcher matcher = pattern.matcher(sensorMemory);
-        ArrayList<String> candidateNodes = new ArrayList<String>();
+        ArrayList<Pair<String,String>> candidateSequences = new ArrayList<Pair<String, String>>();
         while (matcher.find()) {
             int currentIndex = matcher.start() + memSinceGoal.length();
             String candidateSuffix = "";
+            String candidateSuffixSensors = "";
             if(sensorMemory.substring(currentIndex).equals(" ")){
                 continue;
             }
@@ -509,19 +513,21 @@ public class AdjustSuffixMarz extends Agent
                 if (sensorMemory.charAt(currentIndex) == '|') {
                     //if (prefixRoot.suffixHash.containsKey(candidateSuffix)){
                     //candidateNodes.add(prefixRoot.suffixHash.get(candidateSuffix));
-                    candidateNodes.add(candidateSuffix);
+                    candidateSequences.add(new Pair(candidateSuffix, candidateSuffixSensors));
                     //}
                     break;
                 }
                 candidateSuffix = candidateSuffix + Character.toString(sensorMemory.charAt(currentIndex));
+                candidateSuffixSensors = candidateSuffixSensors + Character.toString(sensorMemory.charAt(currentIndex +1));
                 currentIndex+=2;
+
             }
 
         }
-        String returnString = "";
-        for (String i : candidateNodes){
-            if (!(returnString.equals(""))) {
-                if (i.length() < returnString.length()) {
+        Pair<String,String> returnString = null;
+        for (Pair <String, String> i : candidateSequences){
+            if (returnString != null) {
+                if (i.getKey().length() < returnString.getKey().length()) {
                     returnString = i;
                 }
             }
@@ -555,10 +561,10 @@ public class AdjustSuffixMarz extends Agent
         }// for
 
         //AdjustSuffix -- check for possible candidate
-
-        String candidateSuffix = matchMemSeq(); //returns potential sequence to try
+        Pair<String, String> memCandidate = matchMemSeq();//returns potential sequence to try
         SuffixNode candidateNode = null;
-        if (!(candidateSuffix.equals(""))){
+        if (memCandidate != null){
+            String candidateSuffix = memCandidate.getKey();
             //find the suffix node which matches or  ends with candidateSuffix
             Set<String> keys = hashFringe.keySet();
             List<String> list = new ArrayList<>(keys);
@@ -610,12 +616,13 @@ public class AdjustSuffixMarz extends Agent
                         break;
                     }
                 }
-                double F_Weight = .2; //modify this to change weight on node
+                double F_Weight = 1.2; //modify this to change weight on node
                 double candidatef = (double)candidateSuffix.length() /((double)memSinceGoal.length()/2 + (double)candidateSuffix.length());
                 System.out.println("Candidate f: " + candidatef + "  " + candidateSuffix + " active f: " + (activeNode.failRate) + " " + nextSeqToTry);
-                if (candidatef < (activeNode.failRate)) {
+                if (F_Weight*candidatef < (activeNode.failRate)) {
                     bestNode = candidateNode;
                     newSuffixVal = candidateSuffix; //save the actual sequence to try in global val
+                    newSuffixValSensors = memCandidate.getValue();
                 }
             }
         }
@@ -671,7 +678,7 @@ public class AdjustSuffixMarz extends Agent
         {
             //if there is a suffixVal worth trying, try it instead of nextSeqToTry
             if (!(newSuffixVal.equals(""))) {
-                result = tryPath(newSuffixVal);
+                result = tryPathSensors(newSuffixVal);
                 System.out.println(newSuffixVal);
                 suffixLength = newSuffixVal.length();
 
@@ -687,7 +694,7 @@ public class AdjustSuffixMarz extends Agent
             // before the suffix is reached is treated as neither a fail nor
             // success for heuristic purposes. However, it is still an overall
             // success so the path will be repeated in this loop.
-            if (result.equals("FAIL"))
+            if (result.equals("FAIL") )
             {
                if (!newSuffixVal.equals("")){
                    activeNode.failsIndexList.add(new Integer(this.memory.length() - suffixLength));
@@ -697,6 +704,9 @@ public class AdjustSuffixMarz extends Agent
                            - activeNode.suffix.length()));
                }
             }// if
+            else if (result.equals("PARTIAL_FAIL")){
+                //assign no failures for now
+            }
 
             else // possible success
             {
@@ -777,7 +787,7 @@ public class AdjustSuffixMarz extends Agent
             activeNode.tries++;
 
 
-        } while (!result.equals("FAIL") && memory.length() < MAX_EPISODES
+        } while (!(result.equals("FAIL") || result.equals("PARTIAL_FAIL")) && memory.length() < MAX_EPISODES
                 && Successes <= NUM_GOALS);
 
         // The active node is split once it's found a successful sequence but
@@ -806,6 +816,74 @@ public class AdjustSuffixMarz extends Agent
      * TBD: REMOVE - PROFILING long endTime = System.currentTimeMillis();
      * this.totalTime += endTime - startTime;
      */
+
+    /**
+     * tryPath
+     *
+     * Given a full string of moves, tryPath will enter the moves
+     * one by one until it reaches the goal.  Once the goal is reached the
+     * method stops so the entire given path may not be tried.
+     *
+     * NOTE: Should we really stop without finishing the entire path when we
+     * reach a success?  Will the agent perform better or worse if it always
+     * finishes the path?  [15 Mar 2017:  MaRzAgent now relies on current behavior.
+     * I think it's best as is.]
+     *
+     * @param pathToTry; a string representing the path to try
+     *
+     * @return the amount of the given path that was actually tried or the code
+     * "FAIL" if the entire path was tried without reaching the goal
+     */
+
+    public String tryPathSensors(String pathToTry) {
+        Sensors sensors;
+        String temp;
+        if(env.resetSensorValue) //trying to get the first value
+        {
+            if(env.currentState%2 == 0)
+            {
+                temp = " | 1";
+
+            }
+            else {
+                temp = " | 0";
+            }
+            sensorMemory = sensorMemory.substring(0, sensorMemory.length()-1) + temp;
+            env.resetSensorValue = false;
+        }
+
+        if (generatePlayFile)
+            playFileLogger.logNewSequenceAttempt(pathToTry);
+
+        // Enter each character in the path
+        for (int i = 0; i < pathToTry.length(); i+=2) {
+            sensors = env.tick(pathToTry.charAt(i));
+            if (generatePlayFile)
+                playFileLogger.logEnvironmentState(sensors);
+            Sensors encodedSensorResult = new Sensors(sensors);
+            episodicMemory.add(new Episode(pathToTry.charAt(i), encodedSensorResult, env.currentState));
+            memory = memory + pathToTry.charAt(i);
+            sensorMemory = sensorMemory + pathToTry.charAt(i) + episodicMemory.get(currIndex).sensorValue.sensorRepresentation();
+            currIndex++;
+            if (sensors.GOAL_SENSOR) {
+                Successes++;
+                //debugPrintln("Success after " + (i + 1) + " steps.");
+
+
+                return pathToTry.substring(0,i+1);
+            }
+
+            String sensor = Character.toString(newSuffixValSensors.charAt(i));
+            if (!((encodedSensorResult.EVEN_SENSOR && sensor.equals("1")) || (!encodedSensorResult.EVEN_SENSOR && sensor.equals("0")))){
+                return  "PARTIAL_FAIL";
+            }
+
+
+        }
+        // If we make it through the entire loop, the path was unsuccessful
+        return "FAIL";
+    }//tryPath
+
 
     /**
      * getIndexOfSuffix
