@@ -612,7 +612,7 @@ public class AdjustSuffixMarz extends Agent
                 }
                 double F_Weight = .2; //modify this to change weight on node
                 double candidatef = (double)candidateSuffix.length() /((double)memSinceGoal.length()/2 + (double)candidateSuffix.length());
-                System.out.println("Candidate f: " + candidatef + " active f: " + (activeNode.failRate));
+                System.out.println("Candidate f: " + candidatef + "  " + candidateSuffix + " active f: " + (activeNode.failRate) + " " + nextSeqToTry);
                 if (candidatef < (activeNode.failRate)) {
                     bestNode = candidateNode;
                     newSuffixVal = candidateSuffix; //save the actual sequence to try in global val
@@ -666,14 +666,13 @@ public class AdjustSuffixMarz extends Agent
 
         // Try the sequence until it fails
         String result = "";
-        String oldSeqToTry = "";
         int suffixLength = 0;
         do
         {
             //if there is a suffixVal worth trying, try it instead of nextSeqToTry
             if (!(newSuffixVal.equals(""))) {
-                oldSeqToTry = nextSeqToTry;
                 result = tryPath(newSuffixVal);
+                System.out.println(newSuffixVal);
                 suffixLength = newSuffixVal.length();
 
             }
@@ -690,29 +689,48 @@ public class AdjustSuffixMarz extends Agent
             // success so the path will be repeated in this loop.
             if (result.equals("FAIL"))
             {
-                oldSeqToTry = "";
-                newSuffixVal = "";
-                activeNode.failsIndexList.add(new Integer(this.memory.length()
-                        - activeNode.suffix.length()));
+               if (!newSuffixVal.equals("")){
+                   activeNode.failsIndexList.add(new Integer(this.memory.length() - suffixLength));
+               }
+               else {
+                   activeNode.failsIndexList.add(new Integer(this.memory.length()
+                           - activeNode.suffix.length()));
+               }
             }// if
 
             else // possible success
             {
-                int unusedLen = nextSeqToTry.length() - result.length();
-                if(!oldSeqToTry.equals(""))
-                {
+                int unusedLen;
+                //adjusted suffix used
+                if (!newSuffixVal.equals("")){
                     unusedLen = suffixLength - result.length();
-                    oldSeqToTry = "";
+                    //since the active node was based off of our specific algorithm, find a new one
+                    activeNode = findBestNodeToTry(); //this will reslt newSuffixVal if applicable
+
+                }
+                //nextseq to try used
+                else {
+                    unusedLen = nextSeqToTry.length() - result.length();
+
+                    //if the last step of the sequence hits the goal that's a success
+                    lastSuccessfulSequence = nextSeqToTry;
                 }
 
-                lastSuccessfulSequence = nextSeqToTry;
-                //if the last step of the sequence hits the goal that's a success
 
                 if (unusedLen == 0)
                 {
-                    activeNode.successIndexList
-                            .add(new Integer(this.memory.length() + unusedLen
-                                    - activeNode.suffix.length()));
+                    //adjusted sequence used
+                    if (!newSuffixVal.equals("")) {
+                        activeNode.successIndexList
+                                .add(new Integer(this.memory.length() + unusedLen
+                                        - suffixLength));
+                    }
+                    //nextSeqTo try used
+                    else {
+                        activeNode.successIndexList
+                                .add(new Integer(this.memory.length() + unusedLen
+                                        - activeNode.suffix.length()));
+                    }
 
                     activeNode.goalFound = true;
                 }// if
@@ -753,6 +771,8 @@ public class AdjustSuffixMarz extends Agent
                 }//else (reached goal too soon)
 
             }// else (possible success)
+
+            newSuffixVal = "";
 
             activeNode.tries++;
 

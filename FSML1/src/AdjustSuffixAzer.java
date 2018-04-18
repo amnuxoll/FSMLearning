@@ -993,7 +993,8 @@ public class AdjustSuffixAzer extends Agent
 
             //if there is a suffixVal worth trying, try it instead of nextSeqToTry
             if (!(newSuffixVal.equals(""))) {
-                result = tryPath(newSuffixVal);
+                nextSeqToTry = newSuffixVal;
+                result = tryPath(nextSeqToTry);
                 adjustCount++;
                 newSuffixVal = "";
             }
