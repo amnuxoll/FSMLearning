@@ -886,7 +886,7 @@ public class AdjustSuffixMarz extends Agent
             playFileLogger.logNewSequenceAttempt(pathToTry);
 
         // Enter each character in the path
-        for (int i = 0; i < pathToTry.length(); i+=2) {
+        for (int i = 0; i < pathToTry.length(); i++) {
             sensors = env.tick(pathToTry.charAt(i));
             if (generatePlayFile)
                 playFileLogger.logEnvironmentState(sensors);
