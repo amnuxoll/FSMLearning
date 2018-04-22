@@ -994,7 +994,7 @@ public class AdjustSuffixMarz extends Agent
     @Override
     public String toDOT()
     {
-        StringBuilder dotBuilder = new StringBuilder("digraph marz_agent { ");
+        StringBuilder dotBuilder = new StringBuilder("digraph adjust_suffix_marz_agent { ");
         HashSet<String> vertices = new HashSet<>();
         for(SuffixNode suffixNode : this.hashFringe.values())
         {

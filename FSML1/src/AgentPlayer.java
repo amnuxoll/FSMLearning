@@ -27,6 +27,7 @@ public class AgentPlayer extends JFrame implements ActionListener {
     private JCheckBox skipToGoalCheckbox;
     private BufferedImage currentAgentImage;
     private BufferedImage currentEnvironmentImage;
+    private JCheckBox renderEnvironmentCheckbox;
 
     private Sequence sequence;
     private int currentActionIndex = 0;
@@ -63,19 +64,24 @@ public class AgentPlayer extends JFrame implements ActionListener {
         this.skipToGoalCheckbox = new JCheckBox("Skip to goal");
         buttonPanel.add(this.skipToGoalCheckbox);
 
+        this.renderEnvironmentCheckbox = new JCheckBox("Render environment");
+        this.renderEnvironmentCheckbox.setSelected(true);
+        buttonPanel.add(this.renderEnvironmentCheckbox);
+
         this.messageLabel = new JTextPane();
         JScrollPane scrollPane = new JScrollPane(this.messageLabel);
         pane.add(scrollPane, BorderLayout.LINE_START);
 
         this.agentImage = new ImageIcon();
         this.agentLabel = new JLabel(this.agentImage);
-        scrollPane = new JScrollPane(this.agentLabel);
-        pane.add(scrollPane, BorderLayout.CENTER);
+        JScrollPane scrollPaneForAgent = new JScrollPane(this.agentLabel);
 
         this.environmentImage = new ImageIcon();
         this.environmentLabel = new JLabel(this.environmentImage);
-        scrollPane = new JScrollPane(this.environmentLabel);
-        pane.add(scrollPane, BorderLayout.LINE_END);
+        JScrollPane scrollPaneForEnvironment = new JScrollPane(this.environmentLabel);
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollPaneForAgent, scrollPaneForEnvironment);
+        pane.add(splitPane, BorderLayout.CENTER);
 
         JPanel dataPanel = new JPanel();
         dataPanel.setLayout(new FlowLayout());
@@ -155,8 +161,10 @@ public class AgentPlayer extends JFrame implements ActionListener {
                 }
                 this.currentBorder = BorderTarget.Environment;
                 this.updateBorder();
-                this.currentEnvironmentImage = generateGraph(content);
-                environmentImage.setImage(this.currentEnvironmentImage);
+                if (this.renderEnvironmentCheckbox.isSelected()) {
+                    this.currentEnvironmentImage = generateGraph(content);
+                    this.environmentImage.setImage(this.currentEnvironmentImage);
+                }
                 this.playNext(doSkip);
                 break;
             case "SENSORS":

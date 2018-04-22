@@ -1,5 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import javax.xml.transform.Templates;
@@ -176,6 +177,29 @@ public class MaRzAgent extends Agent
 			}// else
 
 		}// updateHeuristic
+
+        public String toDOT(SuffixNode activeNode)
+        {
+            DecimalFormat formatter = new DecimalFormat("#.###");
+            updateHeuristic();
+            String name = this.getName();
+            boolean isActive = this == activeNode;
+            StringBuilder dotBuilder = new StringBuilder(name);
+            dotBuilder.append(" [shape=record, label=\"{ ");
+            dotBuilder.append(name + " | f: " + formatter.format(this.f) + " | S: " + this.successIndexList.size() + " | F: " + this.failsIndexList.size());
+            dotBuilder.append(" }\"");
+            if (isActive)
+                dotBuilder.append(", fillcolor = gray, style = filled");
+            dotBuilder.append("];");
+            return dotBuilder.toString();
+        }
+
+        public String getName()
+        {
+            if (this.suffix.equals(""))
+                return "Root";
+            return suffix;
+        }
 
 	}// SuffixNode Class
 
@@ -676,6 +700,52 @@ public class MaRzAgent extends Agent
 		lastPermutationIndex++;
 		return nextPermutation(lastPermutationIndex);
 	}// nextPermutation
+
+	/**
+	 * Generates a default graph for an agent.
+	 * @return a DOT encoded graph description of the internal state of the agent.
+	 */
+	@Override
+	public String toDOT()
+	{
+		StringBuilder dotBuilder = new StringBuilder("digraph marz_agent { ");
+		HashSet<String> vertices = new HashSet<>();
+		for(SuffixNode suffixNode : this.hashFringe.values())
+		{
+			dotBuilder.append(suffixNode.toDOT(activeNode));
+			this.addVertices(suffixNode.getName(), dotBuilder, vertices);
+		}
+		dotBuilder.append(" }");
+		return dotBuilder.toString();
+	}
+
+	private void addVertices(String name, StringBuilder dotBuilder, HashSet<String> vertices)
+	{
+		if (!name.equals("Root")) {
+			if (name.length() == 1) {
+				String vertex = "Root -> " + name + ";";
+				dotBuilder.append(vertex);
+				vertices.add(vertex);
+			}
+			else {
+				String parent = name.substring(1);
+				do {
+					String vertex = parent + " -> " + name + ";";
+					if (!vertices.contains(vertex)) {
+						dotBuilder.append(vertex);
+						vertices.add(vertex);
+					}
+					name = parent;
+					if (parent.equals("Root"))
+						parent = "";
+					else if (parent.length() == 1)
+						parent = "Root";
+					else
+						parent = parent.substring(1);
+				} while (!parent.equals(""));
+			}
+		}
+	}
 
 	/**
 	 * tryGenLearningCurves
