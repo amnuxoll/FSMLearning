@@ -646,7 +646,7 @@ public class AdjustSuffixMarz extends Agent
                         break;
                     }
                 }
-                double F_Weight = 1.2; //modify this to change weight on node
+                double F_Weight = 1.2*(1-3*(Successes/(NUM_GOALS+1))); //modify this to change weight on node
                 double candidatef = (double)candidateSuffix.length() /((double)memSinceGoal.length()/2 + (double)candidateSuffix.length());
                 System.out.println("Candidate f: " + candidatef + "  " + candidateSuffix + " active f: " + (activeNode.failRate) + " " + nextSeqToTry);
                 if (F_Weight*candidatef < (activeNode.failRate)) {
