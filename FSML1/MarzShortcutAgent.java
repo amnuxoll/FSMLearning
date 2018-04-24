@@ -1,3 +1,5 @@
+package testMarzfromOldSource;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -447,28 +449,6 @@ public class MarzShortcutAgent extends Agent
 		}// for
 		hashFringe.remove(activeNode.suffix);
 
-        // //%%%REMOVE THIS!
-        // if (hashFringe.size() >= 4)
-        // {
-        //     System.out.println("DONE!!");
-        //     System.out.println("active: " + activeNode);
-        //     for(SuffixNode node : hashFringe.values())
-        //     {
-        //         System.out.println(node);
-        //         System.out.print("fail: ");
-        //         for(Integer i : node.failsIndexList)
-        //         {
-        //             System.out.print(i + ",");
-        //         }
-        //         System.out.print("    success: ");
-        //         for(Integer i : node.successIndexList)
-        //         {
-        //             System.out.print(i + ",");
-        //         }
-        //         System.out.println();
-        //     }
-        //     System.exit(0);
-        // }
 
 	}// splitNode
 
@@ -553,7 +533,7 @@ public class MarzShortcutAgent extends Agent
                         break;
                     }
                 }
-                double F_Weight = 1.2*(1-2*Successes/(NUM_GOALS+1)); //modify this to change weight on node
+                double F_Weight = 1.2; //modify this to change weight on node
                 double candidatef = (double)candidateSuffix.length() /((double)memSinceGoal.length()/2 + (double)candidateSuffix.length());
                 if (F_Weight*candidatef < (activeNode.failRate) ) {
                     System.out.println("Candidate f: " + candidatef + "  " + candidateSuffix + " active f: " + (activeNode.failRate) + " " + nextSeqToTry);
@@ -561,8 +541,7 @@ public class MarzShortcutAgent extends Agent
                     newSuffixVal = candidateSuffix; //save the actual sequence to try in global val
                     newSuffixValSensors = memCandidate.getSensorString();
                 }
-                System.out.println(completeMemory);
-                System.out.println(sensoryMemory);
+                
             }
         }
 
@@ -737,7 +716,7 @@ public class MarzShortcutAgent extends Agent
                     break;
                 }
                 index--;
-                //skip if we found ourself, or if we ran into the last goal
+                //while we have not hit a goal
                 if (!(sensoryMemory.charAt(index) == ' ')) {
                     memSinceGoal = Character.toString(sensoryMemory.charAt(index)) + memSinceGoal;
                 }
@@ -757,10 +736,10 @@ public class MarzShortcutAgent extends Agent
                 String candidateSuffix = "";
                 String candidateSuffixSensors = "";
                 //we found ourself
-                if(sensoryMemory.substring(currentIndex).equals(" ")){
+                if(sensoryMemory.substring(currentIndex).equals("")){
                     continue;
                 }
-                while (currentIndex < sensoryMemory.length()){
+                while ((currentIndex+1) < sensoryMemory.length()){
                    //break when we hit a goal
                 	if (sensoryMemory.charAt(currentIndex) == '|') {
                         //if (prefixRoot.suffixHash.containsKey(candidateSuffix)){
@@ -808,7 +787,6 @@ public class MarzShortcutAgent extends Agent
             episodicMemory.add(new Episode(pathToTry.charAt(i), sensorsWhichResultFromTryingPath));
             memory = memory + pathToTry.charAt(i);
             sensoryMemory = sensoryMemory +pathToTry.charAt(i) +  episodicMemory.get(currIndex).sensorValue.sensorRepresentation(); 
-            System.out.println(sensoryMemory);
             completeMemory = completeMemory + pathToTry.charAt(i) + episodicMemory.get(currIndex).sensorValue.sensorRepresentation()
             			+ "(" + sensorsWhichResultFromTryingPath.STATE_NUMBER + ")";
             currIndex++;
@@ -1000,7 +978,6 @@ public class MarzShortcutAgent extends Agent
 					csv.append(i - prevGoalPoint + ",");
 					csv.flush();
 					prevGoalPoint = i;
-					System.out.println(sensoryMemory);
 				}// if
 			}// for
 
