@@ -2,30 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="738fa547-feb5-42aa-9429-ab3d8a31a275" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/experiments/Runner.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/Episode.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/IAgent.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/IEnvironment.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/IResultWriter.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/Move.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/SensorData.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/TestRun.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/tests/framework/EpisodeTest.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/tests/framework/MoveTest.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/tests/framework/SensorDataTest.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/tests/framework/TestRunTest.java" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/dependencies.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/graphviz_java_0_2_3.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/log4j_api_2_8_2.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/log4j_core_2_8_2.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/src.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/agents/nsm/NBor.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/agents/nsm/NHood.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/agents/nsm/NSMAgent.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/agents/nsm/QEpisode.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/environments/fsm/FiniteStateMachine.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/environments/fsm/SensorFiniteStateMachine.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/environments/fsm/StateMachineEnvironment.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/ConsoleResultWriter.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/ITestRun.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/TestRunSupplier.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/TestSuite.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/ToDoList.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/DecarbonatedAgentTest.java" afterPath="$PROJECT_DIR$/src/DecarbonatedAgentTest.java" />
+      <change beforePath="$PROJECT_DIR$/root/experiments/Runner.java" afterPath="$PROJECT_DIR$/root/experiments/Runner.java" />
+      <change beforePath="$PROJECT_DIR$/root/framework/IAgent.java" afterPath="$PROJECT_DIR$/root/framework/IAgent.java" />
+      <change beforePath="$PROJECT_DIR$/root/framework/TestRun.java" afterPath="$PROJECT_DIR$/root/framework/TestRun.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,168 +30,22 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.48943874">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="Move.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/framework/Move.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="544">
-                  <caret line="37" column="36" lean-forward="false" selection-start-line="37" selection-start-column="36" selection-end-line="37" selection-end-column="36" />
-                  <folding>
-                    <element signature="e#451#452#0" expanded="true" />
-                    <element signature="e#483#484#0" expanded="true" />
-                    <element signature="e#798#799#0" expanded="true" />
-                    <element signature="e#841#842#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="SensorData.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/framework/SensorData.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="204">
-                  <caret line="47" column="4" lean-forward="false" selection-start-line="47" selection-start-column="4" selection-end-line="67" selection-end-column="5" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#1446#1447#0" expanded="true" />
-                    <element signature="e#1516#1517#0" expanded="true" />
-                    <element signature="e#2163#2164#0" expanded="true" />
-                    <element signature="e#2206#2207#0" expanded="true" />
-                    <element signature="e#2256#2257#0" expanded="true" />
-                    <element signature="e#2299#2300#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Episode.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/framework/Episode.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="663">
-                  <caret line="44" column="38" lean-forward="false" selection-start-line="44" selection-start-column="38" selection-end-line="44" selection-end-column="38" />
-                  <folding>
-                    <element signature="e#547#548#0" expanded="true" />
-                    <element signature="e#593#594#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="IResultWriter.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/framework/IResultWriter.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="68">
-                  <caret line="4" column="57" lean-forward="false" selection-start-line="4" selection-start-column="57" selection-end-line="4" selection-end-column="57" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TestRun.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/framework/TestRun.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="459">
-                  <caret line="47" column="30" lean-forward="false" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Runner.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="204">
-                  <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="NSMAgent.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/FSML1/src/NSMAgent.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-221">
-                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="TestRunTest.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/root/tests/framework/TestRunTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="267">
-                  <caret line="189" column="0" lean-forward="false" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="class#TestAgent#0;class#TestRunTest#0" expanded="false" />
-                    <element signature="e#7581#7582#0" expanded="true" />
-                    <element signature="e#7623#7624#0" expanded="true" />
-                    <element signature="class#TestEnvironment#0;class#TestRunTest#0" expanded="false" />
-                    <element signature="e#8255#8256#0" expanded="true" />
-                    <element signature="e#8344#8345#0" expanded="true" />
-                    <element signature="e#8764#8765#0" expanded="true" />
-                    <element signature="e#8805#8806#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="EpisodeTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/tests/framework/EpisodeTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="451">
-                  <caret line="84" column="36" lean-forward="false" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="SensorDataTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/tests/framework/SensorDataTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="110">
-                  <caret line="91" column="0" lean-forward="true" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="MoveTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/tests/framework/MoveTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="17">
-                  <caret line="13" column="54" lean-forward="false" selection-start-line="13" selection-start-column="54" selection-end-line="13" selection-end-column="54" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>matchedmem</find>
+      <find>trypath</find>
+      <find>Random</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -224,14 +72,27 @@
         <option value="$PROJECT_DIR$/root/framework/Episode.java" />
         <option value="$PROJECT_DIR$/root/framework/IResultWriter.java" />
         <option value="$PROJECT_DIR$/root/tests/framework/TestRunTest.java" />
-        <option value="$PROJECT_DIR$/root/framework/TestRun.java" />
-        <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
+        <option value="$PROJECT_DIR$/root/agents/nsm/QEpisode.java" />
+        <option value="$PROJECT_DIR$/root/agents/nsm/NHood.java" />
+        <option value="$PROJECT_DIR$/root/agents/nsm/NBor.java" />
         <option value="$PROJECT_DIR$/root/agents/nsm/NSMAgent.java" />
+        <option value="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" />
+        <option value="$PROJECT_DIR$/root/environments/fsm/StateMachineEnvironment.java" />
+        <option value="$PROJECT_DIR$/root/environments/fsm/FSMTransitionTable.java" />
+        <option value="$PROJECT_DIR$/root/environments/fsm/FiniteStateMachine.java" />
+        <option value="$PROJECT_DIR$/root/environments/fsm/SensorFiniteStateMachine.java" />
+        <option value="$PROJECT_DIR$/root/framework/TestRun.java" />
+        <option value="$PROJECT_DIR$/root/framework/ITestRun.java" />
+        <option value="$PROJECT_DIR$/root/framework/ITestRunSupplier.java" />
+        <option value="$PROJECT_DIR$/root/framework/TestSuite.java" />
+        <option value="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" />
+        <option value="$PROJECT_DIR$/root/framework/ConsoleResultWriter.java" />
+        <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-7" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="953" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
   </component>
@@ -284,18 +145,33 @@
             <path>
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
               <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
-              <item name="FSML1" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
-              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
-              <item name="FSML1" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="root" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
               <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
               <item name="root" type="462c0819:PsiDirectoryNode" />
+              <item name="agents" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
+              <item name="root" type="462c0819:PsiDirectoryNode" />
+              <item name="agents" type="462c0819:PsiDirectoryNode" />
+              <item name="marz" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
+              <item name="root" type="462c0819:PsiDirectoryNode" />
+              <item name="agents" type="462c0819:PsiDirectoryNode" />
+              <item name="nsm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
+              <item name="root" type="462c0819:PsiDirectoryNode" />
+              <item name="fsm" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
@@ -317,6 +193,13 @@
             </path>
             <path>
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
+              <item name="root" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="framework" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
@@ -332,7 +215,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Source\FSMLearning\root\agents\marz" />
       <recent name="C:\Source\FSMLearning\root\agents\nsm" />
+      <recent name="C:\Source\FSMLearning\root\environments\fsm" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -369,45 +254,15 @@
       <module name="" />
       <envs />
     </configuration>
-    <configuration name="MoveTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="framework.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+    <configuration name="All in FSMLearning" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="FSMLearning" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="framework" />
-      <option name="MAIN_CLASS_NAME" value="framework.MoveTest" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" />
       <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-    </configuration>
-    <configuration name="SensorDataTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="framework.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="FSMLearning" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="framework" />
-      <option name="MAIN_CLASS_NAME" value="framework.SensorDataTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="package" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
@@ -458,6 +313,31 @@
       <option name="MAIN_CLASS_NAME" value="framework.TestRunTest" />
       <option name="METHOD_NAME" value="testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoal" />
       <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="TestSuiteTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="framework.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="FSMLearning" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="framework" />
+      <option name="MAIN_CLASS_NAME" value="framework.TestSuiteTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
@@ -555,19 +435,19 @@
       <predefined_log_file id="idea.log" enabled="true" />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="JUnit.MoveTest" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.SensorDataTest" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.framework in FSMLearning" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.TestRunTest" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.TestRunTest.testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoal" />
+      <item index="0" class="java.lang.String" itemvalue="JUnit.framework in FSMLearning" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.TestRunTest" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.TestRunTest.testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoal" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.All in FSMLearning" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.TestSuiteTest" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="JUnit.framework in FSMLearning" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.TestRunTest.testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoal" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.TestRunTest" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.SensorDataTest" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.MoveTest" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.TestSuiteTest" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.All in FSMLearning" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.TestRunTest.testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoal" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.TestRunTest" />
       </list>
     </recent_temporary>
   </component>
@@ -588,26 +468,11 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="TestRunTest - 2018.08.12 at 13h 10m 48s.xml">
-      <configuration name="TestRunTest" configurationId="JUnit" />
+    <history-entry file="All_in_FSMLearning - 2018.08.12 at 16h 36m 51s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TestRunTest - 2018.08.12 at 13h 11m 34s.xml">
-      <configuration name="TestRunTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TestRunTest_testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoal - 2018.08.12 at 13h 22m 23s.xml">
-      <configuration name="TestRunTest.testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoal" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="framework_in_FSMLearning - 2018.08.12 at 13h 18m 31s.xml">
-      <configuration name="framework in FSMLearning" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="framework_in_FSMLearning - 2018.08.12 at 13h 19m 38s.xml">
-      <configuration name="framework in FSMLearning" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="framework_in_FSMLearning - 2018.08.12 at 13h 22m 41s.xml">
-      <configuration name="framework in FSMLearning" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="framework_in_FSMLearning - 2018.08.12 at 13h 23m 15s.xml">
-      <configuration name="framework in FSMLearning" configurationId="JUnit" />
+    <history-entry file="TestSuiteTest - 2018.08.14 at 19h 27m 40s.xml">
+      <configuration name="TestSuiteTest" configurationId="JUnit" />
     </history-entry>
     <history-entry file="framework_in_FSMLearning - 2018.08.12 at 13h 25m 56s.xml">
       <configuration name="framework in FSMLearning" configurationId="JUnit" />
@@ -618,9 +483,24 @@
     <history-entry file="framework_in_FSMLearning - 2018.08.12 at 13h 40m 28s.xml">
       <configuration name="framework in FSMLearning" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="framework_in_FSMLearning - 2018.08.14 at 19h 18m 14s.xml">
+      <configuration name="framework in FSMLearning" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="framework_in_FSMLearning - 2018.08.14 at 19h 20m 54s.xml">
+      <configuration name="framework in FSMLearning" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="framework_in_FSMLearning - 2018.08.14 at 19h 27m 10s.xml">
+      <configuration name="framework in FSMLearning" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="framework_in_FSMLearning - 2018.08.14 at 19h 28m 19s.xml">
+      <configuration name="framework in FSMLearning" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="framework_in_FSMLearning - 2018.08.14 at 19h 28m 56s.xml">
+      <configuration name="framework in FSMLearning" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -636,7 +516,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13697916" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3284055" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -661,8 +541,14 @@
           <line>80</line>
           <properties />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/root/environments/fsm/StateMachineEnvironment.java</url>
+          <line>205</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -680,16 +566,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FSML1/src/Agent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-136">
-          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -721,35 +597,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/framework/IAgent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="44" lean-forward="false" selection-start-line="4" selection-start-column="44" selection-end-line="4" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/framework/IEnvironment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/framework/Move.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="37" column="36" lean-forward="false" selection-start-line="37" selection-start-column="36" selection-end-line="37" selection-end-column="36" />
-          <folding>
-            <element signature="e#451#452#0" expanded="true" />
-            <element signature="e#483#484#0" expanded="true" />
-            <element signature="e#798#799#0" expanded="true" />
-            <element signature="e#841#842#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/tests/framework/MoveTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -765,7 +612,7 @@
         <state relative-caret-position="110">
           <caret line="91" column="0" lean-forward="true" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -813,10 +660,314 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/root/framework/IEnvironment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/agents/nsm/QEpisode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="30" lean-forward="false" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#258#259#0" expanded="false" />
+            <element signature="e#297#298#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/agents/nsm/NBor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="25" lean-forward="false" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FSML1/src/StateMachineEnvironment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/agents/nsm/NHood.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="37" column="29" lean-forward="true" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/framework/IAgent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="61" lean-forward="false" selection-start-line="4" selection-start-column="61" selection-end-line="4" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FSML1/src/NSMAgent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1902">
+          <caret line="133" column="26" lean-forward="false" selection-start-line="133" selection-start-column="8" selection-end-line="133" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FSML1/src/MaRzAgent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-94">
+          <caret line="535" column="24" lean-forward="true" selection-start-line="535" selection-start-column="24" selection-end-line="535" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FSML1/src/Episode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FSML1/src/Agent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="430" column="4" lean-forward="true" selection-start-line="430" selection-start-column="4" selection-end-line="470" selection-end-column="14" />
+          <folding>
+            <element signature="method#matchedMemoryStringLength#0;class#Agent#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/agents/marz/MaRzAgent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="30" column="42" lean-forward="true" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
+          <folding>
+            <element signature="docComment;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#hashFringe#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#activeNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#lastPermutationIndex#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#nextSeqToTry#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#timeOfLastStatus#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#lastSuccessfulSequence#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#overallStartTime#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#successIndexList#0;class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#indexOfLastEpisodeTried#0;class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#SuffixNode#0;class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="method#SuffixNode#0;class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#toString#0;class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="method#toString#0;class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#updateHeuristic#0;class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="method#updateHeuristic#0;class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="method#toDOT#0;class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="method#getName#0;class#SuffixNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#MaRzAgent#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="e#6255#6324#0" expanded="false" />
+            <element signature="docComment;method#findNodeForPath#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="e#8492#8536#0" expanded="false" />
+            <element signature="docComment;method#findNodeForIndex#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="e#9826#9827#0" expanded="true" />
+            <element signature="e#9851#9852#0" expanded="true" />
+            <element signature="docComment;method#divyIndexes#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#splitNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="e#12392#12457#0" expanded="false" />
+            <element signature="e#12776#12796#0" expanded="false" />
+            <element signature="docComment;method#findBestNodeToTry#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#findWorstNodeToTry#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="e#14609#14610#0" expanded="true" />
+            <element signature="e#14627#14628#0" expanded="true" />
+            <element signature="docComment;method#trySeq#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="e#14864#14928#0" expanded="false" />
+            <element signature="e#15818#15871#0" expanded="false" />
+            <element signature="e#16255#16308#0" expanded="false" />
+            <element signature="e#17272#17341#0" expanded="false" />
+            <element signature="docComment;method#getIndexOfSuffix#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#nextPermutation#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#nextPermutation#1;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#toDOT#0;class#MaRzAgent#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/framework/Move.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="37" column="36" lean-forward="false" selection-start-line="37" selection-start-column="36" selection-end-line="37" selection-end-column="36" />
+          <folding>
+            <element signature="e#451#452#0" expanded="true" />
+            <element signature="e#483#484#0" expanded="true" />
+            <element signature="e#798#799#0" expanded="true" />
+            <element signature="e#841#842#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/environments/fsm/FSMTransitionTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="23" column="15" lean-forward="false" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/environments/fsm/StateMachineEnvironment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="123" column="8" lean-forward="false" selection-start-line="123" selection-start-column="8" selection-end-line="126" selection-end-column="9" />
+          <folding>
+            <element signature="docComment;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#StateMachineEnvironment#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#StateMachineEnvironment#1;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#StateMachineEnvironment#1;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#initPaths#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="e#5116#5188#0" expanded="false" />
+            <element signature="docComment;method#printStateMachine#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#printStateMachine#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#printStateMachineGraph#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#printStateMachineGraph#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#toDOT#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#tick#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="e#11761#11812#0" expanded="false" />
+            <element signature="e#12380#12431#0" expanded="false" />
+            <element signature="e#13415#13416#0" expanded="true" />
+            <element signature="e#13485#13486#0" expanded="true" />
+            <element signature="docComment;method#hasTransition#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#findShortestPaths#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="e#14519#14583#0" expanded="false" />
+            <element signature="e#14854#14915#0" expanded="false" />
+            <element signature="e#15470#15537#0" expanded="false" />
+            <element signature="docComment;method#printAvgPathLen#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#printPaths#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#pathResult#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#PathNode#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#PathNode#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#PathNode#1;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#PathNode#1;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#updateH#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#updateH#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#getF#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#getF#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#compareTo#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#advance#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#advance#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#allGoal#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#allGoal#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#shortestBlindPathToGoal#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#shortestPathToGoal#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#calcDestinationStates#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="e#23893#23964#0" expanded="false" />
+            <element signature="e#24333#24398#0" expanded="false" />
+            <element signature="docComment;method#avgStepsToGoalWithPath#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#avgStepsToGoalWithPath#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="docComment;method#numStatesSolvedBy#0;class#StateMachineEnvironment#0" expanded="false" />
+            <element signature="method#numStatesSolvedBy#0;class#StateMachineEnvironment#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/environments/fsm/FiniteStateMachine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1487#1488#0" expanded="true" />
+            <element signature="e#1520#1521#0" expanded="true" />
+            <element signature="e#1769#1770#0" expanded="true" />
+            <element signature="e#1853#1854#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/agents/nsm/NSMAgent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="248" column="2" lean-forward="true" selection-start-line="248" selection-start-column="2" selection-end-line="248" selection-end-column="2" />
+          <folding>
+            <marker date="1534109994559" expanded="false" signature="12011:12078" ph="/**...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/framework/TestRun.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="31" lean-forward="false" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/framework/ITestRun.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="19" lean-forward="false" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/framework/TestRunSupplier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="106" lean-forward="false" selection-start-line="4" selection-start-column="106" selection-end-line="4" selection-end-column="106" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_161/src.zip!/java/util/function/Supplier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="47" column="6" lean-forward="false" selection-start-line="47" selection-start-column="6" selection-end-line="47" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/environments/fsm/SensorFiniteStateMachine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="5" lean-forward="true" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#218#219#0" expanded="true" />
+            <element signature="e#264#265#0" expanded="true" />
+            <element signature="e#562#563#0" expanded="true" />
+            <element signature="e#634#635#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/framework/TestSuite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="53" lean-forward="true" selection-start-line="29" selection-start-column="53" selection-end-line="29" selection-end-column="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/root/tests/framework/TestRunTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="189" column="0" lean-forward="false" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
+        <state relative-caret-position="1131">
+          <caret line="180" column="17" lean-forward="true" selection-start-line="180" selection-start-column="17" selection-end-line="180" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#TestAgent#0;class#TestRunTest#0" expanded="false" />
@@ -827,42 +978,46 @@
             <element signature="e#8344#8345#0" expanded="true" />
             <element signature="e#8764#8765#0" expanded="true" />
             <element signature="e#8805#8806#0" expanded="true" />
+            <element signature="class#TestResultWriter#0;class#TestRunTest#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/framework/TestRun.java">
+    <entry file="file://$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="47" column="30" lean-forward="false" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
-          <folding />
+        <state relative-caret-position="42">
+          <caret line="71" column="50" lean-forward="false" selection-start-line="71" selection-start-column="50" selection-end-line="71" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4084#4085#0" expanded="true" />
+            <element signature="e#4127#4128#0" expanded="true" />
+            <element signature="class#TestAgent#0;class#TestSuiteTest#0" expanded="false" />
+            <element signature="class#TestEnvironment#0;class#TestSuiteTest#0" expanded="false" />
+            <element signature="e#4514#4515#0" expanded="true" />
+            <element signature="e#4556#4557#0" expanded="true" />
+            <element signature="e#4619#4620#0" expanded="true" />
+            <element signature="e#4654#4655#0" expanded="true" />
+            <element signature="class#TestResultWriter#0;class#TestSuiteTest#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        <state relative-caret-position="289">
+          <caret line="17" column="37" lean-forward="false" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#617#618#0" expanded="true" />
+            <element signature="e#652#653#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FSML1/src/NSMAgent.java">
+    <entry file="file://$PROJECT_DIR$/root/framework/ConsoleResultWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-221">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/agents/nsm/NSMAgent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="19" column="37" lean-forward="true" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
+        <state relative-caret-position="85">
+          <caret line="5" column="91" lean-forward="false" selection-start-line="5" selection-start-column="91" selection-end-line="5" selection-end-column="91" />
           <folding />
         </state>
       </provider>
