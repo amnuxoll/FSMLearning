@@ -1,7 +1,5 @@
 package framework;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 public class Move {
     private String name;
 
