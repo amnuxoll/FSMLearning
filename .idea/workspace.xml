@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="738fa547-feb5-42aa-9429-ab3d8a31a275" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/root/tests/framework/MoveTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/MoveTest.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,11 +29,9 @@
       <file leaf-file-name="MoveTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/root/tests/framework/MoveTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="85">
+              <caret line="5" column="63" lean-forward="true" selection-start-line="5" selection-start-column="63" selection-end-line="5" selection-end-column="63" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -140,6 +137,7 @@
         <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
         <option value="$PROJECT_DIR$/root/framework/Move.java" />
         <option value="$PROJECT_DIR$/root/tests/framework/MoveTest.java" />
+        <option value="$PROJECT_DIR$/root/tests/TestRunner.java" />
       </list>
     </option>
   </component>
@@ -174,6 +172,11 @@
             <path>
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
               <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
+              <item name="dependencies" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
               <item name="root" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -190,10 +193,12 @@
             </path>
             <path>
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
-              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
-              <item name="root" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-              <item name="framework" type="462c0819:PsiDirectoryNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
             </path>
           </expand>
           <select />
@@ -1004,13 +1009,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/TestRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="20" lean-forward="false" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/root/tests/framework/MoveTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="85">
+          <caret line="5" column="63" lean-forward="true" selection-start-line="5" selection-start-column="63" selection-end-line="5" selection-end-column="63" />
+          <folding />
         </state>
       </provider>
     </entry>
