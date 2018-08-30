@@ -1,8 +1,5 @@
 package framework;
 
-import java.lang.reflect.Executable;
-import java.security.Provider;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public class TestSuite {
@@ -11,10 +8,10 @@ public class TestSuite {
     private int numberOfGoals;
     private Supplier<IAgent> agentSupplier;
     private Supplier<IEnvironment> environmentSupplier;
-    private TestRunSupplier testRunSupplier;
+    private ITestRunSupplier testRunSupplier;
     private IResultWriter resultWriter;
 
-    public TestSuite(int numberOfIterations, int numberOfGoals, IResultWriter resultWriter, Supplier<IAgent> agentSupplier, Supplier<IEnvironment> environmentSupplier, TestRunSupplier testRunSupplier) {
+    public TestSuite(int numberOfIterations, int numberOfGoals, IResultWriter resultWriter, Supplier<IAgent> agentSupplier, Supplier<IEnvironment> environmentSupplier, ITestRunSupplier testRunSupplier) {
         if (numberOfIterations < 1)
             throw new IllegalArgumentException("numberOfIterations must be greater than 0.");
         if (numberOfGoals < 1)
@@ -37,10 +34,12 @@ public class TestSuite {
 
     public void run() {
         for (int i = 0; i < this.numberOfIterations; i++) {
+            this.resultWriter.beginNewRun();
             IAgent agent = this.agentSupplier.get();
             IEnvironment environment = this.environmentSupplier.get();
             ITestRun testRun = this.testRunSupplier.GetTestRun(agent, environment, this.numberOfGoals, this.resultWriter);
             testRun.execute();
         }
+        this.resultWriter.complete();
     }
 }

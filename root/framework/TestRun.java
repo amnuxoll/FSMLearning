@@ -12,23 +12,18 @@ public class TestRun implements ITestRun {
 
     public TestRun(IAgent agent, IEnvironment environment, int numGoalsToFind, IResultWriter resultWriter) throws IllegalArgumentException
     {
-        this(agent, environment, numGoalsToFind);
-        if (resultWriter == null)
-            throw new IllegalArgumentException("resultWriter cannot be null");
-        this.resultWriter = resultWriter;
-    }
-
-    public TestRun(IAgent agent, IEnvironment environment, int numGoalsToFind) throws IllegalArgumentException
-    {
         if (agent == null)
             throw new IllegalArgumentException("agent cannot be null");
         if (environment == null)
             throw new IllegalArgumentException("environment cannot be null");
         if (numGoalsToFind < 1)
             throw new IllegalArgumentException("numGoalsToFind cannot be less than 1");
+        if (resultWriter == null)
+            throw new IllegalArgumentException("resultWriter cannot be null");
         this.agent = agent;
         this.environment = environment;
         this.numGoalsToFind = numGoalsToFind;
+        this.resultWriter = resultWriter;
     }
 
     public void execute()
@@ -44,7 +39,7 @@ public class TestRun implements ITestRun {
                 moveCount++;
                 if (sensorData.isGoal()) {
                     if (this.resultWriter != null)
-                        this.resultWriter.logStepsToGoal(goalCount, moveCount);
+                        this.resultWriter.logStepsToGoal(moveCount);
                     goalCount++;
                     moveCount = 0;
                     this.environment.reset();

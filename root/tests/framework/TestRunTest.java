@@ -14,19 +14,19 @@ public class TestRunTest {
     @Test
     public void testConstructorNullAgentThrowsException()
     {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(null, new TestEnvironment(), 1));
+        assertThrows(IllegalArgumentException.class, () -> new TestRun(null, new TestEnvironment(), 1, new TestResultWriter()));
     }
 
     @Test
     public void testConstructorNullEnvironmentThrowsException()
     {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), null, 1));
+        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), null, 1, new TestResultWriter()));
     }
 
     @Test
     public void testConstructorNumGoalsLessThan1ThrowsException()
     {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironment(), 0));
+        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironment(), 0, new TestResultWriter()));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class TestRunTest {
     {
         TestAgent agent = new TestAgent();
         TestEnvironment environment = new TestEnvironment();
-        TestRun testRun = new TestRun(agent, environment, 1);
+        TestRun testRun = new TestRun(agent, environment, 1, new TestResultWriter());
         testRun.execute();
         assertArrayEquals(environment.getMoves(), agent.moves);
     }
@@ -51,7 +51,7 @@ public class TestRunTest {
     {
         TestAgent agent = new TestAgent();
         TestEnvironment environment = new TestEnvironment();
-        TestRun testRun = new TestRun(agent, environment, 1);
+        TestRun testRun = new TestRun(agent, environment, 1, new TestResultWriter());
         testRun.execute();
         assertArrayEquals(environment.getMoves(), agent.moves);
     }
@@ -61,7 +61,7 @@ public class TestRunTest {
     {
         TestAgent agent = new TestAgent();
         TestEnvironment environment = new TestEnvironment();
-        TestRun testRun = new TestRun(agent, environment, 1);
+        TestRun testRun = new TestRun(agent, environment, 1, new TestResultWriter());
         testRun.execute();
 
         SensorData sensorA = new SensorData(false);
@@ -88,7 +88,7 @@ public class TestRunTest {
     {
         TestAgent agent = new TestAgent();
         TestEnvironment environment = new TestEnvironment();
-        TestRun testRun = new TestRun(agent, environment, 3);
+        TestRun testRun = new TestRun(agent, environment, 3, new TestResultWriter());
         testRun.execute();
 
         SensorData sensorA = new SensorData(false);
@@ -140,7 +140,7 @@ public class TestRunTest {
                 };
         String[] expectedResultWriterLogs = new String[]
                 {
-                  "0:3"
+                  "3,"
                 };
 
         assertArrayEquals(expectedEpisodicMemory, agent.episodes.toArray());
@@ -179,9 +179,9 @@ public class TestRunTest {
                 };
         String[] expectedResultWriterLogs = new String[]
                 {
-                        "0:3",
-                        "1:3",
-                        "2:3"
+                        "3,",
+                        "3,",
+                        "3,"
                 };
 
         assertArrayEquals(expectedEpisodicMemory, agent.episodes.toArray());
@@ -248,8 +248,18 @@ public class TestRunTest {
         public ArrayList<String> logStatements = new ArrayList<>();
 
         @Override
-        public void logStepsToGoal(int goalNumber, int stepsToGoal) {
-            logStatements.add(goalNumber + ":" + stepsToGoal);
+        public void logStepsToGoal(int stepsToGoal) {
+            logStatements.add(stepsToGoal + ",");
+        }
+
+        @Override
+        public void beginNewRun() {
+
+        }
+
+        @Override
+        public void complete() {
+
         }
     }
 }

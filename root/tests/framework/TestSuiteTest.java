@@ -144,7 +144,17 @@ public class TestSuiteTest {
     {
 
         @Override
-        public void logStepsToGoal(int goalNumber, int stepsToGoal) {
+        public void logStepsToGoal(int stepsToGoal) {
+
+        }
+
+        @Override
+        public void beginNewRun() {
+
+        }
+
+        @Override
+        public void complete() {
 
         }
     }
