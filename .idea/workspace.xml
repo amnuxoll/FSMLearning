@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="738fa547-feb5-42aa-9429-ab3d8a31a275" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/FileResultWriter.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/root/experiments/Runner.java" afterPath="$PROJECT_DIR$/root/experiments/Runner.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/ConsoleResultWriter.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/root/framework/IResultWriter.java" afterPath="$PROJECT_DIR$/root/framework/IResultWriter.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/TestRun.java" afterPath="$PROJECT_DIR$/root/framework/TestRun.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/TestRunSupplier.java" afterPath="$PROJECT_DIR$/root/framework/ITestRunSupplier.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/TestSuite.java" afterPath="$PROJECT_DIR$/root/framework/TestSuite.java" />
-      <change beforePath="$PROJECT_DIR$/root/tests/framework/TestRunTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/TestRunTest.java" />
-      <change beforePath="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" />
+      <change beforePath="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,96 +14,22 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="FileResultWriterTest.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="238">
-                  <caret line="169" column="54" lean-forward="true" selection-start-line="169" selection-start-column="54" selection-end-line="169" selection-end-column="54" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="SensorDataTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/tests/framework/SensorDataTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1960">
-                  <caret line="91" column="0" lean-forward="true" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TestRunTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/tests/framework/TestRunTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="250">
-                  <caret line="104" column="60" lean-forward="true" selection-start-line="104" selection-start-column="60" selection-end-line="104" selection-end-column="60" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="class#TestAgent#0;class#TestRunTest#0" expanded="false" />
-                    <element signature="e#7745#7746#0" expanded="true" />
-                    <element signature="e#7787#7788#0" expanded="true" />
-                    <element signature="class#TestEnvironment#0;class#TestRunTest#0" expanded="false" />
-                    <element signature="e#8419#8420#0" expanded="true" />
-                    <element signature="e#8508#8509#0" expanded="true" />
-                    <element signature="e#8928#8929#0" expanded="true" />
-                    <element signature="e#8969#8970#0" expanded="true" />
-                    <element signature="e#9183#9184#0" expanded="true" />
-                    <element signature="e#9243#9244#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="FileResultWriter.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/framework/FileResultWriter.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1581">
-                  <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#887#888#0" expanded="true" />
-                    <element signature="e#923#924#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="MoveTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/root/tests/framework/MoveTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="136">
-                  <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TestSuite.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/root/framework/TestSuite.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="323">
-                  <caret line="19" column="60" lean-forward="false" selection-start-line="19" selection-start-column="60" selection-end-line="19" selection-end-column="60" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file leaf-file-name="Runner.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="213">
+              <caret line="15" column="28" lean-forward="true" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#295#296#0" expanded="true" />
+                <element signature="e#330#331#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -170,13 +86,13 @@
         <option value="$PROJECT_DIR$/root/framework/ITestRunSupplier.java" />
         <option value="$PROJECT_DIR$/root/framework/IResultWriterSupplier.java" />
         <option value="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" />
-        <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
         <option value="$PROJECT_DIR$/root/framework/IResultWriter.java" />
         <option value="$PROJECT_DIR$/root/framework/TestRun.java" />
         <option value="$PROJECT_DIR$/root/tests/framework/TestRunTest.java" />
-        <option value="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" />
         <option value="$PROJECT_DIR$/root/framework/FileResultWriter.java" />
         <option value="$PROJECT_DIR$/root/framework/TestSuite.java" />
+        <option value="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" />
+        <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
       </list>
     </option>
   </component>
@@ -973,18 +889,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="23" column="42" lean-forward="false" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#682#683#0" expanded="true" />
-            <element signature="e#717#718#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="366">
@@ -1028,16 +932,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/framework/MoveTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/tests/framework/SensorDataTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1960">
@@ -1066,10 +960,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java">
+    <entry file="file://$PROJECT_DIR$/root/framework/TestSuite.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="169" column="54" lean-forward="true" selection-start-line="169" selection-start-column="54" selection-end-line="169" selection-end-column="54" />
+        <state relative-caret-position="323">
+          <caret line="19" column="60" lean-forward="false" selection-start-line="19" selection-start-column="60" selection-end-line="19" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/framework/MoveTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1088,11 +990,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/framework/TestSuite.java">
+    <entry file="file://$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="60" lean-forward="false" selection-start-line="19" selection-start-column="60" selection-end-line="19" selection-end-column="60" />
-          <folding />
+        <state relative-caret-position="424">
+          <caret line="200" column="73" lean-forward="false" selection-start-line="200" selection-start-column="73" selection-end-line="200" selection-end-column="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="15" column="28" lean-forward="true" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#295#296#0" expanded="true" />
+            <element signature="e#330#331#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

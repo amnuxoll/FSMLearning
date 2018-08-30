@@ -198,4 +198,5 @@ public class FileResultWriterTest {
     }
 
     // TODO edge cases around condition where smoothing lines get added
+    // TODO edge cases around news with different numbers of goals found.
 }
