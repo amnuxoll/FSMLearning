@@ -1,35 +1,39 @@
 package experiments;
 
-import agents.marz.MaRzAgent;
-import environments.fsm.FiniteStateMachine;
+import agents.nsm.NSMAgentProvider;
+import com.sun.javafx.applet.ExperimentalExtensions;
+import environments.fsm.FSMDescription;
+import environments.fsm.FSMDescriptionProvider;
 import framework.*;
 
-import java.net.URI;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.EnumSet;
 
 public class Runner {
+
+    private static TestSuiteConfiguration FullTest = new TestSuiteConfiguration(
+            50,
+            1000,
+            true
+    );
+
+    private static TestSuiteConfiguration QuickTest = new TestSuiteConfiguration(
+            10,
+            100,
+            true
+    );
+
+    private static TestSuite Suite1 = new TestSuite(
+            Runner.FullTest,
+            new FileResultWriterProvider(),
+            new FSMDescriptionProvider(2, 5, EnumSet.of(FSMDescription.Sensor.EVEN_ODD)),
+            new IAgentProvider[] {
+                    new NSMAgentProvider()
+            }
+    );
 
     public static void main(String[] args)
     {
         Runner.Suite1.run();
     }
 
-    private static TestSuite Suite1 = new TestSuite(
-            50,1000,
-            new FileResultWriter(Runner.getOutputFileName("Suite1")),
-            () -> new MaRzAgent(),
-            () -> new FiniteStateMachine(3, 30),
-            TestRun::new
-            );
-
-    private static String getOutputFileName(String testSuiteDirectory)
-    {
-        Date myDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        String dateString = sdf.format(myDate);
-        String outputDirectory = Paths.get(System.getProperty("user.home"), "fsm_output").toString();
-        return Paths.get(outputDirectory, testSuiteDirectory, dateString + ".csv").toString();
-    }
 }

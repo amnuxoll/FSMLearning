@@ -1,109 +1,112 @@
 package framework;
 
-import agents.marz.MaRzAgent;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestSuiteTest {
 
+    private TestSuiteConfiguration testConfiguration = new TestSuiteConfiguration(2, 3, true);
+
     // constructor Tests
     @Test
-    public void testConstructorNumberOfIterationsLessThanOneThrowsException()
+    public void constructorNullTestSuiteConfigurationThrowsException()
     {
-        assertThrows(IllegalArgumentException.class,() -> new TestSuite(0, 1, new TestResultWriter(), () -> null, () -> null, (agent, environment, numGoals, resultWriter) -> null));
+        assertThrows(IllegalArgumentException.class,() -> new TestSuite(null, new TestResultWriterProvider(), new TestEnvironmentDescriptionProvider(), new IAgentProvider[] { new TestAgentProvider() }));
     }
 
     @Test
-    public void testConstructorNumberOfGoalsLessThanOneThrowsException()
+    public void constructorNullResultWriterProviderThrowsException()
     {
-        assertThrows(IllegalArgumentException.class,() -> new TestSuite(1, 0, new TestResultWriter(), () -> null, () -> null, (agent, environment, numGoals, resultWriter) -> null));
+        assertThrows(IllegalArgumentException.class,() -> new TestSuite(this.testConfiguration, null, new TestEnvironmentDescriptionProvider(), new IAgentProvider[] { new TestAgentProvider() }));
     }
 
     @Test
-    public void testConstructorNullResultWriterSupplierOneThrowsException()
+    public void constructorNullEnvironmentDescriptionProviderThrowsException()
     {
-        assertThrows(IllegalArgumentException.class,() -> new TestSuite(1, 1, null, () -> null, () -> null, (agent, environment, numGoals, resultWriter) -> null));
+        assertThrows(IllegalArgumentException.class,() -> new TestSuite(this.testConfiguration, new TestResultWriterProvider(), null, new IAgentProvider[] { new TestAgentProvider() }));
     }
 
     @Test
-    public void testConstructorNullAgentSupplierOneThrowsException()
+    public void constructorNullAgentProvidersThrowsException()
     {
-        assertThrows(IllegalArgumentException.class,() -> new TestSuite(1, 1, new TestResultWriter(), null, () -> null, (agent, environment, numGoals, resultWriter) -> null));
+        assertThrows(IllegalArgumentException.class,() -> new TestSuite(this.testConfiguration, new TestResultWriterProvider(), new TestEnvironmentDescriptionProvider(), null));
     }
 
     @Test
-    public void testConstructorNullEnvironmentSupplierOneThrowsException()
+    public void constructorEmptyAgentProvidersThrowsException()
     {
-        assertThrows(IllegalArgumentException.class,() -> new TestSuite(1, 1,new TestResultWriter(), () -> null, null, (agent, environment, numGoals, resultWriter) -> null));
-    }
-
-    @Test
-    public void testConstructorNullTestRunSupplierOneThrowsException()
-    {
-        assertThrows(IllegalArgumentException.class,() -> new TestSuite(1, 1, new TestResultWriter(), () -> null, () -> null, null));
+        assertThrows(IllegalArgumentException.class,() -> new TestSuite(this.testConfiguration, new TestResultWriterProvider(), new TestEnvironmentDescriptionProvider(), new IAgentProvider[0]));
     }
 
     // run Tests
     @Test
-    public void testRunInitializesAndExecutesSingleTestCorrectly()
+    public void runInitializesAndExecutesSingleAgent()
     {
-        final AtomicInteger testRunInstanceCount = new AtomicInteger(0);
-        TestTestRun testRun = new TestTestRun();
-        TestSuite testSuite = new TestSuite(
-                1,
-                13,
-                new TestResultWriter(),
-                () -> new TestAgent(),
-                () -> new TestEnvironment(),
-                (agent, environment, numGoals, resultWriter) -> {
-                    testRunInstanceCount.addAndGet(1);
-                    assertTrue(agent instanceof TestAgent);
-                    assertTrue(environment instanceof TestEnvironment);
-                    assertEquals(13, numGoals);
-                    assertTrue(resultWriter instanceof TestResultWriter);
-                    return testRun;
-                });
+        TestResultWriterProvider resultWriterProvider = new TestResultWriterProvider();
+        TestEnvironmentDescriptionProvider environmentDescriptionProvider = new TestEnvironmentDescriptionProvider();
+        IAgentProvider[] agentProviders = new IAgentProvider[]
+                {
+                        new TestAgentProvider()
+                };
+        TestSuite testSuite = new TestSuite(this.testConfiguration, resultWriterProvider, environmentDescriptionProvider, agentProviders);
         testSuite.run();
-        assertEquals(1, testRunInstanceCount.get());
-        assertEquals(1, testRun.executeCount);
+
+        assertEquals(this.testConfiguration.getNumberOfIterations(), ((TestAgentProvider)agentProviders[0]).generatedAgents);
+        assertEquals(this.testConfiguration.getNumberOfIterations(), environmentDescriptionProvider.generatedEnvironmentDescriptions);
+
+        assertEquals(1, resultWriterProvider.generatedResultWriters.size());
+        TestResultWriter resultWriter = resultWriterProvider.generatedResultWriters.get("agent0.csv");
+        assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCount);
+        assertEquals(this.testConfiguration.getNumberOfIterations() * this.testConfiguration.getNumberOfGoals(), resultWriter.stepsLoggedCount);
+        assertTrue(resultWriter.completed);
+        assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCountAtcompleted);
     }
 
     @Test
-    public void testRunInitializesAndExecutesMultipleTestsCorrectly()
+    public void runInitializesAndExecutesMultipleAgent()
     {
-        final AtomicInteger testRunInstanceCount = new AtomicInteger(0);
-        TestTestRun testRun = new TestTestRun();
-        TestSuite testSuite = new TestSuite(
-                20,
-                13,
-                new TestResultWriter(),
-                () -> new TestAgent(),
-                () -> new TestEnvironment(),
-                (agent, environment, numGoals, resultWriter) -> {
-                    testRunInstanceCount.addAndGet(1);
-                    assertTrue(agent instanceof TestAgent);
-                    assertTrue(environment instanceof TestEnvironment);
-                    assertEquals(13, numGoals);
-                    assertTrue(resultWriter instanceof TestResultWriter);
-                    return testRun;
-                });
+        TestResultWriterProvider resultWriterProvider = new TestResultWriterProvider();
+        TestEnvironmentDescriptionProvider environmentDescriptionProvider = new TestEnvironmentDescriptionProvider();
+        IAgentProvider[] agentProviders = new IAgentProvider[]
+                {
+                        new TestAgentProvider(),
+                        new TestAgentProvider()
+                };
+        TestSuite testSuite = new TestSuite(this.testConfiguration, resultWriterProvider, environmentDescriptionProvider, agentProviders);
         testSuite.run();
-        assertEquals(20, testRunInstanceCount.get());
-        assertEquals(20, testRun.executeCount);
+
+        assertEquals(this.testConfiguration.getNumberOfIterations(), ((TestAgentProvider)agentProviders[0]).generatedAgents);
+        assertEquals(this.testConfiguration.getNumberOfIterations(), ((TestAgentProvider)agentProviders[1]).generatedAgents);
+        assertEquals(2 * this.testConfiguration.getNumberOfIterations(), environmentDescriptionProvider.generatedEnvironmentDescriptions);
+
+        assertEquals(2, resultWriterProvider.generatedResultWriters.size());
+        TestResultWriter resultWriter = resultWriterProvider.generatedResultWriters.get("agent0.csv");
+        assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCount);
+        assertEquals(this.testConfiguration.getNumberOfIterations() * this.testConfiguration.getNumberOfGoals(), resultWriter.stepsLoggedCount);
+        assertTrue(resultWriter.completed);
+        assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCountAtcompleted);
+
+        resultWriter = resultWriterProvider.generatedResultWriters.get("agent1.csv");
+        assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCount);
+        assertEquals(this.testConfiguration.getNumberOfIterations() * this.testConfiguration.getNumberOfGoals(), resultWriter.stepsLoggedCount);
+        assertTrue(resultWriter.completed);
+        assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCountAtcompleted);
     }
 
-    private class TestTestRun implements ITestRun
+
+    private class TestAgentProvider implements IAgentProvider
     {
-        public int executeCount = 0;
+        public int generatedAgents = 0;
 
         @Override
-        public void execute() {
-            this.executeCount++;
+        public IAgent getAgent() {
+            this.generatedAgents++;
+            return new TestAgent();
         }
     }
 
@@ -117,45 +120,83 @@ public class TestSuiteTest {
 
         @Override
         public Move getNextMove(SensorData sensorData) throws Exception {
-            return null;
+            return new Move("a");
         }
     }
 
-    private class TestEnvironment implements IEnvironment
+    private class TestEnvironmentDescriptionProvider implements IEnvironmentDescriptionProvider
+    {
+        public int generatedEnvironmentDescriptions = 0;
+
+        @Override
+        public IEnvironmentDescription getEnvironmentDescription() {
+            this.generatedEnvironmentDescriptions++;
+            return new TestEnvironmentDescription();
+        }
+    }
+
+    private class TestEnvironmentDescription implements IEnvironmentDescription
     {
 
         @Override
         public Move[] getMoves() {
-            return new Move[0];
+            return new Move[] { new Move("a") };
         }
 
         @Override
-        public SensorData tick(Move move) {
-            return null;
+        public int transition(int currentState, Move move) {
+            return 0;
         }
 
         @Override
-        public void reset() {
+        public boolean isGoalState(int state) {
+            return true;
+        }
 
+        @Override
+        public int getNumStates() {
+            return 1;
+        }
+
+        @Override
+        public void applySensors(int state, SensorData sensorData) {
+
+        }
+    }
+
+    private class TestResultWriterProvider implements IResultWriterProvider
+    {
+        public HashMap<String, TestResultWriter> generatedResultWriters = new HashMap<>();
+
+        @Override
+        public IResultWriter getResultWriter(String agent) {
+            TestResultWriter resultWriter = new TestResultWriter();
+            this.generatedResultWriters.put(agent, resultWriter);
+            return resultWriter;
         }
     }
 
     private class TestResultWriter implements IResultWriter
     {
+        public int iterationCount = 0;
+        public int stepsLoggedCount = 0;
+        public boolean completed = false;
+        public int iterationCountAtcompleted = 0;
 
         @Override
         public void logStepsToGoal(int stepsToGoal) {
-
+            this.stepsLoggedCount++;
         }
 
         @Override
         public void beginNewRun() {
-
+            this.iterationCount++;
         }
 
         @Override
         public void complete() {
-
+            this.completed = true;
+            this.iterationCountAtcompleted = this.iterationCount;
         }
     }
 }

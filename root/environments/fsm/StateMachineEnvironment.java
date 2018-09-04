@@ -1,6 +1,5 @@
 package environments.fsm;
 
-import framework.IEnvironment;
 import framework.Move;
 import framework.SensorData;
 
@@ -26,7 +25,7 @@ import java.util.*;
  * @version February 26 2015
  *
  */
-public class StateMachineEnvironment implements IEnvironment {
+public class StateMachineEnvironment  {
 
     HashMap<Integer, HashMap<Move, Integer>> updatedTransitionTable;
 
@@ -318,7 +317,6 @@ public class StateMachineEnvironment implements IEnvironment {
 	/**
 	 * Resets the current state back to a state not the goal
 	 */
-	@Override
 	public void reset() {
         Random randoSquew = new Random(System.currentTimeMillis());
         int randoState = randoSquew.nextInt(NUM_STATES - 1);
@@ -345,7 +343,6 @@ public class StateMachineEnvironment implements IEnvironment {
 	 * @return
 	 * 		The agent's updated sensors
 	 */
-	@Override
 	public SensorData tick(Move move) {
 	    if (currentState == GOAL_STATE)
 	        reset();
@@ -401,7 +398,6 @@ public class StateMachineEnvironment implements IEnvironment {
 
 
 	private ArrayList<Move> moves;
-	@Override
     public Move[] getMoves()
     {
         return this.moves.toArray(new Move[this.moves.size()]);

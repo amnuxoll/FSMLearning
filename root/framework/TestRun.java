@@ -1,29 +1,30 @@
 package framework;
 
-public class TestRun implements ITestRun {
+class TestRun {
 
     private IAgent agent;
-
-    private IEnvironment environment;
-
+    private IEnvironmentDescription environmentDescription;
+    private int numberOfGoalsToFind;
     private IResultWriter resultWriter;
+    private IRandomizer randomizer;
 
-    private int numGoalsToFind;
-
-    public TestRun(IAgent agent, IEnvironment environment, int numGoalsToFind, IResultWriter resultWriter) throws IllegalArgumentException
+    public TestRun(IAgent agent, IEnvironmentDescription environmentDescription, int numberOfGoalsToFind, IResultWriter resultWriter, IRandomizer randomizer) throws IllegalArgumentException
     {
         if (agent == null)
             throw new IllegalArgumentException("agent cannot be null");
-        if (environment == null)
-            throw new IllegalArgumentException("environment cannot be null");
-        if (numGoalsToFind < 1)
-            throw new IllegalArgumentException("numGoalsToFind cannot be less than 1");
+        if (environmentDescription == null)
+            throw new IllegalArgumentException("environmentDescription cannot be null");
+        if (numberOfGoalsToFind < 1)
+            throw new IllegalArgumentException("numberOfGoalsToFind cannot be less than 1");
         if (resultWriter == null)
             throw new IllegalArgumentException("resultWriter cannot be null");
+        if (randomizer == null)
+            throw new IllegalArgumentException("randomizer cannot be null");
         this.agent = agent;
-        this.environment = environment;
-        this.numGoalsToFind = numGoalsToFind;
+        this.environmentDescription = environmentDescription;
+        this.numberOfGoalsToFind = numberOfGoalsToFind;
         this.resultWriter = resultWriter;
+        this.randomizer = randomizer;
     }
 
     public void execute()
@@ -31,20 +32,20 @@ public class TestRun implements ITestRun {
         try {
             int goalCount = 0;
             int moveCount = 0;
-            this.agent.setMoves(this.environment.getMoves());
+            this.agent.setMoves(this.environmentDescription.getMoves());
+            Environment environment = new Environment(this.environmentDescription, this.randomizer);
             SensorData sensorData = null;
             do {
                 Move move = this.agent.getNextMove(sensorData);
-                sensorData = this.environment.tick(move);
+                sensorData = environment.tick(move);
                 moveCount++;
                 if (sensorData.isGoal()) {
-                    if (this.resultWriter != null)
-                        this.resultWriter.logStepsToGoal(moveCount);
+                    resultWriter.logStepsToGoal(moveCount);
                     goalCount++;
                     moveCount = 0;
-                    this.environment.reset();
+                    environment.reset();
                 }
-            } while (goalCount < this.numGoalsToFind);
+            } while (goalCount < this.numberOfGoalsToFind);
         }
         catch (Exception ex)
         {
