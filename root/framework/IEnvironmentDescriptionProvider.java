@@ -1,5 +1,5 @@
 package framework;
 
 public interface IEnvironmentDescriptionProvider {
-    IEnvironmentDescription getEnvironmentDescription();
+    IEnvironmentDescription getEnvironmentDescription(IRandomizer randomizer);
 }

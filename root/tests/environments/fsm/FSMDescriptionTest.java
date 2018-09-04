@@ -67,6 +67,37 @@ public class FSMDescriptionTest {
         assertThrows(IllegalArgumentException.class, () -> new FSMDescription(transitionTable));
     }
 
+    // getSensorsToInclude Tests
+    @Test
+    public void getSensorsToIncludeDefaultsToNone()
+    {
+        HashMap<Move, Integer> transitionSet1 = new HashMap<>();
+        transitionSet1.put(new Move("a"), 1);
+        HashMap<Move, Integer>[] transitionTable = new HashMap[]
+                {
+                        transitionSet1
+                };
+        FSMDescription description = new FSMDescription(transitionTable);
+        EnumSet<FSMDescription.Sensor> sensors = description.getSensorsToInclude();
+        assertFalse(sensors.contains(FSMDescription.Sensor.EVEN_ODD));
+        assertFalse(sensors.contains(FSMDescription.Sensor.NOISE));
+    }
+
+    @Test
+    public void getSensorsToIncludeGivesSensors()
+    {
+        HashMap<Move, Integer> transitionSet1 = new HashMap<>();
+        transitionSet1.put(new Move("a"), 1);
+        HashMap<Move, Integer>[] transitionTable = new HashMap[]
+                {
+                        transitionSet1
+                };
+        FSMDescription description = new FSMDescription(transitionTable, EnumSet.of(FSMDescription.Sensor.EVEN_ODD));
+        EnumSet<FSMDescription.Sensor> sensors = description.getSensorsToInclude();
+        assertTrue(sensors.contains(FSMDescription.Sensor.EVEN_ODD));
+        assertFalse(sensors.contains(FSMDescription.Sensor.NOISE));
+    }
+
     // getMoves Tests
     @Test
     public void getMovesFSMDescriptionInfersMoveSets() {

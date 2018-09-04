@@ -129,7 +129,7 @@ public class TestSuiteTest {
         public int generatedEnvironmentDescriptions = 0;
 
         @Override
-        public IEnvironmentDescription getEnvironmentDescription() {
+        public IEnvironmentDescription getEnvironmentDescription(IRandomizer randomizer) {
             this.generatedEnvironmentDescriptions++;
             return new TestEnvironmentDescription();
         }

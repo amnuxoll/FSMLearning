@@ -46,6 +46,10 @@ public class FSMDescription implements IEnvironmentDescription {
         }
     }
 
+    public EnumSet<Sensor> getSensorsToInclude() {
+        return this.sensorsToInclude;
+    }
+
     @Override
     public Move[] getMoves() {
         return this.moves;

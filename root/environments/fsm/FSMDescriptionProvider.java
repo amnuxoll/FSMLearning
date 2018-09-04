@@ -2,6 +2,7 @@ package environments.fsm;
 
 import framework.IEnvironmentDescription;
 import framework.IEnvironmentDescriptionProvider;
+import framework.IRandomizer;
 import framework.Move;
 
 import java.util.EnumSet;
@@ -27,8 +28,11 @@ public class FSMDescriptionProvider implements IEnvironmentDescriptionProvider {
     }
 
     @Override
-    public IEnvironmentDescription getEnvironmentDescription() {
-        HashMap<Move, Integer>[] transitionTable = FSMTransitionTableBuilder.buildTransitionTable(this.alphabetSize, this.numStates);
+    public IEnvironmentDescription getEnvironmentDescription(IRandomizer randomizer) {
+        if (randomizer == null)
+            throw new IllegalArgumentException("randomizer cannot be null");
+        FSMTransitionTableBuilder builder = new FSMTransitionTableBuilder(this.alphabetSize, this.numStates, randomizer);
+        HashMap<Move, Integer>[] transitionTable = builder.getTransitionTable();
         return new FSMDescription(transitionTable, this.sensorsToInclude);
     }
 }

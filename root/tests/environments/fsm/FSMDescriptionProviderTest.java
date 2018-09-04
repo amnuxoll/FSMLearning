@@ -1,9 +1,12 @@
 package environments.fsm;
 
+import framework.IRandomizer;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
+import java.util.EnumSet;
+import java.util.Random;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FSMDescriptionProviderTest {
 
@@ -28,8 +31,39 @@ public class FSMDescriptionProviderTest {
 
     // getEnvironmentDescription Tests
     @Test
-    public void getEnvironmentDescriptionHeedsConfiguration()
+    public void getEnvironmentDescriptionNullRandomizerThrowsException()
     {
-        fail("need to implement");
+        FSMDescriptionProvider descriptionProvider = new FSMDescriptionProvider(1, 1, FSMDescription.Sensor.ALL_SENSORS);
+        assertThrows(IllegalArgumentException.class, () -> descriptionProvider.getEnvironmentDescription(null));
+    }
+
+    @Test
+    public void getEnvironmentDescriptionHeedsConfiguration1()
+    {
+        FSMDescriptionProvider descriptionProvider = new FSMDescriptionProvider(1, 1, FSMDescription.Sensor.ALL_SENSORS);
+        FSMDescription description = (FSMDescription)descriptionProvider.getEnvironmentDescription(new TestRandomizer());
+        assertEquals(1, description.getMoves().length);
+        assertEquals(1, description.getNumStates());
+        assertEquals(FSMDescription.Sensor.ALL_SENSORS, description.getSensorsToInclude());
+    }
+
+    @Test
+    public void getEnvironmentDescriptionHeedsConfiguration2()
+    {
+        FSMDescriptionProvider descriptionProvider = new FSMDescriptionProvider(13, 42, EnumSet.of(FSMDescription.Sensor.EVEN_ODD));
+        FSMDescription description = (FSMDescription)descriptionProvider.getEnvironmentDescription(new TestRandomizer());
+        assertEquals(13, description.getMoves().length);
+        assertEquals(42, description.getNumStates());
+        assertEquals(EnumSet.of(FSMDescription.Sensor.EVEN_ODD), description.getSensorsToInclude());
+    }
+
+    private class TestRandomizer implements IRandomizer
+    {
+        private Random random = new Random();
+
+        @Override
+        public int getRandomNumber(int ceiling) {
+            return this.random.nextInt(ceiling);
+        }
     }
 }

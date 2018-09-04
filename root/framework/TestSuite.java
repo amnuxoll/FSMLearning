@@ -41,8 +41,8 @@ public class TestSuite implements IGoalListener {
         for (int i = 0; i < numberOfIterations; i++)
         {
             IAgent agent = agentProvider.getAgent();
-            IEnvironmentDescription environmentDescription = this.environmentDescriptionProvider.getEnvironmentDescription();
             IRandomizer randomizer = new Randomizer(this.configuration.getTrueRandom());
+            IEnvironmentDescription environmentDescription = this.environmentDescriptionProvider.getEnvironmentDescription(randomizer);
             TestRun testRun = new TestRun(agent, environmentDescription, this.configuration.getNumberOfGoals(), randomizer);
             testRun.addGoalListener(this);
             this.currentResultWriter.beginNewRun();

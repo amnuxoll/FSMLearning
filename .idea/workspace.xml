@@ -2,13 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="738fa547-feb5-42aa-9429-ab3d8a31a275" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/GoalEvent.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/framework/IGoalListener.java" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/root/framework/Randomizer.java" afterPath="$PROJECT_DIR$/root/framework/Randomizer.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/TestRun.java" afterPath="$PROJECT_DIR$/root/framework/TestRun.java" />
+      <change beforePath="$PROJECT_DIR$/root/environments/fsm/FSMDescription.java" afterPath="$PROJECT_DIR$/root/environments/fsm/FSMDescription.java" />
+      <change beforePath="$PROJECT_DIR$/root/environments/fsm/FSMDescriptionProvider.java" afterPath="$PROJECT_DIR$/root/environments/fsm/FSMDescriptionProvider.java" />
+      <change beforePath="$PROJECT_DIR$/root/environments/fsm/FSMTransitionTableBuilder.java" afterPath="$PROJECT_DIR$/root/environments/fsm/FSMTransitionTableBuilder.java" />
+      <change beforePath="$PROJECT_DIR$/root/environments/fsm/StateMachineEnvironment.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/root/framework/IEnvironmentDescriptionProvider.java" afterPath="$PROJECT_DIR$/root/framework/IEnvironmentDescriptionProvider.java" />
       <change beforePath="$PROJECT_DIR$/root/framework/TestSuite.java" afterPath="$PROJECT_DIR$/root/framework/TestSuite.java" />
-      <change beforePath="$PROJECT_DIR$/root/tests/framework/TestRunTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/TestRunTest.java" />
+      <change beforePath="$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionProviderTest.java" afterPath="$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionProviderTest.java" />
+      <change beforePath="$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionTest.java" afterPath="$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionTest.java" />
+      <change beforePath="$PROJECT_DIR$/root/tests/environments/fsm/FSMTransitionTableBuilderTest.java" afterPath="$PROJECT_DIR$/root/tests/environments/fsm/FSMTransitionTableBuilderTest.java" />
+      <change beforePath="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,85 +23,118 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TestSuite.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TestSuiteTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="196">
+              <caret line="130" column="8" lean-forward="false" selection-start-line="130" selection-start-column="8" selection-end-line="130" selection-end-column="8" />
+              <folding>
+                <element signature="class#TestAgentProvider#0;class#TestSuiteTest#0" expanded="false" />
+                <element signature="class#TestAgent#0;class#TestSuiteTest#0" expanded="false" />
+                <element signature="e#6495#6496#0" expanded="true" />
+                <element signature="e#6554#6555#0" expanded="true" />
+                <element signature="e#6634#6635#0" expanded="true" />
+                <element signature="e#6666#6667#0" expanded="true" />
+                <element signature="e#6733#6734#0" expanded="true" />
+                <element signature="e#6768#6769#0" expanded="true" />
+                <element signature="e#6823#6824#0" expanded="true" />
+                <element signature="e#6855#6856#0" expanded="true" />
+                <element signature="e#7709#7710#0" expanded="true" />
+                <element signature="e#7756#7757#0" expanded="true" />
+                <element signature="e#7811#7812#0" expanded="true" />
+                <element signature="e#7856#7857#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FSMDescriptionProviderTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionProviderTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="432">
+              <caret line="56" column="62" lean-forward="false" selection-start-line="56" selection-start-column="62" selection-end-line="56" selection-end-column="62" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2514#2515#0" expanded="true" />
+                <element signature="e#2573#2574#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FSMDescriptionTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="143">
+              <caret line="79" column="71" lean-forward="false" selection-start-line="79" selection-start-column="71" selection-end-line="79" selection-end-column="71" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FSMDescription.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/environments/fsm/FSMDescription.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="534">
+              <caret line="95" column="8" lean-forward="false" selection-start-line="95" selection-start-column="8" selection-end-line="95" selection-end-column="8" />
+              <folding>
+                <element signature="e#1875#1876#0" expanded="true" />
+                <element signature="e#1919#1920#0" expanded="true" />
+                <element signature="method#transition#0;class#FSMDescription#0" expanded="false" />
+                <element signature="method#applySensors#0;class#FSMDescription#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestSuite.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/framework/TestSuite.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
-              <caret line="39" column="5" lean-forward="true" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
+            <state relative-caret-position="556">
+              <caret line="44" column="133" lean-forward="false" selection-start-line="44" selection-start-column="133" selection-end-line="44" selection-end-column="133" />
               <folding>
-                <element signature="e#2630#2631#0" expanded="true" />
-                <element signature="e#2713#2714#0" expanded="true" />
+                <element signature="e#2640#2641#0" expanded="true" />
+                <element signature="e#2723#2724#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IResultWriter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/framework/IResultWriter.java">
+      <file leaf-file-name="FSMTransitionTableBuilderTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/root/tests/environments/fsm/FSMTransitionTableBuilderTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IResultWriterProvider.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/framework/IResultWriterProvider.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="46" lean-forward="false" selection-start-line="3" selection-start-column="46" selection-end-line="3" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Move.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/framework/Move.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="39" lean-forward="false" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Randomizer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/framework/Randomizer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="42" lean-forward="false" selection-start-line="17" selection-start-column="42" selection-end-line="17" selection-end-column="42" />
-              <folding>
-                <element signature="e#381#382#0" expanded="true" />
-                <element signature="e#432#433#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SensorData.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/framework/SensorData.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+            <state relative-caret-position="7">
+              <caret line="45" column="67" lean-forward="true" selection-start-line="45" selection-start-column="67" selection-end-line="45" selection-end-column="67" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#2358#2359#0" expanded="true" />
+                <element signature="e#2417#2418#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestRun.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/framework/TestRun.java">
+      <file leaf-file-name="FSMTransitionTableBuilder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/environments/fsm/FSMTransitionTableBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+            <state relative-caret-position="315">
+              <caret line="23" column="76" lean-forward="false" selection-start-line="23" selection-start-column="76" selection-end-line="23" selection-end-column="76" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2053#2054#0" expanded="true" />
-                <element signature="e#2101#2102#0" expanded="true" />
-                <element signature="e#2180#2181#0" expanded="true" />
-                <element signature="e#2231#2232#0" expanded="true" />
+                <element signature="e#977#978#0" expanded="true" />
+                <element signature="e#1020#1021#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FSMDescriptionProvider.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/environments/fsm/FSMDescriptionProvider.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="415">
+              <caret line="32" column="76" lean-forward="false" selection-start-line="32" selection-start-column="76" selection-end-line="32" selection-end-column="76" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -108,27 +144,7 @@
         <entry file="file://$PROJECT_DIR$/root/framework/IEnvironmentDescriptionProvider.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
-              <caret line="3" column="28" lean-forward="true" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="53" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IGoalListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/framework/IGoalListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IRandomizer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/framework/IRandomizer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="19" lean-forward="false" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+              <caret line="3" column="76" lean-forward="false" selection-start-line="3" selection-start-column="76" selection-end-line="3" selection-end-column="76" />
               <folding />
             </state>
           </provider>
@@ -188,7 +204,6 @@
         <option value="$PROJECT_DIR$/root/agents/nsm/NSMAgentProvider.java" />
         <option value="$PROJECT_DIR$/root/framework/IRandomizer.java" />
         <option value="$PROJECT_DIR$/root/framework/IEnvironmentDescription.java" />
-        <option value="$PROJECT_DIR$/root/framework/IEnvironmentDescriptionProvider.java" />
         <option value="$PROJECT_DIR$/root/framework/IResultWriter.java" />
         <option value="$PROJECT_DIR$/root/framework/TestRunConfiguration.java" />
         <option value="$PROJECT_DIR$/root/framework/IResultWriterProvider.java" />
@@ -198,22 +213,23 @@
         <option value="$PROJECT_DIR$/root/environments/fsm/StateMachineEnvironment.java" />
         <option value="$PROJECT_DIR$/root/tests/framework/TestSuiteConfigurationTest.java" />
         <option value="$PROJECT_DIR$/root/framework/TestSuiteConfiguration.java" />
-        <option value="$PROJECT_DIR$/root/environments/fsm/FSMDescriptionProvider.java" />
-        <option value="$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionProviderTest.java" />
-        <option value="$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionTest.java" />
-        <option value="$PROJECT_DIR$/root/environments/fsm/FSMDescription.java" />
-        <option value="$PROJECT_DIR$/root/environments/fsm/FSMTransitionTableBuilder.java" />
-        <option value="$PROJECT_DIR$/root/tests/environments/fsm/FSMTransitionTableBuilderTest.java" />
-        <option value="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" />
         <option value="$PROJECT_DIR$/root/framework/Environment.java" />
         <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
         <option value="$PROJECT_DIR$/root/tests/framework/EnvironmentTest.java" />
-        <option value="$PROJECT_DIR$/root/framework/TestSuite.java" />
         <option value="$PROJECT_DIR$/root/framework/IGoalListener.java" />
         <option value="$PROJECT_DIR$/root/framework/TestRun.java" />
         <option value="$PROJECT_DIR$/root/tests/framework/TestRunTest.java" />
         <option value="$PROJECT_DIR$/root/framework/GoalEvent.java" />
         <option value="$PROJECT_DIR$/root/framework/Randomizer.java" />
+        <option value="$PROJECT_DIR$/root/framework/IEnvironmentDescriptionProvider.java" />
+        <option value="$PROJECT_DIR$/root/tests/environments/fsm/FSMTransitionTableBuilderTest.java" />
+        <option value="$PROJECT_DIR$/root/framework/TestSuite.java" />
+        <option value="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" />
+        <option value="$PROJECT_DIR$/root/environments/fsm/FSMTransitionTableBuilder.java" />
+        <option value="$PROJECT_DIR$/root/environments/fsm/FSMDescriptionProvider.java" />
+        <option value="$PROJECT_DIR$/root/environments/fsm/FSMDescription.java" />
+        <option value="$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionTest.java" />
+        <option value="$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionProviderTest.java" />
       </list>
     </option>
   </component>
@@ -583,12 +599,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_FSMLearning - 2018.09.03 at 15h 35m 03s.xml">
-      <configuration name="All in FSMLearning" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_FSMLearning - 2018.09.03 at 15h 37m 33s.xml">
-      <configuration name="All in FSMLearning" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="All_in_FSMLearning - 2018.09.03 at 17h 26m 21s.xml">
       <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
@@ -601,8 +611,14 @@
     <history-entry file="All_in_FSMLearning - 2018.09.03 at 17h 59m 35s.xml">
       <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="FSMTransitionTableBuilderTest - 2018.09.03 at 15h 48m 44s.xml">
-      <configuration name="FSMTransitionTableBuilderTest" configurationId="JUnit" />
+    <history-entry file="All_in_FSMLearning - 2018.09.03 at 18h 19m 44s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_FSMLearning - 2018.09.03 at 18h 29m 58s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_FSMLearning - 2018.09.03 at 18h 32m 09s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
     <history-entry file="FSMTransitionTableBuilderTest - 2018.09.03 at 15h 49m 35s.xml">
       <configuration name="FSMTransitionTableBuilderTest" configurationId="JUnit" />
@@ -653,12 +669,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/root/environments/fsm/StateMachineEnvironment.java</url>
-          <line>204</line>
-          <properties />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java</url>
           <line>49</line>
@@ -875,53 +885,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="399" column="34" lean-forward="false" selection-start-line="399" selection-start-column="34" selection-end-line="399" selection-end-column="34" />
-          <folding>
-            <element signature="docComment;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#StateMachineEnvironment#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#StateMachineEnvironment#1;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#StateMachineEnvironment#1;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#initPaths#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="e#5062#5134#0" expanded="false" />
-            <element signature="docComment;method#printStateMachine#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#printStateMachine#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#printStateMachineGraph#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#printStateMachineGraph#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#toDOT#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#tick#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="e#11685#11736#0" expanded="false" />
-            <element signature="e#12304#12355#0" expanded="false" />
-            <element signature="docComment;method#hasTransition#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#findShortestPaths#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="e#14432#14496#0" expanded="false" />
-            <element signature="e#14767#14828#0" expanded="false" />
-            <element signature="e#15383#15450#0" expanded="false" />
-            <element signature="docComment;method#printAvgPathLen#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#printPaths#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#pathResult#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#PathNode#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#PathNode#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#PathNode#1;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#PathNode#1;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#updateH#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#updateH#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#getF#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#getF#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#compareTo#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#advance#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#advance#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#allGoal#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#allGoal#0;class#PathNode#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#shortestBlindPathToGoal#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#shortestPathToGoal#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#calcDestinationStates#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="e#23806#23877#0" expanded="false" />
-            <element signature="e#24246#24311#0" expanded="false" />
-            <element signature="docComment;method#avgStepsToGoalWithPath#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#avgStepsToGoalWithPath#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="docComment;method#numStatesSolvedBy#0;class#StateMachineEnvironment#0" expanded="false" />
-            <element signature="method#numStatesSolvedBy#0;class#StateMachineEnvironment#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -940,7 +904,7 @@
         <state relative-caret-position="306">
           <caret line="18" column="90" lean-forward="false" selection-start-line="18" selection-start-column="90" selection-end-line="18" selection-end-column="90" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -953,106 +917,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/environments/fsm/FSMDescriptionProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="21" column="37" lean-forward="true" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/environments/fsm/FSMTransitionTableBuilderTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="8" column="60" lean-forward="false" selection-start-line="8" selection-start-column="60" selection-end-line="8" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="29" column="94" lean-forward="false" selection-start-line="29" selection-start-column="94" selection-end-line="29" selection-end-column="94" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionProviderTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-53">
-          <caret line="4" column="60" lean-forward="true" selection-start-line="4" selection-start-column="60" selection-end-line="4" selection-end-column="60" />
-          <folding>
-            <element signature="e#982#983#0" expanded="false" />
-            <element signature="e#1023#1024#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/environments/fsm/FSMDescription.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="30" column="82" lean-forward="false" selection-start-line="30" selection-start-column="82" selection-end-line="30" selection-end-column="82" />
-          <folding>
-            <element signature="e#3190#3191#0" expanded="true" />
-            <element signature="e#3250#3251#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="92" column="0" lean-forward="true" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
-          <folding>
-            <element signature="class#TestAgentProvider#0;class#TestSuiteTest#0" expanded="false" />
-            <element signature="class#TestAgent#0;class#TestSuiteTest#0" expanded="false" />
-            <element signature="class#TestEnvironmentDescriptionProvider#0;class#TestSuiteTest#0" expanded="false" />
-            <element signature="e#6473#6474#0" expanded="true" />
-            <element signature="e#6532#6533#0" expanded="true" />
-            <element signature="e#6612#6613#0" expanded="true" />
-            <element signature="e#6644#6645#0" expanded="true" />
-            <element signature="e#6711#6712#0" expanded="true" />
-            <element signature="e#6746#6747#0" expanded="true" />
-            <element signature="e#6801#6802#0" expanded="true" />
-            <element signature="e#6833#6834#0" expanded="true" />
-            <element signature="e#7687#7688#0" expanded="true" />
-            <element signature="e#7734#7735#0" expanded="true" />
-            <element signature="e#7789#7790#0" expanded="true" />
-            <element signature="e#7834#7835#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/tests/framework/EnvironmentTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="7" lean-forward="false" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3947#3948#0" expanded="true" />
-            <element signature="e#3991#3992#0" expanded="true" />
-            <element signature="e#4061#4062#0" expanded="true" />
-            <element signature="e#4107#4108#0" expanded="true" />
-            <element signature="e#4161#4162#0" expanded="true" />
-            <element signature="e#4262#4263#0" expanded="true" />
-            <element signature="e#4671#4672#0" expanded="true" />
-            <element signature="e#4704#4705#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/environments/fsm/FSMTransitionTableBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="28" column="5" lean-forward="true" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#3947#3948#0" expanded="false" />
+            <element signature="e#3991#3992#0" expanded="false" />
+            <element signature="e#4061#4062#0" expanded="false" />
+            <element signature="e#4107#4108#0" expanded="false" />
+            <element signature="e#4161#4162#0" expanded="false" />
+            <element signature="e#4262#4263#0" expanded="false" />
+            <element signature="e#4671#4672#0" expanded="false" />
+            <element signature="e#4704#4705#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1062,8 +940,8 @@
         <state relative-caret-position="306">
           <caret line="26" column="43" lean-forward="true" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
           <folding>
-            <element signature="e#913#914#0" expanded="true" />
-            <element signature="e#948#949#0" expanded="true" />
+            <element signature="e#913#914#0" expanded="false" />
+            <element signature="e#948#949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1073,15 +951,15 @@
         <state relative-caret-position="83">
           <caret line="5" column="60" lean-forward="true" selection-start-line="5" selection-start-column="60" selection-end-line="5" selection-end-column="60" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5745#5746#0" expanded="true" />
-            <element signature="e#5806#5807#0" expanded="true" />
-            <element signature="e#5861#5862#0" expanded="true" />
-            <element signature="e#5893#5894#0" expanded="true" />
-            <element signature="e#6287#6288#0" expanded="true" />
-            <element signature="e#6362#6363#0" expanded="true" />
-            <element signature="e#6497#6498#0" expanded="true" />
-            <element signature="e#6529#6530#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#5745#5746#0" expanded="false" />
+            <element signature="e#5806#5807#0" expanded="false" />
+            <element signature="e#5861#5862#0" expanded="false" />
+            <element signature="e#5893#5894#0" expanded="false" />
+            <element signature="e#6287#6288#0" expanded="false" />
+            <element signature="e#6362#6363#0" expanded="false" />
+            <element signature="e#6497#6498#0" expanded="false" />
+            <element signature="e#6529#6530#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1107,7 +985,7 @@
         <state relative-caret-position="289">
           <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1125,8 +1003,8 @@
         <state relative-caret-position="68">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
-            <element signature="e#493#494#0" expanded="true" />
-            <element signature="e#536#537#0" expanded="true" />
+            <element signature="e#493#494#0" expanded="false" />
+            <element signature="e#536#537#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1151,14 +1029,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="56" lean-forward="false" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/framework/IEnvironmentDescriptionProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="28" lean-forward="true" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="53" />
           <folding />
         </state>
       </provider>
@@ -1208,8 +1078,8 @@
         <state relative-caret-position="289">
           <caret line="17" column="42" lean-forward="false" selection-start-line="17" selection-start-column="42" selection-end-line="17" selection-end-column="42" />
           <folding>
-            <element signature="e#381#382#0" expanded="true" />
-            <element signature="e#432#433#0" expanded="true" />
+            <element signature="e#381#382#0" expanded="false" />
+            <element signature="e#432#433#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1219,7 +1089,7 @@
         <state relative-caret-position="85">
           <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1229,22 +1099,120 @@
         <state relative-caret-position="17">
           <caret line="26" column="55" lean-forward="false" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2053#2054#0" expanded="true" />
-            <element signature="e#2101#2102#0" expanded="true" />
-            <element signature="e#2180#2181#0" expanded="true" />
-            <element signature="e#2231#2232#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#2053#2054#0" expanded="false" />
+            <element signature="e#2101#2102#0" expanded="false" />
+            <element signature="e#2180#2181#0" expanded="false" />
+            <element signature="e#2231#2232#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/root/framework/TestSuite.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="5" lean-forward="true" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
+        <state relative-caret-position="556">
+          <caret line="44" column="133" lean-forward="false" selection-start-line="44" selection-start-column="133" selection-end-line="44" selection-end-column="133" />
           <folding>
-            <element signature="e#2630#2631#0" expanded="true" />
-            <element signature="e#2713#2714#0" expanded="true" />
+            <element signature="e#2640#2641#0" expanded="true" />
+            <element signature="e#2723#2724#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="130" column="8" lean-forward="false" selection-start-line="130" selection-start-column="8" selection-end-line="130" selection-end-column="8" />
+          <folding>
+            <element signature="class#TestAgentProvider#0;class#TestSuiteTest#0" expanded="false" />
+            <element signature="class#TestAgent#0;class#TestSuiteTest#0" expanded="false" />
+            <element signature="e#6495#6496#0" expanded="true" />
+            <element signature="e#6554#6555#0" expanded="true" />
+            <element signature="e#6634#6635#0" expanded="true" />
+            <element signature="e#6666#6667#0" expanded="true" />
+            <element signature="e#6733#6734#0" expanded="true" />
+            <element signature="e#6768#6769#0" expanded="true" />
+            <element signature="e#6823#6824#0" expanded="true" />
+            <element signature="e#6855#6856#0" expanded="true" />
+            <element signature="e#7709#7710#0" expanded="true" />
+            <element signature="e#7756#7757#0" expanded="true" />
+            <element signature="e#7811#7812#0" expanded="true" />
+            <element signature="e#7856#7857#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/environments/fsm/FSMTransitionTableBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="23" column="76" lean-forward="false" selection-start-line="23" selection-start-column="76" selection-end-line="23" selection-end-column="76" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#977#978#0" expanded="true" />
+            <element signature="e#1020#1021#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/framework/IEnvironmentDescriptionProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="76" lean-forward="false" selection-start-line="3" selection-start-column="76" selection-end-line="3" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="79" column="71" lean-forward="false" selection-start-line="79" selection-start-column="71" selection-end-line="79" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/environments/fsm/FSMDescription.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="534">
+          <caret line="95" column="8" lean-forward="false" selection-start-line="95" selection-start-column="8" selection-end-line="95" selection-end-column="8" />
+          <folding>
+            <element signature="e#1875#1876#0" expanded="true" />
+            <element signature="e#1919#1920#0" expanded="true" />
+            <element signature="method#transition#0;class#FSMDescription#0" expanded="false" />
+            <element signature="method#applySensors#0;class#FSMDescription#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/environments/fsm/FSMDescriptionProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="32" column="76" lean-forward="false" selection-start-line="32" selection-start-column="76" selection-end-line="32" selection-end-column="76" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionProviderTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="56" column="62" lean-forward="false" selection-start-line="56" selection-start-column="62" selection-end-line="56" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2514#2515#0" expanded="true" />
+            <element signature="e#2573#2574#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/environments/fsm/FSMTransitionTableBuilderTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7">
+          <caret line="45" column="67" lean-forward="true" selection-start-line="45" selection-start-column="67" selection-end-line="45" selection-end-column="67" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2358#2359#0" expanded="true" />
+            <element signature="e#2417#2418#0" expanded="true" />
           </folding>
         </state>
       </provider>
