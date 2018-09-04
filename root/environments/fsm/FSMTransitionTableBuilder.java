@@ -4,16 +4,25 @@ import framework.IRandomizer;
 import framework.Move;
 
 import java.util.HashMap;
-
+/**
+ * An FSMTransitionTableBuilder is used to build transition tables for a {@link FSMDescription}.
+ * @author Zachary Paul Faltersack
+ * @version 0.95
+ */
 public class FSMTransitionTableBuilder {
-
     private int alphabetSize;
     private int numStates;
     private IRandomizer randomizer;
-
     private Move[] moves;
     private HashMap<Move, Integer>[] transitionTable;
+    private int transitionsDone = 0;
 
+    /**
+     * Create a {@link FSMTransitionTableBuilder}.
+     * @param alphabetSize The number of moves to allow from each state.
+     * @param numStates The number of states in the FSM.
+     * @param randomizer A random number provider.
+     */
     public FSMTransitionTableBuilder(int alphabetSize, int numStates, IRandomizer randomizer)
     {
         if (alphabetSize < 1)
@@ -28,6 +37,10 @@ public class FSMTransitionTableBuilder {
         this.buildTransitionTable();
     }
 
+    /**
+     * Get the transition table built by this {@link FSMTransitionTableBuilder}.
+     * @return The transition table.
+     */
     public HashMap<Move, Integer>[] getTransitionTable() {
         return this.transitionTable;
     }
@@ -53,8 +66,6 @@ public class FSMTransitionTableBuilder {
             maxTransitionsToGoal = 1;
         this.pickTransitions(numStates - 1, randomizer.getRandomNumber(maxTransitionsToGoal) + 1);
     }
-
-    private int transitionsDone = 0;
 
     private void pickTransitions(int initGoal, int numOfTransitions)
     {

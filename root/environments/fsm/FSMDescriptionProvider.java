@@ -8,14 +8,23 @@ import framework.Move;
 import java.util.EnumSet;
 import java.util.HashMap;
 
+/**
+ * An FSMDescriptionProvider generates new {@link FSMDescription}s for consecutive test runs.
+ * @author Zachary Paul Faltersack
+ * @version 0.95
+ */
 public class FSMDescriptionProvider implements IEnvironmentDescriptionProvider {
-
     private int alphabetSize;
     private int numStates;
     private EnumSet<FSMDescription.Sensor> sensorsToInclude;
 
-    public FSMDescriptionProvider(int alphabetSize, int numStates, EnumSet<FSMDescription.Sensor> sensorsToInclude)
-    {
+    /**
+     * Create an instance of a {@link FSMDescriptionProvider}.
+     * @param alphabetSize The number of moves to allow in the FSM.
+     * @param numStates The number of states to allow in the FSM.
+     * @param sensorsToInclude The sensor data to include when navigating the FSM.
+     */
+    public FSMDescriptionProvider(int alphabetSize, int numStates, EnumSet<FSMDescription.Sensor> sensorsToInclude) {
         if (alphabetSize < 1)
             throw new IllegalArgumentException("alphabetSize cannot be less than 1");
         if (numStates < 1)
@@ -27,6 +36,11 @@ public class FSMDescriptionProvider implements IEnvironmentDescriptionProvider {
        this.sensorsToInclude = sensorsToInclude;
     }
 
+    /**
+     * Get a new instance of a {@link FSMDescription}.
+     * @param randomizer A {@link IRandomizer} that can be used to get random data for environment description generation.
+     * @return The new {@link FSMDescription}.
+     */
     @Override
     public IEnvironmentDescription getEnvironmentDescription(IRandomizer randomizer) {
         if (randomizer == null)

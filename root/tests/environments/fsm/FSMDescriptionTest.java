@@ -288,8 +288,8 @@ public class FSMDescriptionTest {
         FSMDescription description = new FSMDescription(transitionTable, EnumSet.of(FSMDescription.Sensor.EVEN_ODD));
         SensorData sensorData = new SensorData(true);
         description.applySensors(0, sensorData);
-        assertTrue(sensorData.hasSensor("Even"));
-        assertEquals(true, sensorData.getSensor("Even"));
+        assertTrue(sensorData.hasSensor("EVEN_ODD"));
+        assertEquals(true, sensorData.getSensor("EVEN_ODD"));
     }
 
     @Test
@@ -304,7 +304,7 @@ public class FSMDescriptionTest {
         FSMDescription description = new FSMDescription(transitionTable, EnumSet.of(FSMDescription.Sensor.EVEN_ODD));
         SensorData sensorData = new SensorData(true);
         description.applySensors(1, sensorData);
-        assertTrue(sensorData.hasSensor("Even"));
-        assertEquals(false, sensorData.getSensor("Even"));
+        assertTrue(sensorData.hasSensor("EVEN_ODD"));
+        assertEquals(false, sensorData.getSensor("EVEN_ODD"));
     }
 }
