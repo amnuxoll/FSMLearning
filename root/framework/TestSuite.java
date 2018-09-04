@@ -1,5 +1,10 @@
 package framework;
 
+/**
+ *
+ * @author Zachary Paul Faltersack
+ * @version 0.95
+ */
 public class TestSuite implements IGoalListener {
 
     private TestSuiteConfiguration configuration;

@@ -3,6 +3,11 @@ package framework;
 import java.util.*;
 import java.util.Map.Entry;
 
+/**
+ *
+ * @author Zachary Paul Faltersack
+ * @version 0.95
+ */
 public class SensorData {
     private static final String goalSensor = "GOAL";
 

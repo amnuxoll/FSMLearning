@@ -1,7 +1,6 @@
 package experiments;
 
 import agents.nsm.NSMAgentProvider;
-import com.sun.javafx.applet.ExperimentalExtensions;
 import environments.fsm.FSMDescription;
 import environments.fsm.FSMDescriptionProvider;
 import framework.*;

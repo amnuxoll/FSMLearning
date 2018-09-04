@@ -8,6 +8,14 @@ import java.util.HashMap;
  * An FSMTransitionTableBuilder is used to build transition tables for a {@link FSMDescription}.
  * @author Zachary Paul Faltersack
  * @version 0.95
+ *
+ * based off of code from:
+ * @author Kirkland Spector
+ * @author Chandler Underwood
+ *
+ * based off of code from:
+ * @author Hailee Kenney
+ * @author Preben Ingvaldsen
  */
 public class FSMTransitionTableBuilder {
     private int alphabetSize;

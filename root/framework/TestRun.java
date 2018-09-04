@@ -3,6 +3,11 @@ package framework;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @author Zachary Paul Faltersack
+ * @version 0.95
+ */
 class TestRun {
 
     private IAgent agent;
