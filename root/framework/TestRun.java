@@ -1,14 +1,18 @@
 package framework;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class TestRun {
 
     private IAgent agent;
     private IEnvironmentDescription environmentDescription;
     private int numberOfGoalsToFind;
-    private IResultWriter resultWriter;
     private IRandomizer randomizer;
 
-    public TestRun(IAgent agent, IEnvironmentDescription environmentDescription, int numberOfGoalsToFind, IResultWriter resultWriter, IRandomizer randomizer) throws IllegalArgumentException
+    private List<IGoalListener> goalListeners = new ArrayList();
+
+    public TestRun(IAgent agent, IEnvironmentDescription environmentDescription, int numberOfGoalsToFind, IRandomizer randomizer) throws IllegalArgumentException
     {
         if (agent == null)
             throw new IllegalArgumentException("agent cannot be null");
@@ -16,14 +20,11 @@ class TestRun {
             throw new IllegalArgumentException("environmentDescription cannot be null");
         if (numberOfGoalsToFind < 1)
             throw new IllegalArgumentException("numberOfGoalsToFind cannot be less than 1");
-        if (resultWriter == null)
-            throw new IllegalArgumentException("resultWriter cannot be null");
         if (randomizer == null)
             throw new IllegalArgumentException("randomizer cannot be null");
         this.agent = agent;
         this.environmentDescription = environmentDescription;
         this.numberOfGoalsToFind = numberOfGoalsToFind;
-        this.resultWriter = resultWriter;
         this.randomizer = randomizer;
     }
 
@@ -40,7 +41,7 @@ class TestRun {
                 sensorData = environment.tick(move);
                 moveCount++;
                 if (sensorData.isGoal()) {
-                    resultWriter.logStepsToGoal(moveCount);
+                    this.fireGoalEvent(moveCount);
                     goalCount++;
                     moveCount = 0;
                     environment.reset();
@@ -53,4 +54,22 @@ class TestRun {
         }
     }
 
+    public synchronized void addGoalListener(IGoalListener listener)
+    {
+        this.goalListeners.add(listener);
+    }
+
+    public synchronized void removeGoalListener(IGoalListener listener)
+    {
+        this.goalListeners.remove(listener);
+    }
+
+    private synchronized void fireGoalEvent(int stepsToGoal)
+    {
+        GoalEvent goal = new GoalEvent(this, stepsToGoal);
+        for (IGoalListener listener : this.goalListeners)
+        {
+            listener.goalReceived(goal);
+        }
+    }
 }

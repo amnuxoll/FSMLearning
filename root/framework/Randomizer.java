@@ -15,6 +15,6 @@ public class Randomizer implements IRandomizer {
 
     @Override
     public int getRandomNumber(int ceiling) {
-        return 0;
+        return this.random.nextInt(ceiling);
     }
 }

@@ -1,11 +1,13 @@
 package framework;
 
-public class TestSuite {
+public class TestSuite implements IGoalListener {
 
     private TestSuiteConfiguration configuration;
     private IResultWriterProvider resultWriterProvider;
     private IEnvironmentDescriptionProvider environmentDescriptionProvider;
     private IAgentProvider[] agentProviders;
+
+    private IResultWriter currentResultWriter;
 
     public TestSuite(TestSuiteConfiguration configuration, IResultWriterProvider resultWriterProvider, IEnvironmentDescriptionProvider environmentDescriptionProvider, IAgentProvider[] agentProviders) {
         if (configuration == null)
@@ -28,23 +30,29 @@ public class TestSuite {
         int numberOfIterations = this.configuration.getNumberOfIterations();
         for (int i = 0; i < this.agentProviders.length; i++)
         {
-            IResultWriter resultWriter = this.resultWriterProvider.getResultWriter("agent" + i + ".csv");
+            this.currentResultWriter = this.resultWriterProvider.getResultWriter("agent" + i + ".csv");
             IAgentProvider agentProvider = this.agentProviders[i];
-            this.runAgent(agentProvider, numberOfIterations, resultWriter);
+            this.runAgent(agentProvider, numberOfIterations);
         }
     }
 
-    private void runAgent(IAgentProvider agentProvider, int numberOfIterations, IResultWriter resultWriter)
+    private void runAgent(IAgentProvider agentProvider, int numberOfIterations)
     {
         for (int i = 0; i < numberOfIterations; i++)
         {
             IAgent agent = agentProvider.getAgent();
             IEnvironmentDescription environmentDescription = this.environmentDescriptionProvider.getEnvironmentDescription();
             IRandomizer randomizer = new Randomizer(this.configuration.getTrueRandom());
-            TestRun testRun = new TestRun(agent, environmentDescription, this.configuration.getNumberOfGoals(), resultWriter, randomizer);
-            resultWriter.beginNewRun();
+            TestRun testRun = new TestRun(agent, environmentDescription, this.configuration.getNumberOfGoals(), randomizer);
+            testRun.addGoalListener(this);
+            this.currentResultWriter.beginNewRun();
             testRun.execute();
         }
-        resultWriter.complete();
+        this.currentResultWriter.complete();
+    }
+
+    @Override
+    public void goalReceived(GoalEvent event) {
+        this.currentResultWriter.logStepsToGoal(event.getStepCountToGoal());
     }
 }

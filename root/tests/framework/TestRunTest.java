@@ -3,7 +3,6 @@ package framework;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestRunTest {
@@ -12,31 +11,25 @@ public class TestRunTest {
     @Test
     public void testConstructorNullAgentThrowsException()
     {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(null, new TestEnvironmentDescription(), 1, new TestResultWriter(), new TestRandomizer()));
+        assertThrows(IllegalArgumentException.class, () -> new TestRun(null, new TestEnvironmentDescription(), 1, new TestRandomizer()));
     }
 
     @Test
     public void testConstructorNullEnvironmentDescriptionThrowsException()
     {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), null, 1, new TestResultWriter(), new TestRandomizer()));
+        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), null, 1, new TestRandomizer()));
     }
 
     @Test
     public void testConstructorNumberOfGoalsToFindLessThan1ThrowsException()
     {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironmentDescription(), 0, new TestResultWriter(), new TestRandomizer()));
-    }
-
-    @Test
-    public void testConstructorNullResultWriterThrowsException()
-    {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironmentDescription(), 1, null, new TestRandomizer()));
+        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironmentDescription(), 0, new TestRandomizer()));
     }
 
     @Test
     public void testConstructorNullRandomizerThrowsException()
     {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironmentDescription(), 1, new TestResultWriter(), null));
+        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironmentDescription(), 1, null));
     }
 
     // execute Tests
@@ -45,7 +38,7 @@ public class TestRunTest {
     {
         TestAgent agent = new TestAgent();
         TestEnvironmentDescription environmentDescription = new TestEnvironmentDescription();
-        TestRun testRun = new TestRun(agent, environmentDescription, 1, new TestResultWriter(), new TestRandomizer());
+        TestRun testRun = new TestRun(agent, environmentDescription, 1, new TestRandomizer());
         testRun.execute();
         assertArrayEquals(environmentDescription.getMoves(), agent.moves);
     }
@@ -55,8 +48,9 @@ public class TestRunTest {
     {
         TestAgent agent = new TestAgent();
         TestEnvironmentDescription environment = new TestEnvironmentDescription();
-        TestResultWriter resultWriter = new TestResultWriter();
-        TestRun testRun = new TestRun(agent, environment, 1, resultWriter, new TestRandomizer());
+        TestGoalListener goalListener = new TestGoalListener();
+        TestRun testRun = new TestRun(agent, environment, 1, new TestRandomizer());
+        testRun.addGoalListener(goalListener);
         testRun.execute();
 
         SensorData sensorA = new SensorData(false);
@@ -78,7 +72,7 @@ public class TestRunTest {
                 };
 
         assertArrayEquals(expectedEpisodicMemory, agent.episodes.toArray());
-        assertArrayEquals(expectedResultWriterLogs, resultWriter.logStatements.toArray());
+        assertArrayEquals(expectedResultWriterLogs, goalListener.logStatements.toArray());
     }
 
     @Test
@@ -86,8 +80,9 @@ public class TestRunTest {
     {
         TestAgent agent = new TestAgent();
         TestEnvironmentDescription environment = new TestEnvironmentDescription();
-        TestResultWriter resultWriter = new TestResultWriter();
-        TestRun testRun = new TestRun(agent, environment, 3, resultWriter, new TestRandomizer());
+        TestGoalListener goalListener = new TestGoalListener();
+        TestRun testRun = new TestRun(agent, environment, 3, new TestRandomizer());
+        testRun.addGoalListener(goalListener);
         testRun.execute();
 
         SensorData sensorA = new SensorData(false);
@@ -117,7 +112,7 @@ public class TestRunTest {
                 };
 
         assertArrayEquals(expectedEpisodicMemory, agent.episodes.toArray());
-        assertArrayEquals(expectedResultWriterLogs, resultWriter.logStatements.toArray());
+        assertArrayEquals(expectedResultWriterLogs, goalListener.logStatements.toArray());
     }
 
     private class TestAgent implements IAgent
@@ -174,23 +169,13 @@ public class TestRunTest {
         }
     }
 
-    private class TestResultWriter implements IResultWriter
+    private class TestGoalListener implements IGoalListener
     {
         public ArrayList<String> logStatements = new ArrayList<>();
 
         @Override
-        public void logStepsToGoal(int stepsToGoal) {
-            logStatements.add(stepsToGoal + ",");
-        }
-
-        @Override
-        public void beginNewRun() {
-
-        }
-
-        @Override
-        public void complete() {
-
+        public void goalReceived(GoalEvent event) {
+            logStatements.add(event.getStepCountToGoal() + ",");
         }
     }
 
