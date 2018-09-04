@@ -1,13 +1,22 @@
 package framework;
 
+/**
+ * An Environment will take a {@link IEnvironmentDescription} and manage an {@link IAgent} as it
+ * explores while trying to find the goal.
+ * @author Zachary Paul Faltersack
+ * @version 0.95
+ */
 class Environment {
+    private IEnvironmentDescription environmentDescription;
     private int currentState;
-
-    protected IEnvironmentDescription environmentDescription;
     private IRandomizer randomizer;
 
-    public Environment(IEnvironmentDescription environmentDescription, IRandomizer randomizer)
-    {
+    /**
+     * Create an environment based on the provided environmentDescription.
+     * @param environmentDescription A {@link IEnvironmentDescription} that {@link Environment} can use to track an agent's progress.
+     * @param randomizer A {@link IRandomizer} used to generate random data when needed.
+     */
+    public Environment(IEnvironmentDescription environmentDescription, IRandomizer randomizer) {
         if (environmentDescription == null)
             throw new IllegalArgumentException("environmentDescription cannot be null");
         if (randomizer == null)
@@ -17,10 +26,19 @@ class Environment {
         this.randomizer = randomizer;
     }
 
+    /**
+     * Get the moves allowed in this {@link Environment} instance.
+     * @return An array of {@link Move} that is valid in this {@link Environment}.
+     */
     public Move[] getMoves() {
         return this.environmentDescription.getMoves();
     }
 
+    /**
+     * Apply a {@link Move} to this {@link Environment} instance.
+     * @param move The {@link Move} to apply.
+     * @return The {@link SensorData} that resutled from the move.
+     */
     public SensorData tick(Move move) {
         if (move == null)
             throw new IllegalArgumentException("move cannot be null");
@@ -31,13 +49,19 @@ class Environment {
         return sensorData;
     }
 
+    /**
+     * Resets the {@link Environment} by randomly relocating the current state.
+     */
     public void reset() {
         int nonGoalStateCount = this.environmentDescription.getNumStates();
         this.currentState = this.randomizer.getRandomNumber(nonGoalStateCount);
     }
 
-    public int getCurrentState()
-    {
+    /**
+     * Gets the current state of the {@link IAgent}.
+     * @return The current state as defined by its index.
+     */
+    public int getCurrentState() {
         return this.currentState;
     }
 }

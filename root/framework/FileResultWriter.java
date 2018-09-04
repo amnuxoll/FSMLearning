@@ -4,16 +4,23 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * A FileResultWriter will take result logging statements and write them in a structured way
+ * to some provided file.
+ * @author Zachary Paul Faltersack
+ * @version 0.95
+ */
 public class FileResultWriter implements IResultWriter {
-
     private String fileName;
-
     private FileWriter fileWriter;
-
     private int currentNumberOfGoals = 0;
     private int maxNumberOfGoals = 0;
     private int numberOfRuns = 0;
 
+    /**
+     * Create an instance of a {@link FileResultWriter} that writes to the given file path.
+     * @param outputFile The path to an output file which will receive the results.
+     */
     public FileResultWriter(String outputFile)
     {
         if (outputFile == null)
@@ -30,11 +37,19 @@ public class FileResultWriter implements IResultWriter {
         }
     }
 
+    /**
+     * Get the name of the output file for this {@link FileResultWriter} instance.
+     * @return The path of the output file.
+     */
     public String getFileName()
     {
         return this.fileName;
     }
 
+    /**
+     * Log the number of steps taken to reach the last goal.
+     * @param stepsToGoal The step count to the last located goal.
+     */
     @Override
     public void logStepsToGoal(int stepsToGoal) {
         this.currentNumberOfGoals++;
@@ -47,6 +62,9 @@ public class FileResultWriter implements IResultWriter {
         }
     }
 
+    /**
+     * Begin a new batch of attempts to locate the goal.
+     */
     @Override
     public void beginNewRun() {
         this.numberOfRuns++;
@@ -61,6 +79,9 @@ public class FileResultWriter implements IResultWriter {
         }
     }
 
+    /**
+     * Complete the result file by adding in the sum and smoothing rows and closing the file.
+     */
     @Override
     public void complete() {
         try {
