@@ -42,10 +42,11 @@ class Environment {
     public SensorData tick(Move move) {
         if (move == null)
             throw new IllegalArgumentException("move cannot be null");
+        int lastState = this.currentState;
         this.currentState = this.environmentDescription.transition(this.currentState, move);
         boolean hitGoal = this.environmentDescription.isGoalState(this.currentState);
         SensorData sensorData = new SensorData(hitGoal);
-        this.environmentDescription.applySensors(this.currentState, sensorData);
+        this.environmentDescription.applySensors(lastState, move, this.currentState, sensorData);
         return sensorData;
     }
 

@@ -159,7 +159,7 @@ public class TestSuiteTest {
         }
 
         @Override
-        public void applySensors(int state, SensorData sensorData) {
+        public void applySensors(int lastState, Move move, int currentState, SensorData sensorData) {
 
         }
     }

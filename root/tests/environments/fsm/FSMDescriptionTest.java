@@ -248,6 +248,20 @@ public class FSMDescriptionTest {
     }
 
     // applySensors Tests
+
+    @Test
+    public void applySensorsNullMoveThrowsException()
+    {
+        HashMap<Move, Integer> transitionSet1 = new HashMap<>();
+        transitionSet1.put(new Move("a"), 1);
+        HashMap<Move, Integer>[] transitionTable = new HashMap[]
+                {
+                        transitionSet1
+                };
+        FSMDescription description = new FSMDescription(transitionTable);
+        assertThrows(IllegalArgumentException.class, () -> description.applySensors(0, null, 1, new SensorData(true)));
+    }
+
     @Test
     public void applySensorsNullSensorDataThrowsException()
     {
@@ -258,7 +272,7 @@ public class FSMDescriptionTest {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
-        assertThrows(IllegalArgumentException.class, () -> description.applySensors(0, null));
+        assertThrows(IllegalArgumentException.class, () -> description.applySensors(0, new Move("a"), 1, null));
     }
 
     @Test
@@ -272,7 +286,7 @@ public class FSMDescriptionTest {
                 };
         FSMDescription description = new FSMDescription(transitionTable);
         SensorData sensorData = new SensorData(true);
-        description.applySensors(0, sensorData);
+        description.applySensors(0, new Move("a"),0, sensorData);
         assertFalse(sensorData.hasSensor("Even"));
     }
 
@@ -287,7 +301,7 @@ public class FSMDescriptionTest {
                 };
         FSMDescription description = new FSMDescription(transitionTable, EnumSet.of(FSMDescription.Sensor.EVEN_ODD));
         SensorData sensorData = new SensorData(true);
-        description.applySensors(0, sensorData);
+        description.applySensors(0, new Move("a"),0, sensorData);
         assertTrue(sensorData.hasSensor("EVEN_ODD"));
         assertEquals(true, sensorData.getSensor("EVEN_ODD"));
     }
@@ -303,7 +317,7 @@ public class FSMDescriptionTest {
                 };
         FSMDescription description = new FSMDescription(transitionTable, EnumSet.of(FSMDescription.Sensor.EVEN_ODD));
         SensorData sensorData = new SensorData(true);
-        description.applySensors(1, sensorData);
+        description.applySensors(0, new Move("a"),1, sensorData);
         assertTrue(sensorData.hasSensor("EVEN_ODD"));
         assertEquals(false, sensorData.getSensor("EVEN_ODD"));
     }
