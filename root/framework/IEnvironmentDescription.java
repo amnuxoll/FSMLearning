@@ -37,8 +37,10 @@ public interface IEnvironmentDescription {
 
     /**
      * Apply all sensor data for the given state to the provided sennsor data.
-     * @param state The state whose sensors should be applied to the sensor data.
+     * @param lastState The state that was transitioned from.
+     * @param move The {@link Move} that was applied.
+     * @param currentState The state that was transitioned to.
      * @param sensorData The {@link SensorData} to apply sensors to.
      */
-    void applySensors(int state, SensorData sensorData);
+    void applySensors(int lastState, Move move, int currentState, SensorData sensorData);
 }

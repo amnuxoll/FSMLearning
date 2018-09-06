@@ -164,7 +164,7 @@ public class TestRunTest {
         }
 
         @Override
-        public void applySensors(int state, SensorData sensorData) {
+        public void applySensors(int lastState, Move move, int currentState, SensorData sensorData) {
             sensorData.setSensor(this.lastMove.getName(), this.lastMove.getName());
         }
     }

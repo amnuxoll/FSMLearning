@@ -113,15 +113,19 @@ public class FSMDescription implements IEnvironmentDescription {
 
     /**
      * Apply sensor data for the given state to the provided {@link SensorData}.
-     * @param state The state whose sensors should be applied to the sensor data.
+     * @param lastState The state that was transitioned from.
+     * @param move The {@link Move} that was applied.
+     * @param currentState The state that was transitioned to.
      * @param sensorData The {@link SensorData} to apply sensors to.
      */
     @Override
-    public void applySensors(int state, SensorData sensorData) {
+    public void applySensors(int lastState, Move move, int currentState, SensorData sensorData) {
+        if (move == null)
+            throw new IllegalArgumentException("move cannot be null");
         if (sensorData == null)
             throw new IllegalArgumentException("sensorData cannot be null");
         if (this.sensorsToInclude.contains(Sensor.EVEN_ODD))
-            this.applyEvenOddSensor(state, sensorData);
+            this.applyEvenOddSensor(currentState, sensorData);
     }
 
     private void applyEvenOddSensor(int state, SensorData sensorData) {
