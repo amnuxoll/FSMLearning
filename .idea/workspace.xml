@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="738fa547-feb5-42aa-9429-ab3d8a31a275" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/src.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/root/environments/meta/MetaConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/root/tests/environments/meta/MetaFSMDescriptionProviderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/dependencies.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/dependencies.xml" afterDir="false" />
+    <list default="true" id="738fa547-feb5-42aa-9429-ab3d8a31a275" name="Default" comment="Added 3 classes to environment.meta.&#10;Unit tests for MetaEnvironmentDescription">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/root/experiments/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/root/experiments/Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/root/tests/environments/meta/MetaFSMDescriptionProviderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionProviderTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -61,28 +57,32 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="18" />
+          <entry key="java" value="22" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="18" />
+          <entry key="JAVA" value="22" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="1023" />
+          <entry key="dummy" value="11" />
+          <entry key="java" value="1527" />
+          <entry key="txt" value="91" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1023" />
+          <entry key="JAVA" value="1527" />
+          <entry key="PLAIN_TEXT" value="102" />
         </counts>
       </usages-collector>
     </session>
@@ -92,10 +92,34 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="92" column="55" lean-forward="true" selection-start-line="92" selection-start-column="55" selection-end-line="92" selection-end-column="55" />
+            <state relative-caret-position="145">
+              <caret line="91" column="70" selection-start-line="91" selection-start-column="70" selection-end-line="91" selection-end-column="70" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4549#4550#0" expanded="true" />
+                <element signature="e#4589#4590#0" expanded="true" />
+                <element signature="e#4738#4739#0" expanded="true" />
+                <element signature="e#4773#4774#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionProviderTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="205">
+              <caret line="28" column="23" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1204#1205#0" expanded="true" />
+                <element signature="e#1237#1238#0" expanded="true" />
+                <element signature="e#1304#1305#0" expanded="true" />
+                <element signature="e#1346#1347#0" expanded="true" />
+                <element signature="e#1401#1402#0" expanded="true" />
+                <element signature="e#1433#1434#0" expanded="true" />
+                <element signature="e#1754#1755#0" expanded="true" />
+                <element signature="e#1786#1787#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -104,30 +128,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="274" selection-start-line="274" selection-end-line="274" />
+            <state relative-caret-position="222">
+              <caret line="252" column="9" lean-forward="true" selection-start-line="252" selection-start-column="9" selection-end-line="252" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#10365#10366#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/framework/SensorData.java">
+        <entry file="file://$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="40" column="31" lean-forward="true" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaFSMDescriptionProviderTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="45" lean-forward="true" selection-start-line="2" selection-start-column="45" selection-end-line="2" selection-end-column="45" />
+            <state relative-caret-position="306">
+              <caret line="18" column="90" selection-start-line="18" selection-start-column="90" selection-end-line="18" selection-end-column="90" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -135,8 +152,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/framework/Environment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="46" column="36" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
+            <state relative-caret-position="799">
+              <caret line="47" column="36" selection-start-line="47" selection-start-column="36" selection-end-line="47" selection-end-column="36" />
               <folding>
                 <element signature="e#1353#1354#0" expanded="true" />
                 <element signature="e#1414#1415#0" expanded="true" />
@@ -150,8 +167,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/framework/TestSuite.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-34">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+            <state relative-caret-position="221">
+              <caret line="16" column="43" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -159,7 +176,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/framework/IEnvironmentDescription.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-118">
+            <state relative-caret-position="50">
               <caret line="22" column="18" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="18" />
             </state>
           </provider>
@@ -195,8 +212,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/root/framework/EnvironmentFactory.java" />
-        <option value="$PROJECT_DIR$/root/framework/SensorEnvironment.java" />
         <option value="$PROJECT_DIR$/root/tests/framework/EnvironmentWithSensorsTest.java" />
         <option value="$PROJECT_DIR$/root/framework/ITransitionDataWithSensors.java" />
         <option value="$PROJECT_DIR$/root/framework/ITransitionData.java" />
@@ -241,11 +256,13 @@
         <option value="$PROJECT_DIR$/root/environments/meta/MetaFSMDescription.java" />
         <option value="$PROJECT_DIR$/root/environments/meta/MetaFSMDescriptionProvider.java" />
         <option value="$PROJECT_DIR$/root/tests/environments/meta/MetaFSMDescriptionTest.java" />
-        <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
         <option value="$PROJECT_DIR$/root/environments/meta/MetaConfiguration.java" />
         <option value="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java" />
-        <option value="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java" />
+        <option value="$PROJECT_DIR$/root/tests/environments/meta/MetaFSMDescriptionProviderTest.java" />
         <option value="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionTest.java" />
+        <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
+        <option value="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java" />
+        <option value="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionProviderTest.java" />
       </list>
     </option>
   </component>
@@ -276,6 +293,11 @@
             <path>
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
               <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
@@ -346,6 +368,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
       <pane id="PackagesPane">
         <subPane>
           <expand>
@@ -357,14 +380,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536192926230" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536274991026" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
@@ -381,6 +403,124 @@
       <recent name="C:\Source\FSMLearning\root\environments\fsm" />
     </key>
   </component>
+  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
+    <UpdatedFiles>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Updated from server" />
+        <option name="myStatusName" value="Changed on server" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="CHANGED_ON_SERVER" />
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated" />
+          <option name="myStatusName" value="Changed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UPDATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/root/environments/fsm/FSMDescription.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/root/experiments/Runner.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/root/framework/Environment.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/root/framework/IEnvironmentDescription.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/root/framework/TestSuiteConfiguration.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionTest.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/root/tests/framework/EnvironmentTest.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/root/tests/framework/TestRunTest.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Created" />
+          <option name="myStatusName" value="Created" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Deleted" />
+          <option name="myStatusName" value="Deleted" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="true" />
+          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Restored" />
+          <option name="myStatusName" value="Will be restored" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="RESTORED" />
+        </FILE-GROUP>
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Modified" />
+        <option name="myStatusName" value="Modified" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MODIFIED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Skipped" />
+        <option name="myStatusName" value="Skipped" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SKIPPED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with conflicts" />
+        <option name="myStatusName" value="Will be merged with conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_CONFLICTS" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with tree conflicts" />
+        <option name="myStatusName" value="Merged with tree conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with property conflicts" />
+        <option name="myStatusName" value="Will be merged with property conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged" />
+        <option name="myStatusName" value="Will be merged" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Not in repository" />
+        <option name="myStatusName" value="Not in repository" />
+        <option name="mySupportsDeletion" value="true" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="UNKNOWN" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally added" />
+        <option name="myStatusName" value="Locally added" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_ADDED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally removed" />
+        <option name="myStatusName" value="Locally removed" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_REMOVED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Switched" />
+        <option name="myStatusName" value="Switched" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SWITCHED" />
+      </FILE-GROUP>
+    </UpdatedFiles>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -393,7 +533,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.MetaEnvironmentDescriptionTest.applySensors">
+  <component name="RunManager" selected="JUnit.MetaEnvironmentDescriptionTest.applysSensorsExceptions">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -532,9 +672,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MetaEnvironmentDescriptionTest.applysSensorsExceptions" />
         <item itemvalue="JUnit.MetaEnvironmentDescriptionTest.applySensors" />
         <item itemvalue="JUnit.MetaEnvironmentDescriptionTest" />
-        <item itemvalue="JUnit.MetaEnvironmentDescriptionTest.applysSensorsExceptions" />
         <item itemvalue="JUnit.MetaEnvironmentDescriptionTest.applySensorsExceptions" />
         <item itemvalue="JUnit.All in FSMLearning" />
       </list>
@@ -551,18 +691,17 @@
       <option name="presentableId" value="Default" />
       <updated>1534091490357</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added 3 classes to environment.meta.&#10;Unit tests for MetaEnvironmentDescription">
+      <created>1536273297007</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1536273297007</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="MetaEnvironmentDescriptionTest - 2018.09.05 at 10h 29m 51s.xml">
-      <configuration name="MetaEnvironmentDescriptionTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="MetaEnvironmentDescriptionTest - 2018.09.05 at 10h 30m 25s.xml">
-      <configuration name="MetaEnvironmentDescriptionTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="MetaEnvironmentDescriptionTest - 2018.09.05 at 16h 46m 21s.xml">
-      <configuration name="MetaEnvironmentDescriptionTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="All_in_FSMLearning - 2018.09.05 at 16h 46m 34s.xml">
       <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
@@ -584,12 +723,21 @@
     <history-entry file="MetaEnvironmentDescriptionTest_applySensors - 2018.09.05 at 17h 13m 42s.xml">
       <configuration name="MetaEnvironmentDescriptionTest.applySensors" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="MetaEnvironmentDescriptionTest_applySensors - 2018.09.06 at 15h 58m 18s.xml">
+      <configuration name="MetaEnvironmentDescriptionTest.applySensors" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MetaEnvironmentDescriptionTest_applysSensorsExceptions - 2018.09.06 at 15h 58m 27s.xml">
+      <configuration name="MetaEnvironmentDescriptionTest.applysSensorsExceptions" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MetaEnvironmentDescriptionTest_applysSensorsExceptions - 2018.09.06 at 15h 59m 22s.xml">
+      <configuration name="MetaEnvironmentDescriptionTest.applysSensorsExceptions" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2602118" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26399395" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -598,7 +746,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32733223" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.33060557" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33060557" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39770868" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -649,6 +797,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added 3 classes to environment.meta.&#10;Unit tests for MetaEnvironmentDescription" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added 3 classes to environment.meta.&#10;Unit tests for MetaEnvironmentDescription" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -917,16 +1069,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="37" column="126" lean-forward="true" selection-start-line="37" selection-start-column="126" selection-end-line="37" selection-end-column="126" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/framework/IEnvironmentDescriptionProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -985,16 +1127,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="90" selection-start-line="18" selection-start-column="90" selection-end-line="18" selection-end-column="90" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/tests/framework/TestSuiteConfigurationTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -1006,23 +1138,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
           <caret line="47" column="38" selection-start-line="47" selection-start-column="38" selection-end-line="47" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/framework/TestSuite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-34">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/root/framework/Environment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="46" column="36" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
+        <state relative-caret-position="799">
+          <caret line="47" column="36" selection-start-line="47" selection-start-column="36" selection-end-line="47" selection-end-column="36" />
           <folding>
             <element signature="e#1353#1354#0" expanded="true" />
             <element signature="e#1414#1415#0" expanded="true" />
@@ -1032,45 +1154,86 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/root/framework/SensorData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="40" column="31" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="90" selection-start-line="18" selection-start-column="90" selection-end-line="18" selection-end-column="90" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/root/framework/IEnvironmentDescription.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-118">
+        <state relative-caret-position="50">
           <caret line="22" column="18" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/framework/SensorData.java">
+    <entry file="file://$PROJECT_DIR$/root/framework/TestSuite.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="40" column="31" lean-forward="true" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+        <state relative-caret-position="221">
+          <caret line="16" column="43" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="27" column="35" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="92" column="55" lean-forward="true" selection-start-line="92" selection-start-column="55" selection-end-line="92" selection-end-column="55" />
+        <state relative-caret-position="145">
+          <caret line="91" column="70" selection-start-line="91" selection-start-column="70" selection-end-line="91" selection-end-column="70" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4549#4550#0" expanded="true" />
+            <element signature="e#4589#4590#0" expanded="true" />
+            <element signature="e#4738#4739#0" expanded="true" />
+            <element signature="e#4773#4774#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="274" selection-start-line="274" selection-end-line="274" />
+        <state relative-caret-position="222">
+          <caret line="252" column="9" lean-forward="true" selection-start-line="252" selection-start-column="9" selection-end-line="252" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#10365#10366#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaFSMDescriptionProviderTest.java">
+    <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionProviderTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="45" lean-forward="true" selection-start-line="2" selection-start-column="45" selection-end-line="2" selection-end-column="45" />
+        <state relative-caret-position="205">
+          <caret line="28" column="23" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1204#1205#0" expanded="true" />
+            <element signature="e#1237#1238#0" expanded="true" />
+            <element signature="e#1304#1305#0" expanded="true" />
+            <element signature="e#1346#1347#0" expanded="true" />
+            <element signature="e#1401#1402#0" expanded="true" />
+            <element signature="e#1433#1434#0" expanded="true" />
+            <element signature="e#1754#1755#0" expanded="true" />
+            <element signature="e#1786#1787#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

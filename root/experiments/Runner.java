@@ -21,7 +21,7 @@ public class Runner {
     );
 
     private static TestSuite Suite2 = new TestSuite(
-            Runner.FullTest,
+            TestSuiteConfiguration.FULL,
             new FileResultWriterProvider(),
             new MetaEnvironmentDescriptionProvider(new FSMDescriptionProvider(2, 5, EnumSet.of(FSMDescription.Sensor.EVEN_ODD)), MetaConfiguration.DEFAULT),
             new IAgentProvider[] {

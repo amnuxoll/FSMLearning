@@ -86,11 +86,17 @@ public class MetaEnvironmentDescription implements IEnvironmentDescription {
     }
 
     @Override
-    public void applySensors(int state, SensorData sensorData) {
+    public void applySensors(int lastState, Move move, int currentState, SensorData sensorData) {
         if(sensorData == null) throw new IllegalArgumentException("sensor data cannot be null.");
-        if(state <0 || state >= currDescription.getNumStates()) throw new IllegalArgumentException("state number out of range.");
+        if(move == null)
+            throw new IllegalArgumentException("move cannot be null");
 
-        currDescription.applySensors(state,sensorData);
+        if(lastState <0 || lastState >= currDescription.getNumStates())
+            throw new IllegalArgumentException("lastState number out of range.");
+        if(currentState <0 || currentState >= currDescription.getNumStates())
+            throw new IllegalArgumentException("currentState number out of range.");
+
+        currDescription.applySensors(lastState,move,currentState,sensorData);
     }
 
     /**

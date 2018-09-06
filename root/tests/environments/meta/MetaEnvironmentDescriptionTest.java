@@ -206,7 +206,7 @@ public class MetaEnvironmentDescriptionTest {
         );
 
         SensorData data = new SensorData(description.isGoalState(13));
-        description.applySensors(2,data);
+        description.applySensors(2,new Move("a"), 2, data);
         assertTrue(data.isGoal());
         assertTrue(data.hasSensor("sensei"));
         assertEquals(2,data.getSensor("sensei"));
@@ -222,11 +222,21 @@ public class MetaEnvironmentDescriptionTest {
                 provider,new TestRandomizer(),MetaConfiguration.DEFAULT
         );
 
-        assertThrows(IllegalArgumentException.class, () -> description.applySensors(2, null));
-        assertThrows(IllegalArgumentException.class, () -> description.applySensors(-1, new SensorData(false)));
-        assertThrows(IllegalArgumentException.class, () -> description.applySensors(4, new SensorData(false)));
+        Move move= new Move("a");
+        SensorData data= new SensorData(false);
 
-
+        assertThrows(IllegalArgumentException.class,
+                () -> description.applySensors(2, move, 2, null));
+        assertThrows(IllegalArgumentException.class,
+                () -> description.applySensors(2, null, 2, data));
+        assertThrows(IllegalArgumentException.class,
+                () -> description.applySensors(-1 ,move, 2, data));
+        assertThrows(IllegalArgumentException.class,
+                () -> description.applySensors(4, move, 2, data));
+        assertThrows(IllegalArgumentException.class,
+                () -> description.applySensors(2, move, -1, data));
+        assertThrows(IllegalArgumentException.class,
+                () -> description.applySensors(2, move, 4, data));
     }
     /**
     *  Mock Classes
@@ -271,7 +281,7 @@ public class MetaEnvironmentDescriptionTest {
         }
 
         @Override
-        public void applySensors(int state, SensorData sensorData) {
+        public void applySensors(int lastState, Move move, int currState, SensorData sensorData) {
             sensorData.setSensor("sensei", new Integer(2));
         }
     }
