@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="738fa547-feb5-42aa-9429-ab3d8a31a275" name="Default" comment="Added 3 classes to environment.meta.&#10;Unit tests for MetaEnvironmentDescription">
+    <list default="true" id="738fa547-feb5-42aa-9429-ab3d8a31a275" name="Default" comment="Fixed changes regarding new params for applySensors()">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/root/experiments/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/root/experiments/Runner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/root/tests/environments/meta/MetaFSMDescriptionProviderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionProviderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionProviderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionProviderTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -75,41 +73,37 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="11" />
-          <entry key="java" value="1527" />
-          <entry key="txt" value="91" />
+          <entry key="java" value="2119" />
+          <entry key="txt" value="151" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1527" />
-          <entry key="PLAIN_TEXT" value="102" />
+          <entry key="JAVA" value="2119" />
+          <entry key="PLAIN_TEXT" value="162" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="91" column="70" selection-start-line="91" selection-start-column="70" selection-end-line="91" selection-end-column="70" />
+            <state relative-caret-position="272">
+              <caret line="16" column="72" selection-start-line="16" selection-start-column="72" selection-end-line="16" selection-end-column="72" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4549#4550#0" expanded="true" />
-                <element signature="e#4589#4590#0" expanded="true" />
-                <element signature="e#4738#4739#0" expanded="true" />
-                <element signature="e#4773#4774#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionProviderTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="28" column="23" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
+            <state relative-caret-position="187">
+              <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1204#1205#0" expanded="true" />
@@ -130,18 +124,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="222">
               <caret line="252" column="9" lean-forward="true" selection-start-line="252" selection-start-column="9" selection-end-line="252" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="90" selection-start-line="18" selection-start-column="90" selection-end-line="18" selection-end-column="90" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -257,12 +239,12 @@
         <option value="$PROJECT_DIR$/root/environments/meta/MetaFSMDescriptionProvider.java" />
         <option value="$PROJECT_DIR$/root/tests/environments/meta/MetaFSMDescriptionTest.java" />
         <option value="$PROJECT_DIR$/root/environments/meta/MetaConfiguration.java" />
-        <option value="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java" />
         <option value="$PROJECT_DIR$/root/tests/environments/meta/MetaFSMDescriptionProviderTest.java" />
         <option value="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionTest.java" />
         <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
         <option value="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java" />
         <option value="$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionProviderTest.java" />
+        <option value="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java" />
       </list>
     </option>
   </component>
@@ -386,7 +368,7 @@
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536274991026" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536275694259" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
@@ -533,7 +515,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.MetaEnvironmentDescriptionTest.applysSensorsExceptions">
+  <component name="RunManager" selected="JUnit.MetaEnvironmentDescriptionProviderTest.constuctor">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -546,16 +528,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in FSMLearning" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="FSMLearning" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MetaEnvironmentDescriptionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MetaEnvironmentDescriptionProviderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="FSMLearning" />
       <extension name="coverage">
         <pattern>
@@ -564,13 +537,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="environments.meta" />
-      <option name="MAIN_CLASS_NAME" value="environments.meta.MetaEnvironmentDescriptionTest" />
+      <option name="MAIN_CLASS_NAME" value="environments.meta.MetaEnvironmentDescriptionProviderTest" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MetaEnvironmentDescriptionTest.applySensors" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MetaEnvironmentDescriptionProviderTest.constuctor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="FSMLearning" />
       <extension name="coverage">
         <pattern>
@@ -579,15 +552,15 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="environments.meta" />
-      <option name="MAIN_CLASS_NAME" value="environments.meta.MetaEnvironmentDescriptionTest" />
-      <option name="METHOD_NAME" value="applySensors" />
+      <option name="MAIN_CLASS_NAME" value="environments.meta.MetaEnvironmentDescriptionProviderTest" />
+      <option name="METHOD_NAME" value="constuctor" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MetaEnvironmentDescriptionTest.applySensorsExceptions" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MetaEnvironmentDescriptionProviderTest.getEnvironmentDescription" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="FSMLearning" />
       <extension name="coverage">
         <pattern>
@@ -596,8 +569,25 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="environments.meta" />
-      <option name="MAIN_CLASS_NAME" value="environments.meta.MetaEnvironmentDescriptionTest" />
-      <option name="METHOD_NAME" value="applySensorsExceptions" />
+      <option name="MAIN_CLASS_NAME" value="environments.meta.MetaEnvironmentDescriptionProviderTest" />
+      <option name="METHOD_NAME" value="getEnvironmentDescription" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MetaEnvironmentDescriptionProviderTest.getEnvironmentDescriptionExceptions" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="FSMLearning" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="environments.meta.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="environments.meta" />
+      <option name="MAIN_CLASS_NAME" value="environments.meta.MetaEnvironmentDescriptionProviderTest" />
+      <option name="METHOD_NAME" value="getEnvironmentDescriptionExceptions" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -664,19 +654,19 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.environments.meta in FSMLearning" />
-      <item itemvalue="JUnit.MetaEnvironmentDescriptionTest" />
-      <item itemvalue="JUnit.All in FSMLearning" />
-      <item itemvalue="JUnit.MetaEnvironmentDescriptionTest.applySensorsExceptions" />
       <item itemvalue="JUnit.MetaEnvironmentDescriptionTest.applysSensorsExceptions" />
-      <item itemvalue="JUnit.MetaEnvironmentDescriptionTest.applySensors" />
+      <item itemvalue="JUnit.MetaEnvironmentDescriptionProviderTest.getEnvironmentDescription" />
+      <item itemvalue="JUnit.MetaEnvironmentDescriptionProviderTest.getEnvironmentDescriptionExceptions" />
+      <item itemvalue="JUnit.MetaEnvironmentDescriptionProviderTest" />
+      <item itemvalue="JUnit.MetaEnvironmentDescriptionProviderTest.constuctor" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MetaEnvironmentDescriptionProviderTest.constuctor" />
+        <item itemvalue="JUnit.MetaEnvironmentDescriptionProviderTest" />
+        <item itemvalue="JUnit.MetaEnvironmentDescriptionProviderTest.getEnvironmentDescriptionExceptions" />
+        <item itemvalue="JUnit.MetaEnvironmentDescriptionProviderTest.getEnvironmentDescription" />
         <item itemvalue="JUnit.MetaEnvironmentDescriptionTest.applysSensorsExceptions" />
-        <item itemvalue="JUnit.MetaEnvironmentDescriptionTest.applySensors" />
-        <item itemvalue="JUnit.MetaEnvironmentDescriptionTest" />
-        <item itemvalue="JUnit.MetaEnvironmentDescriptionTest.applySensorsExceptions" />
-        <item itemvalue="JUnit.All in FSMLearning" />
       </list>
     </recent_temporary>
   </component>
@@ -698,22 +688,17 @@
       <option name="project" value="LOCAL" />
       <updated>1536273297007</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Fixed changes regarding new params for applySensors()">
+      <created>1536275032299</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1536275032299</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_FSMLearning - 2018.09.05 at 16h 46m 34s.xml">
-      <configuration name="All in FSMLearning" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="MetaEnvironmentDescriptionTest_applySensorsExceptions - 2018.09.05 at 17h 04m 51s.xml">
-      <configuration name="MetaEnvironmentDescriptionTest.applySensorsExceptions" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="MetaEnvironmentDescriptionTest_applysSensorsExceptions - 2018.09.05 at 17h 05m 09s.xml">
-      <configuration name="MetaEnvironmentDescriptionTest.applysSensorsExceptions" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="MetaEnvironmentDescriptionTest_applysSensorsExceptions - 2018.09.05 at 17h 08m 19s.xml">
-      <configuration name="MetaEnvironmentDescriptionTest.applysSensorsExceptions" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="MetaEnvironmentDescriptionTest_applySensors - 2018.09.05 at 17h 08m 28s.xml">
       <configuration name="MetaEnvironmentDescriptionTest.applySensors" configurationId="JUnit" />
     </history-entry>
@@ -731,6 +716,18 @@
     </history-entry>
     <history-entry file="MetaEnvironmentDescriptionTest_applysSensorsExceptions - 2018.09.06 at 15h 59m 22s.xml">
       <configuration name="MetaEnvironmentDescriptionTest.applysSensorsExceptions" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MetaEnvironmentDescriptionProviderTest_getEnvironmentDescription - 2018.09.06 at 16h 11m 42s.xml">
+      <configuration name="MetaEnvironmentDescriptionProviderTest.getEnvironmentDescription" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MetaEnvironmentDescriptionProviderTest_getEnvironmentDescriptionExceptions - 2018.09.06 at 16h 12m 21s.xml">
+      <configuration name="MetaEnvironmentDescriptionProviderTest.getEnvironmentDescriptionExceptions" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MetaEnvironmentDescriptionProviderTest_getEnvironmentDescriptionExceptions - 2018.09.06 at 16h 12m 39s.xml">
+      <configuration name="MetaEnvironmentDescriptionProviderTest.getEnvironmentDescriptionExceptions" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MetaEnvironmentDescriptionProviderTest - 2018.09.06 at 16h 13m 27s.xml">
+      <configuration name="MetaEnvironmentDescriptionProviderTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -800,7 +797,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added 3 classes to environment.meta.&#10;Unit tests for MetaEnvironmentDescription" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added 3 classes to environment.meta.&#10;Unit tests for MetaEnvironmentDescription" />
+    <MESSAGE value="Fixed changes regarding new params for applySensors()" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed changes regarding new params for applySensors()" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1161,16 +1159,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="90" selection-start-line="18" selection-start-column="90" selection-end-line="18" selection-end-column="90" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/framework/IEnvironmentDescription.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="50">
@@ -1195,6 +1183,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="252" column="9" lean-forward="true" selection-start-line="252" selection-start-column="9" selection-end-line="252" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="145">
@@ -1209,20 +1207,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="252" column="9" lean-forward="true" selection-start-line="252" selection-start-column="9" selection-end-line="252" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionProviderTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="28" column="23" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
+        <state relative-caret-position="187">
+          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1204#1205#0" expanded="true" />
@@ -1233,6 +1221,16 @@
             <element signature="e#1433#1434#0" expanded="true" />
             <element signature="e#1754#1755#0" expanded="true" />
             <element signature="e#1786#1787#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescriptionProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="72" selection-start-line="16" selection-start-column="72" selection-end-line="16" selection-end-column="72" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
