@@ -114,7 +114,7 @@ public class TestSuiteTest {
     {
 
         @Override
-        public void setMoves(Move[] moves) {
+        public void initialize(Move[] moves) {
 
         }
 

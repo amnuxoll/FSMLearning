@@ -2,31 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="738fa547-feb5-42aa-9429-ab3d8a31a275" name="Default" comment="Added 3 classes to environment.meta.&#10;Unit tests for MetaEnvironmentDescription">
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/agents/marz/MaRzAgentProvider.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/agents/marz/Sequence.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/agents/marz/SequenceGenerator.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/agents/marz/SuffixNode.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/agents/marz/SuffixTree.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/tests/agents/marz/SequenceGeneratorTest.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/root/tests/agents/marz/SequenceTest.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" afterPath="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" />
-      <change beforePath="$PROJECT_DIR$/root/agents/nsm/QEpisode.java" afterPath="$PROJECT_DIR$/root/agents/nsm/QEpisode.java" />
-      <change beforePath="$PROJECT_DIR$/root/environments/fsm/FSMDescription.java" afterPath="$PROJECT_DIR$/root/environments/fsm/FSMDescription.java" />
-      <change beforePath="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java" afterPath="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java" />
-      <change beforePath="$PROJECT_DIR$/root/experiments/Runner.java" afterPath="$PROJECT_DIR$/root/experiments/Runner.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/Episode.java" afterPath="$PROJECT_DIR$/root/framework/Episode.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/FileResultWriter.java" afterPath="$PROJECT_DIR$/root/framework/FileResultWriter.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/FileResultWriterProvider.java" afterPath="$PROJECT_DIR$/root/framework/FileResultWriterProvider.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/IResultWriterProvider.java" afterPath="$PROJECT_DIR$/root/framework/IResultWriterProvider.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/Move.java" afterPath="$PROJECT_DIR$/root/framework/Move.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/SensorData.java" afterPath="$PROJECT_DIR$/root/framework/SensorData.java" />
+      <change beforePath="$PROJECT_DIR$/root/agents/nsm/NSMAgent.java" afterPath="$PROJECT_DIR$/root/agents/nsm/NSMAgent.java" />
+      <change beforePath="$PROJECT_DIR$/root/framework/IAgent.java" afterPath="$PROJECT_DIR$/root/framework/IAgent.java" />
       <change beforePath="$PROJECT_DIR$/root/framework/TestRun.java" afterPath="$PROJECT_DIR$/root/framework/TestRun.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/TestSuite.java" afterPath="$PROJECT_DIR$/root/framework/TestSuite.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/TestSuiteConfiguration.java" afterPath="$PROJECT_DIR$/root/framework/TestSuiteConfiguration.java" />
-      <change beforePath="$PROJECT_DIR$/root/tests/framework/EpisodeTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/EpisodeTest.java" />
-      <change beforePath="$PROJECT_DIR$/root/tests/framework/FileResultWriterProviderTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/FileResultWriterProviderTest.java" />
-      <change beforePath="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" />
       <change beforePath="$PROJECT_DIR$/root/tests/framework/TestRunTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/TestRunTest.java" />
       <change beforePath="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" />
     </list>
@@ -112,6 +92,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="TestRunTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/root/tests/framework/TestRunTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="145">
+              <caret line="126" column="0" lean-forward="true" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+              <folding>
+                <element signature="e#4914#4915#0" expanded="true" />
+                <element signature="e#4956#4957#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SuffixNode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/agents/marz/SuffixNode.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -129,11 +122,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MaRzAgent.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MaRzAgent.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/agents/marz/MaRzAgent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="243" column="66" lean-forward="true" selection-start-line="243" selection-start-column="66" selection-end-line="243" selection-end-column="66" />
+            <state relative-caret-position="3">
+              <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
               <folding>
                 <element signature="docComment;class#MaRzAgent#0" expanded="false" />
                 <element signature="docComment;field#activeNode#0;class#MaRzAgent#0" expanded="false" />
@@ -150,11 +143,21 @@
                 <element signature="method#findNodeForIndex#0;class#MaRzAgent#0" expanded="false" />
                 <element signature="docComment;method#splitNode#0;class#MaRzAgent#0" expanded="false" />
                 <element signature="method#splitNode#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="e#4849#4914#0" expanded="false" />
+                <element signature="e#4672#4737#0" expanded="false" />
                 <element signature="docComment;method#nextPermutation#0;class#MaRzAgent#0" expanded="false" />
-                <marker date="1536463746704" expanded="false" signature="543:601" ph="/**...*/" />
-                <marker date="1536463746704" expanded="true" signature="659:681" ph="&lt;~&gt;" />
+                <marker date="1536464034130" expanded="false" signature="543:601" ph="/**...*/" />
+                <marker date="1536464034130" expanded="true" signature="659:681" ph="&lt;~&gt;" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IAgent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/framework/IAgent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -235,7 +238,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/root/framework/GoalEvent.java" />
-        <option value="$PROJECT_DIR$/root/framework/IAgent.java" />
         <option value="$PROJECT_DIR$/root/framework/IAgentProvider.java" />
         <option value="$PROJECT_DIR$/root/framework/IEnvironmentDescription.java" />
         <option value="$PROJECT_DIR$/root/framework/IEnvironmentDescriptionProvider.java" />
@@ -285,6 +287,7 @@
         <option value="$PROJECT_DIR$/root/framework/TestRun.java" />
         <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
         <option value="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" />
+        <option value="$PROJECT_DIR$/root/framework/IAgent.java" />
       </list>
     </option>
   </component>
@@ -369,6 +372,12 @@
               <item name="root" type="462c0819:PsiDirectoryNode" />
               <item name="framework" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
+              <item name="root" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -421,7 +430,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Runner">
+  <component name="RunManager" selected="JUnit.All in FSMLearning">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -626,8 +635,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.Runner" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.All in FSMLearning" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.All in FSMLearning" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Runner" />
         <item index="2" class="java.lang.String" itemvalue="JUnit.TestRunTest.testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoalWithResultWriter" />
         <item index="3" class="java.lang.String" itemvalue="JUnit.EpisodeTest" />
         <item index="4" class="java.lang.String" itemvalue="JUnit.SequenceGeneratorTest" />
@@ -669,14 +678,14 @@
     <history-entry file="All_in_FSMLearning - 2018.09.08 at 19h 47m 50s.xml">
       <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_FSMLearning - 2018.09.08 at 20h 34m 09s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
+    </history-entry>
     <history-entry file="SequenceGeneratorTest - 2018.09.08 at 19h 09m 33s.xml">
       <configuration name="SequenceGeneratorTest" configurationId="JUnit" />
     </history-entry>
     <history-entry file="SequenceGeneratorTest - 2018.09.08 at 19h 10m 30s.xml">
       <configuration name="SequenceGeneratorTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SequenceTest - 2018.09.08 at 18h 57m 07s.xml">
-      <configuration name="SequenceTest" configurationId="JUnit" />
     </history-entry>
     <history-entry file="TestRunTest_testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoalWithResultWriter - 2018.09.08 at 19h 47m 21s.xml">
       <configuration name="TestRunTest.testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoalWithResultWriter" configurationId="JUnit" />
@@ -687,7 +696,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -697,13 +705,13 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3284055" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3284055" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17864583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29567054" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29567054" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -786,7 +794,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/root/agents/marz/MaRzAgent.java</url>
-          <line>102</line>
+          <line>98</line>
           <properties />
           <option name="timeStamp" value="19" />
         </line-breakpoint>
@@ -1016,14 +1024,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/framework/IAgent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="18" lean-forward="false" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/framework/IAgentProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1216,14 +1216,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/framework/TestRunTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="108" column="70" lean-forward="false" selection-start-line="108" selection-start-column="70" selection-end-line="108" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/framework/SensorData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="185">
@@ -1273,8 +1265,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/root/agents/marz/MaRzAgent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="243" column="66" lean-forward="true" selection-start-line="243" selection-start-column="66" selection-end-line="243" selection-end-column="66" />
+        <state relative-caret-position="3">
+          <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
           <folding>
             <element signature="docComment;class#MaRzAgent#0" expanded="false" />
             <element signature="docComment;field#activeNode#0;class#MaRzAgent#0" expanded="false" />
@@ -1291,10 +1283,29 @@
             <element signature="method#findNodeForIndex#0;class#MaRzAgent#0" expanded="false" />
             <element signature="docComment;method#splitNode#0;class#MaRzAgent#0" expanded="false" />
             <element signature="method#splitNode#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="e#4849#4914#0" expanded="false" />
+            <element signature="e#4672#4737#0" expanded="false" />
             <element signature="docComment;method#nextPermutation#0;class#MaRzAgent#0" expanded="false" />
-            <marker date="1536463746704" expanded="false" signature="543:601" ph="/**...*/" />
-            <marker date="1536463746704" expanded="true" signature="659:681" ph="&lt;~&gt;" />
+            <marker date="1536464034130" expanded="false" signature="543:601" ph="/**...*/" />
+            <marker date="1536464034130" expanded="true" signature="659:681" ph="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/framework/IAgent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/framework/TestRunTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="126" column="0" lean-forward="true" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+          <folding>
+            <element signature="e#4914#4915#0" expanded="true" />
+            <element signature="e#4956#4957#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -78,16 +78,12 @@ public class MaRzAgent implements IAgent
 	 */
 	public MaRzAgent()
 	{
-		// Create an empty root node and split it to create an initial fringe
-		// that has a node for each letter in the alphabet
-		//this.nextSeqToTry = new Sequence(new Move[0]);
-		
 	}// ctor
 
 	private SuffixTree suffixTree = new SuffixTree();
 
 	@Override
-	public void setMoves(Move[] moves)
+	public void initialize(Move[] moves)
 	{
 		this.alphabet = moves;
 		this.sequenceGenerator = new SequenceGenerator(this.alphabet);

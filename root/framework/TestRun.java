@@ -38,7 +38,7 @@ class TestRun {
         try {
             int goalCount = 0;
             int moveCount = 0;
-            this.agent.setMoves(this.environmentDescription.getMoves());
+            this.agent.initialize(this.environmentDescription.getMoves());
             Environment environment = new Environment(this.environmentDescription, this.randomizer);
             SensorData sensorData = null;
             do {

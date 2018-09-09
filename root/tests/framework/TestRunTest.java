@@ -128,7 +128,7 @@ public class TestRunTest {
         private int moveIndex = 0;
 
         @Override
-        public void setMoves(Move[] moves) {
+        public void initialize(Move[] moves) {
             this.moves = moves;
         }
 

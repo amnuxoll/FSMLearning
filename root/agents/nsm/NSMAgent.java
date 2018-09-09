@@ -66,7 +66,7 @@
 //    private Move[] moves;
 //
 //    @Override
-//    public void setMoves(Move[] moves)
+//    public void initialize(Move[] moves)
 //    {
 //        this.moves = moves;
 //    }
