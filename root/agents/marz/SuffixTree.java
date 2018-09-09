@@ -2,6 +2,13 @@ package agents.marz;
 
 import java.util.*;
 
+/**
+ * SuffixTree
+ * Represents a tree of SuffixNodeBase
+ *
+ * @author Zachary Paul Faltersack
+ * @version 0.95
+ */
 public class SuffixTree<TSuffixNode extends SuffixNodeBase<TSuffixNode>> {
 
     /** hash table of all nodes on the fringe of our search */
@@ -9,6 +16,11 @@ public class SuffixTree<TSuffixNode extends SuffixNodeBase<TSuffixNode>> {
 
     private int maxSize;
 
+    /**
+     * Create an instance of a SuffixTree with a given size and root node.
+     * @param maxSize The max allowed size of this tree.
+     * @param rootNode The root node of the tree.
+     */
     public SuffixTree(int maxSize, TSuffixNode rootNode)
     {
         if (maxSize < 1)
@@ -19,6 +31,11 @@ public class SuffixTree<TSuffixNode extends SuffixNodeBase<TSuffixNode>> {
         this.addNode(rootNode);
     }
 
+    /**
+     * Split the node with the given suffix.
+     * @param sequence The suffix to split.
+     * @return True if the suffix node is split; otherwise false.
+     */
     public boolean splitSuffix(Sequence sequence)
     {
         if (sequence == null)
@@ -62,6 +79,11 @@ public class SuffixTree<TSuffixNode extends SuffixNodeBase<TSuffixNode>> {
         return bestNode;
     }// findBestNodeToTry
 
+    /**
+     * Find the node with the longest matching suffix to the sequence.
+     * @param sequence The sequence to find a node for.
+     * @return The Node that best matched the given Sequence.
+     */
     public TSuffixNode findBestMatch(Sequence sequence)
     {
         Sequence bestMatch = null;
@@ -81,6 +103,11 @@ public class SuffixTree<TSuffixNode extends SuffixNodeBase<TSuffixNode>> {
         return this.hashFringe.get(bestMatch);
     }
 
+    /**
+     * Indicates whether or not the tree contains the given suffix.
+     * @param suffix The suffix to check for.
+     * @return True if the suffix is found in the tree; otherwise false.
+     */
     public boolean containsSuffix(Sequence suffix)
     {
         if (suffix == null)

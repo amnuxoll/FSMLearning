@@ -8,10 +8,13 @@ import java.util.*;
 /**
  * MaRzAgent Class
  *
+ * @author Zachary Paul Faltersack
+ * @version 0.95
+ *
+ * base on code by: *
  * @author Christian Rodriguez
  * @author Giselle Marston
  * @author Andrew Nuxoll
- * @version 3.0
  *
  */
 public class MaRzAgent implements IAgent
@@ -21,31 +24,30 @@ public class MaRzAgent implements IAgent
 	/*---==== MEMBER VARIABLES ===---*/
 
 	/** this is the node we're currently using to search with */
-	SuffixNode activeNode = null;
+	private SuffixNode activeNode = null;
 
 	/**
 	 * each permutation has a number associated with it. This is used to track
 	 * the last permutation the agent tried.
 	 */
-	int lastPermutationIndex = 0;// set to 1 because we hard coded the first
+	private int lastPermutationIndex = 0;// set to 1 because we hard coded the first
 	// permutation to be 'a'
 
 	/**
 	 * the next sequence to consider testing (typically generated via
 	 * lastPermutationIndex
 	 */
-	Sequence currentSequence = null; // 'a' is always safe because of how
+	private Sequence currentSequence = null; // 'a' is always safe because of how
 
 	/**
 	 * the last sequence that was successful (used for reporting and not
 	 * required for the algorithm)
 	 */
-	Sequence lastSuccessfulSequence = currentSequence;
+	private Sequence lastSuccessfulSequence = currentSequence;
 
 	private SequenceGenerator sequenceGenerator;
 
 	private int lastGoalIndex = 0;
-
 
 	//Instance Variables
 	protected Move[] alphabet;
@@ -57,6 +59,8 @@ public class MaRzAgent implements IAgent
 	public static final int NUM_GOALS = 1000;
 	/** Number of state machines to test a given constant combo with */
 	public static final int NUM_MACHINES = 50 ;
+
+	private SuffixTree<SuffixNode> suffixTree;
 
 	/** Turn this on to print debugging messages */
 	public static boolean debug = false;
@@ -71,8 +75,10 @@ public class MaRzAgent implements IAgent
 	{
 	}// ctor
 
-	private SuffixTree<SuffixNode> suffixTree;
-
+	/**
+	 * Sets up the state of the agent based on the given moves.
+	 * @param moves An array of {@link Move} representing the moves available to the agent.
+	 */
 	@Override
 	public void initialize(Move[] moves)
 	{
@@ -83,6 +89,12 @@ public class MaRzAgent implements IAgent
 		this.currentSequence = this.activeNode.getSuffix();
 	}
 
+	/**
+	 * Gets a subsequent move based on the provided sensorData.
+	 *
+	 * @param sensorData The {@link SensorData} from the last move.
+	 * @return the next Move to try.
+	 */
 	@Override
 	public Move getNextMove(SensorData sensorData)
 	{

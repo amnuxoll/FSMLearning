@@ -10,6 +10,14 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.function.Function;
 
+
+/**
+ * SuffixNode
+ * Represents a node in a suffix tree.
+ *
+ * @author Zachary Paul Faltersack
+ * @version 0.95
+ */
 public class SuffixNode extends SuffixNodeBase<SuffixNode> {
     // the likeliness to jump back to another node
     // (should be in the range (0.0 - 1.0)

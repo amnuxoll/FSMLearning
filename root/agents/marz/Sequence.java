@@ -5,11 +5,24 @@ import sun.plugin.dom.exception.InvalidStateException;
 
 import java.util.*;
 
+/**
+ * Sequence
+ * Represents a sequence of {@link Move}s.
+ *
+ * @author Zachary Paul Faltersack
+ * @version 0.95
+ */
 public class Sequence {
     private Move[] moves;
 
+    private int currentIndex = -1;
+
     public static final Sequence EMPTY = new Sequence(new Move[0]);
 
+    /**
+     * Create an instance of a Sequence.
+     * @param moves The moves in the sequence.
+     */
     public Sequence(Move[] moves)
     {
         if (moves == null)
@@ -17,6 +30,11 @@ public class Sequence {
         this.moves = moves;
     }
 
+    /**
+     * Determines whether or not this sequence ends with the provided sequence.
+     * @param sequence the sequent to check as a suffix.
+     * @return true if this sequence ends with the given sequence; otherwise false.
+     */
     public boolean endsWith(Sequence sequence)
     {
         if (sequence == null)
@@ -37,11 +55,20 @@ public class Sequence {
         return true;
     }
 
+    /**
+     * Gets the moves in this sequence.
+     * @return the Move[].
+     */
     public Move[] getMoves()
     {
         return this.moves;
     }
 
+    /**
+     * Gets a subsequence of this sequence starting from the given index.
+     * @param startIndex the index to start from.
+     * @return A subsequence starting at the given index.
+     */
     public Sequence getSubsequence(int startIndex)
     {
         if (startIndex < 0)
@@ -52,6 +79,11 @@ public class Sequence {
         return new Sequence(subsequence);
     }
 
+    /**
+     * Gets a subsequence starting from the beginning of this sequence that is of the indicated length.
+     * @param length the length of the subsequence to retrieve.
+     * @return the new Sequence.
+     */
     public Sequence take(int length)
     {
         if (length < 0)
@@ -64,11 +96,20 @@ public class Sequence {
         return new Sequence(subsequence);
     }
 
+    /**
+     * Gets the length of this sequence.
+     * @return the length of the sequence.
+     */
     public int getLength()
     {
         return this.moves.length;
     }
 
+    /**
+     * Builds a new sequence by prepending the given move to the front of this sequence.
+     * @param newMove The new move to prepend to this sequence.
+     * @return The new sequence.
+     */
     public Sequence buildChildSequence(Move newMove)
     {
         if (newMove == null)
@@ -78,13 +119,19 @@ public class Sequence {
         return new Sequence(childMoves.toArray(new Move[0]));
     }
 
-    private int currentIndex = -1;
-
+    /**
+     * Indicates whether or not there is a next move in the sequence.
+     * @return true if a next move exists; otherwise false.
+     */
     public boolean hasNext()
     {
         return this.currentIndex < (this.moves.length - 1);
     }
 
+    /**
+     * Increments to the next index and returns the move at that index.
+     * @return The next move in the sequence.
+     */
     public Move next()
     {
         if (!this.hasNext())
@@ -93,6 +140,9 @@ public class Sequence {
         return this.moves[this.currentIndex];
     }
 
+    /**
+     * Resets the current move index in this sequence.
+     */
     public void reset()
     {
         this.currentIndex = -1;
