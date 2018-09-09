@@ -44,6 +44,7 @@ class TestRun {
             do {
                 Move move = this.agent.getNextMove(sensorData);
                 sensorData = environment.tick(move);
+                //System.out.print(move + " -> " + sensorData + "; ");
                 moveCount++;
                 if (sensorData.isGoal()) {
                     this.fireGoalEvent(moveCount);
@@ -55,7 +56,7 @@ class TestRun {
         }
         catch (Exception ex)
         {
-
+            System.out.println("TestRun failed with exception: " + ex.getMessage());
         }
     }
 

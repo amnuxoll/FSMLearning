@@ -149,5 +149,7 @@ public class FSMDescription implements IEnvironmentDescription {
          * Identifies the complete sensor set for the environment.
          */
         public static final EnumSet<Sensor> ALL_SENSORS = EnumSet.allOf(Sensor.class);
+
+        public static final EnumSet<Sensor> NO_SENSORS = EnumSet.noneOf(Sensor.class);
     }
 }

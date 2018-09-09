@@ -23,7 +23,7 @@ public class FileResultWriterProviderTest {
     }
 
     @Test
-    public void getResultWriterLabelsAgentFile()
+    public void getResultWriterLabelsAgentFile() throws Exception
     {
         FileResultWriterProvider resultWriterProvider = new FileResultWriterProvider();
         IResultWriter resultWriter = resultWriterProvider.getResultWriter("myagent");

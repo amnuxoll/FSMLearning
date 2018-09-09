@@ -21,20 +21,18 @@ public class FileResultWriter implements IResultWriter {
      * Create an instance of a {@link FileResultWriter} that writes to the given file path.
      * @param outputFile The path to an output file which will receive the results.
      */
-    public FileResultWriter(String outputFile)
-    {
+    public FileResultWriter(String outputFile) throws IOException {
         if (outputFile == null)
             throw new IllegalArgumentException("outputFile cannot be null");
         if (outputFile == "")
             throw new IllegalArgumentException("outputFile cannot be empty");
-        try {
-            this.fileName = outputFile;
-            File file = new File(outputFile);
-            this.fileWriter = new FileWriter(file);
-        } catch (IOException ex)
-        {
-            // do anything here?
-        }
+        this.fileName = outputFile;
+        File file = new File(outputFile);
+        File parentFile = file.getParentFile();
+        if (parentFile != null)
+            parentFile.mkdirs();
+        file.createNewFile();
+        this.fileWriter = new FileWriter(file);
     }
 
     /**
@@ -87,29 +85,59 @@ public class FileResultWriter implements IResultWriter {
         try {
             this.fileWriter.write("\n");
             // Write out the basic goal sums
-            for (int i = 0; i < this.maxNumberOfGoals; i++)
+            for (int i = 1; i <= this.maxNumberOfGoals; i++)
             {
-                char column = (char)('A' + i);
                 int startRow = 2;
                 int endRow = startRow + this.numberOfRuns - 1;
-                this.fileWriter.write("sum(" + column + startRow + ":" + column + endRow + "),");
+                this.fileWriter.write("=average(R" + startRow + "C" + i + ":R" + endRow + "C" + i + "),");
             }
             this.fileWriter.write("\n");
             this.fileWriter.write(",,,");
 
             // Write out the smoothing row
-            for (int i = 3; i < this.maxNumberOfGoals - 3; i++)
+            for (int i = 4; i <= this.maxNumberOfGoals - 3; i++)
             {
-                char leftColumn = (char)('A' + i - 3);
-                char rightColumn = (char)('A' + i + 3);
+                int leftColumn = i - 3;
+                int rightColumn = i + 3;
                 int row = 2 + this.numberOfRuns;
-                this.fileWriter.write("sum(" + leftColumn + row + ":" + rightColumn + row + "),");
+                this.fileWriter.write("=average(R" + row + "C" + leftColumn + ":R" + row + "C" + rightColumn + "),");
             }
             this.fileWriter.write(",,,");
             this.fileWriter.close();
         }catch (IOException ex)
         {
-            // do anything here?
+            System.out.println("FileResultWriter failed with exception: " + ex.getMessage());
         }
     }
+
+//    @Override
+//    public void complete() {
+//        try {
+//            this.fileWriter.write("\n");
+//            // Write out the basic goal sums
+//            for (int i = 0; i < this.maxNumberOfGoals; i++)
+//            {
+//                char column = (char)('A' + i);
+//                int startRow = 2;
+//                int endRow = startRow + this.numberOfRuns - 1;
+//                this.fileWriter.write("=average(" + column + startRow + ":" + column + endRow + "),");
+//            }
+//            this.fileWriter.write("\n");
+//            this.fileWriter.write(",,,");
+//
+//            // Write out the smoothing row
+//            for (int i = 3; i < this.maxNumberOfGoals - 3; i++)
+//            {
+//                char leftColumn = (char)('A' + i - 3);
+//                char rightColumn = (char)('A' + i + 3);
+//                int row = 2 + this.numberOfRuns;
+//                this.fileWriter.write("=average(" + leftColumn + row + ":" + rightColumn + row + "),");
+//            }
+//            this.fileWriter.write(",,,");
+//            this.fileWriter.close();
+//        }catch (IOException ex)
+//        {
+//            System.out.println("FileResultWriter failed with exception: " + ex.getMessage());
+//        }
+//    }
 }

@@ -26,7 +26,7 @@ public class FileResultWriterTest {
     }
 
     @Test
-    public void testGetFileName()
+    public void testGetFileName() throws Exception
     {
         String fileName = "output.csv";
         try {
@@ -43,7 +43,7 @@ public class FileResultWriterTest {
     }
 
     @Test
-    public void testLogStepsToGoalSingleStep()
+    public void testLogStepsToGoalSingleStep()throws Exception
     {
         String fileName = "output.csv";
         try {
@@ -68,7 +68,7 @@ public class FileResultWriterTest {
     }
 
     @Test
-    public void testLogStepsToGoalMultipleSteps()
+    public void testLogStepsToGoalMultipleSteps()throws Exception
     {
         String fileName = "output.csv";
         try {
@@ -96,7 +96,7 @@ public class FileResultWriterTest {
     }
 
     @Test
-    public void testBeginNewRunSingleRun()
+    public void testBeginNewRunSingleRun()throws Exception
     {
         String fileName = "output.csv";
         try {
@@ -121,7 +121,7 @@ public class FileResultWriterTest {
     }
 
     @Test
-    public void testBeginNewRunMultipleRuns()
+    public void testBeginNewRunMultipleRuns()throws Exception
     {
         String fileName = "output.csv";
         try {
@@ -151,7 +151,7 @@ public class FileResultWriterTest {
     }
 
     @Test
-    public void testCompleteFinalizesStandardReportRun()
+    public void testCompleteFinalizesStandardReportRun()throws Exception
     {
         String fileName = "output.csv";
         try {

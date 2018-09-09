@@ -75,7 +75,12 @@ public class SensorData {
     @Override
     public int hashCode()
     {
-        return this.data.hashCode();
+        int hashcode = 0;
+        for(Entry<String, Object> entry : this.data.entrySet())
+        {
+            hashcode += Objects.hash(entry.getKey(), entry.getValue());
+        }
+        return hashcode;
     }
 
     @Override

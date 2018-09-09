@@ -1,10 +1,7 @@
 package environments.meta;
 
-import environments.fsm.FSMDescription;
-import environments.fsm.FSMDescriptionProvider;
 import framework.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MetaEnvironmentDescription implements IEnvironmentDescription {

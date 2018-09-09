@@ -45,7 +45,7 @@ public class TestSuiteTest {
 
     // run Tests
     @Test
-    public void runInitializesAndExecutesSingleAgent()
+    public void runInitializesAndExecutesSingleAgent() throws Exception
     {
         TestResultWriterProvider resultWriterProvider = new TestResultWriterProvider();
         TestEnvironmentDescriptionProvider environmentDescriptionProvider = new TestEnvironmentDescriptionProvider();
@@ -60,7 +60,7 @@ public class TestSuiteTest {
         assertEquals(this.testConfiguration.getNumberOfIterations(), environmentDescriptionProvider.generatedEnvironmentDescriptions);
 
         assertEquals(1, resultWriterProvider.generatedResultWriters.size());
-        TestResultWriter resultWriter = resultWriterProvider.generatedResultWriters.get("agent0.csv");
+        TestResultWriter resultWriter = resultWriterProvider.generatedResultWriters.get("agent0");
         assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCount);
         assertEquals(this.testConfiguration.getNumberOfIterations() * this.testConfiguration.getNumberOfGoals(), resultWriter.stepsLoggedCount);
         assertTrue(resultWriter.completed);
@@ -68,7 +68,7 @@ public class TestSuiteTest {
     }
 
     @Test
-    public void runInitializesAndExecutesMultipleAgent()
+    public void runInitializesAndExecutesMultipleAgent() throws Exception
     {
         TestResultWriterProvider resultWriterProvider = new TestResultWriterProvider();
         TestEnvironmentDescriptionProvider environmentDescriptionProvider = new TestEnvironmentDescriptionProvider();
@@ -85,13 +85,13 @@ public class TestSuiteTest {
         assertEquals(2 * this.testConfiguration.getNumberOfIterations(), environmentDescriptionProvider.generatedEnvironmentDescriptions);
 
         assertEquals(2, resultWriterProvider.generatedResultWriters.size());
-        TestResultWriter resultWriter = resultWriterProvider.generatedResultWriters.get("agent0.csv");
+        TestResultWriter resultWriter = resultWriterProvider.generatedResultWriters.get("agent0");
         assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCount);
         assertEquals(this.testConfiguration.getNumberOfIterations() * this.testConfiguration.getNumberOfGoals(), resultWriter.stepsLoggedCount);
         assertTrue(resultWriter.completed);
         assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCountAtcompleted);
 
-        resultWriter = resultWriterProvider.generatedResultWriters.get("agent1.csv");
+        resultWriter = resultWriterProvider.generatedResultWriters.get("agent1");
         assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCount);
         assertEquals(this.testConfiguration.getNumberOfIterations() * this.testConfiguration.getNumberOfGoals(), resultWriter.stepsLoggedCount);
         assertTrue(resultWriter.completed);

@@ -1,5 +1,7 @@
 package framework;
 
+import java.util.Objects;
+
 /**
  * An Episode describes a pairing of a {@link SensorData} and {@link Move} where the move was selected
  * as a result of the sensor data.
@@ -12,14 +14,19 @@ public class Episode {
 
     /**
      * Create an Episode.
-     * @param sensorData The {@link SensorData} associated with the episode.
      * @param move The {@link Move} associated with the episode.
      */
-    public Episode(SensorData sensorData, Move move) {
+    public Episode(Move move) {
         if (move == null)
             throw new IllegalArgumentException("move cannot be null");
-        this.sensorData = sensorData;
         this.move = move;
+    }
+
+    public void setSensorData(SensorData sensorData)
+    {
+        if (sensorData == null)
+            throw new IllegalArgumentException("sensorData cannot be null");
+        this.sensorData = sensorData;
     }
 
     /**
@@ -36,15 +43,6 @@ public class Episode {
      */
     public SensorData getSensorData() {
         return this.sensorData;
-    }
-
-    /**
-     * Get whether or not this episode is the first in memory.
-     * @return true if no {@link SensorData} accompanies the {@link Move}; otherwise false.
-     */
-    public boolean isFirstEpisode()
-    {
-        return this.sensorData == null;
     }
 
     /**
@@ -73,5 +71,8 @@ public class Episode {
         return true;
     }
 
-    // TODO -- hashCode()
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.move, this.sensorData);
+    }
 }

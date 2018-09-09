@@ -11,6 +11,7 @@ public class TestSuiteConfiguration {
     private boolean trueRandom;
 
     public static final TestSuiteConfiguration QUICK = new TestSuiteConfiguration(10, 100, true);
+    public static final TestSuiteConfiguration MEDIUM = new TestSuiteConfiguration(25, 500, true);
     public static final TestSuiteConfiguration FULL = new TestSuiteConfiguration(50, 1000, true);
 
     public TestSuiteConfiguration(int numberOfIterations, int numberOfGoals, boolean trueRandom)

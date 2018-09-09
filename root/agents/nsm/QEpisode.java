@@ -9,6 +9,6 @@ public class QEpisode extends Episode{
     public double reward = 0.0;
 
     public QEpisode(SensorData sensorData, Move move) {
-        super(sensorData, move);
+        super(move);
     }
 }

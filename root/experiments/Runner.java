@@ -1,5 +1,6 @@
 package experiments;
 
+import agents.marz.MaRzAgentProvider;
 import agents.nsm.NSMAgentProvider;
 import environments.fsm.FSMDescription;
 import environments.fsm.FSMDescriptionProvider;
@@ -11,12 +12,12 @@ import java.util.EnumSet;
 
 public class Runner {
 
-    private static TestSuite Suite1 = new TestSuite(
-            TestSuiteConfiguration.FULL,
+    private static TestSuite MaRzFSM = new TestSuite(
+            TestSuiteConfiguration.MEDIUM,
             new FileResultWriterProvider(),
-            new FSMDescriptionProvider(2, 5, EnumSet.of(FSMDescription.Sensor.EVEN_ODD)),
+            new FSMDescriptionProvider(3, 15, FSMDescription.Sensor.NO_SENSORS),
             new IAgentProvider[] {
-                    new NSMAgentProvider()
+                    new MaRzAgentProvider()
             }
     );
 
@@ -31,7 +32,12 @@ public class Runner {
 
     public static void main(String[] args)
     {
-        Runner.Suite1.run();
+        try {
+            Runner.MaRzFSM.run();
+        } catch (Exception ex)
+        {
+            System.out.println("Runner failed with exception: " + ex.getMessage());
+        }
     }
 
 }
