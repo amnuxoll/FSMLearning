@@ -1,104 +1,119 @@
 package agents.marz;
 
-import java.util.HashMap;
+import java.util.*;
 
-public class SuffixTree {
+public class SuffixTree<TSuffixNode extends SuffixNodeBase<TSuffixNode>> {
 
     /** hash table of all nodes on the fringe of our search */
-    private HashMap<Sequence, SuffixNode> hashFringe = new HashMap<Sequence, SuffixNode>();
+    private HashMap<Sequence, TSuffixNode> hashFringe = new HashMap<Sequence, TSuffixNode>();
+
+    private int maxSize;
+
+    public SuffixTree(int maxSize, TSuffixNode rootNode)
+    {
+        if (maxSize < 1)
+            throw new IllegalArgumentException("maxSize must be greater than 0");
+        if (rootNode == null)
+            throw new IllegalArgumentException("rootNode cannot be null");
+        this.maxSize = maxSize;
+        this.addNode(rootNode);
+    }
+
+    public boolean splitSuffix(Sequence sequence)
+    {
+        if (sequence == null)
+            throw new IllegalArgumentException("sequence cannot be null");
+        TSuffixNode node = this.hashFringe.get(sequence);
+        if (node == null)
+            return false;
+        TSuffixNode[] children = node.split();
+
+        if (children == null)
+            return false;
+
+        //Ready to commit:  add the children to the fringe and remove the parent
+        for (int i = 0; i < children.length; i++)
+        {
+            this.addNode(children[i]);
+        }// for
+
+        this.hashFringe.remove(node.getSuffix());
+        return true;
+    }
 
     /**
      * findBestNodeToTry
      *
      * finds node with lowest heuristic
      */
-    public SuffixNode findBestNodeToTry()
+    public TSuffixNode findBestNodeToTry()
     {
-        SuffixNode[] nodes = this.hashFringe.values().toArray(new SuffixNode[0]);
-        assert (nodes.length > 0);
-
-        double theBEASTLIESTCombo = nodes[0].f;
-        SuffixNode bestNode = nodes[0];
-        for (SuffixNode node : nodes)
+        double bestWeight = Double.MAX_VALUE;
+        TSuffixNode bestNode = null;
+        for (TSuffixNode node : this.hashFringe.values())
         {
-            node.updateHeuristic();
-
-            if (node.f < theBEASTLIESTCombo)
+            double nodeWeight = node.getWeight();
+            if (nodeWeight < bestWeight)
             {
-                theBEASTLIESTCombo = node.f;
+                bestWeight = nodeWeight;
                 bestNode = node;
-            }// if
-        }// for
+            }
+        }
         return bestNode;
     }// findBestNodeToTry
 
-    /**
-     * findWorstNode
-     *
-     * finds node with largest heuristic
-     *
-     */
-    public SuffixNode findWorstNodeToTry()
+    public TSuffixNode findBestMatch(Sequence sequence)
     {
-        SuffixNode[] nodes = this.hashFringe.values().toArray(new SuffixNode[0]);
-        assert (nodes.length > 0);
-
-        double theBEASTLIESTCombo = nodes[0].f;
-        SuffixNode worstNode = nodes[0];
-        for (SuffixNode node : nodes)
-        {
-            if (node.f > theBEASTLIESTCombo)
+        Sequence bestMatch = null;
+        int index = 0;
+        Sequence subsequence;
+        do {
+            subsequence = sequence.getSubsequence(index++);
+            for (Sequence suffixKey : this.hashFringe.keySet())
             {
-                theBEASTLIESTCombo = node.f;
-                worstNode = node;
-            }// if
-        }// for
-        return worstNode;
-    }// findWorstNodeToTry
+                if (subsequence.endsWith(suffixKey) && (bestMatch == null || suffixKey.getLength() >  bestMatch.getLength()))
+                    bestMatch = suffixKey;
+            }
+        } while (index < sequence.getLength());
 
-    public SuffixNode findBestMatch(Sequence sequence)
-    {
-        int charIndex = sequence.getLength() - 1;
-        Sequence subsequence = sequence.getSubsequence(charIndex--);
-        while (! hashFringe.containsKey(subsequence))
-        {
-            if (charIndex == -1)
-            {
-                //Example of how this result can be reached:
-                //  given path is "ac" and fringe has keys "aac", "bac" and "cac"
-                return null;
-            }// if
-
-            subsequence = sequence.getSubsequence(charIndex--);
-        }// while
-
-        return hashFringe.get(subsequence);
+        if (bestMatch == null)
+            return null;
+        return this.hashFringe.get(bestMatch);
     }
 
-    public boolean containsSequence(Sequence sequence)
+    public boolean containsSuffix(Sequence suffix)
     {
-        return this.hashFringe.containsKey(sequence);
+        if (suffix == null)
+            throw new IllegalArgumentException("suffix cannot be null");
+        return this.hashFringe.containsKey(suffix);
     }
 
-    public void addSuffixNode(SuffixNode node)
-    {
-        this.clearHashFringe();
-        this.hashFringe.put(node.suffix, node);
-    }
-
-    public void removeSuffixNode(SuffixNode node)
-    {
-        this.hashFringe.remove(node);
-    }
-
-    private final static int NODE_LIST_SIZE = 10000;
-    private void clearHashFringe()
+    private void addNode(TSuffixNode node)
     {
         // Erase worst node in the hashFringe once we hit our Constant limit
-        while (hashFringe.size() > NODE_LIST_SIZE)
+        while (hashFringe.size() > this.maxSize)
         {
-            SuffixNode worst = this.findWorstNodeToTry();
-            hashFringe.remove(worst.suffix);
+            Sequence worstSequence = this.findWorstNodeToTry();
+            hashFringe.remove(worstSequence);
         }// if
+        this.hashFringe.put(node.getSuffix(), node);
     }
+
+    private Sequence findWorstNodeToTry()
+    {
+        double worstWeight = Double.MIN_VALUE;
+        Sequence worstSequence = null;
+        for (Sequence sequence : this.hashFringe.keySet())
+        {
+            TSuffixNode node = this.hashFringe.get(sequence);
+            double nodeWeight = node.getWeight();
+            if (nodeWeight > worstWeight)
+            {
+                worstWeight = nodeWeight;
+                worstSequence = sequence;
+            }
+        }
+        return worstSequence;
+    }// findWorstNodeToTry
+
 }

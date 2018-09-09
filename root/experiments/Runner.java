@@ -15,7 +15,7 @@ public class Runner {
     private static TestSuite MaRzFSM = new TestSuite(
             TestSuiteConfiguration.MEDIUM,
             new FileResultWriterProvider(),
-            new FSMDescriptionProvider(3, 15, FSMDescription.Sensor.NO_SENSORS),
+            new FSMDescriptionProvider(3, 30, FSMDescription.Sensor.NO_SENSORS),
             new IAgentProvider[] {
                     new MaRzAgentProvider()
             }

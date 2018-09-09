@@ -25,8 +25,8 @@ public class Sequence {
             return false;
         if (sequence.moves.length == 0)
             return true;
-        List<Move> myMoves = Arrays.asList(this.moves);
-        List<Move> otherMoves = Arrays.asList(sequence.moves);
+        List<Move> myMoves = new ArrayList<>(Arrays.asList(this.moves));
+        List<Move> otherMoves = new ArrayList<>(Arrays.asList(sequence.moves));
         Collections.reverse(myMoves);
         Collections.reverse(otherMoves);
         for (int i = 0; i < otherMoves.size(); i++)
@@ -37,6 +37,11 @@ public class Sequence {
         return true;
     }
 
+    public Move[] getMoves()
+    {
+        return this.moves;
+    }
+
     public Sequence getSubsequence(int startIndex)
     {
         if (startIndex < 0)
@@ -44,6 +49,18 @@ public class Sequence {
         if (startIndex >= this.moves.length)
             return Sequence.EMPTY;
         Move[] subsequence = Arrays.copyOfRange(this.moves, startIndex, this.moves.length);
+        return new Sequence(subsequence);
+    }
+
+    public Sequence take(int length)
+    {
+        if (length < 0)
+            throw new IllegalArgumentException("length cannot be less than zero.");
+        if (length > this.moves.length)
+            throw new IllegalArgumentException("length is too large.");
+        if (length == 0)
+            return Sequence.EMPTY;
+        Move[] subsequence = Arrays.copyOfRange(this.moves, 0, length);
         return new Sequence(subsequence);
     }
 
@@ -105,5 +122,16 @@ public class Sequence {
     public int hashCode()
     {
         return Arrays.hashCode(this.moves);
+    }
+
+    @Override
+    public String toString()
+    {
+        String representation = "";
+        for (Move move : this.moves)
+        {
+            representation += move.toString();
+        }
+        return representation;
     }
 }

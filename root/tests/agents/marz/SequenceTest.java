@@ -253,4 +253,44 @@ public class SequenceTest {
         Sequence sequence2 = new Sequence(new Move[] { new Move("a"), new Move("b"), new Move("c") });
         assertEquals(sequence1.hashCode(), sequence2.hashCode());
     }
+
+    // take Tests
+    @Test
+    public void takeLengthLessThanZeroThrowsException()
+    {
+        Sequence sequence = new Sequence(new Move[0]);
+        assertThrows(IllegalArgumentException.class, () -> sequence.take(-1));
+    }
+
+    @Test
+    public void takeLengthBiggerThanSequenceThrowsException()
+    {
+        Sequence sequence = new Sequence(new Move[] { new Move("a") });
+        assertThrows(IllegalArgumentException.class, () -> sequence.take(2));
+    }
+
+    @Test
+    public void takeNothingGivesEmptySequence()
+    {
+        Sequence sequence = new Sequence(new Move[] { new Move("a") });
+        Sequence subsequence = sequence.take(0);
+        assertEquals(new Sequence(new Move[0]), subsequence);
+    }
+
+    @Test
+    public void takeGivesSingleItem()
+    {
+        Sequence sequence = new Sequence(new Move[] { new Move("a") });
+        Sequence subsequence = sequence.take(1);
+        assertEquals(sequence, subsequence);
+    }
+
+    @Test
+    public void takeGivesFirstNItems()
+    {
+        Sequence sequence = new Sequence(new Move[] { new Move("a"), new Move("b"), new Move("c") });
+        Sequence subsequence = sequence.take(2);
+        Sequence expected = new Sequence(new Move[] { new Move("a"), new Move("b") });
+        assertEquals(expected, subsequence);
+    }
 }
