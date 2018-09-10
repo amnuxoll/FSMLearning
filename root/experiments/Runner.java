@@ -1,6 +1,7 @@
 package experiments;
 
 import agents.marz.MaRzAgentProvider;
+import agents.marz.nodes.SuffixNodeProvider;
 import agents.nsm.NSMAgentProvider;
 import environments.fsm.FSMDescription;
 import environments.fsm.FSMDescriptionProvider;
@@ -13,11 +14,11 @@ import java.util.EnumSet;
 public class Runner {
 
     private static TestSuite MaRzFSM = new TestSuite(
-            TestSuiteConfiguration.FULL,
+            TestSuiteConfiguration.MEDIUM,
             new FileResultWriterProvider(),
-            new FSMDescriptionProvider(3, 30, FSMDescription.Sensor.NO_SENSORS),
+            new FSMDescriptionProvider(3, 15, FSMDescription.Sensor.NO_SENSORS),
             new IAgentProvider[] {
-                    new MaRzAgentProvider()
+                    new MaRzAgentProvider(new SuffixNodeProvider())
             }
     );
 

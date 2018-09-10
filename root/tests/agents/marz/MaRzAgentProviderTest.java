@@ -1,5 +1,6 @@
 package agents.marz;
 
+import agents.marz.nodes.SuffixNodeProvider;
 import framework.IAgent;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ public class MaRzAgentProviderTest {
     @Test
     public void getAgentReturnsMaRzAgents()
     {
-        MaRzAgentProvider provider = new MaRzAgentProvider();
+        MaRzAgentProvider provider = new MaRzAgentProvider(new SuffixNodeProvider());
         IAgent agent = provider.getAgent();
         assertTrue(agent instanceof MaRzAgent);
     }

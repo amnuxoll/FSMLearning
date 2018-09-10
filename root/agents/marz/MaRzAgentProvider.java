@@ -11,13 +11,20 @@ import framework.IAgentProvider;
  * @author Zachary Paul Faltersack
  * @version 0.95
  */
-public class MaRzAgentProvider implements IAgentProvider {
+public class MaRzAgentProvider<TSuffixNode extends SuffixNodeBase<TSuffixNode>> implements IAgentProvider {
+
+    private ISuffixNodeBaseProvider<TSuffixNode> nodeProvider;
+
+    public MaRzAgentProvider(ISuffixNodeBaseProvider<TSuffixNode> nodeProvider)
+    {
+        this.nodeProvider = nodeProvider;
+    }
     /**
      * Gets a MaRz agent.
      * @return the {@link MaRzAgent}.
      */
     @Override
     public IAgent getAgent() {
-        return new MaRzAgent();
+        return new MaRzAgent(this.nodeProvider);
     }
 }

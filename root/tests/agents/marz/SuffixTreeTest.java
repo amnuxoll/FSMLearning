@@ -154,5 +154,10 @@ public class SuffixTreeTest {
         protected void updateHeuristic() {
 
         }
+
+        @Override
+        protected boolean canSplit() {
+            return true;
+        }
     }
 }

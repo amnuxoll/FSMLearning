@@ -17,14 +17,14 @@ import java.util.*;
  * @author Andrew Nuxoll
  *
  */
-public class MaRzAgent implements IAgent
+public class MaRzAgent<TSuffixNode extends SuffixNodeBase<TSuffixNode>> implements IAgent
 {
 	private static final int NODE_LIST_SIZE = 10000;
 
 	/*---==== MEMBER VARIABLES ===---*/
 
 	/** this is the node we're currently using to search with */
-	private SuffixNode activeNode = null;
+	private TSuffixNode activeNode = null;
 
 	/**
 	 * each permutation has a number associated with it. This is used to track
@@ -52,26 +52,27 @@ public class MaRzAgent implements IAgent
 	//Instance Variables
 	protected Move[] alphabet;
 	protected ArrayList<Episode> episodicMemory = new ArrayList<Episode>();
-	protected int currIndex = 0;
 
 	/** Number of episodes per run */
 	public static final int MAX_EPISODES = 2000000;
-	public static final int NUM_GOALS = 1000;
-	/** Number of state machines to test a given constant combo with */
-	public static final int NUM_MACHINES = 50 ;
 
-	private SuffixTree<SuffixNode> suffixTree;
+	private SuffixTree<TSuffixNode> suffixTree;
 
 	/** Turn this on to print debugging messages */
 	public static boolean debug = false;
 	/** println for debug messages only */
 	public static void debugPrintln(String s) { if (debug) System.out.println(s); }
 
+	private HashMap<TSuffixNode, Integer> permutationQueues = new HashMap<>();
+
+	private ISuffixNodeBaseProvider<TSuffixNode> nodeProvider;
+
 	/**
 	 * MaRzAgent
 	 *
 	 */
-	public MaRzAgent() {
+	public MaRzAgent(ISuffixNodeBaseProvider<TSuffixNode> nodeProvider) {
+		this.nodeProvider = nodeProvider;
 	}// ctor
 
 	/**
@@ -82,7 +83,7 @@ public class MaRzAgent implements IAgent
 	public void initialize(Move[] moves) {
 		this.alphabet = moves;
 		this.sequenceGenerator = new SequenceGenerator(this.alphabet);
-		this.activeNode = new SuffixNode(Sequence.EMPTY, this.alphabet, (index) -> this.episodicMemory.get(index));
+		this.activeNode = this.nodeProvider.getNode(Sequence.EMPTY, this.alphabet, (index) -> this.episodicMemory.get(index));
 		this.suffixTree = new SuffixTree(MaRzAgent.NODE_LIST_SIZE, this.activeNode);
 		this.currentSequence = this.activeNode.getSuffix();
 	}
@@ -116,11 +117,9 @@ public class MaRzAgent implements IAgent
 	}
 
 	private void markFailure() {
-		this.activeNode.failsIndexList.add(this.episodicMemory.size() - this.activeNode.getSuffix().getLength());
-		// The active node is split once it's found a successful sequence but
-		// that sequence eventually failed.
-		if (this.activeNode.goalFound) {
-			this.suffixTree.splitSuffix(this.activeNode.getSuffix());
+		this.activeNode.addFailIndex(this.episodicMemory.size() - this.activeNode.getSuffix().getLength());
+		if (this.activeNode.canSplit() && this.suffixTree.splitSuffix(this.activeNode.getSuffix())) {
+			this.permutationQueues.remove(this.activeNode);
 		}// if
 	}
 
@@ -129,15 +128,15 @@ public class MaRzAgent implements IAgent
 		if (this.currentSequence.hasNext()) {
 			// Was partial match so find the best node to update
 			Sequence goalSequence = this.sequenceSinceLastGoal();
-			SuffixNode node = this.suffixTree.findBestMatch(goalSequence);
+			TSuffixNode node = this.suffixTree.findBestMatch(goalSequence);
 			// This will happen if we find the goal in fewer moves than a suffix that would exist in the fringe of our tree.
 			if (node != null) {
 				int index = this.episodicMemory.size() - node.getSuffix().getLength();
-				node.successIndexList.add(index);
+				node.addSuccessIndex(index);
 			}
 		} else {
-			this.activeNode.successIndexList.add(this.episodicMemory.size() - this.activeNode.getSuffix().getLength());
-			this.activeNode.goalFound = true;
+			this.activeNode.addSuccessIndex(this.episodicMemory.size() - this.activeNode.getSuffix().getLength());
+			this.activeNode.setFoundGoal();
 		}
 		this.lastGoalIndex = this.episodicMemory.size() - 1;
 	}
@@ -156,15 +155,15 @@ public class MaRzAgent implements IAgent
 		//System.out.println("Active Node: " + this.activeNode);
 //		System.out.println("Suffix Tree:");
 //		this.suffixTree.printTree();
-		SuffixNode newBestNode = this.suffixTree.findBestNodeToTry();
+		TSuffixNode newBestNode = this.suffixTree.findBestNodeToTry();
 //		System.out.println("New best node: " + newBestNode);
 		if (newBestNode != this.activeNode) {
-			this.activeNode.queueSeq = this.lastPermutationIndex;
+			this.permutationQueues.put(this.activeNode, this.lastPermutationIndex);
 			this.activeNode = newBestNode;
-			if (this.activeNode.queueSeq == -1)
-				this.lastPermutationIndex = this.sequenceGenerator.getCanonicalIndex(this.activeNode.getSuffix());
+			if (this.permutationQueues.containsKey(this.activeNode))
+				this.lastPermutationIndex = this.permutationQueues.get(this.activeNode);
 			else
-				this.lastPermutationIndex = this.activeNode.queueSeq;
+				this.lastPermutationIndex = this.sequenceGenerator.getCanonicalIndex(this.activeNode.getSuffix());
 		}
 		do {
 			this.currentSequence = this.nextPermutation();
