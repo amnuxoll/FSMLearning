@@ -9,7 +9,7 @@ package agents.marz;
  */
 public abstract class SuffixNodeBase<TNodeType extends SuffixNodeBase<TNodeType>> {
     private Sequence suffix;
-    private double f; // the current overall potential of this suffix (f = g + h)
+    protected double f; // the current overall potential of this suffix (f = g + h)
 
     /**
      * Create an instance of a SuffixNodeBase

@@ -71,8 +71,7 @@ public class MaRzAgent implements IAgent
 	 * MaRzAgent
 	 *
 	 */
-	public MaRzAgent()
-	{
+	public MaRzAgent() {
 	}// ctor
 
 	/**
@@ -80,8 +79,7 @@ public class MaRzAgent implements IAgent
 	 * @param moves An array of {@link Move} representing the moves available to the agent.
 	 */
 	@Override
-	public void initialize(Move[] moves)
-	{
+	public void initialize(Move[] moves) {
 		this.alphabet = moves;
 		this.sequenceGenerator = new SequenceGenerator(this.alphabet);
 		this.activeNode = new SuffixNode(Sequence.EMPTY, this.alphabet, (index) -> this.episodicMemory.get(index));
@@ -96,8 +94,7 @@ public class MaRzAgent implements IAgent
 	 * @return the next Move to try.
 	 */
 	@Override
-	public Move getNextMove(SensorData sensorData)
-	{
+	public Move getNextMove(SensorData sensorData) {
 		if (episodicMemory.size() > 0)
 			episodicMemory.get(episodicMemory.size() - 1).setSensorData(sensorData);
 		if (sensorData == null) {
@@ -127,11 +124,9 @@ public class MaRzAgent implements IAgent
 		}// if
 	}
 
-	private void markSuccess()
-	{
+	private void markSuccess() {
 		this.lastSuccessfulSequence = this.currentSequence;
-		if (this.currentSequence.hasNext())
-		{
+		if (this.currentSequence.hasNext()) {
 			// Was partial match so find the best node to update
 			Sequence goalSequence = this.sequenceSinceLastGoal();
 			SuffixNode node = this.suffixTree.findBestMatch(goalSequence);
@@ -152,16 +147,19 @@ public class MaRzAgent implements IAgent
 	 *
 	 * increments nextSeqToTry
 	 */
-	private Sequence nextPermutation()
-	{
+	private Sequence nextPermutation() {
 		this.lastPermutationIndex++;
 		return this.sequenceGenerator.nextPermutation(this.lastPermutationIndex);
 	}// nextPermutation
 
-	private void updateCurrentSequence()
-	{
+	private void updateCurrentSequence() {
+		System.out.println("Active Node: " + this.activeNode);
+		System.out.println("Suffix Tree:");
+		this.suffixTree.printTree();
 		SuffixNode newBestNode = this.suffixTree.findBestNodeToTry();
+		System.out.println("New best node: " + newBestNode);
 		if (newBestNode != this.activeNode) {
+			System.out.println("New best node: " + newBestNode);
 			this.activeNode.queueSeq = this.lastPermutationIndex;
 			this.activeNode = newBestNode;
 			if (this.activeNode.queueSeq == -1)
@@ -169,14 +167,15 @@ public class MaRzAgent implements IAgent
 			else
 				this.lastPermutationIndex = this.activeNode.queueSeq;
 		}
-		this.currentSequence = this.nextPermutation();
+		do {
+			this.currentSequence = this.nextPermutation();
+		} while (!this.currentSequence.endsWith(this.activeNode.getSuffix()));
+		System.out.println("Found suffix node: " + this.activeNode + " for sequence: " + this.currentSequence);
 	}
 
-	private Sequence sequenceSinceLastGoal()
-	{
+	private Sequence sequenceSinceLastGoal() {
 		List<Move> moves = new ArrayList<>();
-		for (int i = this.lastGoalIndex + 1; i < this.episodicMemory.size(); i++)
-		{
+		for (int i = this.lastGoalIndex + 1; i < this.episodicMemory.size(); i++) {
 			moves.add(this.episodicMemory.get(i).getMove());
 		}
 		return new Sequence(moves.toArray(new Move[0]));

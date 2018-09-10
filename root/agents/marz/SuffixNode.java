@@ -26,7 +26,6 @@ public class SuffixNode extends SuffixNodeBase<SuffixNode> {
     /*--==Instance Variables==--*/
     public int queueSeq; // if this node becomes active, start with this
     // permutation
-    private double f; // the current overall potential of this suffix (f = g + h)
     private int g; // distance from root (ala A* search)
     //public int tries; // number of times a sequence with this suffix has been tried
     private double failRate;  //[0.0..1.0] fraction of failed tries
@@ -60,10 +59,8 @@ public class SuffixNode extends SuffixNodeBase<SuffixNode> {
         this.queueSeq = -1;
         this.f = 0.0;
         this.g = 0;
-        //this.indexOfLastEpisodeTried = 0;
         this.successIndexList = new ArrayList<Integer>();
         this.failsIndexList = new ArrayList<Integer>();
-        //this.tries = 0;
         this.failRate = 0.0;
         this.parentFailRate = 0.0;
         this.possibleMoves = possibleMoves;
