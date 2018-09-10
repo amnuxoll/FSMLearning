@@ -7,15 +7,13 @@ public class EpisodeTest {
 
     // constructor Tests
     @Test
-    public void testConstructorNullMoveThrowsException()
-    {
+    public void testConstructorNullMoveThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new Episode(null));
     }
 
     // getMove Tests
     @Test
-    public void testGetMove()
-    {
+    public void testGetMove() {
         Episode ep = new Episode(new Move("move"));
         Move move = ep.getMove();
         assertEquals("move", move.getName());
@@ -23,16 +21,14 @@ public class EpisodeTest {
 
     // getSensorData Tests
     @Test
-    public void testGetSensorDataNotSet()
-    {
+    public void testGetSensorDataNotSet() {
         Episode ep = new Episode(new Move("move"));
         SensorData sensorData = ep.getSensorData();
         assertNull(sensorData);
     }
 
     @Test
-    public void testGetSensorData()
-    {
+    public void testGetSensorData() {
         Episode ep = new Episode(new Move("move"));
         ep.setSensorData(new SensorData(true));
         SensorData sensorData = ep.getSensorData();
@@ -41,15 +37,13 @@ public class EpisodeTest {
 
     // setSensorData Tests
     @Test
-    public void setSensorDataNullSensorDataThrowsException()
-    {
+    public void setSensorDataNullSensorDataThrowsException() {
         Episode ep = new Episode(new Move("a"));
         assertThrows(IllegalArgumentException.class, () -> ep.setSensorData(null));
     }
 
     @Test
-    public void setSensorData()
-    {
+    public void setSensorData() {
         Episode ep = new Episode(new Move("a"));
         ep.setSensorData(new SensorData(true));
         assertTrue(ep.getSensorData().isGoal());
@@ -57,16 +51,14 @@ public class EpisodeTest {
 
     // equals Tests
     @Test
-    public void testEqualsAreEqualNullSensorData()
-    {
+    public void testEqualsAreEqualNullSensorData() {
         Episode episode1 = new Episode(new Move("move"));
         Episode episode2 = new Episode(new Move("move"));
         assertEquals(episode1, episode2);
     }
 
     @Test
-    public void testEqualsAreEqualNotNullSensorData()
-    {
+    public void testEqualsAreEqualNotNullSensorData() {
         Episode episode1 = new Episode(new Move("move"));
         episode1.setSensorData(new SensorData(true));
         Episode episode2 = new Episode(new Move("move"));
@@ -75,8 +67,7 @@ public class EpisodeTest {
     }
 
     @Test
-    public void testEqualsAreNotEqualDifferentSensorData()
-    {
+    public void testEqualsAreNotEqualDifferentSensorData() {
         Episode episode1 = new Episode(new Move("move"));
         episode1.setSensorData(new SensorData(false));
         Episode episode2 = new Episode(new Move("move"));
@@ -85,16 +76,14 @@ public class EpisodeTest {
     }
 
     @Test
-    public void testEqualsAreNotEqualDifferentMove()
-    {
+    public void testEqualsAreNotEqualDifferentMove() {
         Episode episode1 = new Episode(new Move("move1"));
         Episode episode2 = new Episode(new Move("move2"));
         assertNotEquals(episode1, episode2);
     }
 
     @Test
-    public void testEqualsAreNotEqualLeftHasNullSensorData()
-    {
+    public void testEqualsAreNotEqualLeftHasNullSensorData() {
         Episode episode1 = new Episode(new Move("move"));
         Episode episode2 = new Episode(new Move("move"));
         episode2.setSensorData(new SensorData(true));
@@ -102,8 +91,7 @@ public class EpisodeTest {
     }
 
     @Test
-    public void testEqualsAreNotEqualRightHasNullSensorData()
-    {
+    public void testEqualsAreNotEqualRightHasNullSensorData() {
         Episode episode1 = new Episode(new Move("move"));
         episode1.setSensorData(new SensorData(true));
         Episode episode2 = new Episode(new Move("move"));
@@ -113,16 +101,14 @@ public class EpisodeTest {
     // hashCode Tests
 
     @Test
-    public void testHashCodesAreEqualNullSensorData()
-    {
+    public void testHashCodesAreEqualNullSensorData() {
         Episode episode1 = new Episode(new Move("move"));
         Episode episode2 = new Episode(new Move("move"));
         assertEquals(episode1.hashCode(), episode2.hashCode());
     }
 
     @Test
-    public void testHashcodesAreEqualNotNullSensorData()
-    {
+    public void testHashcodesAreEqualNotNullSensorData() {
         Episode episode1 = new Episode(new Move("move"));
         episode1.setSensorData(new SensorData(true));
         Episode episode2 = new Episode(new Move("move"));

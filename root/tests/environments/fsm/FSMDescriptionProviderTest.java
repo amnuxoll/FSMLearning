@@ -12,34 +12,29 @@ public class FSMDescriptionProviderTest {
 
     // constructor Tests
     @Test
-    public void constructorAlphabetSizeLessThanOneThrowsException()
-    {
+    public void constructorAlphabetSizeLessThanOneThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new FSMDescriptionProvider(0, 1, FSMDescription.Sensor.ALL_SENSORS));
     }
 
     @Test
-    public void constructorNumberOfStatesLessThanOneThrowsException()
-    {
+    public void constructorNumberOfStatesLessThanOneThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new FSMDescriptionProvider(1, 0, FSMDescription.Sensor.ALL_SENSORS));
     }
 
     @Test
-    public void constructorNullEnumSetThrowsException()
-    {
+    public void constructorNullEnumSetThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new FSMDescriptionProvider(1, 1, null));
     }
 
     // getEnvironmentDescription Tests
     @Test
-    public void getEnvironmentDescriptionNullRandomizerThrowsException()
-    {
+    public void getEnvironmentDescriptionNullRandomizerThrowsException() {
         FSMDescriptionProvider descriptionProvider = new FSMDescriptionProvider(1, 1, FSMDescription.Sensor.ALL_SENSORS);
         assertThrows(IllegalArgumentException.class, () -> descriptionProvider.getEnvironmentDescription(null));
     }
 
     @Test
-    public void getEnvironmentDescriptionHeedsConfiguration1()
-    {
+    public void getEnvironmentDescriptionHeedsConfiguration1() {
         FSMDescriptionProvider descriptionProvider = new FSMDescriptionProvider(1, 1, FSMDescription.Sensor.ALL_SENSORS);
         FSMDescription description = (FSMDescription)descriptionProvider.getEnvironmentDescription(new TestRandomizer());
         assertEquals(1, description.getMoves().length);
@@ -48,8 +43,7 @@ public class FSMDescriptionProviderTest {
     }
 
     @Test
-    public void getEnvironmentDescriptionHeedsConfiguration2()
-    {
+    public void getEnvironmentDescriptionHeedsConfiguration2() {
         FSMDescriptionProvider descriptionProvider = new FSMDescriptionProvider(13, 42, EnumSet.of(FSMDescription.Sensor.EVEN_ODD));
         FSMDescription description = (FSMDescription)descriptionProvider.getEnvironmentDescription(new TestRandomizer());
         assertEquals(13, description.getMoves().length);
@@ -57,8 +51,7 @@ public class FSMDescriptionProviderTest {
         assertEquals(EnumSet.of(FSMDescription.Sensor.EVEN_ODD), description.getSensorsToInclude());
     }
 
-    private class TestRandomizer implements IRandomizer
-    {
+    private class TestRandomizer implements IRandomizer {
         private Random random = new Random();
 
         @Override

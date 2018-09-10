@@ -10,21 +10,18 @@ public class EnvironmentTest {
 
     // constructor Tests
     @Test
-    public void testConstructorNullTransitionDataThrowsException()
-    {
+    public void testConstructorNullTransitionDataThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new Environment(null, new TestRandomizer()));
     }
 
     @Test
-    public void testConstructorNullRandomizerThrowsException()
-    {
+    public void testConstructorNullRandomizerThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new Environment(new TestEnvironmentDescription(), null));
     }
 
     // getMoves Tests
     @Test
-    public void getMovesReturnsMoves()
-    {
+    public void getMovesReturnsMoves() {
         Environment environment = new Environment(new TestEnvironmentDescription(), new TestRandomizer());
         Move[] expectedMoves = new Move[] { new Move("move1"), new Move("move2"), new Move("move3") };
         assertArrayEquals(expectedMoves, environment.getMoves());
@@ -32,15 +29,13 @@ public class EnvironmentTest {
 
     // tick Tests
     @Test
-    public void tickNullMoveThrowsException()
-    {
+    public void tickNullMoveThrowsException() {
         Environment environment = new Environment(new TestEnvironmentDescription(), new TestRandomizer());
         assertThrows(IllegalArgumentException.class, () -> environment.tick(null));
     }
 
     @Test
-    public void tickUpdatesState()
-    {
+    public void tickUpdatesState() {
         TestEnvironmentDescription description = new TestEnvironmentDescription();
         Environment environment = new Environment(description, new TestRandomizer());
         assertEquals(0, environment.getCurrentState());
@@ -51,8 +46,7 @@ public class EnvironmentTest {
     }
 
     @Test
-    public void tickSensorDataShowsGoalSuccessFalse()
-    {
+    public void tickSensorDataShowsGoalSuccessFalse() {
         TestEnvironmentDescription description = new TestEnvironmentDescription();
         Environment environment = new Environment(description, new TestRandomizer());
         SensorData sensorData = environment.tick(new Move("test"));
@@ -61,8 +55,7 @@ public class EnvironmentTest {
     }
 
     @Test
-    public void tickSensorDataShowsGoalSuccess()
-    {
+    public void tickSensorDataShowsGoalSuccess() {
         TestEnvironmentDescription description = new TestEnvironmentDescription(true);
         Environment environment = new Environment(description, new TestRandomizer());
         SensorData sensorData = environment.tick(new Move("test"));
@@ -71,8 +64,7 @@ public class EnvironmentTest {
     }
 
     @Test
-    public void tickAppliesSensorsFromDescription()
-    {
+    public void tickAppliesSensorsFromDescription() {
         TestEnvironmentDescription description = new TestEnvironmentDescription(true);
         Environment environment = new Environment(description, new TestRandomizer());
         SensorData sensorData = environment.tick(new Move("test"));
@@ -82,8 +74,7 @@ public class EnvironmentTest {
 
     // reset Tests
     @Test
-    public void resetUsesEnvironmentDescriptionAndRandomizerToSetCurrentState()
-    {
+    public void resetUsesEnvironmentDescriptionAndRandomizerToSetCurrentState() {
         TestEnvironmentDescription description = new TestEnvironmentDescription();
         TestRandomizer randomizer = new TestRandomizer();
         Environment environment = new Environment(description, randomizer);
@@ -92,8 +83,7 @@ public class EnvironmentTest {
         assertEquals(7, environment.getCurrentState());
     }
 
-    private class TestEnvironmentDescription implements IEnvironmentDescription
-    {
+    private class TestEnvironmentDescription implements IEnvironmentDescription {
         public int receivedState = -1;
         public Move receivedMove = null;
         public int receivedIsGoalState = -1;
@@ -101,13 +91,11 @@ public class EnvironmentTest {
 
         private boolean hitGoal;
 
-        public TestEnvironmentDescription()
-        {
+        public TestEnvironmentDescription() {
             this.hitGoal = false;
         }
 
-        public TestEnvironmentDescription(boolean hitGoal)
-        {
+        public TestEnvironmentDescription(boolean hitGoal) {
             this.hitGoal = hitGoal;
         }
 

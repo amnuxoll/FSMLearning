@@ -10,8 +10,7 @@ public class MaRzAgentProviderTest {
 
     // getAgent Tests
     @Test
-    public void getAgentReturnsMaRzAgents()
-    {
+    public void getAgentReturnsMaRzAgents() {
         MaRzAgentProvider provider = new MaRzAgentProvider(new SuffixNodeProvider());
         IAgent agent = provider.getAgent();
         assertTrue(agent instanceof MaRzAgent);

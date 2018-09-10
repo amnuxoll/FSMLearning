@@ -13,7 +13,7 @@ public class MetaEnvironmentDescriptionTest {
      * make sure the contructor throws the correct exceptions
      */
     @Test
-    public void constructor(){
+    public void constructor() {
         //test exceptions
         assertThrows(IllegalArgumentException.class,
                 () -> new MetaEnvironmentDescription(null,new TestRandomizer(),MetaConfiguration.DEFAULT));
@@ -28,7 +28,7 @@ public class MetaEnvironmentDescriptionTest {
      * which the description provider should provide
      */
     @Test
-    public void getMoves(){
+    public void getMoves() {
         TestEnvironmentDescription testEnvironmentDescription= new TestEnvironmentDescription();
 
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
@@ -46,7 +46,7 @@ public class MetaEnvironmentDescriptionTest {
      * 2) keeps track of the transition
      */
     @Test
-    public void transition(){
+    public void transition() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
                 provider,new TestRandomizer(),MetaConfiguration.DEFAULT
@@ -62,7 +62,7 @@ public class MetaEnvironmentDescriptionTest {
      * make sure the transition method throws correct exceptions
      */
     @Test
-    public void transitionsExceptions(){
+    public void transitionsExceptions() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
                 provider,new TestRandomizer(),MetaConfiguration.DEFAULT
@@ -79,7 +79,7 @@ public class MetaEnvironmentDescriptionTest {
      * (matches the provider's description's goal state)
      */
     @Test
-    public void isGoalStateCorrect(){
+    public void isGoalStateCorrect() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
                 provider,new TestRandomizer(),MetaConfiguration.DEFAULT
@@ -93,14 +93,14 @@ public class MetaEnvironmentDescriptionTest {
      * check that the transition counter gets reset when the goal state is hit
      */
     @Test
-    public void isGoalStateTransitionCounter(){
+    public void isGoalStateTransitionCounter() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
                 provider,new TestRandomizer(),MetaConfiguration.DEFAULT
         );
 
         //get the right number of transition
-        for(int i=0;i<3;i++){
+        for (int i=0;i<3;i++) {
             description.transition(1,new Move("a"));
         }
 
@@ -116,7 +116,7 @@ public class MetaEnvironmentDescriptionTest {
      * a new environment
      */
     @Test
-    public void isGoalStateNewEnvironment(){
+    public void isGoalStateNewEnvironment() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
                 provider,new TestRandomizer(),MetaConfiguration.DEFAULT
@@ -124,7 +124,7 @@ public class MetaEnvironmentDescriptionTest {
 
         assertEquals(1,provider.numGenerated);
 
-        for(int i=0;i<MetaConfiguration.DEFAULT.getStepThreshold();i++){
+        for (int i=0;i<MetaConfiguration.DEFAULT.getStepThreshold();i++) {
             description.transition(2,new Move("a"));
         }
         assertTrue(description.isGoalState(13));
@@ -134,8 +134,8 @@ public class MetaEnvironmentDescriptionTest {
 
         //now move it to the goal in less than DEFAULT.stepThreshold moves, DEFAULT.successQueueMaxSize times
         //so that provider should generate another EvironmentDescription
-        for(int i=0;i<MetaConfiguration.DEFAULT.getSuccessQueueMaxSize()-1;i++){
-            for(int j=0;j<MetaConfiguration.DEFAULT.getStepThreshold()-2;j++){
+        for (int i=0;i<MetaConfiguration.DEFAULT.getSuccessQueueMaxSize()-1;i++) {
+            for (int j=0;j<MetaConfiguration.DEFAULT.getStepThreshold()-2;j++) {
                 description.transition(2,new Move("a"));
             }
             assertTrue(description.isGoalState(13));
@@ -152,7 +152,7 @@ public class MetaEnvironmentDescriptionTest {
      * verify that the average moves to goal is correct
      */
     @Test
-    public void isGoalStateCorrectAverage(){
+    public void isGoalStateCorrectAverage() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
                 provider,new TestRandomizer(),MetaConfiguration.DEFAULT
@@ -161,9 +161,9 @@ public class MetaEnvironmentDescriptionTest {
         //if hit less than DEFAULT.maxQueueSize goals, our average should be
         //the mean of the all the tries
         int average= 0;
-        for(int goals=0;goals<MetaConfiguration.DEFAULT.getSuccessQueueMaxSize()-1;goals++){
+        for (int goals=0;goals<MetaConfiguration.DEFAULT.getSuccessQueueMaxSize()-1;goals++) {
             int transitionsToGoal= (int)(Math.random()*MetaConfiguration.DEFAULT.getStepThreshold());
-            for(int transitions=0;transitions<transitionsToGoal;transitions++){
+            for (int transitions=0;transitions<transitionsToGoal;transitions++) {
                 description.transition(2,new Move("a"));
             }
             assertTrue(description.isGoalState(13));
@@ -184,7 +184,7 @@ public class MetaEnvironmentDescriptionTest {
      * it should match the description which the provider provides
      */
     @Test
-    public void getNumStates(){
+    public void getNumStates() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
                 provider,new TestRandomizer(),MetaConfiguration.DEFAULT
@@ -199,7 +199,7 @@ public class MetaEnvironmentDescriptionTest {
      * as it's current environment
      */
     @Test
-    public void applySensors(){
+    public void applySensors() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
                 provider,new TestRandomizer(),MetaConfiguration.DEFAULT
@@ -216,7 +216,7 @@ public class MetaEnvironmentDescriptionTest {
      * tests whether applySensors throws IllegalArgumentException properly
      */
     @Test
-    public void applysSensorsExceptions(){
+    public void applysSensorsExceptions() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
                 provider,new TestRandomizer(),MetaConfiguration.DEFAULT
@@ -286,7 +286,7 @@ public class MetaEnvironmentDescriptionTest {
         }
     }
 
-    private class TestRandomizer implements IRandomizer{
+    private class TestRandomizer implements IRandomizer {
 
         @Override
         public int getRandomNumber(int ceiling) {

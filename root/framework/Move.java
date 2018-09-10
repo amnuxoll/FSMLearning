@@ -8,8 +8,7 @@ package framework;
 public class Move {
     private String name;
 
-    public Move(String name) throws IllegalArgumentException
-    {
+    public Move(String name) throws IllegalArgumentException {
         if (name == null)
             throw new IllegalArgumentException("name cannot be null");
         if (name == "")
@@ -17,20 +16,17 @@ public class Move {
         this.name = name;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.name;
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -42,8 +38,7 @@ public class Move {
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return this.name.hashCode();
     }
 }

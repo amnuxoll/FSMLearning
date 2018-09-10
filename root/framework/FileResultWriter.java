@@ -39,8 +39,7 @@ public class FileResultWriter implements IResultWriter {
      * Get the name of the output file for this {@link FileResultWriter} instance.
      * @return The path of the output file.
      */
-    public String getFileName()
-    {
+    public String getFileName() {
         return this.fileName;
     }
 
@@ -54,8 +53,7 @@ public class FileResultWriter implements IResultWriter {
         try {
             this.fileWriter.write(stepsToGoal + ",");
             this.fileWriter.flush();
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             // do anything here?
         }
     }
@@ -71,8 +69,7 @@ public class FileResultWriter implements IResultWriter {
         try {
             this.fileWriter.write("\n");
             this.fileWriter.flush();
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             // do anything here?
         }
     }
@@ -85,8 +82,7 @@ public class FileResultWriter implements IResultWriter {
         try {
             this.fileWriter.write("\n");
             // Write out the basic goal sums
-            for (int i = 1; i <= this.maxNumberOfGoals; i++)
-            {
+            for (int i = 1; i <= this.maxNumberOfGoals; i++) {
                 int startRow = 2;
                 int endRow = startRow + this.numberOfRuns - 1;
                 String columnLabel = this.convertToColumn(i);
@@ -96,8 +92,7 @@ public class FileResultWriter implements IResultWriter {
             this.fileWriter.write(",,,");
 
             // Write out the smoothing row
-            for (int i = 4; i <= this.maxNumberOfGoals - 3; i++)
-            {
+            for (int i = 4; i <= this.maxNumberOfGoals - 3; i++) {
                 String leftColumn = this.convertToColumn(i - 3);
                 String rightColumn = this.convertToColumn(i + 3);
                 int row = 2 + this.numberOfRuns;
@@ -106,14 +101,12 @@ public class FileResultWriter implements IResultWriter {
             }
             this.fileWriter.write(",,,");
             this.fileWriter.close();
-        }catch (IOException ex)
-        {
+        } catch (IOException ex) {
             System.out.println("FileResultWriter failed with exception: " + ex.getMessage());
         }
     }
 
-    private String convertToColumn(int column)
-    {
+    private String convertToColumn(int column) {
         if (column <= 0)
             return "";
         column--;

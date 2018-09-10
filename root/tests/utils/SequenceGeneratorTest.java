@@ -10,22 +10,19 @@ public class SequenceGeneratorTest {
 
     // constructor Tests
     @Test
-    public void constructorNullMovesThrowsException()
-    {
+    public void constructorNullMovesThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new SequenceGenerator(null));
     }
 
     // nextPermutation Tests
     @Test
-    public void nextPermutationIndexLessThanZeroThrowsException()
-    {
+    public void nextPermutationIndexLessThanZeroThrowsException() {
         SequenceGenerator sequenceGenerator = new SequenceGenerator(new Move[0]);
         assertThrows(IndexOutOfBoundsException.class, () -> sequenceGenerator.nextPermutation(0));
     }
 
     @Test
-    public void nextPermutationNoMovesAlwaysYieldsEmptySequence()
-    {
+    public void nextPermutationNoMovesAlwaysYieldsEmptySequence() {
         SequenceGenerator sequenceGenerator = new SequenceGenerator(new Move[0]);
         assertEquals(Sequence.EMPTY, sequenceGenerator.nextPermutation(1));
         assertEquals(Sequence.EMPTY, sequenceGenerator.nextPermutation(3));
@@ -33,8 +30,7 @@ public class SequenceGeneratorTest {
     }
 
     @Test
-    public void nextPermutationPermutesSingleMove()
-    {
+    public void nextPermutationPermutesSingleMove() {
         Move a = new Move("a");
         SequenceGenerator sequenceGenerator = new SequenceGenerator(new Move[] { a });
         assertEquals(new Sequence(new Move[] { a }), sequenceGenerator.nextPermutation(1));
@@ -44,8 +40,7 @@ public class SequenceGeneratorTest {
     }
 
     @Test
-    public void nextPermutationPermutesTwoMoves()
-    {
+    public void nextPermutationPermutesTwoMoves() {
         Move a = new Move("a");
         Move b = new Move("b");
         SequenceGenerator sequenceGenerator = new SequenceGenerator(new Move[] { a, b });
@@ -67,8 +62,7 @@ public class SequenceGeneratorTest {
 
     // getCanonicalOderering
     @Test
-    public void getCanonicalOrderingNullSequenceThrowsException()
-    {
+    public void getCanonicalOrderingNullSequenceThrowsException() {
         Move a = new Move("a");
         Move b = new Move("b");
         SequenceGenerator sequenceGenerator = new SequenceGenerator(new Move[] { a, b });
@@ -76,8 +70,7 @@ public class SequenceGeneratorTest {
     }
 
     @Test
-    public void getCanonicalOrderingBinary()
-    {
+    public void getCanonicalOrderingBinary() {
         Move a = new Move("a");
         Move b = new Move("b");
         SequenceGenerator sequenceGenerator = new SequenceGenerator(new Move[] { a, b });
@@ -98,8 +91,7 @@ public class SequenceGeneratorTest {
     }
 
     @Test
-    public void getCanonicalOrderingTernary()
-    {
+    public void getCanonicalOrderingTernary() {
         Move a = new Move("a");
         Move b = new Move("b");
         Move c = new Move("c");

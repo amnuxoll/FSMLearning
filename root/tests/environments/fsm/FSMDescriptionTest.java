@@ -13,26 +13,22 @@ public class FSMDescriptionTest {
 
     // constructor Tests
     @Test
-    public void constructorNullTransitionTableThrowsException()
-    {
+    public void constructorNullTransitionTableThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new FSMDescription(null));
     }
 
     @Test
-    public void constructorEmptyTransitionTableThrowsException()
-    {
+    public void constructorEmptyTransitionTableThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new FSMDescription(new HashMap[0]));
     }
 
     @Test
-    public void constructorNullEnumSetThrowsException()
-    {
+    public void constructorNullEnumSetThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new FSMDescription(new HashMap[1], null));
     }
 
     @Test
-    public void constructorValidatesTransitionTableNotAllTransitionsContainSameMoveCount()
-    {
+    public void constructorValidatesTransitionTableNotAllTransitionsContainSameMoveCount() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
         transitionSet1.put(new Move("b"), 1);
@@ -40,8 +36,7 @@ public class FSMDescriptionTest {
         HashMap<Move, Integer> transitionSet2 = new HashMap<>();
         transitionSet2.put(new Move("a"), 1);
         transitionSet2.put(new Move("b"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1,
                         transitionSet2
                 };
@@ -49,8 +44,7 @@ public class FSMDescriptionTest {
     }
 
     @Test
-    public void constructorValidatesTransitionTableNotAllTransitionsContainSameMoves()
-    {
+    public void constructorValidatesTransitionTableNotAllTransitionsContainSameMoves() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
         transitionSet1.put(new Move("b"), 1);
@@ -59,8 +53,7 @@ public class FSMDescriptionTest {
         transitionSet2.put(new Move("a"), 1);
         transitionSet2.put(new Move("b"), 1);
         transitionSet2.put(new Move("d"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1,
                         transitionSet2
                 };
@@ -69,12 +62,10 @@ public class FSMDescriptionTest {
 
     // getSensorsToInclude Tests
     @Test
-    public void getSensorsToIncludeDefaultsToNone()
-    {
+    public void getSensorsToIncludeDefaultsToNone() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
@@ -84,12 +75,10 @@ public class FSMDescriptionTest {
     }
 
     @Test
-    public void getSensorsToIncludeGivesSensors()
-    {
+    public void getSensorsToIncludeGivesSensors() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable, EnumSet.of(FSMDescription.Sensor.EVEN_ODD));
@@ -109,14 +98,12 @@ public class FSMDescriptionTest {
         transitionSet2.put(new Move("a"), 1);
         transitionSet2.put(new Move("b"), 1);
         transitionSet2.put(new Move("c"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1,
                         transitionSet2
                 };
         FSMDescription description = new FSMDescription(transitionTable);
-        Move[] expectedMoves = new Move[]
-                {
+        Move[] expectedMoves = new Move[] {
                         new Move("a"),
                         new Move("b"),
                         new Move("c"),
@@ -126,14 +113,12 @@ public class FSMDescriptionTest {
 
     // transition Tests
     @Test
-    public void transitionStateLessThanZeroThrowsException()
-    {
+    public void transitionStateLessThanZeroThrowsException() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
         transitionSet1.put(new Move("b"), 1);
         transitionSet1.put(new Move("c"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
@@ -141,14 +126,12 @@ public class FSMDescriptionTest {
     }
 
     @Test
-    public void transitionStateTooLargeThrowsException()
-    {
+    public void transitionStateTooLargeThrowsException() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 0);
         transitionSet1.put(new Move("b"), 0);
         transitionSet1.put(new Move("c"), 0);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
@@ -156,14 +139,12 @@ public class FSMDescriptionTest {
     }
 
     @Test
-    public void transitionNullMoveThrowsException()
-    {
+    public void transitionNullMoveThrowsException() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 0);
         transitionSet1.put(new Move("b"), 0);
         transitionSet1.put(new Move("c"), 0);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
@@ -171,14 +152,12 @@ public class FSMDescriptionTest {
     }
 
     @Test
-    public void transitionInvalidMoveThrowsException()
-    {
+    public void transitionInvalidMoveThrowsException() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 0);
         transitionSet1.put(new Move("b"), 0);
         transitionSet1.put(new Move("c"), 0);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
@@ -186,14 +165,12 @@ public class FSMDescriptionTest {
     }
 
     @Test
-    public void transitionReturnsNewState()
-    {
+    public void transitionReturnsNewState() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
         transitionSet1.put(new Move("b"), 2);
         transitionSet1.put(new Move("c"), 3);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
@@ -202,14 +179,12 @@ public class FSMDescriptionTest {
 
     // isGoalState Tests
     @Test
-    public void isGoalState()
-    {
+    public void isGoalState() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
         transitionSet1.put(new Move("b"), 2);
         transitionSet1.put(new Move("c"), 3);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
@@ -220,12 +195,10 @@ public class FSMDescriptionTest {
 
     //getNumStates Tests
     @Test
-    public void getNumStatesOneState()
-    {
+    public void getNumStatesOneState() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
@@ -233,12 +206,10 @@ public class FSMDescriptionTest {
     }
 
     @Test
-    public void getNumStatesMultipleStates()
-    {
+    public void getNumStatesMultipleStates() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1,
                         transitionSet1,
                         transitionSet1
@@ -250,12 +221,10 @@ public class FSMDescriptionTest {
     // applySensors Tests
 
     @Test
-    public void applySensorsNullMoveThrowsException()
-    {
+    public void applySensorsNullMoveThrowsException() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
@@ -263,12 +232,10 @@ public class FSMDescriptionTest {
     }
 
     @Test
-    public void applySensorsNullSensorDataThrowsException()
-    {
+    public void applySensorsNullSensorDataThrowsException() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
@@ -276,12 +243,10 @@ public class FSMDescriptionTest {
     }
 
     @Test
-    public void applySensorsDisabledEvenOddDoesNothing()
-    {
+    public void applySensorsDisabledEvenOddDoesNothing() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable);
@@ -291,12 +256,10 @@ public class FSMDescriptionTest {
     }
 
     @Test
-    public void applySensorsEnabledEvenOddAddsToSensorDataEven()
-    {
+    public void applySensorsEnabledEvenOddAddsToSensorDataEven() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable, EnumSet.of(FSMDescription.Sensor.EVEN_ODD));
@@ -307,12 +270,10 @@ public class FSMDescriptionTest {
     }
 
     @Test
-    public void applySensorsEnabledEvenOddAddsToSensorDataOdd()
-    {
+    public void applySensorsEnabledEvenOddAddsToSensorDataOdd() {
         HashMap<Move, Integer> transitionSet1 = new HashMap<>();
         transitionSet1.put(new Move("a"), 1);
-        HashMap<Move, Integer>[] transitionTable = new HashMap[]
-                {
+        HashMap<Move, Integer>[] transitionTable = new HashMap[] {
                         transitionSet1
                 };
         FSMDescription description = new FSMDescription(transitionTable, EnumSet.of(FSMDescription.Sensor.EVEN_ODD));

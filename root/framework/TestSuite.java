@@ -34,8 +34,7 @@ public class TestSuite implements IGoalListener {
     public void run() throws Exception {
         System.out.println("Beginning test suite...");
         int numberOfIterations = this.configuration.getNumberOfIterations();
-        for (int i = 0; i < this.agentProviders.length; i++)
-        {
+        for (int i = 0; i < this.agentProviders.length; i++) {
             System.out.println("Beginning agent: " + i);
             this.currentResultWriter = this.resultWriterProvider.getResultWriter("agent" + i);
             IAgentProvider agentProvider = this.agentProviders[i];
@@ -43,10 +42,8 @@ public class TestSuite implements IGoalListener {
         }
     }
 
-    private void runAgent(IAgentProvider agentProvider, int numberOfIterations)
-    {
-        for (int i = 0; i < numberOfIterations; i++)
-        {
+    private void runAgent(IAgentProvider agentProvider, int numberOfIterations) {
+        for (int i = 0; i < numberOfIterations; i++) {
             System.out.println();
             System.out.println("Beginning iteration: " + i);
             IAgent agent = agentProvider.getAgent();

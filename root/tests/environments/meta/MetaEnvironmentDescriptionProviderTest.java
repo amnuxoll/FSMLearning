@@ -7,12 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MetaEnvironmentDescriptionProviderTest {
     @Test
-    public void contstructor(){
+    public void contstructor() {
         assertThrows(IllegalArgumentException.class,
                 () -> new MetaEnvironmentDescriptionProvider(new TestEnvironmentDescriptionProvider(),null));
         assertThrows(IllegalArgumentException.class,
                 () -> new MetaEnvironmentDescriptionProvider(null,MetaConfiguration.DEFAULT));
     }
+
     @Test
     public void getEvironmentDesctiption(){
 
@@ -34,7 +35,7 @@ public class MetaEnvironmentDescriptionProviderTest {
 
     }
 
-    private class TestEnvironmentDescription implements  IEnvironmentDescription{
+    private class TestEnvironmentDescription implements  IEnvironmentDescription {
 
         @Override
         public Move[] getMoves() {
@@ -66,7 +67,7 @@ public class MetaEnvironmentDescriptionProviderTest {
         }
     }
 
-    private class TestRandomizer implements IRandomizer{
+    private class TestRandomizer implements IRandomizer {
 
         @Override
         public int getRandomNumber(int ceiling) {

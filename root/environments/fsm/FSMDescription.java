@@ -22,7 +22,7 @@ public class FSMDescription implements IEnvironmentDescription {
      * Create an instance of a {@link FSMDescription}.
      * @param transitionTable The transition table that indicates the structure of a FSM.
      */
-    public FSMDescription(HashMap<Move, Integer>[] transitionTable) {
+    FSMDescription(HashMap<Move, Integer>[] transitionTable) {
         this(transitionTable, EnumSet.noneOf(Sensor.class));
     }
 
@@ -31,7 +31,7 @@ public class FSMDescription implements IEnvironmentDescription {
      * @param transitionTable The transition table that indicates the structure of a FSM.
      * @param sensorsToInclude The sensors to include when navigating the FSM.
      */
-    public FSMDescription(HashMap<Move, Integer>[] transitionTable, EnumSet<Sensor> sensorsToInclude) {
+    FSMDescription(HashMap<Move, Integer>[] transitionTable, EnumSet<Sensor> sensorsToInclude) {
         if (transitionTable == null)
             throw new IllegalArgumentException("transitionTable cannot be null");
         if (transitionTable.length == 0)
@@ -42,13 +42,11 @@ public class FSMDescription implements IEnvironmentDescription {
         this.sensorsToInclude = sensorsToInclude;
         Set<Move> moveSet = this.transitionTable[0].keySet();
         this.moves = moveSet.toArray(new Move[0]);
-        for (int state = 0; state < this.transitionTable.length; state++)
-        {
-            moveSet = this.transitionTable[state].keySet();
+        for (HashMap<Move, Integer> aTransitionTable : this.transitionTable) {
+            moveSet = aTransitionTable.keySet();
             if (this.moves.length != moveSet.size())
                 throw new IllegalArgumentException("transitionTable is not valid for FSM. All transitions must exist for each state.");
-            for (Move move : this.moves)
-            {
+            for (Move move : this.moves) {
                 if (!moveSet.contains(move))
                     throw new IllegalArgumentException("transitionTable is not valid for FSM. All transition moves must exist for each state.");
             }

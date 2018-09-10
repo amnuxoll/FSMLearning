@@ -17,8 +17,7 @@ class TestRun {
 
     private List<IGoalListener> goalListeners = new ArrayList();
 
-    public TestRun(IAgent agent, IEnvironmentDescription environmentDescription, int numberOfGoalsToFind, IRandomizer randomizer) throws IllegalArgumentException
-    {
+    public TestRun(IAgent agent, IEnvironmentDescription environmentDescription, int numberOfGoalsToFind, IRandomizer randomizer) throws IllegalArgumentException {
         if (agent == null)
             throw new IllegalArgumentException("agent cannot be null");
         if (environmentDescription == null)
@@ -33,8 +32,7 @@ class TestRun {
         this.randomizer = randomizer;
     }
 
-    public void execute()
-    {
+    public void execute() {
         try {
             int goalCount = 0;
             int moveCount = 0;
@@ -53,28 +51,22 @@ class TestRun {
                     environment.reset();
                 }
             } while (goalCount < this.numberOfGoalsToFind);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println("TestRun failed with exception: " + ex.getMessage());
         }
     }
 
-    public synchronized void addGoalListener(IGoalListener listener)
-    {
+    public synchronized void addGoalListener(IGoalListener listener) {
         this.goalListeners.add(listener);
     }
 
-    public synchronized void removeGoalListener(IGoalListener listener)
-    {
+    public synchronized void removeGoalListener(IGoalListener listener) {
         this.goalListeners.remove(listener);
     }
 
-    private synchronized void fireGoalEvent(int stepsToGoal)
-    {
+    private synchronized void fireGoalEvent(int stepsToGoal) {
         GoalEvent goal = new GoalEvent(this, stepsToGoal);
-        for (IGoalListener listener : this.goalListeners)
-        {
+        for (IGoalListener listener : this.goalListeners) {
             listener.goalReceived(goal);
         }
     }

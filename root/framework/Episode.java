@@ -22,8 +22,7 @@ public class Episode {
         this.move = move;
     }
 
-    public void setSensorData(SensorData sensorData)
-    {
+    public void setSensorData(SensorData sensorData) {
         if (sensorData == null)
             throw new IllegalArgumentException("sensorData cannot be null");
         this.sensorData = sensorData;
@@ -51,8 +50,7 @@ public class Episode {
      * @return true if the objects are equal; otherwise false.
      */
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -66,9 +64,7 @@ public class Episode {
             return false;
         if (this.sensorData != null && !this.sensorData.equals(episode.sensorData))
             return false;
-        if (!this.move.equals(episode.move))
-            return false;
-        return true;
+        return this.move.equals(episode.move);
     }
 
     @Override

@@ -13,21 +13,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FileResultWriterTest {
 
     @Test
-    public void testConstructorNullNameThrowsException()
-    {
+    public void testConstructorNullNameThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new FileResultWriter(null));
     }
 
 
     @Test
-    public void testConstructorEmptyNameThrowsException()
-    {
+    public void testConstructorEmptyNameThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new FileResultWriter(""));
     }
 
     @Test
-    public void testGetFileName() throws Exception
-    {
+    public void testGetFileName() throws Exception {
         String fileName = "output.csv";
         try {
             FileResultWriter writer = new FileResultWriter(fileName);
@@ -36,15 +33,14 @@ public class FileResultWriterTest {
         finally {
             try {
                 new File(fileName).delete();
-            } catch (Exception ex){
+            } catch (Exception ex) {
 
             }
         }
     }
 
     @Test
-    public void testLogStepsToGoalSingleStep()throws Exception
-    {
+    public void testLogStepsToGoalSingleStep()throws Exception {
         String fileName = "output.csv";
         try {
             FileResultWriter writer = new FileResultWriter(fileName);
@@ -54,22 +50,20 @@ public class FileResultWriterTest {
                 assertEquals(1, lines.size());
                 String firstLine = lines.get(0);
                 assertEquals("13,", firstLine);
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 fail(ex.getMessage());
             }
         } finally {
             try {
                 new File(fileName).delete();
-            } catch (Exception ex){
+            } catch (Exception ex) {
 
             }
         }
     }
 
     @Test
-    public void testLogStepsToGoalMultipleSteps()throws Exception
-    {
+    public void testLogStepsToGoalMultipleSteps() throws Exception {
         String fileName = "output.csv";
         try {
             FileResultWriter writer = new FileResultWriter(fileName);
@@ -82,22 +76,20 @@ public class FileResultWriterTest {
                 assertEquals(1, lines.size());
                 String firstLine = lines.get(0);
                 assertEquals("13,7,2,15,", firstLine);
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 fail(ex.getMessage());
             }
         } finally {
             try {
                 new File(fileName).delete();
-            } catch (Exception ex){
+            } catch (Exception ex) {
 
             }
         }
     }
 
     @Test
-    public void testBeginNewRunSingleRun()throws Exception
-    {
+    public void testBeginNewRunSingleRun() throws Exception {
         String fileName = "output.csv";
         try {
             FileResultWriter writer = new FileResultWriter(fileName);
@@ -107,22 +99,20 @@ public class FileResultWriterTest {
                 assertEquals(1, lines.size());
                 String firstLine = lines.get(0);
                 assertEquals("", firstLine);
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 fail(ex.getMessage());
             }
         } finally {
             try {
                 new File(fileName).delete();
-            } catch (Exception ex){
+            } catch (Exception ex) {
 
             }
         }
     }
 
     @Test
-    public void testBeginNewRunMultipleRuns()throws Exception
-    {
+    public void testBeginNewRunMultipleRuns()throws Exception {
         String fileName = "output.csv";
         try {
             FileResultWriter writer = new FileResultWriter(fileName);
@@ -133,34 +123,29 @@ public class FileResultWriterTest {
             try {
                 List<String> lines = Files.readAllLines(Paths.get(fileName));
                 assertEquals(4, lines.size());
-                for (String line : lines)
-                {
+                for (String line : lines) {
                     assertEquals("", line);
                 }
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 fail(ex.getMessage());
             }
         } finally {
             try {
                 new File(fileName).delete();
-            } catch (Exception ex){
+            } catch (Exception ex) {
 
             }
         }
     }
 
     @Test
-    public void testCompleteFinalizesStandardReportRun()throws Exception
-    {
+    public void testCompleteFinalizesStandardReportRun()throws Exception {
         String fileName = "output.csv";
         try {
             FileResultWriter writer = new FileResultWriter(fileName);
-            for (int runs = 0; runs < 10; runs++)
-            {
+            for (int runs = 0; runs < 10; runs++) {
                 writer.beginNewRun();
-                for (int goals = 0; goals < 30; goals++)
-                {
+                for (int goals = 0; goals < 30; goals++) {
                     writer.logStepsToGoal(goals);
                 }
             }
@@ -183,14 +168,13 @@ public class FileResultWriterTest {
                 );
                 List<String> lines = Files.readAllLines(Paths.get(fileName));
                 assertArrayEquals(expected.toArray(), lines.toArray());
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 fail(ex.getMessage());
             }
         } finally {
             try {
                 new File(fileName).delete();
-            } catch (Exception ex){
+            } catch (Exception ex) {
 
             }
         }

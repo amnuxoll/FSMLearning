@@ -7,16 +7,14 @@ public class SensorDataTest {
 
     // setSensor & getSensor Tests
     @Test
-    public void testSetSensorGetSensor()
-    {
+    public void testSetSensorGetSensor() {
         SensorData sensorData = new SensorData(false);
         sensorData.setSensor("sensor", 5);
         assertEquals(5, sensorData.getSensor("sensor"));
     }
 
     @Test
-    public void testSetSensorOverwritesPreviousValue()
-    {
+    public void testSetSensorOverwritesPreviousValue() {
         SensorData sensorData = new SensorData(false);
         sensorData.setSensor("sensor", 5);
         sensorData.setSensor("sensor", "otherValue");
@@ -24,106 +22,92 @@ public class SensorDataTest {
     }
 
     @Test
-    public void testSetSensorNullSensorNameThrowsException()
-    {
+    public void testSetSensorNullSensorNameThrowsException() {
         SensorData sensorData = new SensorData(false);
         assertThrows(IllegalArgumentException.class, () -> sensorData.setSensor(null, 5));
     }
 
     @Test
-    public void testSetSensorEmptySensorNameThrowsException()
-    {
+    public void testSetSensorEmptySensorNameThrowsException() {
         SensorData sensorData = new SensorData(false);
         assertThrows(IllegalArgumentException.class, () -> sensorData.setSensor("", 5));
     }
 
     @Test
-    public void testGetSensorNullSensorNameThrowsException()
-    {
+    public void testGetSensorNullSensorNameThrowsException() {
         SensorData sensorData = new SensorData(false);
         assertThrows(IllegalArgumentException.class, () -> sensorData.getSensor(null));
     }
 
     @Test
-    public void testGetSensorEmptySensorNameThrowsException()
-    {
+    public void testGetSensorEmptySensorNameThrowsException() {
         SensorData sensorData = new SensorData(false);
         assertThrows(IllegalArgumentException.class, () -> sensorData.getSensor(""));
     }
 
     // hasSensor Argument Tests
     @Test
-    public void testHasSensorTrue()
-    {
+    public void testHasSensorTrue() {
         SensorData sensorData = new SensorData(false);
         sensorData.setSensor("sensor", 5);
         assertTrue(sensorData.hasSensor("sensor"));
     }
 
     @Test
-    public void testHasSensorFalse()
-    {
+    public void testHasSensorFalse() {
         SensorData sensorData = new SensorData(false);
         assertFalse(sensorData.hasSensor("sensor"));
     }
 
     @Test
-    public void testHasSensorNullSensorNameThrowsException()
-    {
+    public void testHasSensorNullSensorNameThrowsException() {
         SensorData sensorData = new SensorData(false);
         assertThrows(IllegalArgumentException.class, () -> sensorData.hasSensor(null));
     }
 
     @Test
-    public void testHasSensorEmptySensorNameThrowsException()
-    {
+    public void testHasSensorEmptySensorNameThrowsException() {
         SensorData sensorData = new SensorData(false);
         assertThrows(IllegalArgumentException.class, () -> sensorData.hasSensor(""));
     }
 
     // isGoal Tests
     @Test
-    public void testIsGoalFalse()
-    {
+    public void testIsGoalFalse() {
         SensorData sensorData = new SensorData(false);
         assertFalse(sensorData.isGoal());
     }
 
     @Test
-    public void testIsGoalTrue()
-    {
+    public void testIsGoalTrue() {
         SensorData sensorData = new SensorData(true);
         assertTrue(sensorData.isGoal());
     }
 
     // equals Tests
     @Test
-    public void testEqualsEmptySensorDataNotGoalAreEqual()
-    {
+    public void testEqualsEmptySensorDataNotGoalAreEqual() {
         SensorData sensorData1 = new SensorData(false);
         SensorData sensorData2 = new SensorData(false);
         assertEquals(sensorData1, sensorData2);
     }
 
     @Test
-    public void testEqualsEmptySensorDataGoalAreEqual()
-    {
+    public void testEqualsEmptySensorDataGoalAreEqual() {
         SensorData sensorData1 = new SensorData(true);
         SensorData sensorData2 = new SensorData(true);
         assertEquals(sensorData1, sensorData2);
     }
 
     @Test
-    public void testEqualsEmptySensorDataGoalAreNotEqual()
-    {
+    public void testEqualsEmptySensorDataGoalAreNotEqual() {
         SensorData sensorData1 = new SensorData(true);
         SensorData sensorData2 = new SensorData(false);
         assertNotEquals(sensorData1, sensorData2);
     }
 
     @Test
-    public void testEqualsAllSensorsAreAccountedForAreEqual()
-    {
+    public void testEqualsAllSensorsAreAccountedForAreEqual() {
         SensorData sensorData1 = new SensorData(true);
         sensorData1.setSensor("sensor1", 4);
         sensorData1.setSensor("sensor2", "sensor");
@@ -134,8 +118,7 @@ public class SensorDataTest {
     }
 
     @Test
-    public void testEqualsNullValuesAreEqual()
-    {
+    public void testEqualsNullValuesAreEqual() {
         SensorData sensorData1 = new SensorData(true);
         sensorData1.setSensor("sensor1", null);
         SensorData sensorData2 = new SensorData(true);
@@ -144,8 +127,7 @@ public class SensorDataTest {
     }
 
     @Test
-    public void testEqualsAllSensorsAreAccountedForNotAllEqual()
-    {
+    public void testEqualsAllSensorsAreAccountedForNotAllEqual() {
         SensorData sensorData1 = new SensorData(true);
         sensorData1.setSensor("sensor1", 4);
         sensorData1.setSensor("sensor2", "sensor");
@@ -156,8 +138,7 @@ public class SensorDataTest {
     }
 
     @Test
-    public void testEqualsDifferentSensorCountsNotEqual()
-    {
+    public void testEqualsDifferentSensorCountsNotEqual() {
         SensorData sensorData1 = new SensorData(true);
         sensorData1.setSensor("sensor1", 4);
         sensorData1.setSensor("sensor2", "sensor");
@@ -168,8 +149,7 @@ public class SensorDataTest {
 
     // hashCode Tests
     @Test
-    public void testHashCodeAllSensorsAreAccountedFor()
-    {
+    public void testHashCodeAllSensorsAreAccountedFor() {
         SensorData sensorData1 = new SensorData(true);
         sensorData1.setSensor("sensor1", 4);
         sensorData1.setSensor("sensor2", "sensor");
@@ -181,15 +161,13 @@ public class SensorDataTest {
 
     // toString Tests
     @Test
-    public void testToShortStringSingleSensorOverrideExcludesLabels()
-    {
+    public void testToShortStringSingleSensorOverrideExcludesLabels() {
         SensorData sensorData = new SensorData(true);
         assertEquals("[true]", sensorData.toString());
     }
 
     @Test
-    public void testToShortStringMultipleSensorsCustomSortOverrideExcludesLabels()
-    {
+    public void testToShortStringMultipleSensorsCustomSortOverrideExcludesLabels() {
         SensorData sensorData = new SensorData(false);
         sensorData.setSensor("b", "value");
         sensorData.setSensor("a", 5);
@@ -198,15 +176,13 @@ public class SensorDataTest {
     }
 
     @Test
-    public void testToShortStringSingleSensorExplicitExcludeLabels()
-    {
+    public void testToShortStringSingleSensorExplicitExcludeLabels() {
         SensorData sensorData = new SensorData(true);
         assertEquals("[true]", sensorData.toString(false));
     }
 
     @Test
-    public void testToShortStringMultipleSensorsCustomSortExplicitExcludeLabels()
-    {
+    public void testToShortStringMultipleSensorsCustomSortExplicitExcludeLabels() {
         SensorData sensorData = new SensorData(false);
         sensorData.setSensor("b", "value");
         sensorData.setSensor("a", 5);
@@ -215,15 +191,13 @@ public class SensorDataTest {
     }
 
     @Test
-    public void testToStringSingleSensorIncludeLabels()
-    {
+    public void testToStringSingleSensorIncludeLabels() {
         SensorData sensorData = new SensorData(true);
         assertEquals("[GOAL:true]", sensorData.toString(true));
     }
 
     @Test
-    public void testToStringMultipleSensorsCustomSortIncludeLabels()
-    {
+    public void testToStringMultipleSensorsCustomSortIncludeLabels() {
         SensorData sensorData = new SensorData(false);
         sensorData.setSensor("b", "value");
         sensorData.setSensor("a", 5);

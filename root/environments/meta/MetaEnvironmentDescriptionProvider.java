@@ -9,7 +9,7 @@ public class MetaEnvironmentDescriptionProvider implements IEnvironmentDescripti
     private MetaConfiguration config;
 
     public MetaEnvironmentDescriptionProvider
-            (IEnvironmentDescriptionProvider environmentDescriptionProvider, MetaConfiguration config){
+            (IEnvironmentDescriptionProvider environmentDescriptionProvider, MetaConfiguration config) {
         if(environmentDescriptionProvider == null || config == null)
             throw new IllegalArgumentException("Arguments cannot be null");
         this.environmentDescriptionProvider= environmentDescriptionProvider;

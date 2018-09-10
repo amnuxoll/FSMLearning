@@ -9,22 +9,19 @@ public class FileResultWriterProviderTest {
 
     // getResultWriter Tests
     @Test
-    public void getResultWriterNullAgentThrowsException()
-    {
+    public void getResultWriterNullAgentThrowsException() {
         FileResultWriterProvider resultWriterProvider = new FileResultWriterProvider();
         assertThrows(IllegalArgumentException.class, () -> resultWriterProvider.getResultWriter(null));
     }
 
     @Test
-    public void getResultWriterEmptyAgentThrowsException()
-    {
+    public void getResultWriterEmptyAgentThrowsException() {
         FileResultWriterProvider resultWriterProvider = new FileResultWriterProvider();
         assertThrows(IllegalArgumentException.class, () -> resultWriterProvider.getResultWriter(""));
     }
 
     @Test
-    public void getResultWriterLabelsAgentFile() throws Exception
-    {
+    public void getResultWriterLabelsAgentFile() throws Exception {
         FileResultWriterProvider resultWriterProvider = new FileResultWriterProvider();
         IResultWriter resultWriter = resultWriterProvider.getResultWriter("myagent");
         assertTrue(resultWriter instanceof FileResultWriter);

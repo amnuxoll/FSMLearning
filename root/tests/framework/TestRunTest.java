@@ -9,33 +9,28 @@ public class TestRunTest {
 
     // constructor Tests
     @Test
-    public void testConstructorNullAgentThrowsException()
-    {
+    public void testConstructorNullAgentThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new TestRun(null, new TestEnvironmentDescription(), 1, new TestRandomizer()));
     }
 
     @Test
-    public void testConstructorNullEnvironmentDescriptionThrowsException()
-    {
+    public void testConstructorNullEnvironmentDescriptionThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), null, 1, new TestRandomizer()));
     }
 
     @Test
-    public void testConstructorNumberOfGoalsToFindLessThan1ThrowsException()
-    {
+    public void testConstructorNumberOfGoalsToFindLessThan1ThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironmentDescription(), 0, new TestRandomizer()));
     }
 
     @Test
-    public void testConstructorNullRandomizerThrowsException()
-    {
+    public void testConstructorNullRandomizerThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironmentDescription(), 1, null));
     }
 
     // execute Tests
     @Test
-    public void testExecuteInitializesAgentWithMoves()
-    {
+    public void testExecuteInitializesAgentWithMoves() {
         TestAgent agent = new TestAgent();
         TestEnvironmentDescription environmentDescription = new TestEnvironmentDescription();
         TestRun testRun = new TestRun(agent, environmentDescription, 1, new TestRandomizer());
@@ -44,8 +39,7 @@ public class TestRunTest {
     }
 
     @Test
-    public void testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoalWithResultWriter()
-    {
+    public void testExecuteMarshalsCallsBetweenAgentAndEnvironmentSingleGoalWithResultWriter() {
         TestAgent agent = new TestAgent();
         TestEnvironmentDescription environment = new TestEnvironmentDescription();
         TestGoalListener goalListener = new TestGoalListener();
@@ -65,12 +59,10 @@ public class TestRunTest {
         Episode episodeB = new Episode(new Move("b"));
         episodeB.setSensorData(sensorB);
         Episode episodeC = new Episode(new Move("c"));
-        Episode[] expectedEpisodicMemory = new Episode[]
-                {
+        Episode[] expectedEpisodicMemory = new Episode[] {
                         episodeA, episodeB, episodeC
                 };
-        String[] expectedResultWriterLogs = new String[]
-                {
+        String[] expectedResultWriterLogs = new String[] {
                   "3,"
                 };
 
@@ -79,8 +71,7 @@ public class TestRunTest {
     }
 
     @Test
-    public void testExecuteMarshalsCallsBetweenAgentAndEnvironmentMultipleGoalsWithResultWriter()
-    {
+    public void testExecuteMarshalsCallsBetweenAgentAndEnvironmentMultipleGoalsWithResultWriter() {
         TestAgent agent = new TestAgent();
         TestEnvironmentDescription environment = new TestEnvironmentDescription();
         TestGoalListener goalListener = new TestGoalListener();
@@ -102,14 +93,12 @@ public class TestRunTest {
         Episode episodeC = new Episode(new Move("c"));
         episodeC.setSensorData(sensorC);
 
-        Episode[] expectedEpisodicMemory = new Episode[]
-                {
+        Episode[] expectedEpisodicMemory = new Episode[] {
                         episodeA, episodeB, episodeC,
                         episodeA, episodeB, episodeC,
                         episodeA, episodeB, new Episode(new Move("c"))
                 };
-        String[] expectedResultWriterLogs = new String[]
-                {
+        String[] expectedResultWriterLogs = new String[] {
                         "3,",
                         "3,",
                         "3,"
@@ -119,8 +108,7 @@ public class TestRunTest {
         assertArrayEquals(expectedResultWriterLogs, goalListener.logStatements.toArray());
     }
 
-    private class TestAgent implements IAgent
-    {
+    private class TestAgent implements IAgent {
         public Move[] moves;
 
         public ArrayList<Episode> episodes = new ArrayList<>();
@@ -145,8 +133,7 @@ public class TestRunTest {
         }
     }
 
-    private  class TestEnvironmentDescription implements IEnvironmentDescription
-    {
+    private  class TestEnvironmentDescription implements IEnvironmentDescription {
         private Move lastMove;
         @Override
         public Move[] getMoves() {
@@ -175,8 +162,7 @@ public class TestRunTest {
         }
     }
 
-    private class TestGoalListener implements IGoalListener
-    {
+    private class TestGoalListener implements IGoalListener {
         public ArrayList<String> logStatements = new ArrayList<>();
 
         @Override
