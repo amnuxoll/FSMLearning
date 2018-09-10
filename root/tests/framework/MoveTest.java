@@ -9,29 +9,25 @@ public class MoveTest {
 
     // Constructor Tests
     @Test
-    public void testConstructorNullNameThrowsException()
-    {
+    public void testConstructorNullNameThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new Move(null));
     }
 
     @Test
-    public void testConstructorEmptyNameThrowsException()
-    {
+    public void testConstructorEmptyNameThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new Move(""));
     }
 
     // equals Tests
     @Test
-    public void testEqualsAreEqual()
-    {
+    public void testEqualsAreEqual() {
         Move move1 = new Move("move");
         Move move2 = new Move("move");
         assertEquals(move1, move2);
     }
 
     @Test
-    public void testEqualsAreNotEqual()
-    {
+    public void testEqualsAreNotEqual() {
         Move move1 = new Move("move1");
         Move move2 = new Move("move2");
         assertNotEquals(move1, move2);
@@ -39,8 +35,7 @@ public class MoveTest {
 
     // hashCode Tests
     @Test
-    public void testHashCodeAreEqual()
-    {
+    public void testHashCodeAreEqual() {
         Move move1 = new Move("move");
         Move move2 = new Move("move");
         assertEquals(move1.hashCode(), move2.hashCode());
@@ -48,8 +43,7 @@ public class MoveTest {
 
     // getName Tests
     @Test
-    public void testGetName()
-    {
+    public void testGetName() {
         Move move = new Move("move");
         assertEquals("move", move.getName());
     }

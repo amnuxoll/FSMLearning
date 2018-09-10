@@ -14,43 +14,36 @@ public class TestSuiteTest {
 
     // constructor Tests
     @Test
-    public void constructorNullTestSuiteConfigurationThrowsException()
-    {
+    public void constructorNullTestSuiteConfigurationThrowsException() {
         assertThrows(IllegalArgumentException.class,() -> new TestSuite(null, new TestResultWriterProvider(), new TestEnvironmentDescriptionProvider(), new IAgentProvider[] { new TestAgentProvider() }));
     }
 
     @Test
-    public void constructorNullResultWriterProviderThrowsException()
-    {
+    public void constructorNullResultWriterProviderThrowsException() {
         assertThrows(IllegalArgumentException.class,() -> new TestSuite(this.testConfiguration, null, new TestEnvironmentDescriptionProvider(), new IAgentProvider[] { new TestAgentProvider() }));
     }
 
     @Test
-    public void constructorNullEnvironmentDescriptionProviderThrowsException()
-    {
+    public void constructorNullEnvironmentDescriptionProviderThrowsException() {
         assertThrows(IllegalArgumentException.class,() -> new TestSuite(this.testConfiguration, new TestResultWriterProvider(), null, new IAgentProvider[] { new TestAgentProvider() }));
     }
 
     @Test
-    public void constructorNullAgentProvidersThrowsException()
-    {
+    public void constructorNullAgentProvidersThrowsException() {
         assertThrows(IllegalArgumentException.class,() -> new TestSuite(this.testConfiguration, new TestResultWriterProvider(), new TestEnvironmentDescriptionProvider(), null));
     }
 
     @Test
-    public void constructorEmptyAgentProvidersThrowsException()
-    {
+    public void constructorEmptyAgentProvidersThrowsException() {
         assertThrows(IllegalArgumentException.class,() -> new TestSuite(this.testConfiguration, new TestResultWriterProvider(), new TestEnvironmentDescriptionProvider(), new IAgentProvider[0]));
     }
 
     // run Tests
     @Test
-    public void runInitializesAndExecutesSingleAgent()
-    {
+    public void runInitializesAndExecutesSingleAgent() throws Exception {
         TestResultWriterProvider resultWriterProvider = new TestResultWriterProvider();
         TestEnvironmentDescriptionProvider environmentDescriptionProvider = new TestEnvironmentDescriptionProvider();
-        IAgentProvider[] agentProviders = new IAgentProvider[]
-                {
+        IAgentProvider[] agentProviders = new IAgentProvider[] {
                         new TestAgentProvider()
                 };
         TestSuite testSuite = new TestSuite(this.testConfiguration, resultWriterProvider, environmentDescriptionProvider, agentProviders);
@@ -60,7 +53,7 @@ public class TestSuiteTest {
         assertEquals(this.testConfiguration.getNumberOfIterations(), environmentDescriptionProvider.generatedEnvironmentDescriptions);
 
         assertEquals(1, resultWriterProvider.generatedResultWriters.size());
-        TestResultWriter resultWriter = resultWriterProvider.generatedResultWriters.get("agent0.csv");
+        TestResultWriter resultWriter = resultWriterProvider.generatedResultWriters.get("agent0");
         assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCount);
         assertEquals(this.testConfiguration.getNumberOfIterations() * this.testConfiguration.getNumberOfGoals(), resultWriter.stepsLoggedCount);
         assertTrue(resultWriter.completed);
@@ -68,12 +61,10 @@ public class TestSuiteTest {
     }
 
     @Test
-    public void runInitializesAndExecutesMultipleAgent()
-    {
+    public void runInitializesAndExecutesMultipleAgent() throws Exception {
         TestResultWriterProvider resultWriterProvider = new TestResultWriterProvider();
         TestEnvironmentDescriptionProvider environmentDescriptionProvider = new TestEnvironmentDescriptionProvider();
-        IAgentProvider[] agentProviders = new IAgentProvider[]
-                {
+        IAgentProvider[] agentProviders = new IAgentProvider[] {
                         new TestAgentProvider(),
                         new TestAgentProvider()
                 };
@@ -85,13 +76,13 @@ public class TestSuiteTest {
         assertEquals(2 * this.testConfiguration.getNumberOfIterations(), environmentDescriptionProvider.generatedEnvironmentDescriptions);
 
         assertEquals(2, resultWriterProvider.generatedResultWriters.size());
-        TestResultWriter resultWriter = resultWriterProvider.generatedResultWriters.get("agent0.csv");
+        TestResultWriter resultWriter = resultWriterProvider.generatedResultWriters.get("agent0");
         assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCount);
         assertEquals(this.testConfiguration.getNumberOfIterations() * this.testConfiguration.getNumberOfGoals(), resultWriter.stepsLoggedCount);
         assertTrue(resultWriter.completed);
         assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCountAtcompleted);
 
-        resultWriter = resultWriterProvider.generatedResultWriters.get("agent1.csv");
+        resultWriter = resultWriterProvider.generatedResultWriters.get("agent1");
         assertEquals(this.testConfiguration.getNumberOfIterations(), resultWriter.iterationCount);
         assertEquals(this.testConfiguration.getNumberOfIterations() * this.testConfiguration.getNumberOfGoals(), resultWriter.stepsLoggedCount);
         assertTrue(resultWriter.completed);
@@ -99,8 +90,7 @@ public class TestSuiteTest {
     }
 
 
-    private class TestAgentProvider implements IAgentProvider
-    {
+    private class TestAgentProvider implements IAgentProvider {
         public int generatedAgents = 0;
 
         @Override
@@ -110,11 +100,10 @@ public class TestSuiteTest {
         }
     }
 
-    private class TestAgent implements IAgent
-    {
+    private class TestAgent implements IAgent {
 
         @Override
-        public void setMoves(Move[] moves) {
+        public void initialize(Move[] moves) {
 
         }
 
@@ -124,8 +113,7 @@ public class TestSuiteTest {
         }
     }
 
-    private class TestEnvironmentDescriptionProvider implements IEnvironmentDescriptionProvider
-    {
+    private class TestEnvironmentDescriptionProvider implements IEnvironmentDescriptionProvider {
         public int generatedEnvironmentDescriptions = 0;
 
         @Override
@@ -135,8 +123,7 @@ public class TestSuiteTest {
         }
     }
 
-    private class TestEnvironmentDescription implements IEnvironmentDescription
-    {
+    private class TestEnvironmentDescription implements IEnvironmentDescription {
 
         @Override
         public Move[] getMoves() {
@@ -164,8 +151,7 @@ public class TestSuiteTest {
         }
     }
 
-    private class TestResultWriterProvider implements IResultWriterProvider
-    {
+    private class TestResultWriterProvider implements IResultWriterProvider {
         public HashMap<String, TestResultWriter> generatedResultWriters = new HashMap<>();
 
         @Override
@@ -176,8 +162,7 @@ public class TestSuiteTest {
         }
     }
 
-    private class TestResultWriter implements IResultWriter
-    {
+    private class TestResultWriter implements IResultWriter {
         public int iterationCount = 0;
         public int stepsLoggedCount = 0;
         public boolean completed = false;

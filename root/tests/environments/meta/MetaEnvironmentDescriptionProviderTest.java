@@ -54,7 +54,7 @@ public class MetaEnvironmentDescriptionProviderTest {
 
     }
 
-    private class TestEnvironmentDescription implements  IEnvironmentDescription{
+    private class TestEnvironmentDescription implements  IEnvironmentDescription {
 
         @Override
         public Move[] getMoves() {
@@ -86,7 +86,7 @@ public class MetaEnvironmentDescriptionProviderTest {
         }
     }
 
-    private class TestRandomizer implements IRandomizer{
+    private class TestRandomizer implements IRandomizer {
 
         @Override
         public int getRandomNumber(int ceiling) {

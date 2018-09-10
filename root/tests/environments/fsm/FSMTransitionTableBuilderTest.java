@@ -14,27 +14,23 @@ public class FSMTransitionTableBuilderTest {
 
     // buildTransitionTable Tests
     @Test
-    public void constructorAlphabetSizeLessThanOneThrowsException()
-    {
+    public void constructorAlphabetSizeLessThanOneThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new FSMTransitionTableBuilder(0, 1, new TestRandomizer()));
     }
 
     @Test
-    public void constructorNumStatesLessThanOneThrowsException()
-    {
+    public void constructorNumStatesLessThanOneThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new FSMTransitionTableBuilder(1, 0, new TestRandomizer()));
     }
 
     @Test
-    public void constructorNullRandomizerThrowsException()
-    {
+    public void constructorNullRandomizerThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> new FSMTransitionTableBuilder(1, 1, null));
     }
 
     // getTransitionTable Tests
     @Test
-    public void buildTransitionTableSingleTransitionSingleState()
-    {
+    public void buildTransitionTableSingleTransitionSingleState() {
         FSMTransitionTableBuilder builder = new FSMTransitionTableBuilder(1, 1, new TestRandomizer());
         HashMap[] transitionTable = builder.getTransitionTable();
         assertEquals(1, transitionTable.length);
@@ -43,8 +39,7 @@ public class FSMTransitionTableBuilderTest {
     }
 
     @Test
-    public void buildTransitionTableMultipleTransitionSingleState()
-    {
+    public void buildTransitionTableMultipleTransitionSingleState() {
         FSMTransitionTableBuilder builder = new FSMTransitionTableBuilder(13, 1, new TestRandomizer());
         HashMap[] transitionTable = builder.getTransitionTable();
         assertEquals(1, transitionTable.length);
@@ -52,17 +47,14 @@ public class FSMTransitionTableBuilderTest {
         this.validateGoalTransitions(13, 0, goalTransitions);
     }
 
-    private void validateGoalTransitions(int expectedMoveCount, int goalState, HashMap<Move, Integer> transitions)
-    {
+    private void validateGoalTransitions(int expectedMoveCount, int goalState, HashMap<Move, Integer> transitions) {
         assertEquals(expectedMoveCount, transitions.size());
-        for (int state : transitions.values())
-        {
+        for (int state : transitions.values()) {
             assertEquals(goalState, state);
         }
     }
 
-    private class TestRandomizer implements IRandomizer
-    {
+    private class TestRandomizer implements IRandomizer {
         private Random random = new Random();
 
         @Override

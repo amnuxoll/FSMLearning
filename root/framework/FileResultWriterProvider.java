@@ -1,5 +1,6 @@
 package framework;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,7 +30,7 @@ public class FileResultWriterProvider implements IResultWriterProvider {
      * @return an instance of a {@link FileResultWriter}.
      */
     @Override
-    public IResultWriter getResultWriter(String agent) {
+    public IResultWriter getResultWriter(String agent) throws Exception {
         if (agent == null)
             throw new IllegalArgumentException("agent cannot be null");
         if (agent == "")

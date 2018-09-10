@@ -8,10 +8,10 @@ public class MetaConfiguration {
     private int successQueueMaxSize;
     private int stepThreshold;
 
-    public static final MetaConfiguration DEFAULT= new MetaConfiguration(10,10);
+    public static final MetaConfiguration DEFAULT = new MetaConfiguration(10,10);
 
-    public MetaConfiguration(int successQueueMaxSize, int stepThreshold){
-        if(successQueueMaxSize < 1){
+    public MetaConfiguration(int successQueueMaxSize, int stepThreshold) {
+        if(successQueueMaxSize < 1) {
             throw new IllegalArgumentException("successQueueMaxSize must be positive");
         }
         if(stepThreshold < 1) {

@@ -10,7 +10,7 @@ public interface IAgent {
      * Set the available {@link Move}s for the agent in the current environment.
      * @param moves An array of {@link Move} representing the moves available to the agent.
      */
-    void setMoves(Move[] moves);
+    void initialize(Move[] moves);
 
     /**
      * Get the next move based on the provided sensorData.

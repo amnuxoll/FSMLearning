@@ -13,14 +13,12 @@ public class SensorData {
 
     private HashMap<String, Object> data;
 
-    public SensorData(boolean isGoal)
-    {
+    public SensorData(boolean isGoal) {
         this.data = new HashMap<>();
         this.data.put(SensorData.goalSensor, isGoal);
     }
 
-    public void setSensor(String sensorName, Object sensorValue) throws IllegalArgumentException
-    {
+    public void setSensor(String sensorName, Object sensorValue) throws IllegalArgumentException {
         if (sensorName == null)
             throw new IllegalArgumentException("sensorName cannot be null");
         if (sensorName == "")
@@ -28,8 +26,7 @@ public class SensorData {
         this.data.put(sensorName, sensorValue);
     }
 
-    public Object getSensor(String sensorName)throws IllegalArgumentException
-    {
+    public Object getSensor(String sensorName)throws IllegalArgumentException {
         if (sensorName == null)
             throw new IllegalArgumentException("sensorName cannot be null");
         if (sensorName == "")
@@ -45,14 +42,12 @@ public class SensorData {
         return this.data.containsKey(sensorName);
     }
 
-    public boolean isGoal()
-    {
+    public boolean isGoal() {
         return ((boolean)this.data.get(SensorData.goalSensor));
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -62,8 +57,7 @@ public class SensorData {
         SensorData sensorData = (SensorData)o;
         if (this.data.size() != sensorData.data.size())
             return false;
-        for (String key : this.data.keySet())
-        {
+        for (String key : this.data.keySet()) {
             if (sensorData.data.containsKey(key) == false)
                 return false;
             if (this.data.get(key) != sensorData.data.get(key))
@@ -73,19 +67,20 @@ public class SensorData {
     }
 
     @Override
-    public int hashCode()
-    {
-        return this.data.hashCode();
+    public int hashCode() {
+        int hashcode = 0;
+        for(Entry<String, Object> entry : this.data.entrySet()) {
+            hashcode += Objects.hash(entry.getKey(), entry.getValue());
+        }
+        return hashcode;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.toString(false);
     }
 
-    public String toString(boolean includeSensorLabels)
-    {
+    public String toString(boolean includeSensorLabels) {
         ArrayList<Entry<String, Object>> entries = new ArrayList<>(this.data.entrySet());
         Collections.sort(entries, new Comparator<Entry<String, Object>>() {
             @Override

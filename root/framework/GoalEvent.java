@@ -25,8 +25,7 @@ class GoalEvent extends EventObject {
      * Get the number of steps taken before the goal was reached.
      * @return the number of steps.
      */
-    public int getStepCountToGoal()
-    {
+    public int getStepCountToGoal() {
         return this.stepCountToGoal;
     }
 }

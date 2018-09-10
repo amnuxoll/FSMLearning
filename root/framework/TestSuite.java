@@ -31,20 +31,21 @@ public class TestSuite implements IGoalListener {
         this.agentProviders = agentProviders;
     }
 
-    public void run() {
+    public void run() throws Exception {
+        System.out.println("Beginning test suite...");
         int numberOfIterations = this.configuration.getNumberOfIterations();
-        for (int i = 0; i < this.agentProviders.length; i++)
-        {
-            this.currentResultWriter = this.resultWriterProvider.getResultWriter("agent" + i + ".csv");
+        for (int i = 0; i < this.agentProviders.length; i++) {
+            System.out.println("Beginning agent: " + i);
+            this.currentResultWriter = this.resultWriterProvider.getResultWriter("agent" + i);
             IAgentProvider agentProvider = this.agentProviders[i];
             this.runAgent(agentProvider, numberOfIterations);
         }
     }
 
-    private void runAgent(IAgentProvider agentProvider, int numberOfIterations)
-    {
-        for (int i = 0; i < numberOfIterations; i++)
-        {
+    private void runAgent(IAgentProvider agentProvider, int numberOfIterations) {
+        for (int i = 0; i < numberOfIterations; i++) {
+            System.out.println();
+            System.out.println("Beginning iteration: " + i);
             IAgent agent = agentProvider.getAgent();
             IRandomizer randomizer = new Randomizer(this.configuration.getTrueRandom());
             IEnvironmentDescription environmentDescription = this.environmentDescriptionProvider.getEnvironmentDescription(randomizer);

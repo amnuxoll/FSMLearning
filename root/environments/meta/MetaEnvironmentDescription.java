@@ -1,10 +1,7 @@
 package environments.meta;
 
-import environments.fsm.FSMDescription;
-import environments.fsm.FSMDescriptionProvider;
 import framework.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MetaEnvironmentDescription implements IEnvironmentDescription {
@@ -13,14 +10,14 @@ public class MetaEnvironmentDescription implements IEnvironmentDescription {
     private IRandomizer randomizer;
 
     //how many transitions the agent took to reach the goal
-    private LinkedList<Integer> successQueue= new LinkedList<Integer>();
+    private LinkedList<Integer> successQueue= new LinkedList<>();
 
     //number of moves since last goal
     private int transitionCounter= 0;
     private MetaConfiguration config;
 
-    public MetaEnvironmentDescription
-            (IEnvironmentDescriptionProvider environmentDescriptionProvider, IRandomizer randomizer, MetaConfiguration config){
+    MetaEnvironmentDescription
+            (IEnvironmentDescriptionProvider environmentDescriptionProvider, IRandomizer randomizer, MetaConfiguration config) {
 
         if(environmentDescriptionProvider == null){
             throw new IllegalArgumentException("environmentDescriptionProvider cannot be null");
@@ -70,7 +67,7 @@ public class MetaEnvironmentDescription implements IEnvironmentDescription {
     public boolean isGoalState(int state) {
         boolean isGoal= currDescription.isGoalState(state);
 
-        if(isGoal){
+        if(isGoal) {
             //makeNewDescription relies on transitionCounter,
             //so do this first
             makeNewDescription();
