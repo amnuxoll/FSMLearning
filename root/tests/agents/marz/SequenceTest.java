@@ -2,7 +2,6 @@ package agents.marz;
 
 import framework.Move;
 import org.junit.jupiter.api.Test;
-import sun.plugin.dom.exception.InvalidStateException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -163,7 +162,7 @@ public class SequenceTest {
     public void nextNoNextItemThrowsException()
     {
         Sequence sequence = new Sequence(new Move[0]);
-        assertThrows(InvalidStateException.class, () -> sequence.next());
+        assertThrows(RuntimeException.class, () -> sequence.next());
     }
 
 

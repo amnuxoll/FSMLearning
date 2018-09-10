@@ -70,9 +70,9 @@ public class SuffixTree<TSuffixNode extends SuffixNodeBase<TSuffixNode>> {
         for (TSuffixNode node : this.hashFringe.values())
         {
             double nodeWeight = node.getWeight();
-            System.out.println("Current best weight: " + bestWeight + " test against: " + nodeWeight);
+            //System.out.println("Current best weight: " + bestWeight + " test against: " + nodeWeight);
             if (nodeWeight < bestWeight) {
-                System.out.println("New best weight found.");
+//                System.out.println("New best weight found.");
                 bestWeight = nodeWeight;
                 bestNode = node;
             }

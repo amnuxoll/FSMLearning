@@ -57,7 +57,6 @@ public class SuffixNode extends SuffixNodeBase<SuffixNode> {
     {
         super(sequence);
         this.queueSeq = -1;
-        this.f = 0.0;
         this.g = 0;
         this.successIndexList = new ArrayList<Integer>();
         this.failsIndexList = new ArrayList<Integer>();

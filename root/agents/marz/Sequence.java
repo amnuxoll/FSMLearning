@@ -1,7 +1,6 @@
 package agents.marz;
 
 import framework.Move;
-import sun.plugin.dom.exception.InvalidStateException;
 
 import java.util.*;
 
@@ -135,7 +134,8 @@ public class Sequence {
     public Move next()
     {
         if (!this.hasNext())
-            throw new InvalidStateException("Sequence has no next Move.");
+            // For simplicity just use a generic unchecked exception
+            throw new RuntimeException("Sequence has no next Move.");
         this.currentIndex++;
         return this.moves[this.currentIndex];
     }

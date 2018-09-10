@@ -18,6 +18,7 @@ public abstract class SuffixNodeBase<TNodeType extends SuffixNodeBase<TNodeType>
     public SuffixNodeBase(Sequence suffix)
     {
         this.suffix = suffix;
+        this.f = 0.0;
     }
 
     /**

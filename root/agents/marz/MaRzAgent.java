@@ -153,13 +153,12 @@ public class MaRzAgent implements IAgent
 	}// nextPermutation
 
 	private void updateCurrentSequence() {
-		System.out.println("Active Node: " + this.activeNode);
-		System.out.println("Suffix Tree:");
-		this.suffixTree.printTree();
+		//System.out.println("Active Node: " + this.activeNode);
+//		System.out.println("Suffix Tree:");
+//		this.suffixTree.printTree();
 		SuffixNode newBestNode = this.suffixTree.findBestNodeToTry();
-		System.out.println("New best node: " + newBestNode);
+//		System.out.println("New best node: " + newBestNode);
 		if (newBestNode != this.activeNode) {
-			System.out.println("New best node: " + newBestNode);
 			this.activeNode.queueSeq = this.lastPermutationIndex;
 			this.activeNode = newBestNode;
 			if (this.activeNode.queueSeq == -1)
@@ -170,7 +169,7 @@ public class MaRzAgent implements IAgent
 		do {
 			this.currentSequence = this.nextPermutation();
 		} while (!this.currentSequence.endsWith(this.activeNode.getSuffix()));
-		System.out.println("Found suffix node: " + this.activeNode + " for sequence: " + this.currentSequence);
+//		System.out.println("Found suffix node: " + this.activeNode + " for sequence: " + this.currentSequence);
 	}
 
 	private Sequence sequenceSinceLastGoal() {
