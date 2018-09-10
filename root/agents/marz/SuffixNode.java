@@ -57,7 +57,7 @@ public class SuffixNode extends SuffixNodeBase<SuffixNode> {
     public SuffixNode(Sequence sequence, Move[] possibleMoves, Function<Integer, Episode> lookupEpisode)
     {
         super(sequence);
-        this.queueSeq = 1;
+        this.queueSeq = -1;
         this.f = 0.0;
         this.g = 0;
         //this.indexOfLastEpisodeTried = 0;

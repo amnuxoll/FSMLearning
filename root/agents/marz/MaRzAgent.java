@@ -155,15 +155,19 @@ public class MaRzAgent implements IAgent
 	private Sequence nextPermutation()
 	{
 		this.lastPermutationIndex++;
-		return this.sequenceGenerator.nextPermutation(lastPermutationIndex);
+		return this.sequenceGenerator.nextPermutation(this.lastPermutationIndex);
 	}// nextPermutation
 
 	private void updateCurrentSequence()
 	{
 		SuffixNode newBestNode = this.suffixTree.findBestNodeToTry();
 		if (newBestNode != this.activeNode) {
+			this.activeNode.queueSeq = this.lastPermutationIndex;
 			this.activeNode = newBestNode;
-			this.lastPermutationIndex = this.sequenceGenerator.getCanonicalIndex(this.activeNode.getSuffix());
+			if (this.activeNode.queueSeq == -1)
+				this.lastPermutationIndex = this.sequenceGenerator.getCanonicalIndex(this.activeNode.getSuffix());
+			else
+				this.lastPermutationIndex = this.activeNode.queueSeq;
 		}
 		this.currentSequence = this.nextPermutation();
 	}

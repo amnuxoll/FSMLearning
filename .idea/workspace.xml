@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="738fa547-feb5-42aa-9429-ab3d8a31a275" name="Default" comment="Added 3 classes to environment.meta.&#10;Unit tests for MetaEnvironmentDescription">
-      <change beforePath="$PROJECT_DIR$/root/agents/marz/SuffixTree.java" afterPath="$PROJECT_DIR$/root/agents/marz/SuffixTree.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/root/tests/agents/marz/MaRzAgentProviderTest.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" afterPath="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" />
+      <change beforePath="$PROJECT_DIR$/root/agents/marz/SuffixNode.java" afterPath="$PROJECT_DIR$/root/agents/marz/SuffixNode.java" />
       <change beforePath="$PROJECT_DIR$/root/experiments/Runner.java" afterPath="$PROJECT_DIR$/root/experiments/Runner.java" />
-      <change beforePath="$PROJECT_DIR$/root/framework/FileResultWriter.java" afterPath="$PROJECT_DIR$/root/framework/FileResultWriter.java" />
-      <change beforePath="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -109,11 +110,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Runner.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Runner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="15" column="39" lean-forward="false" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
+            <state relative-caret-position="408">
+              <caret line="32" column="42" lean-forward="true" selection-start-line="32" selection-start-column="42" selection-end-line="32" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -129,52 +130,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Move.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/framework/Move.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="2" lean-forward="true" selection-start-line="3" selection-start-column="2" selection-end-line="5" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SequenceGenerator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/agents/marz/SequenceGenerator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="12" selection-end-column="3" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SuffixNode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/agents/marz/SuffixNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="19" selection-end-column="3" />
+            <state relative-caret-position="263">
+              <caret line="59" column="26" lean-forward="false" selection-start-line="59" selection-start-column="26" selection-end-line="59" selection-end-column="26" />
               <folding>
                 <element signature="docComment;field#successIndexList#0;class#SuffixNode#0" expanded="false" />
                 <element signature="docComment;method#SuffixNode#0;class#SuffixNode#0" expanded="false" />
                 <element signature="docComment;method#updateHeuristic#0;class#SuffixNode#0" expanded="false" />
                 <element signature="docComment;method#toString#0;class#SuffixNode#0" expanded="false" />
-                <element signature="e#5413#5438#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SuffixNodeBase.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/agents/marz/SuffixNodeBase.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="8" selection-end-column="3" />
-              <folding>
-                <element signature="e#494#495#0" expanded="true" />
-                <element signature="e#530#531#0" expanded="true" />
-                <element signature="e#686#687#0" expanded="true" />
-                <element signature="e#720#721#0" expanded="true" />
+                <element signature="e#5414#5439#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -204,6 +170,56 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="202">
               <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MaRzAgent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/agents/marz/MaRzAgent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="224">
+              <caret line="108" column="56" lean-forward="true" selection-start-line="108" selection-start-column="56" selection-end-line="108" selection-end-column="56" />
+              <folding>
+                <element signature="docComment;field#activeNode#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="docComment;field#lastPermutationIndex#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="docComment;field#currentSequence#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="docComment;field#lastSuccessfulSequence#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="docComment;field#MAX_EPISODES#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="docComment;field#NUM_MACHINES#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="docComment;field#debug#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="docComment;method#debugPrintln#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="method#debugPrintln#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="docComment;method#MaRzAgent#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="method#MaRzAgent#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="docComment;method#nextPermutation#0;class#MaRzAgent#0" expanded="false" />
+                <element signature="method#sequenceSinceLastGoal#0;class#MaRzAgent#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MaRzAgentProvider.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/agents/marz/MaRzAgentProvider.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" column="25" lean-forward="true" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#387#388#0" expanded="true" />
+                <element signature="e#425#426#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MaRzAgentProviderTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/root/tests/agents/marz/MaRzAgentProviderTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="13" column="52" lean-forward="false" selection-start-line="13" selection-start-column="52" selection-end-line="13" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -265,7 +281,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/root/environments/fsm/FSMDescriptionProvider.java" />
         <option value="$PROJECT_DIR$/root/tests/environments/fsm/FSMDescriptionTest.java" />
         <option value="$PROJECT_DIR$/root/framework/IGoalListener.java" />
         <option value="$PROJECT_DIR$/root/framework/IRandomizer.java" />
@@ -306,16 +321,17 @@
         <option value="$PROJECT_DIR$/root/tests/agents/marz/SequenceTest.java" />
         <option value="$PROJECT_DIR$/root/tests/agents/marz/SuffixTreeTest.java" />
         <option value="$PROJECT_DIR$/root/tests/agents/marz/SequenceGeneratorTest.java" />
-        <option value="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" />
         <option value="$PROJECT_DIR$/root/agents/marz/MaRzAgentProvider.java" />
         <option value="$PROJECT_DIR$/root/agents/marz/Sequence.java" />
         <option value="$PROJECT_DIR$/root/agents/marz/SequenceGenerator.java" />
-        <option value="$PROJECT_DIR$/root/agents/marz/SuffixNode.java" />
         <option value="$PROJECT_DIR$/root/agents/marz/SuffixNodeBase.java" />
         <option value="$PROJECT_DIR$/root/agents/marz/SuffixTree.java" />
         <option value="$PROJECT_DIR$/root/framework/FileResultWriter.java" />
         <option value="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" />
         <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
+        <option value="$PROJECT_DIR$/root/agents/marz/SuffixNode.java" />
+        <option value="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" />
+        <option value="$PROJECT_DIR$/root/tests/agents/marz/MaRzAgentProviderTest.java" />
       </list>
     </option>
   </component>
@@ -398,13 +414,14 @@
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
               <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
               <item name="root" type="462c0819:PsiDirectoryNode" />
-              <item name="framework" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
               <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
               <item name="root" type="462c0819:PsiDirectoryNode" />
               <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="marz" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -458,7 +475,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Runner">
+  <component name="RunManager" selected="JUnit.All in FSMLearning">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -663,8 +680,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.Runner" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.All in FSMLearning" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.All in FSMLearning" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Runner" />
         <item index="2" class="java.lang.String" itemvalue="JUnit.FileResultWriterTest.testCompleteFinalizesStandardReportRun" />
         <item index="3" class="java.lang.String" itemvalue="JUnit.SequenceGeneratorTest" />
         <item index="4" class="java.lang.String" itemvalue="JUnit.SequenceGeneratorTest.getCanonicalOrderingBinary" />
@@ -715,8 +732,8 @@
     <history-entry file="All_in_FSMLearning - 2018.09.09 at 17h 22m 30s.xml">
       <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="FileResultWriterTest_testCompleteFinalizesStandardReportRun - 2018.09.09 at 17h 04m 44s.xml">
-      <configuration name="FileResultWriterTest.testCompleteFinalizesStandardReportRun" configurationId="JUnit" />
+    <history-entry file="All_in_FSMLearning - 2018.09.09 at 17h 48m 23s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
@@ -822,13 +839,6 @@
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <condition expression="node == null" language="JAVA" />
-          <url>file://$PROJECT_DIR$/root/agents/marz/MaRzAgent.java</url>
-          <line>139</line>
-          <properties />
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/root/agents/marz/SuffixTree.java</url>
           <line>104</line>
           <properties />
@@ -917,16 +927,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/FSML1/src/MaRzAgent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2091">
-          <caret line="14" column="15" lean-forward="true" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/agents/marz/Agent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1710">
@@ -1236,47 +1236,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/agents/marz/MaRzAgent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="2" lean-forward="true" selection-start-line="9" selection-start-column="2" selection-end-line="11" selection-end-column="16" />
-          <folding>
-            <element signature="docComment;field#activeNode#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="docComment;field#lastPermutationIndex#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="docComment;field#currentSequence#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="docComment;field#lastSuccessfulSequence#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="docComment;field#MAX_EPISODES#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="docComment;field#NUM_MACHINES#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="docComment;field#debug#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="docComment;method#debugPrintln#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="method#debugPrintln#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="docComment;method#MaRzAgent#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="method#MaRzAgent#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="method#initialize#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="method#getNextMove#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="method#markFailure#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="e#3443#3512#0" expanded="false" />
-            <element signature="method#markSuccess#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="docComment;method#nextPermutation#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="method#nextPermutation#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="method#updateCurrentSequence#0;class#MaRzAgent#0" expanded="false" />
-            <element signature="method#sequenceSinceLastGoal#0;class#MaRzAgent#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/agents/marz/MaRzAgentProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="2" lean-forward="true" selection-start-line="9" selection-start-column="2" selection-end-line="11" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#387#388#0" expanded="true" />
-            <element signature="e#425#426#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/root/agents/marz/Sequence.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
@@ -1318,20 +1277,6 @@
         <state relative-caret-position="51">
           <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="12" selection-end-column="3" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/agents/marz/SuffixNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="19" selection-end-column="3" />
-          <folding>
-            <element signature="docComment;field#successIndexList#0;class#SuffixNode#0" expanded="false" />
-            <element signature="docComment;method#SuffixNode#0;class#SuffixNode#0" expanded="false" />
-            <element signature="docComment;method#updateHeuristic#0;class#SuffixNode#0" expanded="false" />
-            <element signature="docComment;method#toString#0;class#SuffixNode#0" expanded="false" />
-            <element signature="e#5413#5438#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1409,9 +1354,67 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="15" column="39" lean-forward="false" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
+        <state relative-caret-position="408">
+          <caret line="32" column="42" lean-forward="true" selection-start-line="32" selection-start-column="42" selection-end-line="32" selection-end-column="42" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/agents/marz/SuffixNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="59" column="26" lean-forward="false" selection-start-line="59" selection-start-column="26" selection-end-line="59" selection-end-column="26" />
+          <folding>
+            <element signature="docComment;field#successIndexList#0;class#SuffixNode#0" expanded="false" />
+            <element signature="docComment;method#SuffixNode#0;class#SuffixNode#0" expanded="false" />
+            <element signature="docComment;method#updateHeuristic#0;class#SuffixNode#0" expanded="false" />
+            <element signature="docComment;method#toString#0;class#SuffixNode#0" expanded="false" />
+            <element signature="e#5414#5439#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/agents/marz/MaRzAgent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="108" column="56" lean-forward="true" selection-start-line="108" selection-start-column="56" selection-end-line="108" selection-end-column="56" />
+          <folding>
+            <element signature="docComment;field#activeNode#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#lastPermutationIndex#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#currentSequence#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#lastSuccessfulSequence#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#MAX_EPISODES#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#NUM_MACHINES#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;field#debug#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#debugPrintln#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="method#debugPrintln#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#MaRzAgent#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="method#MaRzAgent#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="docComment;method#nextPermutation#0;class#MaRzAgent#0" expanded="false" />
+            <element signature="method#sequenceSinceLastGoal#0;class#MaRzAgent#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/agents/marz/MaRzAgentProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="25" lean-forward="true" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+            <element signature="e#425#426#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/agents/marz/MaRzAgentProviderTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="52" lean-forward="false" selection-start-line="13" selection-start-column="52" selection-end-line="13" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
