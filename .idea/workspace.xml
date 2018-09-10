@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="738fa547-feb5-42aa-9429-ab3d8a31a275" name="Default" comment="Added 3 classes to environment.meta.&#10;Unit tests for MetaEnvironmentDescription">
-      <change beforePath="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" afterPath="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" />
-      <change beforePath="$PROJECT_DIR$/root/agents/marz/MaRzAgentProvider.java" afterPath="$PROJECT_DIR$/root/agents/marz/MaRzAgentProvider.java" />
-      <change beforePath="$PROJECT_DIR$/root/agents/marz/Sequence.java" afterPath="$PROJECT_DIR$/root/agents/marz/Sequence.java" />
-      <change beforePath="$PROJECT_DIR$/root/agents/marz/SequenceGenerator.java" afterPath="$PROJECT_DIR$/root/agents/marz/SequenceGenerator.java" />
-      <change beforePath="$PROJECT_DIR$/root/agents/marz/SuffixNode.java" afterPath="$PROJECT_DIR$/root/agents/marz/SuffixNode.java" />
-      <change beforePath="$PROJECT_DIR$/root/agents/marz/SuffixNodeBase.java" afterPath="$PROJECT_DIR$/root/agents/marz/SuffixNodeBase.java" />
       <change beforePath="$PROJECT_DIR$/root/agents/marz/SuffixTree.java" afterPath="$PROJECT_DIR$/root/agents/marz/SuffixTree.java" />
+      <change beforePath="$PROJECT_DIR$/root/experiments/Runner.java" afterPath="$PROJECT_DIR$/root/experiments/Runner.java" />
+      <change beforePath="$PROJECT_DIR$/root/framework/FileResultWriter.java" afterPath="$PROJECT_DIR$/root/framework/FileResultWriter.java" />
+      <change beforePath="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" afterPath="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -92,100 +89,42 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MaRzAgent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/agents/marz/MaRzAgent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="9" column="2" lean-forward="true" selection-start-line="9" selection-start-column="2" selection-end-line="11" selection-end-column="16" />
-              <folding>
-                <element signature="docComment;field#activeNode#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="docComment;field#lastPermutationIndex#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="docComment;field#currentSequence#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="docComment;field#lastSuccessfulSequence#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="docComment;field#MAX_EPISODES#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="docComment;field#NUM_MACHINES#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="docComment;field#debug#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="docComment;method#debugPrintln#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="method#debugPrintln#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="docComment;method#MaRzAgent#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="method#MaRzAgent#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="method#initialize#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="method#getNextMove#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="method#markFailure#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="e#3443#3512#0" expanded="false" />
-                <element signature="method#markSuccess#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="docComment;method#nextPermutation#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="method#nextPermutation#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="method#updateCurrentSequence#0;class#MaRzAgent#0" expanded="false" />
-                <element signature="method#sequenceSinceLastGoal#0;class#MaRzAgent#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MaRzAgentProvider.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/agents/marz/MaRzAgentProvider.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="2" lean-forward="true" selection-start-line="9" selection-start-column="2" selection-end-line="11" selection-end-column="16" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#387#388#0" expanded="true" />
-                <element signature="e#425#426#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Episode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/framework/Episode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="8" selection-end-column="16" />
-              <folding>
-                <element signature="e#2024#2025#0" expanded="true" />
-                <element signature="e#2087#2088#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Runner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
+      <file leaf-file-name="EnvironmentTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/tests/framework/EnvironmentTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
-              <caret line="14" column="53" lean-forward="true" selection-start-line="14" selection-start-column="53" selection-end-line="14" selection-end-column="53" />
+              <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sequence.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/root/agents/marz/Sequence.java">
+      <file leaf-file-name="FileResultWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/framework/FileResultWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="150" column="13" lean-forward="true" selection-start-line="150" selection-start-column="13" selection-end-line="150" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#Sequence#0;class#Sequence#0" expanded="false" />
-                <element signature="method#endsWith#0;class#Sequence#0" expanded="false" />
-                <element signature="e#1753#1754#0" expanded="true" />
-                <element signature="e#1786#1787#0" expanded="true" />
-                <element signature="method#getSubsequence#0;class#Sequence#0" expanded="false" />
-                <element signature="method#take#0;class#Sequence#0" expanded="false" />
-                <element signature="e#3169#3170#0" expanded="true" />
-                <element signature="e#3209#3210#0" expanded="true" />
-                <element signature="method#buildChildSequence#0;class#Sequence#0" expanded="false" />
-                <element signature="e#3938#3939#0" expanded="true" />
-                <element signature="e#4004#4005#0" expanded="true" />
-                <element signature="method#next#0;class#Sequence#0" expanded="false" />
-                <element signature="e#4455#4456#0" expanded="true" />
-                <element signature="e#4493#4494#0" expanded="true" />
-                <element signature="method#equals#0;class#Sequence#0" expanded="false" />
-                <element signature="e#5044#5045#0" expanded="true" />
-                <element signature="e#5094#5095#0" expanded="true" />
-                <element signature="method#toString#0;class#Sequence#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="415">
+              <caret line="119" column="27" lean-forward="false" selection-start-line="119" selection-start-column="27" selection-end-line="119" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Runner.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="15" column="39" lean-forward="false" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FileResultWriterTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="181" column="467" lean-forward="false" selection-start-line="181" selection-start-column="467" selection-end-line="181" selection-end-column="467" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -241,11 +180,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SuffixTree.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SuffixTree.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/root/agents/marz/SuffixTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1105">
-              <caret line="108" column="72" lean-forward="false" selection-start-line="108" selection-start-column="72" selection-end-line="108" selection-end-column="72" />
+            <state relative-caret-position="187">
+              <caret line="89" column="74" lean-forward="false" selection-start-line="89" selection-start-column="74" selection-end-line="89" selection-end-column="74" />
               <folding>
                 <element signature="docComment;field#hashFringe#0;class#SuffixTree#0" expanded="false" />
                 <element signature="method#SuffixTree#0;class#SuffixTree#0" expanded="false" />
@@ -255,6 +194,18 @@
                 <element signature="method#containsSuffix#0;class#SuffixTree#0" expanded="false" />
                 <element signature="method#addNode#0;class#SuffixTree#0" expanded="false" />
                 <element signature="method#findWorstNodeToTry#0;class#SuffixTree#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SuffixTreeTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/root/tests/agents/marz/SuffixTreeTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="202">
+              <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -288,7 +239,14 @@
       <find>hashcode()</find>
       <find>new S</find>
       <find>SuffixNode</find>
+      <find>sum</find>
+      <find>average</find>
     </findStrings>
+    <replaceStrings>
+      <replace>average</replace>
+      <replace>averag=e</replace>
+      <replace>=average</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="UPDATE_TYPE" value="MERGE" />
@@ -330,10 +288,8 @@
         <option value="$PROJECT_DIR$/root/agents/marz/Episode.java" />
         <option value="$PROJECT_DIR$/root/framework/FileResultWriterProvider.java" />
         <option value="$PROJECT_DIR$/root/tests/framework/FileResultWriterProviderTest.java" />
-        <option value="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" />
         <option value="$PROJECT_DIR$/root/environments/fsm/FSMDescription.java" />
         <option value="$PROJECT_DIR$/root/environments/meta/MetaEnvironmentDescription.java" />
-        <option value="$PROJECT_DIR$/root/framework/FileResultWriter.java" />
         <option value="$PROJECT_DIR$/root/framework/Move.java" />
         <option value="$PROJECT_DIR$/root/framework/TestSuite.java" />
         <option value="$PROJECT_DIR$/root/tests/framework/TestSuiteTest.java" />
@@ -350,7 +306,6 @@
         <option value="$PROJECT_DIR$/root/tests/agents/marz/SequenceTest.java" />
         <option value="$PROJECT_DIR$/root/tests/agents/marz/SuffixTreeTest.java" />
         <option value="$PROJECT_DIR$/root/tests/agents/marz/SequenceGeneratorTest.java" />
-        <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
         <option value="$PROJECT_DIR$/root/agents/marz/MaRzAgent.java" />
         <option value="$PROJECT_DIR$/root/agents/marz/MaRzAgentProvider.java" />
         <option value="$PROJECT_DIR$/root/agents/marz/Sequence.java" />
@@ -358,6 +313,9 @@
         <option value="$PROJECT_DIR$/root/agents/marz/SuffixNode.java" />
         <option value="$PROJECT_DIR$/root/agents/marz/SuffixNodeBase.java" />
         <option value="$PROJECT_DIR$/root/agents/marz/SuffixTree.java" />
+        <option value="$PROJECT_DIR$/root/framework/FileResultWriter.java" />
+        <option value="$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java" />
+        <option value="$PROJECT_DIR$/root/experiments/Runner.java" />
       </list>
     </option>
   </component>
@@ -447,13 +405,6 @@
               <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
               <item name="root" type="462c0819:PsiDirectoryNode" />
               <item name="tests" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="FSMLearning" type="b2602c69:ProjectViewProjectNode" />
-              <item name="FSMLearning" type="462c0819:PsiDirectoryNode" />
-              <item name="root" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-              <item name="marz" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -568,6 +519,31 @@
       <envs />
       <patterns />
     </configuration>
+    <configuration name="FileResultWriterTest.testCompleteFinalizesStandardReportRun" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="framework.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="FSMLearning" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="framework" />
+      <option name="MAIN_CLASS_NAME" value="framework.FileResultWriterTest" />
+      <option name="METHOD_NAME" value="testCompleteFinalizesStandardReportRun" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
     <configuration name="SequenceGeneratorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -607,31 +583,6 @@
       <option name="MAIN_CLASS_NAME" value="agents.marz.SequenceGeneratorTest" />
       <option name="METHOD_NAME" value="getCanonicalOrderingBinary" />
       <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-    </configuration>
-    <configuration name="SuffixTreeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="agents.marz.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="FSMLearning" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="agents.marz" />
-      <option name="MAIN_CLASS_NAME" value="agents.marz.SuffixTreeTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
@@ -706,17 +657,17 @@
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="JUnit.All in FSMLearning" />
       <item index="1" class="java.lang.String" itemvalue="Application.Runner" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.SuffixTreeTest" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.SequenceGeneratorTest" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.SequenceGeneratorTest.getCanonicalOrderingBinary" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.SequenceGeneratorTest" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.SequenceGeneratorTest.getCanonicalOrderingBinary" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.FileResultWriterTest.testCompleteFinalizesStandardReportRun" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Application.Runner" />
         <item index="1" class="java.lang.String" itemvalue="JUnit.All in FSMLearning" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.SequenceGeneratorTest" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.SequenceGeneratorTest.getCanonicalOrderingBinary" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.SuffixTreeTest" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.FileResultWriterTest.testCompleteFinalizesStandardReportRun" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.SequenceGeneratorTest" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.SequenceGeneratorTest.getCanonicalOrderingBinary" />
       </list>
     </recent_temporary>
   </component>
@@ -737,35 +688,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_FSMLearning - 2018.09.09 at 15h 47m 52s.xml">
+    <history-entry file="All_in_FSMLearning - 2018.09.09 at 17h 05m 08s.xml">
       <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SequenceGeneratorTest - 2018.09.09 at 14h 06m 03s.xml">
-      <configuration name="SequenceGeneratorTest" configurationId="JUnit" />
+    <history-entry file="All_in_FSMLearning - 2018.09.09 at 17h 06m 32s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SequenceGeneratorTest - 2018.09.09 at 14h 27m 18s.xml">
-      <configuration name="SequenceGeneratorTest" configurationId="JUnit" />
+    <history-entry file="All_in_FSMLearning - 2018.09.09 at 17h 07m 58s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SequenceGeneratorTest_getCanonicalOrderingBinary - 2018.09.09 at 14h 05m 40s.xml">
-      <configuration name="SequenceGeneratorTest.getCanonicalOrderingBinary" configurationId="JUnit" />
+    <history-entry file="All_in_FSMLearning - 2018.09.09 at 17h 10m 39s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SequenceGeneratorTest_getCanonicalOrderingBinary - 2018.09.09 at 14h 08m 09s.xml">
-      <configuration name="SequenceGeneratorTest.getCanonicalOrderingBinary" configurationId="JUnit" />
+    <history-entry file="All_in_FSMLearning - 2018.09.09 at 17h 11m 52s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SequenceGeneratorTest_getCanonicalOrderingBinary - 2018.09.09 at 14h 09m 50s.xml">
-      <configuration name="SequenceGeneratorTest.getCanonicalOrderingBinary" configurationId="JUnit" />
+    <history-entry file="All_in_FSMLearning - 2018.09.09 at 17h 19m 19s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SequenceGeneratorTest_getCanonicalOrderingBinary - 2018.09.09 at 14h 10m 29s.xml">
-      <configuration name="SequenceGeneratorTest.getCanonicalOrderingBinary" configurationId="JUnit" />
+    <history-entry file="All_in_FSMLearning - 2018.09.09 at 17h 20m 31s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SequenceGeneratorTest_getCanonicalOrderingBinary - 2018.09.09 at 14h 11m 06s.xml">
-      <configuration name="SequenceGeneratorTest.getCanonicalOrderingBinary" configurationId="JUnit" />
+    <history-entry file="All_in_FSMLearning - 2018.09.09 at 17h 21m 52s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SequenceGeneratorTest_getCanonicalOrderingBinary - 2018.09.09 at 14h 19m 32s.xml">
-      <configuration name="SequenceGeneratorTest.getCanonicalOrderingBinary" configurationId="JUnit" />
+    <history-entry file="All_in_FSMLearning - 2018.09.09 at 17h 22m 30s.xml">
+      <configuration name="All in FSMLearning" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SequenceGeneratorTest_getCanonicalOrderingBinary - 2018.09.09 at 14h 24m 57s.xml">
-      <configuration name="SequenceGeneratorTest.getCanonicalOrderingBinary" configurationId="JUnit" />
+    <history-entry file="FileResultWriterTest_testCompleteFinalizesStandardReportRun - 2018.09.09 at 17h 04m 44s.xml">
+      <configuration name="FileResultWriterTest.testCompleteFinalizesStandardReportRun" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
@@ -783,13 +734,13 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3284055" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3284055" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946146" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17864583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29567054" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29567054" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -879,12 +830,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/root/agents/marz/SuffixTree.java</url>
-          <line>102</line>
+          <line>104</line>
           <properties />
           <option name="timeStamp" value="42" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/root/framework/FileResultWriter.java</url>
+          <line>119</line>
+          <properties />
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="43" />
+      <option name="time" value="44" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -960,20 +917,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaConfigurationTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="5" lean-forward="false" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/environments/meta/MetaEnvironmentDescriptionProviderTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FSML1/src/MaRzAgent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2091">
@@ -1020,14 +963,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-155">
           <caret line="3400" column="17" lean-forward="true" selection-start-line="3400" selection-start-column="17" selection-end-line="3400" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="153" column="72" lean-forward="false" selection-start-line="153" selection-start-column="72" selection-end-line="153" selection-end-column="72" />
           <folding />
         </state>
       </provider>
@@ -1113,14 +1048,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="45" lean-forward="false" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/framework/FileResultWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="97" column="32" lean-forward="false" selection-start-line="97" selection-start-column="32" selection-end-line="97" selection-end-column="32" />
           <folding />
         </state>
       </provider>
@@ -1272,16 +1199,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/root/tests/agents/marz/SuffixTreeTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="68" column="0" lean-forward="true" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_161/src.zip!/java/lang/Math.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1304,14 +1221,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="410">
           <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="14" column="53" lean-forward="true" selection-start-line="14" selection-start-column="53" selection-end-line="14" selection-end-column="53" />
           <folding />
         </state>
       </provider>
@@ -1439,10 +1348,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/framework/EnvironmentTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_161/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="110" column="19" lean-forward="false" selection-start-line="110" selection-start-column="19" selection-end-line="110" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/agents/marz/SuffixTreeTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/root/agents/marz/SuffixTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1105">
-          <caret line="108" column="72" lean-forward="false" selection-start-line="108" selection-start-column="72" selection-end-line="108" selection-end-column="72" />
+        <state relative-caret-position="187">
+          <caret line="89" column="74" lean-forward="false" selection-start-line="89" selection-start-column="74" selection-end-line="89" selection-end-column="74" />
           <folding>
             <element signature="docComment;field#hashFringe#0;class#SuffixTree#0" expanded="false" />
             <element signature="method#SuffixTree#0;class#SuffixTree#0" expanded="false" />
@@ -1453,6 +1388,30 @@
             <element signature="method#addNode#0;class#SuffixTree#0" expanded="false" />
             <element signature="method#findWorstNodeToTry#0;class#SuffixTree#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/framework/FileResultWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="119" column="27" lean-forward="false" selection-start-line="119" selection-start-column="27" selection-end-line="119" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/tests/framework/FileResultWriterTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="181" column="467" lean-forward="false" selection-start-line="181" selection-start-column="467" selection-end-line="181" selection-end-column="467" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/root/experiments/Runner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="15" column="39" lean-forward="false" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -89,7 +89,8 @@ public class FileResultWriter implements IResultWriter {
             {
                 int startRow = 2;
                 int endRow = startRow + this.numberOfRuns - 1;
-                this.fileWriter.write("=average(R" + startRow + "C" + i + ":R" + endRow + "C" + i + "),");
+                String columnLabel = this.convertToColumn(i);
+                this.fileWriter.write("=average(" + columnLabel + startRow + ":" + columnLabel + endRow + "),");
             }
             this.fileWriter.write("\n");
             this.fileWriter.write(",,,");
@@ -97,10 +98,11 @@ public class FileResultWriter implements IResultWriter {
             // Write out the smoothing row
             for (int i = 4; i <= this.maxNumberOfGoals - 3; i++)
             {
-                int leftColumn = i - 3;
-                int rightColumn = i + 3;
+                String leftColumn = this.convertToColumn(i - 3);
+                String rightColumn = this.convertToColumn(i + 3);
                 int row = 2 + this.numberOfRuns;
-                this.fileWriter.write("=average(R" + row + "C" + leftColumn + ":R" + row + "C" + rightColumn + "),");
+
+                this.fileWriter.write("=average(" + leftColumn + row + ":" + rightColumn + row + "),");
             }
             this.fileWriter.write(",,,");
             this.fileWriter.close();
@@ -110,34 +112,13 @@ public class FileResultWriter implements IResultWriter {
         }
     }
 
-//    @Override
-//    public void complete() {
-//        try {
-//            this.fileWriter.write("\n");
-//            // Write out the basic goal sums
-//            for (int i = 0; i < this.maxNumberOfGoals; i++)
-//            {
-//                char column = (char)('A' + i);
-//                int startRow = 2;
-//                int endRow = startRow + this.numberOfRuns - 1;
-//                this.fileWriter.write("=average(" + column + startRow + ":" + column + endRow + "),");
-//            }
-//            this.fileWriter.write("\n");
-//            this.fileWriter.write(",,,");
-//
-//            // Write out the smoothing row
-//            for (int i = 3; i < this.maxNumberOfGoals - 3; i++)
-//            {
-//                char leftColumn = (char)('A' + i - 3);
-//                char rightColumn = (char)('A' + i + 3);
-//                int row = 2 + this.numberOfRuns;
-//                this.fileWriter.write("=average(" + leftColumn + row + ":" + rightColumn + row + "),");
-//            }
-//            this.fileWriter.write(",,,");
-//            this.fileWriter.close();
-//        }catch (IOException ex)
-//        {
-//            System.out.println("FileResultWriter failed with exception: " + ex.getMessage());
-//        }
-//    }
+    private String convertToColumn(int column)
+    {
+        if (column <= 0)
+            return "";
+        column--;
+        int right = column % 26;
+        return this.convertToColumn(column / 26) + (char)(((int)'A') + right);
+    }
+
 }

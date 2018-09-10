@@ -86,6 +86,8 @@ public class SuffixTree<TSuffixNode extends SuffixNodeBase<TSuffixNode>> {
      */
     public TSuffixNode findBestMatch(Sequence sequence)
     {
+        if (sequence == null)
+            throw new IllegalArgumentException("sequence cannot be null");
         Sequence bestMatch = null;
         int index = 0;
         Sequence subsequence;
