@@ -1,6 +1,7 @@
-package agents.marz;
+package utils;
 
 import framework.Move;
+import utils.Sequence;
 
 import java.util.*;
 
@@ -19,13 +20,11 @@ public class SequenceGenerator {
      * Create an instance of a SequenceGenerator based on the given moves.
      * @param moves The Move[] to build sequences from.
      */
-    public SequenceGenerator(Move[] moves)
-    {
+    public SequenceGenerator(Move[] moves) {
         if (moves == null)
             throw new IllegalArgumentException("moves cannot be null.");
         this.moves = moves;
-        for (int i = 0; i < this.moves.length; i++)
-        {
+        for (int i = 0; i < this.moves.length; i++) {
             this.moveIndex.put(this.moves[i], i);
         }
     }
@@ -35,8 +34,7 @@ public class SequenceGenerator {
      * @param index The index to retrieve the permutation for.
      * @return The Sequence that contains the move permutation.
      */
-    public Sequence nextPermutation(int index)
-    {
+    public Sequence nextPermutation(int index) {
         if (index <= 0) {
             throw new IndexOutOfBoundsException("index must be a positive number.  Has your next permutation index overflowed?");
         }// if
@@ -63,8 +61,7 @@ public class SequenceGenerator {
      * @param sequence The sequence to get an ordering for.
      * @return The sequence index.
      */
-    public int getCanonicalIndex(Sequence sequence)
-    {
+    public int getCanonicalIndex(Sequence sequence) {
         if (sequence == null)
             throw new IllegalArgumentException("sequence cannot be null");
         ArrayList<Move> moves = new ArrayList<>(Arrays.asList(sequence.getMoves()));

@@ -18,7 +18,7 @@ public class Runner {
             new FileResultWriterProvider(),
             new FSMDescriptionProvider(3, 15, FSMDescription.Sensor.NO_SENSORS),
             new IAgentProvider[] {
-                    new MaRzAgentProvider(new SuffixNodeProvider())
+                    new MaRzAgentProvider<>(new SuffixNodeProvider())
             }
     );
 

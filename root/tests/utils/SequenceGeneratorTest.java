@@ -1,4 +1,4 @@
-package agents.marz;
+package utils;
 
 import framework.Move;
 import org.junit.jupiter.api.Test;

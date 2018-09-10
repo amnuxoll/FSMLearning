@@ -15,16 +15,16 @@ public class MaRzAgentProvider<TSuffixNode extends SuffixNodeBase<TSuffixNode>> 
 
     private ISuffixNodeBaseProvider<TSuffixNode> nodeProvider;
 
-    public MaRzAgentProvider(ISuffixNodeBaseProvider<TSuffixNode> nodeProvider)
-    {
+    public MaRzAgentProvider(ISuffixNodeBaseProvider<TSuffixNode> nodeProvider) {
         this.nodeProvider = nodeProvider;
     }
+
     /**
      * Gets a MaRz agent.
      * @return the {@link MaRzAgent}.
      */
     @Override
     public IAgent getAgent() {
-        return new MaRzAgent(this.nodeProvider);
+        return new MaRzAgent<>(this.nodeProvider);
     }
 }

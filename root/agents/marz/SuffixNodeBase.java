@@ -1,5 +1,7 @@
 package agents.marz;
 
+import utils.Sequence;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,16 +16,15 @@ import java.util.List;
 public abstract class SuffixNodeBase<TNodeType extends SuffixNodeBase<TNodeType>> {
     protected double f; // the current overall potential of this suffix (f = g + h)
     private Sequence suffix;
-    private ArrayList<Integer> successIndexList = new ArrayList<Integer>();
-    private ArrayList<Integer> failsIndexList = new ArrayList<Integer>();
+    private ArrayList<Integer> successIndexList = new ArrayList<>();
+    private ArrayList<Integer> failsIndexList = new ArrayList<>();
     private boolean foundGoal = false;
 
     /**
      * Create an instance of a SuffixNodeBase
      * @param suffix The suffix for this node.
      */
-    public SuffixNodeBase(Sequence suffix)
-    {
+    public SuffixNodeBase(Sequence suffix) {
         this.suffix = suffix;
         this.f = 0.0;
     }
@@ -40,8 +41,7 @@ public abstract class SuffixNodeBase<TNodeType extends SuffixNodeBase<TNodeType>
      * Gets the weight of this node.
      * @return The weight value as a double of this node.
      */
-    public double getWeight()
-    {
+    public double getWeight() {
         this.updateHeuristic();
         return this.f;
     }
@@ -59,33 +59,27 @@ public abstract class SuffixNodeBase<TNodeType extends SuffixNodeBase<TNodeType>
 
     protected abstract boolean canSplit();
 
-    public void setFoundGoal()
-    {
+    public void setFoundGoal() {
         this.foundGoal = true;
     }
 
-    protected boolean getFoundGoal()
-    {
+    protected boolean getFoundGoal() {
         return this.foundGoal;
     }
 
-    public void addSuccessIndex(int index)
-    {
+    public void addSuccessIndex(int index) {
         this.successIndexList.add(index);
     }
 
-    public void addFailIndex(int index)
-    {
+    public void addFailIndex(int index) {
         this.failsIndexList.add(index)
 ;   }
 
-    public List<Integer> getSuccessIndices()
-    {
+    protected List<Integer> getSuccessIndices() {
         return Collections.unmodifiableList(this.successIndexList);
     }
 
-    public List<Integer> getFailIndices()
-    {
+    protected List<Integer> getFailIndices() {
         return Collections.unmodifiableList(this.failsIndexList);
     }
 }

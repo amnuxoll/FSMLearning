@@ -1,6 +1,6 @@
 package agents.marz.nodes;
 
-import agents.marz.Sequence;
+import utils.Sequence;
 import agents.marz.SuffixNodeBase;
 import framework.Episode;
 import framework.Move;
@@ -35,8 +35,7 @@ public class SuffixNode extends SuffixNodeBase<SuffixNode> {
      * creating inefficiencies.
      *
      */
-    public SuffixNode(Sequence sequence, Move[] possibleMoves, Function<Integer, Episode> lookupEpisode)
-    {
+    SuffixNode(Sequence sequence, Move[] possibleMoves, Function<Integer, Episode> lookupEpisode) {
         super(sequence);
         this.g = 0;
         this.possibleMoves = possibleMoves;
@@ -44,12 +43,9 @@ public class SuffixNode extends SuffixNodeBase<SuffixNode> {
     }// ctor
 
     @Override
-    public SuffixNode[] split()
-    {
+    public SuffixNode[] split() {
         HashMap<Move, SuffixNode> children = new HashMap<>();
-        for (int i = 0; i < this.possibleMoves.length; i++)
-        {
-            Move move = this.possibleMoves[i];
+        for (Move move : this.possibleMoves) {
             SuffixNode child = new SuffixNode(this.getSuffix().buildChildSequence(move), this.possibleMoves, this.lookupEpisode);
             child.g = this.g + 1;
             children.put(move, child);
@@ -61,8 +57,7 @@ public class SuffixNode extends SuffixNodeBase<SuffixNode> {
 
         // Do not split of the children aren't viable
         SuffixNode[] childArray = children.values().toArray(new SuffixNode[0]);
-        for (SuffixNode child : childArray)
-        {
+        for (SuffixNode child : childArray) {
             if (child.getFailIndices().size() == 0)
                 return null;
         }
@@ -71,8 +66,7 @@ public class SuffixNode extends SuffixNodeBase<SuffixNode> {
     }
 
     @Override
-    protected boolean canSplit()
-    {
+    protected boolean canSplit() {
         // We can split after we've found the goal but then failed (or failed and then found the goal ;p)
         return super.getFoundGoal() && this.getFailIndices().size() != 0;
     }
@@ -83,8 +77,7 @@ public class SuffixNode extends SuffixNodeBase<SuffixNode> {
      * Recalculate this node's heuristic value (h) and overall value(f)
      */
     @Override
-    protected void updateHeuristic()
-    {
+    protected void updateHeuristic() {
         double gWeight = this.g * G_WEIGHT;
 
         //special case: avoid divide-by-zero
@@ -95,18 +88,15 @@ public class SuffixNode extends SuffixNodeBase<SuffixNode> {
         }// if
         //this is the usual case
         else {
-            double numFail = failCount;
-            double numSucc = successCount;
-            this.f = gWeight + (numFail / (numFail + numSucc));
+            this.f = gWeight + ((double) failCount / ((double) failCount + (double) successCount));
         }// else
 
     }// updateHeuristic
 
-    private void divyIndexes(HashMap<Move, SuffixNode> children, boolean success)
-    {
+    private void divyIndexes(HashMap<Move, SuffixNode> children, boolean success) {
         List<Integer> parentList = (success ? this.getSuccessIndices() : this.getFailIndices());
-        for (Integer indexObj : parentList) {
-            int index = indexObj.intValue() - 1;  //the -1 because child adds a letter
+        for (int parentIndex : parentList) {
+            int index = parentIndex - 1;  //the -1 because child adds a letter
             //If we fall off the back of the epmem then it can't be matched
             if (index < 0)
                 continue;
@@ -131,8 +121,7 @@ public class SuffixNode extends SuffixNodeBase<SuffixNode> {
      * @see Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         this.updateHeuristic();
         return this.getSuffix().toString() + "_" + this.f;
     }

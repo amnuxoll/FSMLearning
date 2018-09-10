@@ -1,6 +1,8 @@
 package agents.marz;
 
 import framework.*;
+import utils.Sequence;
+import utils.SequenceGenerator;
 
 import java.util.*;
 //test comment
@@ -17,8 +19,7 @@ import java.util.*;
  * @author Andrew Nuxoll
  *
  */
-public class MaRzAgent<TSuffixNode extends SuffixNodeBase<TSuffixNode>> implements IAgent
-{
+public class MaRzAgent<TSuffixNode extends SuffixNodeBase<TSuffixNode>> implements IAgent {
 	private static final int NODE_LIST_SIZE = 10000;
 
 	/*---==== MEMBER VARIABLES ===---*/
@@ -43,7 +44,7 @@ public class MaRzAgent<TSuffixNode extends SuffixNodeBase<TSuffixNode>> implemen
 	 * the last sequence that was successful (used for reporting and not
 	 * required for the algorithm)
 	 */
-	private Sequence lastSuccessfulSequence = currentSequence;
+	private Sequence lastSuccessfulSequence = null;
 
 	private SequenceGenerator sequenceGenerator;
 
@@ -51,7 +52,7 @@ public class MaRzAgent<TSuffixNode extends SuffixNodeBase<TSuffixNode>> implemen
 
 	//Instance Variables
 	protected Move[] alphabet;
-	protected ArrayList<Episode> episodicMemory = new ArrayList<Episode>();
+	protected ArrayList<Episode> episodicMemory = new ArrayList<>();
 
 	/** Number of episodes per run */
 	public static final int MAX_EPISODES = 2000000;
@@ -71,7 +72,7 @@ public class MaRzAgent<TSuffixNode extends SuffixNodeBase<TSuffixNode>> implemen
 	 * MaRzAgent
 	 *
 	 */
-	public MaRzAgent(ISuffixNodeBaseProvider<TSuffixNode> nodeProvider) {
+	MaRzAgent(ISuffixNodeBaseProvider<TSuffixNode> nodeProvider) {
 		this.nodeProvider = nodeProvider;
 	}// ctor
 
@@ -84,7 +85,7 @@ public class MaRzAgent<TSuffixNode extends SuffixNodeBase<TSuffixNode>> implemen
 		this.alphabet = moves;
 		this.sequenceGenerator = new SequenceGenerator(this.alphabet);
 		this.activeNode = this.nodeProvider.getNode(Sequence.EMPTY, this.alphabet, (index) -> this.episodicMemory.get(index));
-		this.suffixTree = new SuffixTree(MaRzAgent.NODE_LIST_SIZE, this.activeNode);
+		this.suffixTree = new SuffixTree<>(MaRzAgent.NODE_LIST_SIZE, this.activeNode);
 		this.currentSequence = this.activeNode.getSuffix();
 	}
 
