@@ -3,11 +3,13 @@ package environments.meta;
 import framework.*;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MetaEnvironmentDescriptionProviderTest {
     @Test
-    public void contstructor() {
+    public void constuctor(){
         assertThrows(IllegalArgumentException.class,
                 () -> new MetaEnvironmentDescriptionProvider(new TestEnvironmentDescriptionProvider(),null));
         assertThrows(IllegalArgumentException.class,
@@ -15,8 +17,16 @@ public class MetaEnvironmentDescriptionProviderTest {
     }
 
     @Test
-    public void getEvironmentDesctiption(){
+    public void getEnvironmentDescription(){
+        MetaEnvironmentDescriptionProvider provider=
+                new MetaEnvironmentDescriptionProvider(
+                        new TestEnvironmentDescriptionProvider(),MetaConfiguration.DEFAULT);
 
+        IEnvironmentDescription description= provider.getEnvironmentDescription();
+
+        //check that the provedier successfully provided by checking the description's goal state
+        assertTrue(description.isGoalState(13));
+        assertFalse(description.isGoalState(12));
     }
 
     /**

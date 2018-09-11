@@ -30,7 +30,7 @@ public class FSMTransitionTableBuilder {
      * @param alphabetSize The number of moves to allow from each state.
      * @param numStates The number of states in the FSM.
      */
-    FSMTransitionTableBuilder(int alphabetSize, int numStates) {
+    public FSMTransitionTableBuilder(int alphabetSize, int numStates) {
         if (alphabetSize < 1)
             throw new IllegalArgumentException("alphabetSize cannot be less than 1");
         if (numStates < 1)
