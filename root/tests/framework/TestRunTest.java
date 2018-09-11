@@ -67,6 +67,7 @@ public class TestRunTest {
 
     @Test
     public void testExecuteMarshalsCallsBetweenAgentAndEnvironmentMultipleGoalsWithResultWriter() {
+        Services.register(IRandomizer.class, new TestRandomizer());
         TestAgent agent = new TestAgent();
         TestEnvironmentDescription environment = new TestEnvironmentDescription();
         TestGoalListener goalListener = new TestGoalListener();
@@ -163,6 +164,14 @@ public class TestRunTest {
         @Override
         public void goalReceived(GoalEvent event) {
             logStatements.add(event.getStepCountToGoal() + ",");
+        }
+    }
+
+    private class TestRandomizer  implements IRandomizer {
+
+        @Override
+        public int getRandomNumber(int ceiling) {
+            return 0;
         }
     }
 }
