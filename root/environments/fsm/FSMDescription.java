@@ -22,7 +22,7 @@ public class FSMDescription implements IEnvironmentDescription {
      * Create an instance of a {@link FSMDescription}.
      * @param transitionTable The transition table that indicates the structure of a FSM.
      */
-    FSMDescription(HashMap<Move, Integer>[] transitionTable) {
+    public FSMDescription(HashMap<Move, Integer>[] transitionTable) {
         this(transitionTable, EnumSet.noneOf(Sensor.class));
     }
 
@@ -31,7 +31,7 @@ public class FSMDescription implements IEnvironmentDescription {
      * @param transitionTable The transition table that indicates the structure of a FSM.
      * @param sensorsToInclude The sensors to include when navigating the FSM.
      */
-    FSMDescription(HashMap<Move, Integer>[] transitionTable, EnumSet<Sensor> sensorsToInclude) {
+    public FSMDescription(HashMap<Move, Integer>[] transitionTable, EnumSet<Sensor> sensorsToInclude) {
         if (transitionTable == null)
             throw new IllegalArgumentException("transitionTable cannot be null");
         if (transitionTable.length == 0)
