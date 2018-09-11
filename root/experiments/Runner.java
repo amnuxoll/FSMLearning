@@ -5,6 +5,7 @@ import agents.marz.nodes.SuffixNodeProvider;
 import agents.nsm.NSMAgentProvider;
 import environments.fsm.FSMDescription;
 import environments.fsm.FSMDescriptionProvider;
+import environments.meta.FSMDescriptionTweaker;
 import environments.meta.MetaConfiguration;
 import environments.meta.MetaEnvironmentDescriptionProvider;
 import framework.*;
@@ -22,6 +23,17 @@ public class Runner {
             }
     );
 
+    private static TestSuite MaRzMeta= new TestSuite(
+            TestSuiteConfiguration.MEDIUM,
+            new FileResultWriterProvider(),
+            new MetaEnvironmentDescriptionProvider(
+                    new FSMDescriptionTweaker(3,15,FSMDescription.Sensor.NO_SENSORS),
+                    MetaConfiguration.DEFAULT),
+            new IAgentProvider[] {
+                    new MaRzAgentProvider<>(new SuffixNodeProvider())
+            }
+    );
+
     private static TestSuite Suite2 = new TestSuite(
             TestSuiteConfiguration.FULL,
             new FileResultWriterProvider(),
@@ -33,10 +45,11 @@ public class Runner {
 
     public static void main(String[] args) {
         try {
-            Runner.MaRzFSM.run();
+            Runner.MaRzMeta.run();
         } catch (Exception ex)
         {
             System.out.println("Runner failed with exception: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
