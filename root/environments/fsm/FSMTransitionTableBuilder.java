@@ -31,7 +31,7 @@ public class FSMTransitionTableBuilder {
      * @param numStates The number of states in the FSM.
      * @param randomizer A random number provider.
      */
-    FSMTransitionTableBuilder(int alphabetSize, int numStates, IRandomizer randomizer) {
+    public FSMTransitionTableBuilder(int alphabetSize, int numStates, IRandomizer randomizer) {
         if (alphabetSize < 1)
             throw new IllegalArgumentException("alphabetSize cannot be less than 1");
         if (numStates < 1)
