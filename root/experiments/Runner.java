@@ -23,7 +23,7 @@ public class Runner {
             }
     );
 
-    private static TestSuite MaRzMeta= new TestSuite(
+    private static TestSuite MaRzMeta = new TestSuite(
             TestSuiteConfiguration.MEDIUM,
             new FileResultWriterProvider(),
             new MetaEnvironmentDescriptionProvider(
@@ -46,7 +46,7 @@ public class Runner {
     public static void main(String[] args) {
         try {
             Services.register(IRandomizer.class, new Randomizer());
-            Runner.MaRzFSM.run();
+            Runner.MaRzMeta.run();
         } catch (Exception ex)
         {
             System.out.println("Runner failed with exception: " + ex.getMessage());
