@@ -9,21 +9,16 @@ package framework;
 class Environment {
     private IEnvironmentDescription environmentDescription;
     private int currentState;
-    private IRandomizer randomizer;
 
     /**
      * Create an environment based on the provided environmentDescription.
      * @param environmentDescription A {@link IEnvironmentDescription} that {@link Environment} can use to track an agent's progress.
-     * @param randomizer A {@link IRandomizer} used to generate random data when needed.
      */
-    public Environment(IEnvironmentDescription environmentDescription, IRandomizer randomizer) {
+    public Environment(IEnvironmentDescription environmentDescription) {
         if (environmentDescription == null)
             throw new IllegalArgumentException("environmentDescription cannot be null");
-        if (randomizer == null)
-            throw new IllegalArgumentException("randomizer cannot be null");
         this.currentState = 0;
         this.environmentDescription = environmentDescription;
-        this.randomizer = randomizer;
     }
 
     /**
@@ -55,7 +50,7 @@ class Environment {
      */
     public void reset() {
         int nonGoalStateCount = this.environmentDescription.getNumStates();
-        this.currentState = this.randomizer.getRandomNumber(nonGoalStateCount);
+        this.currentState = Services.retrieve(IRandomizer.class).getRandomNumber(nonGoalStateCount);
     }
 
     /**

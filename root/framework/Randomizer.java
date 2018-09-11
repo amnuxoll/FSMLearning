@@ -10,11 +10,8 @@ import java.util.Random;
 public class Randomizer implements IRandomizer {
     private Random random;
 
-    public Randomizer(boolean trueRandom) {
-        if (trueRandom)
-            this.random = new Random(System.currentTimeMillis());
-        else
-            this.random = new Random(10);
+    public Randomizer() {
+        this.random = new Random(System.currentTimeMillis());
     }
 
     @Override

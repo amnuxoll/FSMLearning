@@ -7,7 +7,6 @@ import java.util.LinkedList;
 public class MetaEnvironmentDescription implements IEnvironmentDescription {
     private IEnvironmentDescriptionProvider environmentDescriptionProvider;
     private IEnvironmentDescription currDescription;
-    private IRandomizer randomizer;
 
     //how many transitions the agent took to reach the goal
     private LinkedList<Integer> successQueue= new LinkedList<>();
@@ -16,24 +15,18 @@ public class MetaEnvironmentDescription implements IEnvironmentDescription {
     private int transitionCounter= 0;
     private MetaConfiguration config;
 
-    MetaEnvironmentDescription
-            (IEnvironmentDescriptionProvider environmentDescriptionProvider, IRandomizer randomizer, MetaConfiguration config) {
+    MetaEnvironmentDescription(IEnvironmentDescriptionProvider environmentDescriptionProvider, MetaConfiguration config) {
 
         if(environmentDescriptionProvider == null){
             throw new IllegalArgumentException("environmentDescriptionProvider cannot be null");
-        }
-        if(randomizer == null){
-            throw new IllegalArgumentException("randomizer cannot be null");
         }
         if(config == null){
             throw new IllegalArgumentException("config cannot be null");
         }
 
-        this.environmentDescriptionProvider= environmentDescriptionProvider;
-        this.randomizer= randomizer;
+        this.environmentDescriptionProvider = environmentDescriptionProvider;
 
-        this.currDescription=
-                environmentDescriptionProvider.getEnvironmentDescription(randomizer);
+        this.currDescription = environmentDescriptionProvider.getEnvironmentDescription();
 
         this.config= config;
     }
@@ -100,21 +93,19 @@ public class MetaEnvironmentDescription implements IEnvironmentDescription {
      * takes the average of the last successQueueSize transition counts
      * and update the fsm description is the target threshold is reached
      */
-    private void makeNewDescription(){
+    private void makeNewDescription() {
         successQueue.add(transitionCounter);
-        while(successQueue.size() > config.getSuccessQueueMaxSize()){
+        while (successQueue.size() > config.getSuccessQueueMaxSize()) {
             successQueue.remove();
         }
 
         int average= averageEnqueuedSuccesses();
 
         //if the average is less than our threshold and we have collected enough data
-        if(average < config.getStepThreshold() &&
-            successQueue.size() >= config.getSuccessQueueMaxSize()){
+        if (average < config.getStepThreshold() && successQueue.size() >= config.getSuccessQueueMaxSize()){
 
             //make a new environment
-            currDescription=
-                    environmentDescriptionProvider.getEnvironmentDescription(randomizer);
+            currDescription = environmentDescriptionProvider.getEnvironmentDescription();
             //and clear the queue
             successQueue.clear();
         }

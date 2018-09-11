@@ -10,22 +10,17 @@ public class TestRunTest {
     // constructor Tests
     @Test
     public void testConstructorNullAgentThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(null, new TestEnvironmentDescription(), 1, new TestRandomizer()));
+        assertThrows(IllegalArgumentException.class, () -> new TestRun(null, new TestEnvironmentDescription(), 1));
     }
 
     @Test
     public void testConstructorNullEnvironmentDescriptionThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), null, 1, new TestRandomizer()));
+        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), null, 1));
     }
 
     @Test
     public void testConstructorNumberOfGoalsToFindLessThan1ThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironmentDescription(), 0, new TestRandomizer()));
-    }
-
-    @Test
-    public void testConstructorNullRandomizerThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironmentDescription(), 1, null));
+        assertThrows(IllegalArgumentException.class, () -> new TestRun(new TestAgent(), new TestEnvironmentDescription(), 0));
     }
 
     // execute Tests
@@ -33,7 +28,7 @@ public class TestRunTest {
     public void testExecuteInitializesAgentWithMoves() {
         TestAgent agent = new TestAgent();
         TestEnvironmentDescription environmentDescription = new TestEnvironmentDescription();
-        TestRun testRun = new TestRun(agent, environmentDescription, 1, new TestRandomizer());
+        TestRun testRun = new TestRun(agent, environmentDescription, 1);
         testRun.execute();
         assertArrayEquals(environmentDescription.getMoves(), agent.moves);
     }
@@ -43,7 +38,7 @@ public class TestRunTest {
         TestAgent agent = new TestAgent();
         TestEnvironmentDescription environment = new TestEnvironmentDescription();
         TestGoalListener goalListener = new TestGoalListener();
-        TestRun testRun = new TestRun(agent, environment, 1, new TestRandomizer());
+        TestRun testRun = new TestRun(agent, environment, 1);
         testRun.addGoalListener(goalListener);
         testRun.execute();
 
@@ -75,7 +70,7 @@ public class TestRunTest {
         TestAgent agent = new TestAgent();
         TestEnvironmentDescription environment = new TestEnvironmentDescription();
         TestGoalListener goalListener = new TestGoalListener();
-        TestRun testRun = new TestRun(agent, environment, 3, new TestRandomizer());
+        TestRun testRun = new TestRun(agent, environment, 3);
         testRun.addGoalListener(goalListener);
         testRun.execute();
 
@@ -168,14 +163,6 @@ public class TestRunTest {
         @Override
         public void goalReceived(GoalEvent event) {
             logStatements.add(event.getStepCountToGoal() + ",");
-        }
-    }
-
-    private class TestRandomizer  implements IRandomizer {
-
-        @Override
-        public int getRandomNumber(int ceiling) {
-            return 0;
         }
     }
 }

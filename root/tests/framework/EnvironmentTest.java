@@ -11,18 +11,13 @@ public class EnvironmentTest {
     // constructor Tests
     @Test
     public void testConstructorNullTransitionDataThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new Environment(null, new TestRandomizer()));
-    }
-
-    @Test
-    public void testConstructorNullRandomizerThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new Environment(new TestEnvironmentDescription(), null));
+        assertThrows(IllegalArgumentException.class, () -> new Environment(null));
     }
 
     // getMoves Tests
     @Test
     public void getMovesReturnsMoves() {
-        Environment environment = new Environment(new TestEnvironmentDescription(), new TestRandomizer());
+        Environment environment = new Environment(new TestEnvironmentDescription());
         Move[] expectedMoves = new Move[] { new Move("move1"), new Move("move2"), new Move("move3") };
         assertArrayEquals(expectedMoves, environment.getMoves());
     }
@@ -30,14 +25,14 @@ public class EnvironmentTest {
     // tick Tests
     @Test
     public void tickNullMoveThrowsException() {
-        Environment environment = new Environment(new TestEnvironmentDescription(), new TestRandomizer());
+        Environment environment = new Environment(new TestEnvironmentDescription());
         assertThrows(IllegalArgumentException.class, () -> environment.tick(null));
     }
 
     @Test
     public void tickUpdatesState() {
         TestEnvironmentDescription description = new TestEnvironmentDescription();
-        Environment environment = new Environment(description, new TestRandomizer());
+        Environment environment = new Environment(description);
         assertEquals(0, environment.getCurrentState());
         environment.tick(new Move("test"));
         assertEquals(0, description.receivedState);
@@ -48,7 +43,7 @@ public class EnvironmentTest {
     @Test
     public void tickSensorDataShowsGoalSuccessFalse() {
         TestEnvironmentDescription description = new TestEnvironmentDescription();
-        Environment environment = new Environment(description, new TestRandomizer());
+        Environment environment = new Environment(description);
         SensorData sensorData = environment.tick(new Move("test"));
         assertEquals(13, description.receivedIsGoalState);
         assertEquals(false, sensorData.isGoal());
@@ -57,7 +52,7 @@ public class EnvironmentTest {
     @Test
     public void tickSensorDataShowsGoalSuccess() {
         TestEnvironmentDescription description = new TestEnvironmentDescription(true);
-        Environment environment = new Environment(description, new TestRandomizer());
+        Environment environment = new Environment(description);
         SensorData sensorData = environment.tick(new Move("test"));
         assertEquals(13, description.receivedIsGoalState);
         assertEquals(true, sensorData.isGoal());
@@ -66,7 +61,7 @@ public class EnvironmentTest {
     @Test
     public void tickAppliesSensorsFromDescription() {
         TestEnvironmentDescription description = new TestEnvironmentDescription(true);
-        Environment environment = new Environment(description, new TestRandomizer());
+        Environment environment = new Environment(description);
         SensorData sensorData = environment.tick(new Move("test"));
         assertEquals(true, description.sensorsApplied);
         assertEquals(true, sensorData.hasSensor("sensorsApplied"));
@@ -77,7 +72,8 @@ public class EnvironmentTest {
     public void resetUsesEnvironmentDescriptionAndRandomizerToSetCurrentState() {
         TestEnvironmentDescription description = new TestEnvironmentDescription();
         TestRandomizer randomizer = new TestRandomizer();
-        Environment environment = new Environment(description, randomizer);
+        Services.register(IRandomizer.class, randomizer);
+        Environment environment = new Environment(description);
         environment.reset();
         assertEquals(42, randomizer.receivedCeiling);
         assertEquals(7, environment.getCurrentState());

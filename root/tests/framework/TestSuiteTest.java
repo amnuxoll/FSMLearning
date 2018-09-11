@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestSuiteTest {
 
-    private TestSuiteConfiguration testConfiguration = new TestSuiteConfiguration(2, 3, true);
+    private TestSuiteConfiguration testConfiguration = new TestSuiteConfiguration(2, 3);
 
     // constructor Tests
     @Test
@@ -117,7 +117,7 @@ public class TestSuiteTest {
         public int generatedEnvironmentDescriptions = 0;
 
         @Override
-        public IEnvironmentDescription getEnvironmentDescription(IRandomizer randomizer) {
+        public IEnvironmentDescription getEnvironmentDescription() {
             this.generatedEnvironmentDescriptions++;
             return new TestEnvironmentDescription();
         }

@@ -2,7 +2,6 @@ package environments.meta;
 
 import framework.IEnvironmentDescription;
 import framework.IEnvironmentDescriptionProvider;
-import framework.IRandomizer;
 
 public class MetaEnvironmentDescriptionProvider implements IEnvironmentDescriptionProvider {
     private IEnvironmentDescriptionProvider environmentDescriptionProvider;
@@ -17,7 +16,7 @@ public class MetaEnvironmentDescriptionProvider implements IEnvironmentDescripti
     }
 
     @Override
-    public IEnvironmentDescription getEnvironmentDescription(IRandomizer randomizer) {
-        return new MetaEnvironmentDescription(environmentDescriptionProvider, randomizer, config);
+    public IEnvironmentDescription getEnvironmentDescription() {
+        return new MetaEnvironmentDescription(environmentDescriptionProvider, config);
     }
 }

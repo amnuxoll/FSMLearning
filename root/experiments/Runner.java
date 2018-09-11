@@ -33,6 +33,7 @@ public class Runner {
 
     public static void main(String[] args) {
         try {
+            Services.register(IRandomizer.class, new Randomizer());
             Runner.MaRzFSM.run();
         } catch (Exception ex)
         {

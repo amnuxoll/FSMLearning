@@ -9,11 +9,11 @@ public class TestSuiteConfigurationTest {
     // constructor Tests
     @Test
     public void constructorNumberOfIterationsLessThanOneThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new TestSuiteConfiguration(0, 1, false));
+        assertThrows(IllegalArgumentException.class, () -> new TestSuiteConfiguration(0, 1));
     }
 
     @Test
     public void constructorNumberOfGoalsLessThanOneThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> new TestSuiteConfiguration(1, 0, false));
+        assertThrows(IllegalArgumentException.class, () -> new TestSuiteConfiguration(1, 0));
     }
 }

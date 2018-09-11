@@ -16,11 +16,9 @@ public class MetaEnvironmentDescriptionTest {
     public void constructor() {
         //test exceptions
         assertThrows(IllegalArgumentException.class,
-                () -> new MetaEnvironmentDescription(null,new TestRandomizer(),MetaConfiguration.DEFAULT));
+                () -> new MetaEnvironmentDescription(null,MetaConfiguration.DEFAULT));
         assertThrows(IllegalArgumentException.class,
-                () -> new MetaEnvironmentDescription(new TestEnvironmentDescriptionProvider(),null,MetaConfiguration.DEFAULT));
-        assertThrows(IllegalArgumentException.class,
-                () -> new MetaEnvironmentDescription(new TestEnvironmentDescriptionProvider(),new TestRandomizer(),null));
+                () -> new MetaEnvironmentDescription(new TestEnvironmentDescriptionProvider(),null));
     }
 
     /**
@@ -33,7 +31,7 @@ public class MetaEnvironmentDescriptionTest {
 
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
-                provider,new TestRandomizer(),MetaConfiguration.DEFAULT
+                provider,MetaConfiguration.DEFAULT
         );
 
         //move arrays match
@@ -49,7 +47,7 @@ public class MetaEnvironmentDescriptionTest {
     public void transition() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
-                provider,new TestRandomizer(),MetaConfiguration.DEFAULT
+                provider,MetaConfiguration.DEFAULT
         );
 
         //check that we get the correct result
@@ -65,7 +63,7 @@ public class MetaEnvironmentDescriptionTest {
     public void transitionsExceptions() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
-                provider,new TestRandomizer(),MetaConfiguration.DEFAULT
+                provider,MetaConfiguration.DEFAULT
         );
 
         //test illegal args
@@ -82,7 +80,7 @@ public class MetaEnvironmentDescriptionTest {
     public void isGoalStateCorrect() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
-                provider,new TestRandomizer(),MetaConfiguration.DEFAULT
+                provider,MetaConfiguration.DEFAULT
         );
 
         assertTrue(description.isGoalState(13));
@@ -96,7 +94,7 @@ public class MetaEnvironmentDescriptionTest {
     public void isGoalStateTransitionCounter() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
-                provider,new TestRandomizer(),MetaConfiguration.DEFAULT
+                provider,MetaConfiguration.DEFAULT
         );
 
         //get the right number of transition
@@ -119,7 +117,7 @@ public class MetaEnvironmentDescriptionTest {
     public void isGoalStateNewEnvironment() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
-                provider,new TestRandomizer(),MetaConfiguration.DEFAULT
+                provider,MetaConfiguration.DEFAULT
         );
 
         assertEquals(1,provider.numGenerated);
@@ -155,7 +153,7 @@ public class MetaEnvironmentDescriptionTest {
     public void isGoalStateCorrectAverage() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
-                provider,new TestRandomizer(),MetaConfiguration.DEFAULT
+                provider,MetaConfiguration.DEFAULT
         );
 
         //if hit less than DEFAULT.maxQueueSize goals, our average should be
@@ -187,7 +185,7 @@ public class MetaEnvironmentDescriptionTest {
     public void getNumStates() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
-                provider,new TestRandomizer(),MetaConfiguration.DEFAULT
+                provider,MetaConfiguration.DEFAULT
         );
 
         assertEquals(3,description.getNumStates());
@@ -202,7 +200,7 @@ public class MetaEnvironmentDescriptionTest {
     public void applySensors() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
-                provider,new TestRandomizer(),MetaConfiguration.DEFAULT
+                provider,MetaConfiguration.DEFAULT
         );
 
         SensorData data = new SensorData(description.isGoalState(13));
@@ -219,7 +217,7 @@ public class MetaEnvironmentDescriptionTest {
     public void applysSensorsExceptions() {
         TestEnvironmentDescriptionProvider provider= new TestEnvironmentDescriptionProvider();
         MetaEnvironmentDescription description= new MetaEnvironmentDescription(
-                provider,new TestRandomizer(),MetaConfiguration.DEFAULT
+                provider,MetaConfiguration.DEFAULT
         );
 
         Move move= new Move("a");
@@ -247,7 +245,7 @@ public class MetaEnvironmentDescriptionTest {
         public int numGenerated= 0;
 
         @Override
-        public IEnvironmentDescription getEnvironmentDescription(IRandomizer randomizer) {
+        public IEnvironmentDescription getEnvironmentDescription() {
             numGenerated++;
             return new TestEnvironmentDescription();
         }
@@ -283,14 +281,6 @@ public class MetaEnvironmentDescriptionTest {
         @Override
         public void applySensors(int lastState, Move move, int currState, SensorData sensorData) {
             sensorData.setSensor("sensei", new Integer(2));
-        }
-    }
-
-    private class TestRandomizer implements IRandomizer {
-
-        @Override
-        public int getRandomNumber(int ceiling) {
-            return 0;
         }
     }
 }

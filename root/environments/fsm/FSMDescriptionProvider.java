@@ -2,7 +2,6 @@ package environments.fsm;
 
 import framework.IEnvironmentDescription;
 import framework.IEnvironmentDescriptionProvider;
-import framework.IRandomizer;
 import framework.Move;
 
 import java.util.EnumSet;
@@ -38,14 +37,11 @@ public class FSMDescriptionProvider implements IEnvironmentDescriptionProvider {
 
     /**
      * Get a new instance of a {@link FSMDescription}.
-     * @param randomizer A {@link IRandomizer} that can be used to get random data for environment description generation.
      * @return The new {@link FSMDescription}.
      */
     @Override
-    public IEnvironmentDescription getEnvironmentDescription(IRandomizer randomizer) {
-        if (randomizer == null)
-            throw new IllegalArgumentException("randomizer cannot be null");
-        FSMTransitionTableBuilder builder = new FSMTransitionTableBuilder(this.alphabetSize, this.numStates, randomizer);
+    public IEnvironmentDescription getEnvironmentDescription() {
+        FSMTransitionTableBuilder builder = new FSMTransitionTableBuilder(this.alphabetSize, this.numStates);
         HashMap<Move, Integer>[] transitionTable = builder.getTransitionTable();
         return new FSMDescription(transitionTable, this.sensorsToInclude);
     }

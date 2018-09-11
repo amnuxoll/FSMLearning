@@ -13,23 +13,19 @@ class TestRun {
     private IAgent agent;
     private IEnvironmentDescription environmentDescription;
     private int numberOfGoalsToFind;
-    private IRandomizer randomizer;
 
     private List<IGoalListener> goalListeners = new ArrayList();
 
-    public TestRun(IAgent agent, IEnvironmentDescription environmentDescription, int numberOfGoalsToFind, IRandomizer randomizer) throws IllegalArgumentException {
+    public TestRun(IAgent agent, IEnvironmentDescription environmentDescription, int numberOfGoalsToFind) throws IllegalArgumentException {
         if (agent == null)
             throw new IllegalArgumentException("agent cannot be null");
         if (environmentDescription == null)
             throw new IllegalArgumentException("environmentDescription cannot be null");
         if (numberOfGoalsToFind < 1)
             throw new IllegalArgumentException("numberOfGoalsToFind cannot be less than 1");
-        if (randomizer == null)
-            throw new IllegalArgumentException("randomizer cannot be null");
         this.agent = agent;
         this.environmentDescription = environmentDescription;
         this.numberOfGoalsToFind = numberOfGoalsToFind;
-        this.randomizer = randomizer;
     }
 
     public void execute() {
@@ -37,7 +33,7 @@ class TestRun {
             int goalCount = 0;
             int moveCount = 0;
             this.agent.initialize(this.environmentDescription.getMoves());
-            Environment environment = new Environment(this.environmentDescription, this.randomizer);
+            Environment environment = new Environment(this.environmentDescription);
             SensorData sensorData = null;
             do {
                 Move move = this.agent.getNextMove(sensorData);

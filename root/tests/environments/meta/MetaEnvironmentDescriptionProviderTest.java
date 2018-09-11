@@ -28,7 +28,7 @@ public class MetaEnvironmentDescriptionProviderTest {
         public int numGenerated= 0;
 
         @Override
-        public IEnvironmentDescription getEnvironmentDescription(IRandomizer randomizer) {
+        public IEnvironmentDescription getEnvironmentDescription() {
             numGenerated++;
             return new TestEnvironmentDescription();
         }
@@ -64,14 +64,6 @@ public class MetaEnvironmentDescriptionProviderTest {
         @Override
         public void applySensors(int lastState, Move move, int currState, SensorData sensorData) {
             sensorData.setSensor("sensei", new Integer(2));
-        }
-    }
-
-    private class TestRandomizer implements IRandomizer {
-
-        @Override
-        public int getRandomNumber(int ceiling) {
-            return 0;
         }
     }
 }
