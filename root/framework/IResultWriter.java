@@ -12,4 +12,6 @@ public interface IResultWriter {
     void logStepsToGoal(int stepsToGoal);
 
     void complete();
+
+    void writeEmpty();
 }

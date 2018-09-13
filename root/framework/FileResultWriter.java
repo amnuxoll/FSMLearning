@@ -106,6 +106,16 @@ public class FileResultWriter implements IResultWriter {
         }
     }
 
+    @Override
+    public void writeEmpty() {
+        try{
+            this.fileWriter.write(",");
+        }
+        catch(IOException ex){
+            System.out.println("FileResultWriter failed with exception: " + ex.getMessage());
+        }
+    }
+
     private String convertToColumn(int column) {
         if (column <= 0)
             return "";

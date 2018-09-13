@@ -24,11 +24,11 @@ public class Runner {
     );
 
     private static TestSuite MaRzMeta = new TestSuite(
-            TestSuiteConfiguration.MEDIUM,
+            TestSuiteConfiguration.QUICK,
             new FileResultWriterProvider(),
             new MetaEnvironmentDescriptionProvider(
                     new FSMDescriptionTweaker(3,15,FSMDescription.Sensor.NO_SENSORS,1),
-                    MetaConfiguration.DEFAULT),
+                    new MetaConfiguration(12)),
             new IAgentProvider[] {
                     new MaRzAgentProvider<>(new SuffixNodeProvider())
             }

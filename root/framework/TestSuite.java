@@ -5,7 +5,7 @@ package framework;
  * @author Zachary Paul Faltersack
  * @version 0.95
  */
-public class TestSuite implements IGoalListener {
+public class TestSuite implements IGoalListener, IEnvironmentListener {
 
     private TestSuiteConfiguration configuration;
     private IResultWriterProvider resultWriterProvider;
@@ -48,6 +48,7 @@ public class TestSuite implements IGoalListener {
             System.out.println("Beginning iteration: " + i);
             IAgent agent = agentProvider.getAgent();
             IEnvironmentDescription environmentDescription = this.environmentDescriptionProvider.getEnvironmentDescription();
+            environmentDescription.addEnvironmentListener(this);
             TestRun testRun = new TestRun(agent, environmentDescription, this.configuration.getNumberOfGoals());
             testRun.addGoalListener(this);
             this.currentResultWriter.beginNewRun();
@@ -59,5 +60,14 @@ public class TestSuite implements IGoalListener {
     @Override
     public void goalReceived(GoalEvent event) {
         this.currentResultWriter.logStepsToGoal(event.getStepCountToGoal());
+    }
+
+    @Override
+    public void recieveEvent(EnvironmentEvent event) {
+        switch(event.getEventType()){
+            case DATA_BREAK:
+                this.currentResultWriter.writeEmpty();
+                break;
+        }
     }
 }

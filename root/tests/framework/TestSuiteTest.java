@@ -149,6 +149,11 @@ public class TestSuiteTest {
         public void applySensors(int lastState, Move move, int currentState, SensorData sensorData) {
 
         }
+
+        @Override
+        public void addEnvironmentListener(IEnvironmentListener listener) {
+
+        }
     }
 
     private class TestResultWriterProvider implements IResultWriterProvider {
@@ -182,6 +187,11 @@ public class TestSuiteTest {
         public void complete() {
             this.completed = true;
             this.iterationCountAtcompleted = this.iterationCount;
+        }
+
+        @Override
+        public void writeEmpty() {
+
         }
     }
 }

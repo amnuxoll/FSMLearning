@@ -1,6 +1,7 @@
 package environments.fsm;
 
 import framework.IEnvironmentDescription;
+import framework.IEnvironmentListener;
 import framework.Move;
 import framework.SensorData;
 
@@ -124,6 +125,11 @@ public class FSMDescription implements IEnvironmentDescription {
             throw new IllegalArgumentException("sensorData cannot be null");
         if (this.sensorsToInclude.contains(Sensor.EVEN_ODD))
             this.applyEvenOddSensor(currentState, sensorData);
+    }
+
+    @Override
+    public void addEnvironmentListener(IEnvironmentListener listener) {
+
     }
 
     private void applyEvenOddSensor(int state, SensorData sensorData) {
